@@ -1,4 +1,4 @@
-const CACHE_VERSION = 'gvr-v9';
+const CACHE_VERSION = 'gvr-v10';
 const BASE = '/gvr-fitness-tracker';
 const PRECACHE = [
   BASE + '/',
@@ -28,8 +28,8 @@ self.addEventListener('activate', e => {
 self.addEventListener('fetch', e => {
   const url = e.request.url;
 
-  // JS și CSS: network first, cache fallback (mereu fișiere proaspete când ești online)
-  if (url.match(/\.(js|css)(\?.*)?$/)) {
+  // HTML, JS și CSS: network first, cache fallback (mereu fișiere proaspete când ești online)
+  if (e.request.mode === 'navigate' || url.match(/\.(js|css|html)(\?.*)?$/)) {
     e.respondWith(
       fetch(e.request)
         .then(r => {
@@ -41,7 +41,7 @@ self.addEventListener('fetch', e => {
     return;
   }
 
-  // HTML și restul: cache first, network fallback
+  // Restul (imagini, JSON, manifest): cache first, network fallback
   e.respondWith(
     caches.match(e.request).then(cached => {
       const networkFetch = fetch(e.request).then(r => {

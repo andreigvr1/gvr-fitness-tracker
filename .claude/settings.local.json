@@ -8,7 +8,10 @@
       "Bash(python -c ' *)",
       "Bash(git add *)",
       "Bash(git commit -m 'v0.5.2 — Dashboard redesenat: statistici, iconite SVG, placeholders features *)",
-      "Bash(git push *)"
+      "Bash(git push *)",
+      "Bash(curl -s https://andreigvr1.github.io/gvr-fitness-tracker/index.html)",
+      "Bash(curl -s https://andreigvr1.github.io/gvr-fitness-tracker/sw.js)",
+      "Bash(git commit -m 'v0.6.1 — Fix: HTML network-first in service worker, update instant la refresh *)"
     ]
   }
 }

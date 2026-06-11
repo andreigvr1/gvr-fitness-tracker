@@ -1,5 +1,9 @@
 # Changelog — GVR Fitness Tracker
 
+## v0.6.1 — Fix actualizare
+
+- Pagina principală (HTML) se încarcă acum mereu de pe internet când ești online, cu fallback offline din cache — versiunile noi apar imediat la refresh, fără așteptare
+
 ## v0.6.0 — Navigație adaptivă (mobil vs desktop)
 
 - **Pe telefon**: bară de navigare fixă jos (Acasă · Antrenează · Program), cu butonul de start central, proeminent — ca în aplicațiile native de fitness
