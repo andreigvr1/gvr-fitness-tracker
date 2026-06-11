@@ -1,0 +1,731 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>GVR — Prototip Design</title>
+  <style>
+    /* ── Tokens ──────────────────────────────── */
+    :root {
+      --bg:         #0d0d0f;
+      --surface:    #16161a;
+      --surface-2:  #1e1e24;
+      --border:     rgba(255,255,255,0.06);
+
+      /* Accent A — Violet (default) */
+      --accent:     #7c6ff7;
+      --accent-dim: rgba(124,111,247,0.14);
+      --accent-txt: #a99fff;
+
+      /* Semantic */
+      --green:      #34d17a;
+      --green-dim:  rgba(52,209,122,0.13);
+      --orange:     #f5a624;
+      --orange-dim: rgba(245,166,36,0.13);
+
+      /* Text */
+      --t1: #eaeaf2;
+      --t2: #9090a0;
+      --t3: #3e3e4e;
+
+      --r:  16px;
+      --rs: 10px;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background: var(--bg);
+      color: var(--t1);
+      font-family: system-ui, -apple-system, sans-serif;
+      font-variant-numeric: tabular-nums;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ── Selector culoare ─────────────────────── */
+    .color-bar {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(13,13,15,0.92);
+      backdrop-filter: blur(12px);
+      padding: 14px 20px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      border-bottom: 1px solid var(--border);
+    }
+    .color-bar span {
+      font-size: 12px;
+      color: var(--t2);
+      font-weight: 500;
+      margin-right: 4px;
+    }
+    .swatch {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      padding: 7px 14px;
+      border-radius: 999px;
+      border: 1.5px solid transparent;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: border-color .15s, background .15s;
+      background: var(--surface-2);
+      color: var(--t1);
+    }
+    .swatch .dot {
+      width: 10px; height: 10px;
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+    .swatch.active { border-color: var(--accent); background: var(--accent-dim); }
+
+    /* ── Layout ───────────────────────────────── */
+    .page-title {
+      padding: 28px 20px 8px;
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      color: var(--t2);
+    }
+    .screens {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+    .screen-label {
+      padding: 20px 20px 12px;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      color: var(--t3);
+    }
+
+    /* ── Phone shell ──────────────────────────── */
+    .phone-wrap {
+      padding: 0 16px 32px;
+      display: flex;
+      justify-content: center;
+    }
+    .phone {
+      width: 100%;
+      max-width: 390px;
+      background: var(--surface);
+      border-radius: 36px;
+      overflow: hidden;
+      box-shadow: 0 32px 80px rgba(0,0,0,.7), 0 0 0 1px rgba(255,255,255,.07);
+    }
+
+    /* ── Status bar ───────────────────────────── */
+    .status {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 14px 24px 6px;
+    }
+    .status .time { font-size: 15px; font-weight: 700; }
+    .status .icons { display: flex; gap: 6px; align-items: center; }
+    .status .icons svg { width: 16px; height: 16px; fill: var(--t1); }
+
+    /* ── Shared components ────────────────────── */
+    .chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      padding: 5px 11px;
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: 600;
+    }
+    .chip-accent { background: var(--accent-dim); color: var(--accent-txt); }
+    .chip-green  { background: var(--green-dim);  color: var(--green); }
+    .chip-orange { background: var(--orange-dim); color: var(--orange); }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 7px;
+      padding: 14px 22px;
+      border-radius: var(--rs);
+      font-size: 15px;
+      font-weight: 700;
+      border: none;
+      cursor: pointer;
+      transition: opacity .15s;
+    }
+    .btn-primary { background: var(--accent); color: #fff; }
+    .btn-secondary { background: var(--surface-2); color: var(--t1); }
+    .btn-ghost { background: transparent; border: 1.5px solid var(--border); color: var(--t2); font-size: 13px; padding: 10px 16px; }
+
+    .divider { height: 1px; background: var(--border); margin: 0; }
+
+    /* ══════════════════════════════════════════ */
+    /*  SCREEN 1 — AZI                            */
+    /* ══════════════════════════════════════════ */
+    .s1-header {
+      padding: 12px 20px 16px;
+    }
+    .s1-header .meta {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 14px;
+    }
+    .s1-header .date { font-size: 13px; color: var(--t2); font-weight: 500; }
+    .s1-header h1 { font-size: 22px; font-weight: 800; line-height: 1.15; margin-top: 3px; }
+    .s1-progress {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .prog-bar-wrap {
+      flex: 1;
+      height: 4px;
+      background: var(--border);
+      border-radius: 999px;
+      overflow: hidden;
+    }
+    .prog-bar {
+      height: 100%;
+      background: var(--accent);
+      border-radius: 999px;
+      transition: width .3s ease;
+    }
+    .prog-label { font-size: 12px; color: var(--t2); font-weight: 600; white-space: nowrap; }
+
+    .ex-list { padding: 0 12px; display: flex; flex-direction: column; gap: 3px; }
+
+    .ex-card {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 14px 12px;
+      border-radius: var(--rs);
+      transition: background .15s;
+    }
+    .ex-card.done   { opacity: .55; }
+    .ex-card.active { background: var(--accent-dim); }
+
+    .ex-status {
+      width: 28px; height: 28px;
+      border-radius: 50%;
+      flex-shrink: 0;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 13px;
+    }
+    .ex-status.done-s   { background: var(--green-dim); color: var(--green); }
+    .ex-status.active-s { background: var(--accent); color: #fff; font-weight: 800; font-size: 12px; }
+    .ex-status.next-s   { background: var(--surface-2); color: var(--t2); font-weight: 700; font-size: 12px; }
+
+    .ex-info { flex: 1; min-width: 0; }
+    .ex-name { font-size: 14px; font-weight: 700; line-height: 1.2; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .ex-sub  { font-size: 12px; color: var(--t2); margin-top: 2px; }
+
+    .ex-sets { font-size: 13px; font-weight: 700; color: var(--t2); flex-shrink: 0; }
+    .ex-sets.accent { color: var(--accent-txt); }
+
+    .banner {
+      margin: 12px 12px 4px;
+      padding: 13px 16px;
+      border-radius: var(--rs);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 13px;
+      font-weight: 600;
+    }
+    .banner-green  { background: var(--green-dim); color: var(--green); }
+    .banner-orange { background: var(--orange-dim); color: var(--orange); }
+    .banner .icon { font-size: 16px; flex-shrink: 0; }
+    .banner .text { line-height: 1.35; }
+    .banner .text strong { display: block; font-size: 14px; }
+
+    .s1-footer { padding: 14px 12px 24px; }
+
+    /* ══════════════════════════════════════════ */
+    /*  SCREEN 2 — LOGARE                         */
+    /* ══════════════════════════════════════════ */
+    .s2-nav {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 10px 20px 14px;
+    }
+    .back-btn {
+      width: 36px; height: 36px;
+      background: var(--surface-2);
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
+    }
+    .back-btn svg { width: 16px; height: 16px; stroke: var(--t1); fill: none; }
+    .s2-nav .ex-title { font-size: 16px; font-weight: 800; }
+    .s2-nav .ex-pattern { font-size: 12px; color: var(--t2); margin-top: 1px; }
+
+    .weight-display {
+      padding: 20px 20px 16px;
+      text-align: center;
+    }
+    .weight-display .label { font-size: 12px; color: var(--t2); font-weight: 600; letter-spacing: .06em; text-transform: uppercase; }
+    .weight-display .value {
+      font-size: 64px;
+      font-weight: 900;
+      line-height: 1;
+      margin: 6px 0 2px;
+      color: var(--t1);
+      font-variant-numeric: tabular-nums;
+    }
+    .weight-display .unit { font-size: 18px; font-weight: 600; color: var(--t2); }
+    .weight-display .rep-range { font-size: 14px; color: var(--accent-txt); font-weight: 600; margin-top: 4px; }
+
+    .sets-list { padding: 0 12px; display: flex; flex-direction: column; gap: 3px; }
+
+    .set-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 12px 12px;
+      border-radius: var(--rs);
+    }
+    .set-row.done-r   { background: var(--green-dim); }
+    .set-row.active-r { background: var(--accent-dim); border: 1px solid rgba(124,111,247,.25); }
+    .set-row.next-r   { background: var(--surface-2); opacity: .5; }
+
+    .set-num {
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--t2);
+      width: 20px;
+      flex-shrink: 0;
+    }
+    .set-kg {
+      flex: 1;
+      font-size: 15px;
+      font-weight: 700;
+    }
+    .set-kg .kg-val { color: var(--t1); }
+    .set-kg .kg-unit { font-size: 12px; color: var(--t2); font-weight: 500; }
+    .set-reps {
+      font-size: 15px;
+      font-weight: 800;
+      min-width: 32px;
+      text-align: center;
+    }
+    .set-reps.done-rep { color: var(--green); }
+    .set-reps.active-rep { color: var(--accent-txt); }
+    .set-reps.pending { color: var(--t3); }
+
+    .check-icon { width: 22px; height: 22px; flex-shrink: 0; border-radius: 50%; display: flex; align-items: center; justify-content: center; }
+    .check-icon.done-c { background: var(--green); color: #0d0d0f; font-size: 11px; font-weight: 900; }
+    .check-icon.active-c { background: var(--accent); width: 22px; height: 22px; }
+    .check-icon.pending-c { border: 2px solid var(--t3); }
+
+    .pause-timer {
+      margin: 14px 12px 4px;
+      padding: 13px 16px;
+      background: var(--surface-2);
+      border-radius: var(--rs);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .pause-timer .pt-label { font-size: 12px; color: var(--t2); font-weight: 600; }
+    .pause-timer .pt-val { font-size: 22px; font-weight: 900; color: var(--t1); }
+
+    .s2-footer { padding: 12px 12px 24px; display: flex; gap: 8px; }
+
+    /* ══════════════════════════════════════════ */
+    /*  SCREEN 3 — PROGRAM GENERAT                */
+    /* ══════════════════════════════════════════ */
+    .s3-header { padding: 16px 20px 20px; }
+    .s3-header .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      color: var(--accent-txt);
+      margin-bottom: 10px;
+    }
+    .s3-header .badge::before {
+      content: '';
+      display: block;
+      width: 6px; height: 6px;
+      background: var(--accent);
+      border-radius: 50%;
+    }
+    .s3-header h1 { font-size: 24px; font-weight: 900; line-height: 1.15; }
+    .s3-header .sub { font-size: 14px; color: var(--t2); margin-top: 6px; line-height: 1.5; }
+
+    .split-card {
+      margin: 0 12px 12px;
+      padding: 16px;
+      background: var(--accent-dim);
+      border-radius: var(--r);
+      border: 1px solid rgba(124,111,247,.2);
+    }
+    .split-card .sc-label { font-size: 11px; font-weight: 700; letter-spacing: .07em; text-transform: uppercase; color: var(--accent-txt); margin-bottom: 6px; }
+    .split-card .sc-name  { font-size: 18px; font-weight: 900; color: var(--t1); }
+    .split-card .sc-desc  { font-size: 13px; color: var(--accent-txt); margin-top: 4px; line-height: 1.4; }
+
+    .days-list { padding: 0 12px; display: flex; flex-direction: column; gap: 3px; margin-bottom: 12px; }
+
+    .day-row {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      padding: 14px 12px;
+      background: var(--surface-2);
+      border-radius: var(--rs);
+    }
+    .day-num {
+      width: 28px; height: 28px;
+      background: var(--surface);
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 12px; font-weight: 800;
+      color: var(--t2);
+      flex-shrink: 0;
+      margin-top: 1px;
+    }
+    .day-info { flex: 1; }
+    .day-type { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: .07em; color: var(--accent-txt); margin-bottom: 3px; }
+    .day-exs  { font-size: 13px; color: var(--t2); line-height: 1.5; }
+    .day-exs strong { color: var(--t1); font-weight: 600; }
+
+    .s3-footer { padding: 6px 12px 24px; display: flex; flex-direction: column; gap: 8px; }
+    .s3-footer .row { display: flex; gap: 8px; }
+  </style>
+</head>
+<body>
+
+<!-- ── Selector culoare ───────────────────────── -->
+<div class="color-bar">
+  <span>Accent:</span>
+  <button class="swatch active" onclick="setColor('violet', this)">
+    <span class="dot" style="background:#7c6ff7"></span> Violet
+  </button>
+  <button class="swatch" onclick="setColor('teal', this)">
+    <span class="dot" style="background:#00c896"></span> Teal
+  </button>
+  <button class="swatch" onclick="setColor('rose', this)">
+    <span class="dot" style="background:#f7526f"></span> Coral
+  </button>
+</div>
+
+<div class="screens">
+
+  <!-- ── SCREEN 1: AZI ──────────────────────── -->
+  <div class="screen-label">Ecranul 1 — Antrenamentul zilei</div>
+  <div class="phone-wrap">
+    <div class="phone">
+      <!-- Status bar -->
+      <div class="status">
+        <span class="time">9:41</span>
+        <div class="icons">
+          <svg viewBox="0 0 24 24"><path d="M1 6l4 4 4-4M9 6l4 4 4-4M17 6l4 4"/></svg>
+          <svg viewBox="0 0 24 24"><rect x="2" y="7" width="15" height="10" rx="2" stroke="currentColor" stroke-width="2" fill="none"/><path d="M19 10.5v3" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+        </div>
+      </div>
+
+      <!-- Header -->
+      <div class="s1-header">
+        <div class="meta">
+          <div>
+            <div class="date">Joi, 12 iunie</div>
+            <h1>Upper A</h1>
+          </div>
+          <div class="chip chip-accent" style="margin-top:4px">Zi 1/4</div>
+        </div>
+        <div class="s1-progress">
+          <div class="prog-bar-wrap">
+            <div class="prog-bar" style="width:43%"></div>
+          </div>
+          <span class="prog-label">3 / 7</span>
+        </div>
+      </div>
+
+      <!-- Banner progres -->
+      <div class="banner banner-green" style="margin-top:0">
+        <span class="icon">↑</span>
+        <div class="text">
+          <strong>+2,5 kg la Bench press azi</strong>
+          2 sesiuni curate consecutive
+        </div>
+      </div>
+
+      <!-- Exercitii -->
+      <div class="ex-list" style="margin-top:10px">
+
+        <div class="ex-card done">
+          <div class="ex-status done-s">✓</div>
+          <div class="ex-info">
+            <div class="ex-name">Pull-up</div>
+            <div class="ex-sub">3 seturi · corpul</div>
+          </div>
+          <div class="ex-sets">3×8</div>
+        </div>
+
+        <div class="ex-card done">
+          <div class="ex-status done-s">✓</div>
+          <div class="ex-info">
+            <div class="ex-name">Ramat la scripete</div>
+            <div class="ex-sub">3 seturi · 65 kg</div>
+          </div>
+          <div class="ex-sets">3×10</div>
+        </div>
+
+        <div class="ex-card done">
+          <div class="ex-status done-s">✓</div>
+          <div class="ex-info">
+            <div class="ex-name">Chin-up</div>
+            <div class="ex-sub">3 seturi · corpul</div>
+          </div>
+          <div class="ex-sets">3×6</div>
+        </div>
+
+        <div class="ex-card active">
+          <div class="ex-status active-s">►</div>
+          <div class="ex-info">
+            <div class="ex-name">Bench press cu haltera</div>
+            <div class="ex-sub">Set 2 din 4 · 82,5 kg</div>
+          </div>
+          <div class="ex-sets accent">4×6</div>
+        </div>
+
+        <div class="ex-card">
+          <div class="ex-status next-s">5</div>
+          <div class="ex-info">
+            <div class="ex-name">Overhead press cu gantere</div>
+            <div class="ex-sub">3 seturi · 32 kg</div>
+          </div>
+          <div class="ex-sets">3×8</div>
+        </div>
+
+        <div class="ex-card">
+          <div class="ex-status next-s">6</div>
+          <div class="ex-info">
+            <div class="ex-name">Face pull cu bandă</div>
+            <div class="ex-sub">3 seturi · bandă M</div>
+          </div>
+          <div class="ex-sets">3×15</div>
+        </div>
+
+        <div class="ex-card">
+          <div class="ex-status next-s">7</div>
+          <div class="ex-info">
+            <div class="ex-name">Reverse fly cu gantere</div>
+            <div class="ex-sub">3 seturi · 10 kg</div>
+          </div>
+          <div class="ex-sets">3×12</div>
+        </div>
+
+      </div>
+
+      <!-- CTA -->
+      <div class="s1-footer">
+        <button class="btn btn-primary" style="width:100%">Continuă antrenamentul</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── SCREEN 2: LOGARE ───────────────────── -->
+  <div class="screen-label">Ecranul 2 — Logare serie</div>
+  <div class="phone-wrap">
+    <div class="phone">
+      <div class="status">
+        <span class="time">9:41</span>
+        <div class="icons">
+          <svg viewBox="0 0 24 24"><path d="M1 6l4 4 4-4M9 6l4 4 4-4M17 6l4 4"/></svg>
+          <svg viewBox="0 0 24 24"><rect x="2" y="7" width="15" height="10" rx="2" stroke="currentColor" stroke-width="2" fill="none"/><path d="M19 10.5v3" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+        </div>
+      </div>
+
+      <div class="s2-nav">
+        <div class="back-btn">
+          <svg viewBox="0 0 24 24" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M15 18l-6-6 6-6"/>
+          </svg>
+        </div>
+        <div>
+          <div class="ex-title">Bench press cu haltera</div>
+          <div class="ex-pattern">Împins orizontal · Compound</div>
+        </div>
+      </div>
+
+      <div class="divider"></div>
+
+      <!-- Greutate curenta -->
+      <div class="weight-display">
+        <div class="label">Greutate recomandată</div>
+        <div>
+          <span class="value">82,5</span>
+          <span class="unit"> kg</span>
+        </div>
+        <div class="rep-range">Target: 6 repetări</div>
+      </div>
+
+      <!-- Seturi -->
+      <div class="sets-list">
+
+        <div class="set-row done-r">
+          <span class="set-num">S1</span>
+          <div class="set-kg"><span class="kg-val">82,5</span> <span class="kg-unit">kg</span></div>
+          <span class="set-reps done-rep">6</span>
+          <div class="check-icon done-c">✓</div>
+        </div>
+
+        <div class="set-row active-r">
+          <span class="set-num">S2</span>
+          <div class="set-kg"><span class="kg-val">82,5</span> <span class="kg-unit">kg</span></div>
+          <span class="set-reps active-rep">4▌</span>
+          <div class="check-icon active-c"></div>
+        </div>
+
+        <div class="set-row next-r">
+          <span class="set-num">S3</span>
+          <div class="set-kg"><span class="kg-val">82,5</span> <span class="kg-unit">kg</span></div>
+          <span class="set-reps pending">—</span>
+          <div class="check-icon pending-c"></div>
+        </div>
+
+        <div class="set-row next-r">
+          <span class="set-num">S4</span>
+          <div class="set-kg"><span class="kg-val">82,5</span> <span class="kg-unit">kg</span></div>
+          <span class="set-reps pending">—</span>
+          <div class="check-icon pending-c"></div>
+        </div>
+
+      </div>
+
+      <!-- Timer pauza -->
+      <div class="pause-timer" style="margin-top:14px">
+        <div>
+          <div class="pt-label">Pauza recomandată</div>
+        </div>
+        <div class="pt-val">2:00</div>
+      </div>
+
+      <!-- Footer -->
+      <div class="s2-footer">
+        <button class="btn btn-ghost" style="flex:1">✗ Serie nereușită</button>
+        <button class="btn btn-primary" style="flex:2">✓ Serie reușită</button>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ── SCREEN 3: PROGRAM GENERAT ─────────── -->
+  <div class="screen-label">Ecranul 3 — Programul generat</div>
+  <div class="phone-wrap">
+    <div class="phone">
+      <div class="status">
+        <span class="time">9:41</span>
+        <div class="icons">
+          <svg viewBox="0 0 24 24"><path d="M1 6l4 4 4-4M9 6l4 4 4-4M17 6l4 4"/></svg>
+          <svg viewBox="0 0 24 24"><rect x="2" y="7" width="15" height="10" rx="2" stroke="currentColor" stroke-width="2" fill="none"/><path d="M19 10.5v3" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+        </div>
+      </div>
+
+      <div class="s3-header">
+        <div class="badge">Programul tău</div>
+        <h1>Gata de antrenat.</h1>
+        <div class="sub">Am generat programul pe baza profilului tău. Poți modifica orice înainte să începi.</div>
+      </div>
+
+      <!-- Split propus -->
+      <div class="split-card">
+        <div class="sc-label">Split recomandat</div>
+        <div class="sc-name">Upper / Lower × 2</div>
+        <div class="sc-desc">Fiecare grupă de 2 ori pe săptămână, sesiuni echilibrate de ~60 min.</div>
+      </div>
+
+      <!-- Zile -->
+      <div class="days-list">
+
+        <div class="day-row">
+          <div class="day-num">1</div>
+          <div class="day-info">
+            <div class="day-type">Upper A — Trunchi</div>
+            <div class="day-exs"><strong>Bench press</strong> · Pull-up · OHP · Ramat · Face pull + 2</div>
+          </div>
+        </div>
+
+        <div class="day-row">
+          <div class="day-num">2</div>
+          <div class="day-info">
+            <div class="day-type">Lower A — Picioare</div>
+            <div class="day-exs"><strong>Back squat</strong> · RDL · Bulgarian split · Hip thrust + 2</div>
+          </div>
+        </div>
+
+        <div class="day-row">
+          <div class="day-num">3</div>
+          <div class="day-info">
+            <div class="day-type">Upper B — Trunchi</div>
+            <div class="day-exs"><strong>Bench press</strong> · Chin-up · Ramat scripete · OHP + 2</div>
+          </div>
+        </div>
+
+        <div class="day-row">
+          <div class="day-num">4</div>
+          <div class="day-info">
+            <div class="day-type">Lower B — Picioare</div>
+            <div class="day-exs"><strong>Deadlift</strong> · Goblet squat · Step-up · Nordic curl + 2</div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Footer -->
+      <div class="s3-footer">
+        <div class="row">
+          <button class="btn btn-ghost" style="flex:1">Schimbă split-ul</button>
+          <button class="btn btn-ghost" style="flex:1">Altă variantă</button>
+        </div>
+        <button class="btn btn-primary" style="width:100%;font-size:16px">Începe programul →</button>
+      </div>
+
+    </div>
+  </div>
+
+</div><!-- /screens -->
+
+<script>
+  const themes = {
+    violet: {
+      accent:    '#7c6ff7',
+      accentDim: 'rgba(124,111,247,0.14)',
+      accentTxt: '#a99fff',
+    },
+    teal: {
+      accent:    '#00c896',
+      accentDim: 'rgba(0,200,150,0.13)',
+      accentTxt: '#5de0b7',
+    },
+    rose: {
+      accent:    '#f7526f',
+      accentDim: 'rgba(247,82,111,0.13)',
+      accentTxt: '#ff8fa1',
+    },
+  };
+
+  function setColor(name, btn) {
+    const t = themes[name];
+    const r = document.documentElement.style;
+    r.setProperty('--accent',     t.accent);
+    r.setProperty('--accent-dim', t.accentDim);
+    r.setProperty('--accent-txt', t.accentTxt);
+    document.querySelectorAll('.swatch').forEach(s => s.classList.remove('active'));
+    btn.classList.add('active');
+  }
+</script>
+</body>
+</html>
