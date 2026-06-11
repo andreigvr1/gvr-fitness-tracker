@@ -59,11 +59,13 @@ export class WorkoutRenderer {
       ex.rep_max,
       this.antrenamente,
       this.profile.experienta,
-      { isLowerBody, isBodyweight, hasCenturaGreutati }
+      { isLowerBody, isBodyweight, hasCenturaGreutati, gen: this.profile.gen }
     );
     const suggestKg = rec.kg || '';
     const isStatic = ex.reguli_speciale?.includes('timp');
     const hasTempo = ex.reguli_speciale?.includes('tempo 3-1-3');
+    const VALGUS_PATTERNS = new Set(['squat','unilateral picior','flexie genunchi']);
+    const showValgusCue  = this.profile.gen === 'feminin' && VALGUS_PATTERNS.has(ex.pattern);
 
     const setsHTML = Array.from({ length: ex.seturi }, (_, si) => `
       <div class="log-set" id="set-${exIdx}-${si}" data-done="0">
@@ -113,6 +115,7 @@ export class WorkoutRenderer {
             ? `<div class="rec-banner rec-regresia">${ico('down')}<span>${rec.mesaj}</span></div>`
             : `<div class="rec-banner rec-info">${ico('arrow')}<span>${rec.mesaj}</span></div>`}
           ${hasTempo ? `<div class="tempo-explain">${ico('timer')}<span>Tempo 3-1-3 = 3 sec coborâre · 1 sec pauză jos · 3 sec ridicare</span></div>` : ''}
+          ${showValgusCue ? `<div class="tempo-explain cue-valgus">${ico('flag')}<span>Menține genunchii deasupra degetelor mari — evită prăbușirea spre interior.</span></div>` : ''}
           <div class="log-ex-desc">${ex.descriere}</div>
           <div class="log-sets-list">${setsHTML}</div>
         </div>

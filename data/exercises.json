@@ -927,6 +927,23 @@
                           "reguli_speciale":  null
                       },
                       {
+                          "id":  "abductie_sold_corp",
+                          "nume":  "Abductie sold culcat lateral",
+                          "pattern":  "izolare-fesieri",
+                          "grupe_principale":  [
+                                                   "fesieri"
+                                               ],
+                          "tip":  "izolare",
+                          "echipament":  [
+                                             "corp"
+                                         ],
+                          "nivel":  1,
+                          "risc_articular":  [],
+                          "descriere":  "Culcat lateral, ridica piciorul de sus spre tavan tinand genunchiul drept. Contracta fesierii la varf, coboara controlat. Activa muschiul fesier mijlociu.",
+                          "reguli_speciale":  "unilateral",
+                          "progressie_bw":  "abductie_sold_banda"
+                      },
+                      {
                           "id":  "calf_raise_corp",
                           "nume":  "Calf raise",
                           "pattern":  "izolare-gambe",

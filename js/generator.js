@@ -125,9 +125,21 @@ const PRESC = {
   anduranta: { c: [3,12,15,45], i: [3,15,20,30], s: [3,20,45,45],  d: [3,15,20,30] },
 };
 
-function prescribe(ex, obiectiv) {
+// Femeile au mai mulți mușchi tip I → pot face mai multe repetări la același %1RM.
+// Ajustăm intervalul de rep cu +2 la capătul inferior și superior pentru exerciții
+// compuse și de izolare (nu static/conditie — acolo deja e timp sau volum mare).
+const FEMALE_REP_BONUS = { c: 2, i: 2, s: 0, d: 0 };
+
+function prescribe(ex, obiectiv, gen) {
   const key = ex.tip === 'izolare' ? 'i' : ex.tip === 'static' ? 's' : ex.tip === 'conditie' ? 'd' : 'c';
-  const [seturi, rep_min, rep_max, pauza_sec] = PRESC[obiectiv][key];
+  let [seturi, rep_min, rep_max, pauza_sec] = PRESC[obiectiv][key];
+  if (gen === 'feminin') {
+    const bonus = FEMALE_REP_BONUS[key];
+    rep_min += bonus;
+    rep_max += bonus;
+    // Femeile se recuperează mai repede între serii → pauze ~20% mai scurte
+    if (key === 'c' || key === 'i') pauza_sec = Math.round(pauza_sec * 0.8);
+  }
   return {
     id: ex.id, nume: ex.nume, pattern: ex.pattern, tip: ex.tip,
     grupe: ex.grupe_principale, descriere: ex.descriere,
@@ -184,10 +196,12 @@ const SLOT_TEMPLATES = {
   ],
 };
 
+// Exerciții prioritare pentru femei (fesieri + prevenție genunchi)
+const FEMALE_PRIORITY_IDS  = new Set(['hip_thrust_haltera','hip_thrust_gantera','glute_bridge','glute_bridge_unilateral','abductie_sold_banda','abductie_sold_corp']);
+const FEMALE_ABDUCTION_IDS = new Set(['abductie_sold_banda','abductie_sold_corp']);
+
 // ── Scoring ──────────────────────────────────────────────────────────────────
-// equipment: Set cu echipamentul utilizatorului — preferăm exerciții cu echipament
-// față de varianta bodyweight dacă utilizatorul are echipamentul respectiv.
-function scoreEx(ex, obiectiv, prioritati, usedGroups, slotsTotal, equipment) {
+function scoreEx(ex, obiectiv, prioritati, usedGroups, slotsTotal, equipment, gen) {
   let s = 10;
   if (ex.tip === 'compound') s += 10;
   if (obiectiv === 'forta'    && ex.tip === 'compound')  s += 8;
@@ -200,12 +214,17 @@ function scoreEx(ex, obiectiv, prioritati, usedGroups, slotsTotal, equipment) {
   s -= overlap * 8;
 
   // Preferă exercițiile cu echipament față de bodyweight-only când echipamentul e disponibil.
-  // Excepție: pull-up rămâne competitiv față de lat pulldown, core e bodyweight by default.
   const isBWOnly = ex.echipament.length === 1 && ex.echipament[0] === 'corp';
   const isPullUp  = ex.id === 'pullup' || ex.id === 'chinup';
   const isCore    = CORE_P.includes(ex.pattern);
   if (!isBWOnly && !isCore && !isPullUp && equipment && ex.echipament.some(e => e !== 'corp' && equipment.has(e))) {
     s += 7;
+  }
+
+  // Bonus pentru femei: hip thrust și abductie sold au prioritate crescută
+  if (gen === 'feminin') {
+    if (FEMALE_PRIORITY_IDS.has(ex.id))  s += 18;
+    if (FEMALE_ABDUCTION_IDS.has(ex.id)) s += 10; // bonus dublu pentru abductie (preventie ACL)
   }
 
   s += (Math.random() * 4 - 2);
@@ -218,6 +237,7 @@ function selectForDay(dayTip, allValid, profile, usedIds) {
   const slots    = numSlots(profile.timp);
   const prior    = new Set(profile.grupe_prioritare);
   const obj      = profile.obiectiv;
+  const gen      = profile.gen;
   const template = SLOT_TEMPLATES[dayTip];
 
   let candidates = allValid.filter(ex =>
@@ -249,11 +269,11 @@ function selectForDay(dayTip, allValid, profile, usedIds) {
     if (!pool.length) pool = candidates; // fallback generic: nu pierdem slotul
 
     const scored = pool
-      .map(ex => ({ ex, sc: scoreEx(ex, obj, prior, usedGroups, slots, equipSet) }))
+      .map(ex => ({ ex, sc: scoreEx(ex, obj, prior, usedGroups, slots, equipSet, gen) }))
       .sort((a, b) => b.sc - a.sc);
 
     const winner = scored[0].ex;
-    const item   = prescribe(winner, obj);
+    const item   = prescribe(winner, obj, gen);
     // alternativele: întâi același pattern, apoi restul candidaților din slot
     const samePattern = scored.slice(1).filter(s => s.ex.pattern === winner.pattern);
     const others      = scored.slice(1).filter(s => s.ex.pattern !== winner.pattern);
@@ -280,7 +300,7 @@ function selectForDay(dayTip, allValid, profile, usedIds) {
       !usedIds.has(ex.id)
     );
     if (scap) {
-      const item = prescribe(scap, obj);
+      const item = prescribe(scap, obj, gen);
       selected.push(item);
       usedIds.add(scap.id);
     }

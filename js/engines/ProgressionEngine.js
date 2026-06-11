@@ -6,8 +6,15 @@
 //   3. Reps completate față de intervalul prescris
 //   4. Regresie pe sesiuni consecutive
 
-// Incremente standard (kg)
-const INC = { upper: 2.5, lower: 5 };
+// Increment dinamic bazat pe gen și sarcina curentă
+function getIncrement(gen, isLowerBody, kg = 0) {
+  if (gen === 'feminin') {
+    if (isLowerBody) return kg < 60 ? 2.5 : 5;
+    return kg < 40 ? 1.25 : 2.5;
+  }
+  // masculin / nedefinit
+  return isLowerBody ? 5 : 2.5;
+}
 
 // Prag reps la care bodyweight fără centură urcă la variație mai grea (evităm anduranță pură)
 const BW_REPS_UPGRADE = 20;
@@ -24,11 +31,12 @@ export class ProgressionEngine {
    *   @param {string}  [opts.feedbackUser]   - 'prea_greu' | 'prea_usor' | 'ok' | 'durere'
    *   @param {boolean} [opts.isBodyweight]   - exercițiu pur bodyweight (echipament: ['corp'])
    *   @param {boolean} [opts.hasCenturaGreutati] - utilizatorul are centură de greutăți
-   *   @param {boolean} [opts.isLowerBody]    - true = increment lower body (5 kg)
+   *   @param {boolean} [opts.isLowerBody]    - true = increment lower body
+   *   @param {string}  [opts.gen]            - 'masculin' | 'feminin'
    */
   getRecommendation(exId, repMin, repMax, antrenamente = [], profileExp = 0, opts = {}) {
-    const { rir, feedbackUser, isBodyweight = false, hasCenturaGreutati = false, isLowerBody = false } = opts;
-    const inc = isLowerBody ? INC.lower : INC.upper;
+    const { rir, feedbackUser, isBodyweight = false, hasCenturaGreutati = false, isLowerBody = false, gen } = opts;
+    const kg0 = 0; // va fi actualizat după ce găsim istoricul
 
     // ── Fără istoric ─────────────────────────────────────────────────────────
     const sessions = (antrenamente || [])
@@ -44,9 +52,10 @@ export class ProgressionEngine {
       };
     }
 
-    const last   = sessions[0].exercitii.find(e => e.ex_id === exId);
+    const last    = sessions[0].exercitii.find(e => e.ex_id === exId);
     const weights = last.serii.map(s => s.greutate).filter(Boolean);
     const kg      = weights.length ? Math.max(...weights) : 0;
+    const inc     = getIncrement(gen, isLowerBody, kg);
 
     if (last.skip) {
       return { tip: 'info', mesaj: `Ultima sesiune ai sărit acest exercițiu. Reia de unde ai lăsat.` };
@@ -67,7 +76,6 @@ export class ProgressionEngine {
     }
 
     if (feedbackUser === 'prea_usor') {
-      // Salt dublu față de progresia normală
       if (isBodyweight && !hasCenturaGreutati) {
         return {
           tip: 'upgrade_variatie',
@@ -76,11 +84,7 @@ export class ProgressionEngine {
         };
       }
       const newKg = kg + inc * 2;
-      return {
-        tip: 'creste',
-        kg: newKg,
-        mesaj: `Prea ușor! Sari direct la ${newKg} kg.`,
-      };
+      return { tip: 'creste', kg: newKg, mesaj: `Prea ușor! Sari direct la ${newKg} kg.` };
     }
 
     // ── 2. Bodyweight fără centură — progresie prin variații ─────────────────

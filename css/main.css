@@ -610,6 +610,7 @@ body.has-nav .view.active { padding-bottom: 86px; }
   margin-bottom: 8px; line-height: 1.4;
 }
 .tempo-explain .ico svg { width: 14px; height: 14px; }
+.cue-valgus { color: var(--acc-txt); background: var(--acc-dim); }
 
 .log-ex-desc {
   font-size: 12px; color: var(--t2); line-height: 1.55;

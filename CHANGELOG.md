@@ -1,5 +1,15 @@
 # Changelog — GVR Fitness Tracker
 
+## v0.7.2 — Logică de gen implementată
+
+- **Intervale de repetări feminine**: +2 rep față de bărbați la exerciții compuse și izolare (ex. 8–12 în loc de 6–10 la masă musculară) — femeile au mai mulți mușchi de rezistență și pot face mai multe rep la aceeași greutate relativă
+- **Incremente de greutate mai mici pentru femei**: 1,25 kg la upper body (sub 40 kg) / 2,5 kg la lower body (sub 60 kg) — evită salturi procentuale prea mari la sarcini mici
+- **Pauze mai scurte între serii pentru femei**: ~20% mai puțin față de bărbați — recuperare mai rapidă dovedită fiziologic
+- **Hip thrust și abductie sold prioritizate** în programele feminine — activare maximă a fesierilor + prevenție prăbușire genunchi (ACL)
+- **Exercițiu nou**: Abductie sold culcat lateral (fără echipament) — pentru utilizatoarele fără benzi elastice
+- **Cue de formă la ghemuit/fandare pentru femei**: "Menține genunchii deasupra degetelor mari" — prevenție activă a riscului ACL mai mare la femei
+- **Factori de corecție 1RM pentru femei** în motorul de progresie — increment dinamic bazat pe gen și sarcina curentă
+
 ## v0.7.1 — Înălțime și greutate adăugate în profil
 
 - Pas nou în onboarding (pasul 2): **Înălțime** (cm) și **Greutate** (kg)
