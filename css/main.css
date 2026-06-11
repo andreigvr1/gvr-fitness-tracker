@@ -321,6 +321,48 @@ body.has-nav .view.active { padding-bottom: 86px; }
 .bmi-over .bmi-fig, .bmi-over .bmi-label { color: var(--orange); }
 .bmi-obez .bmi-fig, .bmi-obez .bmi-label { color: #e5484d; }
 
+/* Animație elastică tip caricatură la schimbarea categoriei */
+.bmi-jelly { animation: bmi-jelly .65s cubic-bezier(.36,.07,.19,.97); transform-origin: 50% 100%; }
+@keyframes bmi-jelly {
+  0%   { transform: scale(1, 1); }
+  25%  { transform: scale(1.35, 0.7); }
+  45%  { transform: scale(0.8, 1.2); }
+  65%  { transform: scale(1.15, 0.9); }
+  82%  { transform: scale(0.95, 1.05); }
+  100% { transform: scale(1, 1); }
+}
+/* Obez: tremurat lent continuu, ca o gelatină */
+.bmi-obez .bmi-fig { animation: bmi-wobble 2.2s ease-in-out .65s infinite; transform-origin: 50% 100%; }
+.bmi-obez .bmi-fig.bmi-jelly { animation: bmi-jelly .65s cubic-bezier(.36,.07,.19,.97), bmi-wobble 2.2s ease-in-out .65s infinite; }
+@keyframes bmi-wobble {
+  0%, 100% { transform: scale(1, 1); }
+  50%      { transform: scale(1.04, 0.97); }
+}
+
+/* ── Profil ─────────────────────────────────────────────────────────────────── */
+.profil-wrap {
+  max-width: 480px; margin: 0 auto; padding: 28px 20px 100px;
+  display: flex; flex-direction: column; gap: 16px;
+}
+.profil-title { font-size: 26px; font-weight: 800; }
+.profil-empty {
+  font-size: 13px; color: var(--t2); padding: 18px 20px;
+  background: var(--surf); border: var(--card-border); border-radius: var(--r);
+  line-height: 1.5;
+}
+.profil-card {
+  background: var(--surf); border: var(--card-border); border-radius: var(--r);
+  padding: 6px 20px;
+}
+.profil-row {
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 13px 0; border-bottom: 1px solid var(--border);
+}
+.profil-row:last-child { border-bottom: none; }
+.profil-key { font-size: 13px; color: var(--t2); font-weight: 600; }
+.profil-val { font-size: 14px; color: var(--t1); font-weight: 700; }
+.profil-edit { width: 100%; }
+
 .ob-body { flex: 1; padding: 28px 20px 16px; overflow-y: auto; }
 
 .ob-question {

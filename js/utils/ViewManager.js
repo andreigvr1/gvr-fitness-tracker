@@ -22,14 +22,16 @@ export class ViewManager {
     const currentData = loadData();
 
     // Nav only visible after program saved; hidden during onboarding and workout
-    const visible = currentData?.program_salvat && (viewId === 'view-dashboard' || viewId === 'view-program');
+    const NAV_VIEWS = ['view-dashboard', 'view-program', 'view-profil'];
+    const visible = currentData?.program_salvat && NAV_VIEWS.includes(viewId);
     nav.hidden = !visible;
     document.body.classList.toggle('has-nav', visible);
 
     nav.querySelectorAll('.nav-item').forEach(b => {
       b.classList.toggle('active',
         (b.dataset.nav === 'dashboard' && viewId === 'view-dashboard') ||
-        (b.dataset.nav === 'program' && viewId === 'view-program'));
+        (b.dataset.nav === 'program' && viewId === 'view-program') ||
+        (b.dataset.nav === 'profil' && viewId === 'view-profil'));
     });
   }
 

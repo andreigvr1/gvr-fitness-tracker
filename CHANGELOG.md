@@ -1,5 +1,13 @@
 # Changelog — GVR Fitness Tracker
 
+## v0.8.0 — Pagina Profil + siluetă caricaturală animată
+
+- **Pagina Profil e activă** în meniu: vezi BMI-ul cu silueta, genul, înălțimea, greutatea, obiectivul, zilele și experiența + buton de editare
+- **Silueta e acum caricaturală**: exagerată comic spre extreme — foarte subțire la subponderal, balon cu cap mic la obezitate
+- **Animație elastică** (squash & stretch) când silueta își schimbă categoria
+- La obezitate, silueta **tremură lent continuu**, ca o gelatină — efect amuzant
+- Logica BMI mutată în modul comun (`BodyViz.js`), folosită și de onboarding și de Profil
+
 ## v0.7.3 — BMI cu siluetă vizuală
 
 - La pasul de înălțime + greutate, **BMI-ul se calculează live** pe măsură ce tastezi

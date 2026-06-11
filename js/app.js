@@ -21,6 +21,7 @@ import { WorkoutRenderer } from './renderers/WorkoutRenderer.js';
 import { ViewManager } from './utils/ViewManager.js';
 import { ICONS, SKIP_REASONS } from './utils/Constants.js';
 import { getNextDayIdx } from './utils/UIHelpers.js';
+import { bmiPanelHTML } from './utils/BodyViz.js';
 
 // ── Module State ──────────────────────────────────────────────────────────────
 let viewManager = null;
@@ -187,6 +188,41 @@ async function renderToday(data, dayIdx) {
   });
 }
 
+// ── Profil ────────────────────────────────────────────────────────────────────
+const EXP_LABELS = ['Încep de la zero', 'Sub 1 an', '1–3 ani', 'Peste 3 ani'];
+
+function renderProfil(data) {
+  const p = data.profile;
+  const container = document.getElementById('view-profil');
+  const bmi = bmiPanelHTML(p.gen, p.inaltime, p.greutate);
+
+  const rows = [
+    ['Gen',        p.gen === 'feminin' ? 'Femeie' : p.gen === 'masculin' ? 'Bărbat' : '—'],
+    ['Înălțime',   p.inaltime ? `${p.inaltime} cm` : '—'],
+    ['Greutate',   p.greutate ? `${p.greutate} kg` : '—'],
+    ['Obiectiv',   { sanatate: 'Sănătate / tonifiere', masa: 'Masă musculară', forta: 'Forță / putere', anduranta: 'Anduranță' }[p.obiectiv] ?? '—'],
+    ['Zile / săpt.', p.zile ?? '—'],
+    ['Experiență', EXP_LABELS[p.experienta] ?? '—'],
+  ];
+
+  container.innerHTML = `
+    <div class="profil-wrap">
+      <h1 class="profil-title">Profil</h1>
+      ${bmi ? `<div class="bmi-panel ${bmi.cls}">${bmi.html}</div>`
+            : `<div class="profil-empty">Adaugă înălțimea și greutatea din Editează profilul ca să vezi BMI-ul tău.</div>`}
+      <div class="profil-card">
+        ${rows.map(([k, v]) => `
+          <div class="profil-row">
+            <span class="profil-key">${k}</span>
+            <span class="profil-val">${v}</span>
+          </div>`).join('')}
+      </div>
+      <button class="btn btn-primary profil-edit" id="btn-profil-edit">Editează profilul</button>
+    </div>`;
+
+  document.getElementById('btn-profil-edit').addEventListener('click', () => startOnboarding(true));
+}
+
 // ── Onboarding ────────────────────────────────────────────────────────────────
 function startOnboarding(editMode = false) {
   viewManager.showView('view-onboarding');
@@ -232,6 +268,10 @@ function initNav() {
       const nextIdx = getNextDayIdx(d.program, d.antrenamente);
       renderToday(d, nextIdx);
       viewManager.showView('view-today');
+    }
+    if (btn.dataset.nav === 'profil') {
+      renderProfil(d);
+      viewManager.showView('view-profil');
     }
   });
 }
