@@ -70,24 +70,16 @@ export class WorkoutRenderer {
     const setsHTML = Array.from({ length: ex.seturi }, (_, si) => `
       <div class="log-set" id="set-${exIdx}-${si}" data-done="0">
         <span class="set-num">S${si + 1}</span>
-        <div class="set-field-group">
-          <button class="step-btn" data-target="w-${exIdx}-${si}" data-step="-2.5">−</button>
-          <div class="set-field-wrap">
-            <input id="w-${exIdx}-${si}" class="set-input" type="number" inputmode="decimal"
-              value="${suggestKg}" min="0" step="2.5" placeholder="kg">
-            <span class="set-field-lbl">kg</span>
-          </div>
-          <button class="step-btn" data-target="w-${exIdx}-${si}" data-step="2.5">+</button>
+        <div class="set-field-wrap">
+          <input id="w-${exIdx}-${si}" class="set-input" type="number" inputmode="decimal"
+            value="${suggestKg}" min="0" step="2.5" placeholder="kg">
+          <span class="set-field-lbl">kg</span>
         </div>
         <span class="set-x">×</span>
-        <div class="set-field-group">
-          <button class="step-btn" data-target="r-${exIdx}-${si}" data-step="-1">−</button>
-          <div class="set-field-wrap">
-            <input id="r-${exIdx}-${si}" class="set-input set-reps" type="number" inputmode="numeric"
-              value="${ex.rep_min}" min="1" step="1" placeholder="${isStatic ? 'sec' : 'rep'}">
-            <span class="set-field-lbl">${isStatic ? 's' : 'rep'}</span>
-          </div>
-          <button class="step-btn" data-target="r-${exIdx}-${si}" data-step="1">+</button>
+        <div class="set-field-wrap">
+          <input id="r-${exIdx}-${si}" class="set-input set-reps" type="number" inputmode="numeric"
+            value="${ex.rep_min}" min="1" step="1" placeholder="${isStatic ? 'sec' : 'rep'}">
+          <span class="set-field-lbl">${isStatic ? 's' : 'rep'}</span>
         </div>
         <div class="set-result-btns">
           <button class="set-ok"   data-ex="${exIdx}" data-set="${si}">${ICONS.check}</button>
@@ -265,14 +257,6 @@ export class WorkoutRenderer {
       });
     });
 
-    // Stepper buttons
-    this.container.querySelectorAll('.step-btn').forEach(btn => {
-      btn.addEventListener('click', () => {
-        const inp = document.getElementById(btn.dataset.target);
-        const cur = parseFloat(inp.value) || 0;
-        inp.value = Math.max(0, Math.round((cur + +btn.dataset.step) * 10) / 10);
-      });
-    });
 
     // Skip button
     this.container.querySelectorAll('.ex-skip-btn').forEach(btn => {
