@@ -132,7 +132,7 @@ async function renderDashboard(data) {
     },
     // onEditPrefs
     () => {
-      startOnboarding();
+      startOnboarding(true);
     }
   );
 }
@@ -188,13 +188,29 @@ async function renderToday(data, dayIdx) {
 }
 
 // ── Onboarding ────────────────────────────────────────────────────────────────
-function startOnboarding() {
+function startOnboarding(editMode = false) {
   viewManager.showView('view-onboarding');
   const container = document.getElementById('view-onboarding');
+  const existingData = loadData();
+
+  const opts = editMode ? {
+    existingProfile: existingData?.profile,
+    onCancel: () => {
+      const d = loadData();
+      if (d?.program_salvat) {
+        renderDashboard(d);
+        viewManager.showView('view-dashboard');
+      } else {
+        renderProgram(d);
+        viewManager.showView('view-program');
+      }
+    },
+  } : {};
+
   initOnboarding(container, (data) => {
     renderProgram(data);
     viewManager.showView('view-program');
-  });
+  }, opts);
 }
 
 // ── Navigation ────────────────────────────────────────────────────────────────

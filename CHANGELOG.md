@@ -1,5 +1,17 @@
 # Changelog — GVR Fitness Tracker
 
+## v0.7.0 — Setări fixate, gen adăugat, navigație completă
+
+- **Fix Setări**: buton ✕ de închidere în colțul de sus; răspunsurile existente sunt pre-completate — nu mai ești întrebat de la zero
+- **Întrebare gen** adăugată ca primul pas al onboarding-ului (Bărbat / Femeie) — influențează selecția exercițiilor și progresia greutăților (implementare completă urmează)
+- **Statistici și Profil** apar acum în bara de navigare cu badge „Curând" — placeholdere vizuale pentru funcții viitoare
+- Motor de progresie RIR rescris: scădere automată la RIR=0, progresie mai rapidă la RIR≥4
+- Progresie bodyweight: la exerciții fără echipament, trecere la variații mai grele în loc de greutăți; centura de greutăți tratează BW ca echipament
+- Selecție split îmbunătățită: matrice pe baza zilelor + experiență + obiectiv (nu mai e Full Body by default)
+- Managementul accidentărilor: check-in la sesiunea 6 după raportare, sugestie specialist după 28 de zile
+- Fix pull-up: rămâne exercițiu competitiv chiar dacă utilizatorul are cablu
+- Fix genunchi/coapse: increment implicit 2,5 kg în loc de 5 kg
+
 ## v0.6.2 — Layout adaptat pe ecrane late
 
 - **Dashboard pe 2 coloane** pe desktop: antrenamentul următor + statistici + „În curând" în stânga, activitatea recentă în dreapta

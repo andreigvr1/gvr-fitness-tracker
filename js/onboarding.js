@@ -4,6 +4,16 @@ import { saveData, loadData } from './storage.js';
 // ── Step definitions ─────────────────────────────────────────────────────────
 const STEPS = [
   {
+    id: 'gen',
+    q: 'Ești femeie sau bărbat?',
+    tip: 'single',
+    sub_global: 'Influențează selecția exercițiilor și progresia greutăților',
+    opt: [
+      { val: 'masculin', label: 'Bărbat' },
+      { val: 'feminin',  label: 'Femeie' },
+    ],
+  },
+  {
     id: 'seriozitate',
     q: 'Cât de serios vrei să iei antrenamentul?',
     tip: 'single',
@@ -100,6 +110,7 @@ const STEPS = [
 // ── State ────────────────────────────────────────────────────────────────────
 let step = 0;
 let answers = {
+  gen: null,
   seriozitate: null, obiectiv: null, zile: null, timp: null, experienta: null,
   echipament: ['corp'], manere: [],
   grupe_prioritare: [], articulatii: [],
@@ -107,12 +118,47 @@ let answers = {
 };
 let _container = null;
 let _onComplete = null;
+let _onCancel   = null;
+let _editMode   = false;
 
 // ── Public init ──────────────────────────────────────────────────────────────
-export function initOnboarding(container, onComplete) {
-  _container = container;
+// opts.existingProfile — pre-completează răspunsurile dintr-un profil salvat
+// opts.onCancel        — dacă e furnizat, apare butonul ✕ pentru ieșire fără salvare
+export function initOnboarding(container, onComplete, opts = {}) {
+  _container  = container;
   _onComplete = onComplete;
+  _onCancel   = opts.onCancel || null;
+  _editMode   = !!opts.existingProfile;
   step = 0;
+
+  if (opts.existingProfile) {
+    const p = opts.existingProfile;
+    answers = {
+      gen:              p.gen            ?? null,
+      seriozitate:      p.seriozitate    ?? null,
+      obiectiv:         p.obiectiv       ?? null,
+      zile:             p.zile           ?? null,
+      timp:             p.timp           ?? null,
+      experienta:       p.experienta     ?? null,
+      echipament:       p.echipament?.length ? [...p.echipament] : ['corp'],
+      manere:           p.manere         ? [...p.manere] : [],
+      grupe_prioritare: p.grupe_prioritare ? [...p.grupe_prioritare] : [],
+      articulatii:      p.articulatii_sensibile?.length
+                          ? [...p.articulatii_sensibile]
+                          : ['niciuna'],
+      skandenberg:      p.skandenberg    ?? false,
+      stil_skandenberg: p.stil_skandenberg ?? null,
+    };
+  } else {
+    answers = {
+      gen: null,
+      seriozitate: null, obiectiv: null, zile: null, timp: null, experienta: null,
+      echipament: ['corp'], manere: [],
+      grupe_prioritare: [], articulatii: [],
+      skandenberg: false, stil_skandenberg: null,
+    };
+  }
+
   render();
 }
 
@@ -120,12 +166,15 @@ export function initOnboarding(container, onComplete) {
 function render() {
   const s = STEPS[step];
   const pct = Math.round((step / STEPS.length) * 100);
+  const isLast = step === STEPS.length - 1;
+  const lastLabel = _editMode ? 'Salvează modificările →' : 'Generează programul →';
 
   _container.innerHTML = `
     <div class="ob-wrap">
       <div class="ob-top">
         <div class="ob-progress-track"><div class="ob-progress-fill" style="width:${pct}%"></div></div>
         <div class="ob-step-label">${step + 1} din ${STEPS.length}</div>
+        ${_onCancel ? '<button class="btn-ob-close" id="ob-close" title="Închide">✕</button>' : ''}
       </div>
       <div class="ob-body">
         <h2 class="ob-question">${s.q}</h2>
@@ -135,7 +184,7 @@ function render() {
       <div class="ob-nav">
         ${step > 0 ? '<button class="btn btn-ghost" id="ob-back">← Înapoi</button>' : '<div></div>'}
         <button class="btn btn-primary" id="ob-next">
-          ${step === STEPS.length - 1 ? 'Generează programul →' : 'Continuă →'}
+          ${isLast ? lastLabel : 'Continuă →'}
         </button>
       </div>
     </div>
@@ -143,6 +192,7 @@ function render() {
 
   document.getElementById('ob-next').addEventListener('click', handleNext);
   document.getElementById('ob-back')?.addEventListener('click', handleBack);
+  document.getElementById('ob-close')?.addEventListener('click', () => _onCancel?.());
   attachOptionHandlers(s);
   restoreSelection(s);
   validateNext();
@@ -481,6 +531,7 @@ async function handleNext() {
 
 function buildProfile() {
   return {
+    gen:               answers.gen,
     seriozitate:       answers.seriozitate,
     obiectiv:          answers.obiectiv,
     zile:              answers.zile,
