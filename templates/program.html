@@ -23,4 +23,45 @@
       <span class="btn-ico"></span> Înapoi la dashboard
     </button>
   </div>
+
+  <!-- Modal pentru adaugare exercitiu -->
+  <div class="modal modal-add-exercise" style="display:none">
+    <div class="modal-overlay"></div>
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2>Adaugă exercițiu</h2>
+        <button class="modal-close" id="close-add-exercise">✕</button>
+      </div>
+      <div class="modal-body">
+        <div class="filter-group">
+          <label>Grupa de muschi</label>
+          <select id="filter-muscle-group" class="filter-select">
+            <option value="">— Selectează grupa —</option>
+          </select>
+        </div>
+        <div class="filter-group">
+          <label>Tip exercițiu</label>
+          <select id="filter-exercise-type" class="filter-select">
+            <option value="">— Selectează tipul —</option>
+            <option value="compound">Compound</option>
+            <option value="izolat">Izolat</option>
+          </select>
+        </div>
+        <div class="filter-group">
+          <label>Exercițiu</label>
+          <select id="filter-exercise" class="filter-select">
+            <option value="">— Selectează exercițiu —</option>
+          </select>
+        </div>
+        <div class="ex-preview" id="ex-preview" style="display:none">
+          <div class="ex-prev-name" id="prev-name"></div>
+          <div class="ex-prev-desc" id="prev-desc"></div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-ghost" id="cancel-add-exercise">Anulează</button>
+        <button class="btn btn-primary" id="confirm-add-exercise" disabled>Adaugă exercițiu</button>
+      </div>
+    </div>
+  </div>
 </div>

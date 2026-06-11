@@ -4,6 +4,7 @@ import { ICONS } from '../utils/Constants.js';
 import { ico } from '../utils/UIHelpers.js';
 import { getExercisesByIds, getSplitsForZile } from '../generator.js';
 import { loadTemplate } from '../utils/TemplateLoader.js';
+import { ExerciseManager } from '../utils/ExerciseManager.js';
 
 export class ProgramRenderer {
   constructor(container, program, profile, antrenamente = [], programSalvat = false) {
@@ -12,10 +13,19 @@ export class ProgramRenderer {
     this.profile = profile;
     this.antrenamente = antrenamente;
     this.programSalvat = programSalvat;
+    this.allExercises = [];
+    this.currentDayForAdd = null;
   }
 
   async render(onSplitChange, onSave, onBack) {
     try {
+      // Load all exercises for add/remove functionality
+      this.allExercises = await ExerciseManager.loadAll();
+      // Store callbacks for re-rendering
+      this.onSplitChange = onSplitChange;
+      this.onSave = onSave;
+      this.onBack = onBack;
+
       const template = await loadTemplate('program');
       this.container.innerHTML = '';
       this.container.appendChild(template);
@@ -47,7 +57,10 @@ export class ProgramRenderer {
                 <span class="dex-name">${ex.nume}</span>
                 <span class="dex-sets">${ex.seturi}×${ex.rep_min}${ex.rep_max !== ex.rep_min ? '–' + ex.rep_max : ''}</span>
               </div>
-              ${ex.alternative?.length ? `<button class="dex-swap-btn" data-day="${di}" data-ex="${ei}">${ICONS.swap}</button>` : ''}
+              <div class="dex-actions">
+                ${ex.alternative?.length ? `<button class="dex-swap-btn" data-day="${di}" data-ex="${ei}">${ICONS.swap}</button>` : ''}
+                <button class="dex-delete-btn" data-day="${di}" data-ex="${ei}" title="Șterge exercițiu">✕</button>
+              </div>
             </div>
             <div class="dex-alts" id="alts-${di}-${ei}" style="display:none"></div>
           </div>`).join('');
@@ -63,6 +76,7 @@ export class ProgramRenderer {
               <button class="btn-start-day" data-day="${di}">${ICONS.play}</button>
             </div>
             <div class="day-exs">${exsHTML}</div>
+            <button class="btn-add-exercise" data-day="${di}">+ Adaugă exercițiu</button>
           </div>`;
       }).join('');
 
@@ -126,7 +140,9 @@ export class ProgramRenderer {
             const [newEx] = await getExercisesByIds([altBtn.dataset.id]);
             if (!newEx) return;
             await this.program.swapExercise(+di, +ei, newEx.id);
-            onViewProgram?.();
+            container.dispatchEvent(new CustomEvent('program-updated', { 
+              detail: { program: this.program.serialize() } 
+            }));
           });
         });
       });
@@ -141,6 +157,57 @@ export class ProgramRenderer {
         container.dispatchEvent(event);
       });
     });
+
+    // Delete exercise buttons
+    container.querySelectorAll('.dex-delete-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const dayIdx = +btn.dataset.day;
+        const exIdx = +btn.dataset.ex;
+        if (confirm('Sigur ștergi exercițiul?')) {
+          this.program.zile[dayIdx].exercitii.splice(exIdx, 1);
+          container.dispatchEvent(new CustomEvent('program-updated', { 
+            detail: { program: this.program.serialize() } 
+          }));
+        }
+      });
+    });
+
+    // Add exercise buttons
+    container.querySelectorAll('.btn-add-exercise').forEach(btn => {
+      btn.addEventListener('click', () => {
+        this.currentDayForAdd = +btn.dataset.day;
+        this.showAddExerciseModal();
+      });
+    });
+
+    // Modal close buttons
+    const closeBtn = container.querySelector('#close-add-exercise');
+    const cancelBtn = container.querySelector('#cancel-add-exercise');
+    const overlay = container.querySelector('.modal-overlay');
+    [closeBtn, cancelBtn, overlay].forEach(el => {
+      if (el) el.addEventListener('click', () => this.hideAddExerciseModal());
+    });
+
+    // Modal filters
+    const muscleSelect = container.querySelector('#filter-muscle-group');
+    const typeSelect = container.querySelector('#filter-exercise-type');
+    const exSelect = container.querySelector('#filter-exercise');
+
+    if (muscleSelect) {
+      muscleSelect.addEventListener('change', () => this.updateExerciseList());
+    }
+    if (typeSelect) {
+      typeSelect.addEventListener('change', () => this.updateExerciseList());
+    }
+    if (exSelect) {
+      exSelect.addEventListener('change', () => this.updateExercisePreview());
+    }
+
+    // Confirm add exercise
+    const confirmBtn = container.querySelector('#confirm-add-exercise');
+    if (confirmBtn) {
+      confirmBtn.addEventListener('click', () => this.confirmAddExercise(onSave, onBack));
+    }
 
     // Save program
     const saveBtn = container.querySelector('#btn-save-program');
@@ -157,5 +224,87 @@ export class ProgramRenderer {
         onBack?.();
       });
     }
+  }
+
+  showAddExerciseModal() {
+    const modal = this.container.querySelector('.modal-add-exercise');
+    if (!modal) return;
+    modal.style.display = 'flex';
+
+    // Populate muscle group dropdown
+    const muscleSelect = this.container.querySelector('#filter-muscle-group');
+    const muscleGroups = ExerciseManager.getMuscleGroups(this.allExercises);
+    muscleSelect.innerHTML = '<option value="">— Selectează grupa —</option>' +
+      muscleGroups.map(m => `<option value="${m}">${m}</option>`).join('');
+
+    // Reset filters
+    muscleSelect.value = '';
+    this.container.querySelector('#filter-exercise-type').value = '';
+    this.container.querySelector('#filter-exercise').innerHTML = '<option value="">— Selectează exercițiu —</option>';
+    this.hideExercisePreview();
+  }
+
+  hideAddExerciseModal() {
+    const modal = this.container.querySelector('.modal-add-exercise');
+    if (modal) modal.style.display = 'none';
+  }
+
+  updateExerciseList() {
+    const muscleGroup = this.container.querySelector('#filter-muscle-group').value;
+    const type = this.container.querySelector('#filter-exercise-type').value;
+    const exSelect = this.container.querySelector('#filter-exercise');
+
+    const filtered = ExerciseManager.filterByMuscleAndType(this.allExercises, muscleGroup, type);
+    exSelect.innerHTML = '<option value="">— Selectează exercițiu —</option>' +
+      filtered.map(ex => `<option value="${ex.id}">${ex.nume}</option>`).join('');
+
+    this.hideExercisePreview();
+  }
+
+  updateExercisePreview() {
+    const exId = this.container.querySelector('#filter-exercise').value;
+    if (!exId) {
+      this.hideExercisePreview();
+      return;
+    }
+
+    const ex = this.allExercises.find(e => e.id === exId);
+    if (!ex) return;
+
+    this.container.querySelector('#prev-name').textContent = ex.nume;
+    this.container.querySelector('#prev-desc').textContent = ex.descriere || '';
+    this.container.querySelector('#ex-preview').style.display = 'block';
+    this.container.querySelector('#confirm-add-exercise').disabled = false;
+  }
+
+  hideExercisePreview() {
+    this.container.querySelector('#ex-preview').style.display = 'none';
+    this.container.querySelector('#confirm-add-exercise').disabled = true;
+  }
+
+  confirmAddExercise(onSave, onBack) {
+    const exId = this.container.querySelector('#filter-exercise').value;
+    if (!exId || this.currentDayForAdd === null) return;
+
+    const ex = this.allExercises.find(e => e.id === exId);
+    if (!ex) return;
+
+    // Add exercise to the day
+    const newEx = {
+      id: ex.id,
+      nume: ex.nume,
+      seturi: 3,
+      rep_min: 8,
+      rep_max: 12,
+      tip: ex.tip,
+      nivel: ex.nivel
+    };
+
+    this.program.zile[this.currentDayForAdd].exercitii.push(newEx);
+    
+    this.hideAddExerciseModal();
+    this.container.dispatchEvent(new CustomEvent('program-updated', { 
+      detail: { program: this.program.serialize() } 
+    }));
   }
 }

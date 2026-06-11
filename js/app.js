@@ -97,6 +97,20 @@ async function renderProgram(data) {
     renderToday(loadData(), e.detail.dayIdx);
     viewManager.showView('view-today');
   });
+
+  // Setup program update listener for exercise modifications
+  setupProgramUpdateListener();
+}
+
+// Handle program modifications (exercise add/delete/swap)
+function setupProgramUpdateListener() {
+  const container = document.getElementById('view-program');
+  container.addEventListener('program-updated', async (e) => {
+    const d = loadData();
+    d.program = e.detail.program;
+    saveData(d);
+    await renderProgram(d);
+  });
 }
 
 async function renderDashboard(data) {
