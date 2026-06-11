@@ -1,13 +1,8 @@
-const CACHE_VERSION = 'gvr-v2';
+const CACHE_VERSION = 'gvr-v3';
 const BASE = '/gvr-fitness-tracker';
-const CACHE_FILES = [
+const PRECACHE = [
   BASE + '/',
   BASE + '/index.html',
-  BASE + '/css/main.css',
-  BASE + '/js/app.js',
-  BASE + '/js/storage.js',
-  BASE + '/js/generator.js',
-  BASE + '/js/onboarding.js',
   BASE + '/data/exercises.json',
   BASE + '/manifest.json',
 ];
@@ -15,7 +10,7 @@ const CACHE_FILES = [
 self.addEventListener('install', e => {
   e.waitUntil(
     caches.open(CACHE_VERSION)
-      .then(c => c.addAll(CACHE_FILES))
+      .then(c => c.addAll(PRECACHE))
       .then(() => self.skipWaiting())
   );
 });
@@ -31,11 +26,29 @@ self.addEventListener('activate', e => {
 });
 
 self.addEventListener('fetch', e => {
-  e.respondWith(
-    caches.match(e.request).then(r => r || fetch(e.request))
-  );
-});
+  const url = e.request.url;
 
-self.addEventListener('message', e => {
-  if (e.data === 'skipWaiting') self.skipWaiting();
+  // JS și CSS: network first, cache fallback (mereu fișiere proaspete când ești online)
+  if (url.match(/\.(js|css)(\?.*)?$/)) {
+    e.respondWith(
+      fetch(e.request)
+        .then(r => {
+          caches.open(CACHE_VERSION).then(c => c.put(e.request, r.clone()));
+          return r;
+        })
+        .catch(() => caches.match(e.request))
+    );
+    return;
+  }
+
+  // HTML și restul: cache first, network fallback
+  e.respondWith(
+    caches.match(e.request).then(cached => {
+      const networkFetch = fetch(e.request).then(r => {
+        caches.open(CACHE_VERSION).then(c => c.put(e.request, r.clone()));
+        return r;
+      });
+      return cached || networkFetch;
+    })
+  );
 });

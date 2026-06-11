@@ -18,6 +18,22 @@
   --rs: 10px;
 }
 
+/* ── Update banner ──────────────────────────────────────────────────────────── */
+#update-banner {
+  position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%);
+  background: var(--surf2); border: 1px solid var(--accent);
+  border-radius: 999px; padding: 10px 16px;
+  display: flex; align-items: center; gap: 12px;
+  font-size: 13px; color: var(--t1); font-weight: 600;
+  z-index: 9999; box-shadow: 0 8px 32px rgba(0,0,0,.5);
+  white-space: nowrap;
+}
+#update-banner #btn-update {
+  background: var(--accent); color: #fff;
+  padding: 6px 14px; border-radius: 999px;
+  font-size: 12px; font-weight: 700;
+}
+
 /* ── Reset ──────────────────────────────────────────────────────────────────── */
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 

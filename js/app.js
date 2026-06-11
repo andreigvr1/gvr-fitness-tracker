@@ -232,9 +232,40 @@ function renderToday(data, activeDayIdx) {
 
 // ── Service Worker ─────────────────────────────────────────────────────────────
 function registerSW() {
-  if ('serviceWorker' in navigator) {
-    navigator.serviceWorker.register('/gvr-fitness-tracker/sw.js').catch(() => {});
-  }
+  if (!('serviceWorker' in navigator)) return;
+  navigator.serviceWorker.register('/gvr-fitness-tracker/sw.js')
+    .then(reg => {
+      reg.addEventListener('updatefound', () => {
+        const newSW = reg.installing;
+        newSW.addEventListener('statechange', () => {
+          if (newSW.state === 'installed' && navigator.serviceWorker.controller) {
+            showUpdateBanner();
+          }
+        });
+      });
+    }).catch(() => {});
+
+  // Când un nou SW preia controlul, reîncarcă automat
+  navigator.serviceWorker.addEventListener('controllerchange', () => {
+    window.location.reload();
+  });
+}
+
+function showUpdateBanner() {
+  const existing = document.getElementById('update-banner');
+  if (existing) return;
+  const banner = document.createElement('div');
+  banner.id = 'update-banner';
+  banner.innerHTML = `
+    <span>Versiune nouă disponibilă</span>
+    <button id="btn-update">Actualizează</button>
+  `;
+  document.body.appendChild(banner);
+  document.getElementById('btn-update').addEventListener('click', () => {
+    navigator.serviceWorker.getRegistration().then(reg => {
+      reg?.waiting?.postMessage('skipWaiting');
+    });
+  });
 }
 
 // ── Boot ───────────────────────────────────────────────────────────────────────
