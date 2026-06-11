@@ -1,5 +1,14 @@
 # Changelog — GVR Fitness Tracker
 
+## v0.5.2 — Dashboard redesenat
+
+- Header personal: salut + data de azi + buton de preferințe (iconiță, nu text)
+- Cardul „Următorul antrenament" cu inel de progres (ziua X din Y) și durată estimată
+- **3 statistici reale**: total antrenamente, antrenamente săptămâna asta, volum total ridicat (kg/tone)
+- Secțiuni cu titluri și linii separatoare („Activitate recentă", „În curând")
+- **4 carduri placeholder** pentru features viitoare: Calendar, Progres, Recorduri, Skandenberg
+- Iconițe SVG în loc de emoji — arată identic pe orice telefon
+
 ## v0.5.1 — Polish vizual
 
 - Fundal cu gradient violet subtil în partea de sus

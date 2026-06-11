@@ -277,6 +277,17 @@ function getNextDayIdx(program, antrenamente) {
   return (completed[0].zi_index + 1) % program.zile.length;
 }
 
+const ICONS = {
+  bolt:     '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>',
+  calendar: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>',
+  chart:    '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>',
+  trophy:   '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"/><path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"/><path d="M4 22h16"/><path d="M10 14.66V17c0 .55-.47.98-.97 1.21C7.85 18.75 7 20.24 7 22"/><path d="M14 14.66V17c0 .55.47.98.97 1.21C16.15 18.75 17 20.24 17 22"/><path d="M18 2H6v7a6 6 0 0 0 12 0V2Z"/></svg>',
+  settings: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 1 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 1 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 1 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 1 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1Z"/></svg>',
+  list:     '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/></svg>',
+  play:     '<svg viewBox="0 0 24 24" fill="currentColor" stroke="none"><polygon points="6 3 20 12 6 21 6 3"/></svg>',
+  check:    '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>',
+};
+
 function renderDashboard(data) {
   const { program, antrenamente = [] } = data;
   const container = document.getElementById('view-dashboard');
@@ -284,8 +295,18 @@ function renderDashboard(data) {
   const nextDay   = program.zile[nextIdx];
   const completed = antrenamente.filter(a => a.zi_complet).sort((a, b) => b.data - a.data);
 
+  // Statistici
+  const now        = new Date();
+  const startWeek  = new Date(now); startWeek.setDate(now.getDate() - ((now.getDay() + 6) % 7)); startWeek.setHours(0,0,0,0);
+  const thisWeek   = completed.filter(a => a.data >= startWeek.getTime()).length;
+  const totalVolum = completed.reduce((sum, a) =>
+    sum + a.exercitii.reduce((s, e) => s + (e.skip ? 0 : e.serii.reduce((v, x) => v + (x.greutate || 0) * (x.repetari || 0), 0)), 0), 0);
+  const volumFmt   = totalVolum >= 1000 ? (totalVolum / 1000).toFixed(1).replace('.', ',') + ' t' : Math.round(totalVolum) + ' kg';
+
+  const azi = now.toLocaleDateString('ro-RO', { weekday: 'long', day: 'numeric', month: 'long' });
+
   const historyHTML = completed.length
-    ? completed.slice(0, 14).map(a => {
+    ? completed.slice(0, 7).map(a => {
         const d = new Date(a.data);
         const skipped = a.exercitii.filter(e => e.skip).length;
         return `
@@ -298,32 +319,90 @@ function renderDashboard(data) {
             <span class="hist-label">${a.zi_label}</span>
             <span class="hist-meta">${a.exercitii.length - skipped} exerciții${skipped ? ` · ${skipped} sărite` : ''}</span>
           </div>
-          <span class="hist-check">✓</span>
+          <span class="hist-check">${ICONS.check}</span>
         </div>`;
       }).join('')
-    : '<div class="hist-empty">Niciun antrenament încă. Apasă „Începe antrenamentul" și dă-i drumul! 💪</div>';
+    : '<div class="hist-empty">Niciun antrenament încă.<br>Primul pas e cel mai important.</div>';
 
   container.innerHTML = `
     <div class="dash-wrap">
-      <div class="dash-header">
-        <div class="prog-badge">GVR Fitness</div>
-        <h1 class="prog-title">Dashboard</h1>
-        <p class="prog-sub">${completed.length ? `${completed.length} antrenamente finalizate` : 'Programul tău e gata.'}</p>
-      </div>
+      <header class="dash-top">
+        <div>
+          <div class="dash-date">${azi.charAt(0).toUpperCase() + azi.slice(1)}</div>
+          <h1 class="dash-title">Salut! 👋</h1>
+        </div>
+        <button class="dash-icon-btn" id="btn-edit-prefs" title="Preferințe">${ICONS.settings}</button>
+      </header>
 
       <div class="dash-next-card">
-        <div class="dnc-label">Urmează</div>
-        <div class="dnc-name">${nextDay.label}</div>
-        <div class="dnc-meta">Ziua ${nextIdx + 1} din ${program.zile.length} · ${nextDay.exercitii.length} exerciții</div>
-        <button class="btn btn-primary btn-full" id="btn-start-next" style="margin-top:14px">▶ Începe antrenamentul</button>
+        <div class="dnc-row">
+          <div>
+            <div class="dnc-label">Următorul antrenament</div>
+            <div class="dnc-name">${nextDay.label}</div>
+            <div class="dnc-meta">Ziua ${nextIdx + 1} din ${program.zile.length} · ${nextDay.exercitii.length} exerciții · ~${data.profile.timp} min</div>
+          </div>
+          <div class="dnc-ring">${nextIdx + 1}<span>/${program.zile.length}</span></div>
+        </div>
+        <button class="btn btn-primary btn-full" id="btn-start-next">
+          <span class="btn-ico">${ICONS.play}</span> Începe antrenamentul
+        </button>
       </div>
 
-      <div class="section-label" style="margin-top:20px">Istoric</div>
+      <div class="stat-row">
+        <div class="stat-card">
+          <div class="stat-ico">${ICONS.bolt}</div>
+          <div class="stat-val">${completed.length}</div>
+          <div class="stat-lbl">Antrenamente</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-ico">${ICONS.calendar}</div>
+          <div class="stat-val">${thisWeek}<span class="stat-sub">/${program.zile.length}</span></div>
+          <div class="stat-lbl">Săptămâna asta</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-ico">${ICONS.chart}</div>
+          <div class="stat-val">${volumFmt}</div>
+          <div class="stat-lbl">Volum ridicat</div>
+        </div>
+      </div>
+
+      <div class="dash-section-head">
+        <span>Activitate recentă</span>
+      </div>
       <div class="hist-list">${historyHTML}</div>
 
+      <div class="dash-section-head">
+        <span>În curând</span>
+      </div>
+      <div class="soon-grid">
+        <div class="soon-card">
+          <div class="soon-ico">${ICONS.calendar}</div>
+          <div class="soon-name">Calendar</div>
+          <div class="soon-desc">Vizualizare lunară a antrenamentelor</div>
+          <span class="soon-chip">În curând</span>
+        </div>
+        <div class="soon-card">
+          <div class="soon-ico">${ICONS.chart}</div>
+          <div class="soon-name">Progres</div>
+          <div class="soon-desc">Grafice de evoluție per exercițiu</div>
+          <span class="soon-chip">În curând</span>
+        </div>
+        <div class="soon-card">
+          <div class="soon-ico">${ICONS.trophy}</div>
+          <div class="soon-name">Recorduri</div>
+          <div class="soon-desc">Cele mai bune serii ale tale</div>
+          <span class="soon-chip">În curând</span>
+        </div>
+        <div class="soon-card">
+          <div class="soon-ico">${ICONS.bolt}</div>
+          <div class="soon-name">Skandenberg</div>
+          <div class="soon-desc">Modul dedicat de antrenament</div>
+          <span class="soon-chip">În curând</span>
+        </div>
+      </div>
+
       <div class="dash-footer">
-        <button class="btn btn-ghost btn-full" id="btn-view-program">Vezi / modifică programul</button>
-        <button class="btn btn-ghost btn-full" id="btn-edit-prefs">⚙ Modifică preferințele de antrenament</button>
+        <button class="btn btn-ghost btn-full" id="btn-view-program"><span class="btn-ico">${ICONS.list}</span> Vezi / modifică programul</button>
       </div>
     </div>`;
 
