@@ -3,6 +3,7 @@
 import { ICONS, SKIP_REASONS } from '../utils/Constants.js';
 import { ico, getSkipReasonLabel } from '../utils/UIHelpers.js';
 import { ProgressionEngine } from '../engines/ProgressionEngine.js';
+import { loadTemplate } from '../utils/TemplateLoader.js';
 
 export class WorkoutRenderer {
   constructor(container, session, program, profile, antrenamente = []) {
@@ -16,35 +17,34 @@ export class WorkoutRenderer {
     this.openIdx = 0;
   }
 
-  render(onSessionSaved, onGoBack) {
-    const day = this.program.zile[this.session.zi_index];
-    const tabs = this.program.zile.map((d, i) => `
-      <button class="day-tab ${i === this.session.zi_index ? 'active' : ''}" data-day="${i}">${d.label}</button>`).join('');
+  async render(onSessionSaved, onGoBack) {
+    try {
+      const template = await loadTemplate('today');
+      this.container.innerHTML = '';
+      this.container.appendChild(template);
 
-    const exHTML = day.exercitii.map((ex, i) => this.buildExerciseHTML(ex, i)).join('');
+      const day = this.program.zile[this.session.zi_index];
 
-    this.container.innerHTML = `
-      <div class="today-wrap">
-        <div class="today-topbar">
-          <button class="btn-back" id="back-to-prog">${ICONS.back}<span>Înapoi</span></button>
-          <div class="topbar-counter" id="ex-counter">0 / ${day.exercitii.length}</div>
-        </div>
-        <div class="today-progress"><div class="today-progress-fill" id="today-progress-fill" style="width:0%"></div></div>
-        <div class="day-tabs-wrap"><div class="day-tabs">${tabs}</div></div>
-        <div class="today-header">
-          <div class="th-meta">${day.tip.toUpperCase()} · Ziua ${this.session.zi_index + 1} din ${this.program.zile.length}</div>
-          <h1 class="th-title">${day.label}</h1>
-        </div>
-        <div id="log-list" class="log-list">${exHTML}</div>
-        <div class="today-footer" id="today-footer" style="display:none">
-          <div class="done-banner" id="done-banner">${ico('check')}<span>Antrenament finalizat!</span></div>
-          <button class="btn btn-primary btn-full" id="btn-save-session">Salvează antrenamentul</button>
-          <button class="btn btn-ghost btn-full" id="back-prog-2">Înapoi fără salvare</button>
-        </div>
-      </div>`;
+      // Populate header and tabs
+      document.getElementById('ex-counter').textContent = `0 / ${day.exercitii.length}`;
+      document.getElementById('tpl-day-meta').textContent =
+        `${day.tip.toUpperCase()} · Ziua ${this.session.zi_index + 1} din ${this.program.zile.length}`;
+      document.getElementById('tpl-day-title').textContent = day.label;
 
-    this.attachEventListeners(onSessionSaved, onGoBack);
-    this.openExercise(0);
+      // Populate day tabs
+      const tabsContainer = document.getElementById('tpl-day-tabs');
+      tabsContainer.innerHTML = this.program.zile.map((d, i) => `
+        <button class="day-tab ${i === this.session.zi_index ? 'active' : ''}" data-day="${i}">${d.label}</button>`).join('');
+
+      // Populate exercises
+      const logList = document.getElementById('log-list');
+      logList.innerHTML = day.exercitii.map((ex, i) => this.buildExerciseHTML(ex, i)).join('');
+
+      this.attachEventListeners(onSessionSaved, onGoBack);
+      this.openExercise(0);
+    } catch (error) {
+      console.error('Error rendering workout:', error);
+    }
   }
 
   buildExerciseHTML(ex, exIdx) {

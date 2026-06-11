@@ -3,6 +3,7 @@
 import { ICONS } from '../utils/Constants.js';
 import { ico } from '../utils/UIHelpers.js';
 import { getExercisesByIds, getSplitsForZile } from '../generator.js';
+import { loadTemplate } from '../utils/TemplateLoader.js';
 
 export class ProgramRenderer {
   constructor(container, program, profile, antrenamente = []) {
@@ -12,86 +13,80 @@ export class ProgramRenderer {
     this.antrenamente = antrenamente;
   }
 
-  render(onSplitChange, onRegenerate, onSave, onViewProgram) {
-    const completedDays = new Set(
-      this.antrenamente.filter(a => a.zi_complet).map(a => `${a.zi_index}`)
-    );
+  async render(onSplitChange, onRegenerate, onSave, onViewProgram) {
+    try {
+      const template = await loadTemplate('program');
+      this.container.innerHTML = '';
+      this.container.appendChild(template);
 
-    const splitOpts = this.buildSplitOptionsHTML(completedDays);
-    const daysHTML = this.buildDaysHTML(completedDays);
+      // Populate split info
+      document.getElementById('tpl-split-name').textContent = this.program.split_label;
+      document.getElementById('tpl-split-desc').textContent = this.program.split_desc;
 
-    this.container.innerHTML = `
-      <div class="prog-wrap">
-        <div class="prog-header">
-          <div class="prog-badge">Programul tău</div>
-          <h1 class="prog-title">Gata de antrenat.</h1>
-          <p class="prog-sub">Pornește oricare zi cu butonul de play.</p>
-        </div>
-        <div class="split-section">
-          <div class="section-label">Split activ</div>
-          <div class="split-active-card">
-            <div class="sac-name">${this.program.split_label}</div>
-            <div class="sac-desc">${this.program.split_desc}</div>
-          </div>
-          <div class="section-label" style="margin-top:12px">Alte variante</div>
-          <div class="split-opts">${splitOpts}</div>
-        </div>
-        <div class="section-label" style="padding:0 16px;margin-bottom:8px">Zilele tale</div>
-        <div class="days-list">${daysHTML}</div>
-        <div class="prog-footer" id="prog-footer">
-          <button class="btn btn-primary btn-full" id="btn-save-program"><span class="btn-ico">${ICONS.check}</span> Salvează programul</button>
-          <button class="btn btn-ghost btn-full" id="btn-regenerate"><span class="btn-ico">${ICONS.refresh}</span> Altă variantă de exerciții</button>
-          ${this.profile?.program_salvat ? `<button class="btn btn-ghost btn-full" id="btn-to-dashboard"><span class="btn-ico">${ICONS.back}</span> Înapoi la dashboard</button>` : ''}
-        </div>
-      </div>`;
+      // Populate split options
+      const splitOpts = document.getElementById('tpl-split-opts');
+      const splits = getSplitsForZile(this.profile.zile);
+      splitOpts.innerHTML = splits.map(s => `
+        <button class="split-opt ${s.id === this.program.split_id ? 'active' : ''}" data-split="${s.id}">
+          <span class="so-label">${s.recomandat ? '★ ' : ''}${s.label}</span>
+          <span class="so-desc">${s.desc}</span>
+        </button>`).join('');
 
-    this.attachEventListeners(onSplitChange, onRegenerate, onSave, onViewProgram);
-  }
-
-  buildSplitOptionsHTML(completedDays) {
-    const splits = getSplitsForZile(this.profile.zile);
-    return splits.map(s => `
-      <button class="split-opt ${s.id === this.program.split_id ? 'active' : ''}" data-split="${s.id}">
-        <span class="so-label">${s.recomandat ? '★ ' : ''}${s.label}</span>
-        <span class="so-desc">${s.desc}</span>
-      </button>`).join('');
-  }
-
-  buildDaysHTML(completedDays) {
-    return this.program.zile.map((day, di) => {
-      const done = completedDays.has(`${di}`);
-      const exsHTML = day.exercitii.map((ex, ei) => `
-        <div class="day-ex" id="dex-${di}-${ei}">
-          <div class="dex-main">
-            <div class="dex-info">
-              <span class="dex-name">${ex.nume}</span>
-              <span class="dex-sets">${ex.seturi}×${ex.rep_min}${ex.rep_max !== ex.rep_min ? '–' + ex.rep_max : ''}</span>
+      // Populate days
+      const completedDays = new Set(
+        this.antrenamente.filter(a => a.zi_complet).map(a => `${a.zi_index}`)
+      );
+      const daysList = document.getElementById('tpl-days-list');
+      daysList.innerHTML = this.program.zile.map((day, di) => {
+        const done = completedDays.has(`${di}`);
+        const exsHTML = day.exercitii.map((ex, ei) => `
+          <div class="day-ex" id="dex-${di}-${ei}">
+            <div class="dex-main">
+              <div class="dex-info">
+                <span class="dex-name">${ex.nume}</span>
+                <span class="dex-sets">${ex.seturi}×${ex.rep_min}${ex.rep_max !== ex.rep_min ? '–' + ex.rep_max : ''}</span>
+              </div>
+              ${ex.alternative?.length ? `<button class="dex-swap-btn" data-day="${di}" data-ex="${ei}">${ICONS.swap}</button>` : ''}
             </div>
-            ${ex.alternative?.length ? `<button class="dex-swap-btn" data-day="${di}" data-ex="${ei}">${ICONS.swap}</button>` : ''}
-          </div>
-          <div class="dex-alts" id="alts-${di}-${ei}" style="display:none"></div>
-        </div>`).join('');
+            <div class="dex-alts" id="alts-${di}-${ei}" style="display:none"></div>
+          </div>`).join('');
 
-      return `
-        <div class="day-card ${done ? 'day-done' : ''}">
-          <div class="day-header">
-            <div class="day-num ${done ? 'day-num-done' : ''}">${done ? `${ico('check')}` : di + 1}</div>
-            <div>
-              <div class="day-type">${day.tip.toUpperCase()}</div>
-              <div class="day-label">${day.label}</div>
+        return `
+          <div class="day-card ${done ? 'day-done' : ''}">
+            <div class="day-header">
+              <div class="day-num ${done ? 'day-num-done' : ''}">${done ? `${ico('check')}` : di + 1}</div>
+              <div>
+                <div class="day-type">${day.tip.toUpperCase()}</div>
+                <div class="day-label">${day.label}</div>
+              </div>
+              <button class="btn-start-day" data-day="${di}">${ICONS.play}</button>
             </div>
-            <button class="btn-start-day" data-day="${di}">${ICONS.play}</button>
-          </div>
-          <div class="day-exs">${exsHTML}</div>
-        </div>`;
-    }).join('');
+            <div class="day-exs">${exsHTML}</div>
+          </div>`;
+      }).join('');
+
+      // Update button icons and visibility
+      document.getElementById('btn-save-program').firstElementChild.innerHTML = ICONS.check;
+      document.getElementById('btn-regenerate').firstElementChild.innerHTML = ICONS.refresh;
+      const backBtn = document.getElementById('btn-to-dashboard');
+      if (this.profile?.program_salvat) {
+        backBtn.style.display = 'block';
+        backBtn.firstElementChild.innerHTML = ICONS.back;
+      }
+
+      this.attachEventListeners(onSplitChange, onRegenerate, onSave, onViewProgram);
+    } catch (error) {
+      console.error('Error rendering program:', error);
+    }
   }
 
   attachEventListeners(onSplitChange, onRegenerate, onSave, onViewProgram) {
+    const container = this.container;
+
     // Split switching
-    this.container.querySelectorAll('.split-opt').forEach(btn => {
+    container.querySelectorAll('.split-opt').forEach(btn => {
       btn.addEventListener('click', async () => {
-        this.container.querySelector('.days-list').innerHTML = '<div class="loading">Se generează...</div>';
+        container.querySelector('.days-list').innerHTML = '<div class="loading">Se generează...</div>';
         try {
           await onSplitChange(btn.dataset.split);
         } catch (e) {
@@ -101,22 +96,23 @@ export class ProgramRenderer {
     });
 
     // Regenerate exercises
-    const regBtn = this.container.querySelector('#btn-regenerate');
+    const regBtn = container.querySelector('#btn-regenerate');
     if (regBtn) {
       regBtn.addEventListener('click', async () => {
         regBtn.disabled = true;
+        const originalText = regBtn.innerHTML;
         regBtn.textContent = 'Se regenerează...';
         try {
           await onRegenerate();
         } catch (e) {
           regBtn.disabled = false;
-          regBtn.innerHTML = `<span class="btn-ico">${ICONS.refresh}</span> Altă variantă`;
+          regBtn.innerHTML = originalText;
         }
       });
     }
 
     // Exercise swapping
-    this.container.querySelectorAll('.dex-swap-btn').forEach(btn => {
+    container.querySelectorAll('.dex-swap-btn').forEach(btn => {
       btn.addEventListener('click', async () => {
         const di = +btn.dataset.day;
         const ei = +btn.dataset.ex;
@@ -148,25 +144,25 @@ export class ProgramRenderer {
           altBtn.addEventListener('click', async () => {
             const [newEx] = await getExercisesByIds([altBtn.dataset.id]);
             if (!newEx) return;
-            this.program.swapExercise(+di, +ei, newEx.id);
-            await onViewProgram?.();
+            await this.program.swapExercise(+di, +ei, newEx.id);
+            onViewProgram?.();
           });
         });
       });
     });
 
     // Start day buttons
-    this.container.querySelectorAll('.btn-start-day').forEach(btn => {
+    container.querySelectorAll('.btn-start-day').forEach(btn => {
       btn.addEventListener('click', (e) => {
         e.preventDefault();
         const dayIdx = +btn.dataset.day;
         const event = new CustomEvent('start-workout', { detail: { dayIdx } });
-        this.container.dispatchEvent(event);
+        container.dispatchEvent(event);
       });
     });
 
     // Save program
-    const saveBtn = this.container.querySelector('#btn-save-program');
+    const saveBtn = container.querySelector('#btn-save-program');
     if (saveBtn) {
       saveBtn.addEventListener('click', () => {
         onSave?.();
@@ -174,11 +170,11 @@ export class ProgramRenderer {
     }
 
     // Back to dashboard
-    const backBtn = this.container.querySelector('#btn-to-dashboard');
+    const backBtn = container.querySelector('#btn-to-dashboard');
     if (backBtn) {
       backBtn.addEventListener('click', () => {
         const event = new CustomEvent('view-dashboard');
-        this.container.dispatchEvent(event);
+        container.dispatchEvent(event);
       });
     }
   }

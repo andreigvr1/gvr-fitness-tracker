@@ -28,14 +28,14 @@ let adaptiveEngine = null;
 let currentSession = null;
 
 // ── View Rendering (delegated to Renderers) ──────────────────────────────────
-function renderProgram(data) {
+async function renderProgram(data) {
   const { program, profile, antrenamente = [] } = data;
   const container = document.getElementById('view-program');
   const programObj = new Program(program);
   const suggestions = adaptiveEngine.analyzeSkips(antrenamente, program);
 
   const renderer = new ProgramRenderer(container, programObj, profile, antrenamente);
-  renderer.render(
+  await renderer.render(
     // onSplitChange
     async (splitId) => {
       try {
@@ -43,7 +43,7 @@ function renderProgram(data) {
         const d = loadData();
         d.program = newProgram;
         saveData(d);
-        renderProgram(d);
+        await renderProgram(d);
       } catch (e) {
         console.error(e);
       }
@@ -55,7 +55,7 @@ function renderProgram(data) {
         const d = loadData();
         d.program = newProgram;
         saveData(d);
-        renderProgram(d);
+        await renderProgram(d);
       } catch (e) {
         console.error(e);
       }
@@ -96,7 +96,7 @@ function renderProgram(data) {
         const d = loadData();
         d.program = programObj.serialize();
         saveData(d);
-        renderProgram(d);
+        await renderProgram(d);
       });
     });
   }
@@ -108,12 +108,12 @@ function renderProgram(data) {
   });
 }
 
-function renderDashboard(data) {
+async function renderDashboard(data) {
   const { program, antrenamente = [] } = data;
   const container = document.getElementById('view-dashboard');
   const renderer = new DashboardRenderer(container, program, antrenamente);
 
-  renderer.render(
+  await renderer.render(
     // onStartNext
     () => {
       const nextIdx = getNextDayIdx(program, antrenamente);
@@ -132,7 +132,7 @@ function renderDashboard(data) {
   );
 }
 
-function renderToday(data, dayIdx) {
+async function renderToday(data, dayIdx) {
   const { program, profile, antrenamente = [] } = data;
   const container = document.getElementById('view-today');
 
@@ -146,7 +146,7 @@ function renderToday(data, dayIdx) {
     antrenamente
   );
 
-  renderer.render(
+  await renderer.render(
     // onSessionSaved
     (sessionData) => {
       const d = loadData();
@@ -242,7 +242,7 @@ function showUpdateBanner() {
 }
 
 // ── Boot ──────────────────────────────────────────────────────────────────────
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener('DOMContentLoaded', async () => {
   // Initialize managers and engines
   viewManager = new ViewManager(loadData());
   adaptiveEngine = new AdaptiveEngine();
@@ -253,14 +253,18 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // Router - determine initial view based on data state
   const data = loadData();
-  if (!data?.profile || !data?.program) {
-    startOnboarding();
-  } else if (data.program_salvat) {
-    renderDashboard(data);
-    viewManager.showView('view-dashboard');
-  } else {
-    renderProgram(data);
-    viewManager.showView('view-program');
+  try {
+    if (!data?.profile || !data?.program) {
+      startOnboarding();
+    } else if (data.program_salvat) {
+      await renderDashboard(data);
+      viewManager.showView('view-dashboard');
+    } else {
+      await renderProgram(data);
+      viewManager.showView('view-program');
+    }
+  } catch (error) {
+    console.error('Error during initialization:', error);
   }
 
   // Reset button (if present)
