@@ -143,12 +143,12 @@ function renderProgram(data) {
     return `
     <div class="day-card ${done ? 'day-done' : ''}">
       <div class="day-header">
-        <div class="day-num ${done ? 'day-num-done' : ''}">${done ? '✓' : di + 1}</div>
+        <div class="day-num ${done ? 'day-num-done' : ''}">${done ? ico('check') : di + 1}</div>
         <div>
           <div class="day-type">${day.tip.toUpperCase()}</div>
           <div class="day-label">${day.label}</div>
         </div>
-        <button class="btn-start-day" data-day="${di}">▶</button>
+        <button class="btn-start-day" data-day="${di}">${ICONS.play}</button>
       </div>
       <div class="day-exs">
         ${day.exercitii.map((ex, ei) => `
@@ -158,7 +158,7 @@ function renderProgram(data) {
                 <span class="dex-name">${ex.nume}</span>
                 <span class="dex-sets">${ex.seturi}×${ex.rep_min}${ex.rep_max !== ex.rep_min ? '–' + ex.rep_max : ''}</span>
               </div>
-              ${ex.alternative?.length ? `<button class="dex-swap-btn" data-day="${di}" data-ex="${ei}">↔</button>` : ''}
+              ${ex.alternative?.length ? `<button class="dex-swap-btn" data-day="${di}" data-ex="${ei}">${ICONS.swap}</button>` : ''}
             </div>
             <div class="dex-alts" id="alts-${di}-${ei}" style="display:none"></div>
           </div>`).join('')}
@@ -170,7 +170,7 @@ function renderProgram(data) {
       <div class="prog-header">
         <div class="prog-badge">Programul tău</div>
         <h1 class="prog-title">Gata de antrenat.</h1>
-        <p class="prog-sub">Apasă ▶ pe oricare zi ca să o înceapă.</p>
+        <p class="prog-sub">Pornește oricare zi cu butonul de play.</p>
       </div>
       <div class="split-section">
         <div class="section-label">Split activ</div>
@@ -184,9 +184,9 @@ function renderProgram(data) {
       <div class="section-label" style="padding:0 16px;margin-bottom:8px">Zilele tale</div>
       <div class="days-list">${daysHTML}</div>
       <div class="prog-footer" id="prog-footer">
-        <button class="btn btn-primary btn-full" id="btn-save-program">✓ Salvează programul</button>
-        <button class="btn btn-ghost btn-full" id="btn-regenerate">↺ Altă variantă de exerciții</button>
-        ${data.program_salvat ? '<button class="btn btn-ghost btn-full" id="btn-to-dashboard">← Înapoi la dashboard</button>' : ''}
+        <button class="btn btn-primary btn-full" id="btn-save-program"><span class="btn-ico">${ICONS.check}</span> Salvează programul</button>
+        <button class="btn btn-ghost btn-full" id="btn-regenerate"><span class="btn-ico">${ICONS.refresh}</span> Altă variantă de exerciții</button>
+        ${data.program_salvat ? `<button class="btn btn-ghost btn-full" id="btn-to-dashboard"><span class="btn-ico">${ICONS.back}</span> Înapoi la dashboard</button>` : ''}
       </div>
     </div>`;
 
@@ -228,7 +228,7 @@ function renderProgram(data) {
     const b = container.querySelector('#btn-regenerate');
     b.disabled = true; b.textContent = 'Se regenerează...';
     try { const p = await generateProgram(profile, program.split_id); const d = loadData(); d.program = p; saveData(d); renderProgram(d); }
-    catch { b.disabled = false; b.textContent = '↺ Altă variantă'; }
+    catch { b.disabled = false; b.innerHTML = `<span class="btn-ico">${ICONS.refresh}</span> Altă variantă`; }
   });
 
   container.querySelectorAll('.dex-swap-btn').forEach(btn => {
@@ -286,7 +286,18 @@ const ICONS = {
   list:     '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/></svg>',
   play:     '<svg viewBox="0 0 24 24" fill="currentColor" stroke="none"><polygon points="6 3 20 12 6 21 6 3"/></svg>',
   check:    '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>',
+  x:        '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>',
+  swap:     '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="17 1 21 5 17 9"/><path d="M3 11V9a4 4 0 0 1 4-4h14"/><polyline points="7 23 3 19 7 15"/><path d="M21 13v2a4 4 0 0 1-4 4H3"/></svg>',
+  skip:     '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="5" y1="19" x2="19" y2="5"/></svg>',
+  back:     '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>',
+  refresh:  '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/></svg>',
+  up:       '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="19" x2="12" y2="5"/><polyline points="5 12 12 5 19 12"/></svg>',
+  down:     '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><polyline points="19 12 12 19 5 12"/></svg>',
+  flag:     '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"/><line x1="4" y1="22" x2="4" y2="15"/></svg>',
+  arrow:    '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>',
+  timer:    '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="13" r="8"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="10" y1="1" x2="14" y2="1"/></svg>',
 };
+const ico = (name, cls = '') => `<span class="ico ${cls}">${ICONS[name]}</span>`;
 
 function renderDashboard(data) {
   const { program, antrenamente = [] } = data;
@@ -472,8 +483,8 @@ function renderToday(data, activeDayIdx) {
           <button class="step-btn" data-target="r-${exIdx}-${si}" data-step="1">+</button>
         </div>
         <div class="set-result-btns">
-          <button class="set-ok"   data-ex="${exIdx}" data-set="${si}">✓</button>
-          <button class="set-fail" data-ex="${exIdx}" data-set="${si}">✗</button>
+          <button class="set-ok"   data-ex="${exIdx}" data-set="${si}">${ICONS.check}</button>
+          <button class="set-fail" data-ex="${exIdx}" data-set="${si}">${ICONS.x}</button>
         </div>
       </div>`).join('');
 
@@ -485,18 +496,18 @@ function renderToday(data, activeDayIdx) {
             <div class="log-ex-name">${ex.nume}</div>
             <div class="log-ex-meta">${ex.seturi} serii · ${ex.rep_min}${ex.rep_max !== ex.rep_min ? '–' + ex.rep_max : ''} ${isStatic ? 'sec' : 'rep'} · pauză ${ex.pauza_sec}s</div>
           </div>
-          <button class="ex-skip-btn" data-ex="${exIdx}">⊘ Sari</button>
-          <div class="log-ex-chevron" id="chev-${exIdx}">▼</div>
+          <button class="ex-skip-btn" data-ex="${exIdx}">${ICONS.skip}<span>Sari</span></button>
+          <div class="log-ex-chevron" id="chev-${exIdx}">▾</div>
         </div>
         <div class="log-ex-body" id="ex-body-${exIdx}">
           ${rec.tip === 'calibrare'
-            ? `<div class="rec-banner rec-calibrare">⚑ ${rec.mesaj}</div>`
+            ? `<div class="rec-banner rec-calibrare">${ico('flag')}<span>${rec.mesaj}</span></div>`
             : rec.tip === 'creste'
-              ? `<div class="rec-banner rec-creste">↑ ${rec.mesaj}</div>`
+              ? `<div class="rec-banner rec-creste">${ico('up')}<span>${rec.mesaj}</span></div>`
               : rec.tip === 'regresia'
-                ? `<div class="rec-banner rec-regresia">↓ ${rec.mesaj}</div>`
-                : `<div class="rec-banner rec-info">→ ${rec.mesaj}</div>`}
-          ${hasTempo ? '<div class="tempo-explain">⏱ Tempo 3-1-3 = 3 sec coborâre · 1 sec pauză jos · 3 sec ridicare</div>' : ''}
+                ? `<div class="rec-banner rec-regresia">${ico('down')}<span>${rec.mesaj}</span></div>`
+                : `<div class="rec-banner rec-info">${ico('arrow')}<span>${rec.mesaj}</span></div>`}
+          ${hasTempo ? `<div class="tempo-explain">${ico('timer')}<span>Tempo 3-1-3 = 3 sec coborâre · 1 sec pauză jos · 3 sec ridicare</span></div>` : ''}
           <div class="log-ex-desc">${ex.descriere}</div>
           <div class="log-sets-list">${setsHTML}</div>
         </div>
@@ -506,9 +517,10 @@ function renderToday(data, activeDayIdx) {
   container.innerHTML = `
     <div class="today-wrap">
       <div class="today-topbar">
-        <button class="btn-back" id="back-to-prog">← Program</button>
+        <button class="btn-back" id="back-to-prog">${ICONS.back}<span>Înapoi</span></button>
         <div class="topbar-counter" id="ex-counter">0 / ${day.exercitii.length}</div>
       </div>
+      <div class="today-progress"><div class="today-progress-fill" id="today-progress-fill" style="width:0%"></div></div>
       <div class="day-tabs-wrap"><div class="day-tabs">${tabs}</div></div>
       <div class="today-header">
         <div class="th-meta">${day.tip.toUpperCase()} · Ziua ${activeDayIdx + 1} din ${program.zile.length}</div>
@@ -518,9 +530,9 @@ function renderToday(data, activeDayIdx) {
         ${day.exercitii.map((ex, i) => buildExHTML(ex, i)).join('')}
       </div>
       <div class="today-footer" id="today-footer" style="display:none">
-        <div class="done-banner" id="done-banner">🎉 Antrenament finalizat!</div>
+        <div class="done-banner" id="done-banner">${ico('check')}<span>Antrenament finalizat!</span></div>
         <button class="btn btn-primary btn-full" id="btn-save-session">Salvează antrenamentul</button>
-        <button class="btn btn-ghost btn-full" id="back-prog-2">← Înapoi la program</button>
+        <button class="btn btn-ghost btn-full" id="back-prog-2">Înapoi fără salvare</button>
       </div>
     </div>`;
 
@@ -530,7 +542,7 @@ function renderToday(data, activeDayIdx) {
     document.querySelectorAll('.log-ex-body').forEach((b, i) => {
       b.style.display = i === idx ? 'block' : 'none';
       const chev = document.getElementById(`chev-${i}`);
-      if (chev) chev.textContent = i === idx ? '▲' : '▼';
+      if (chev) chev.textContent = i === idx ? '▴' : '▾';
     });
     openIdx = idx;
   }
@@ -556,6 +568,8 @@ function renderToday(data, activeDayIdx) {
   function updateCounter() {
     const done = resolved.filter(Boolean).length;
     document.getElementById('ex-counter').textContent = `${done} / ${day.exercitii.length}`;
+    const fill = document.getElementById('today-progress-fill');
+    if (fill) fill.style.width = `${(done / day.exercitii.length) * 100}%`;
   }
 
   function markResolved(exIdx) {
@@ -581,7 +595,7 @@ function renderToday(data, activeDayIdx) {
     footer.style.display = 'flex';
     if (skipped > 0) {
       const banner = document.getElementById('done-banner');
-      banner.textContent = `✓ Antrenament finalizat (${skipped} ${skipped === 1 ? 'exercițiu sărit' : 'exerciții sărite'})`;
+      banner.innerHTML = `${ico('check')}<span>Antrenament finalizat (${skipped} ${skipped === 1 ? 'exercițiu sărit' : 'exerciții sărite'})</span>`;
       banner.classList.add('done-banner-partial');
     }
   }
@@ -601,7 +615,7 @@ function renderToday(data, activeDayIdx) {
       const chev  = document.getElementById(`chev-${exIdx}`);
 
       card.classList.add('ex-skipped');
-      stat.textContent = '⊘'; stat.style.color = 'var(--t2)'; stat.style.borderColor = 'var(--t3)';
+      stat.innerHTML = ICONS.skip; stat.style.color = 'var(--t2)'; stat.style.borderColor = 'var(--t3)';
       body.style.display = 'none'; chev.textContent = '';
       btn.style.display = 'none';
 
@@ -629,7 +643,7 @@ function renderToday(data, activeDayIdx) {
             <div class="skip-reasons-grid">
               ${SKIP_REASONS.map(r => `
                 <button class="skip-reason-opt" data-ex="${item.idx}" data-motiv="${r.id}">
-                  <span class="skip-r-icon">${r.icon}</span>
+                  <span class="skip-r-radio"></span>
                   <span class="skip-r-label">${r.label}</span>
                 </button>`).join('')}
             </div>
@@ -687,7 +701,7 @@ function renderToday(data, activeDayIdx) {
     if (allSetsDone) {
       const stat  = document.getElementById(`ex-status-${exIdx}`);
       const allOk = session.exercitii[exIdx].serii.every(s => s.reusit);
-      stat.textContent   = allOk ? '✓' : '△';
+      stat.innerHTML     = allOk ? ICONS.check : ICONS.x;
       stat.style.color   = allOk ? 'var(--green)' : 'var(--orange)';
       stat.style.borderColor = allOk ? 'var(--green)' : 'var(--orange)';
       document.getElementById(`ex-card-${exIdx}`).classList.add('is-done');

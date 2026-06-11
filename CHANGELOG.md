@@ -1,5 +1,14 @@
 # Changelog — GVR Fitness Tracker
 
+## v0.5.3 — Refactor vizual pe toată aplicația
+
+- **Iconițe SVG peste tot** — au dispărut toate simbolurile text (▶ ↔ ⊘ ✓ ✗ ⚑ 🎉) și emoji-urile inconsistente
+- **Ecranul de antrenament**: bară de progres sub topbar care se umple pe măsură ce termini exercițiile, buton „Înapoi" cu săgeată, butoane Sari conturate, ✓/✗ desenate
+- **Ecranul de program**: butoane play violet cu strălucire, bifă verde pe zilele complete, iconițe pe toate acțiunile din subsol
+- **Ecranul de motive (skip)**: butoane radio ca în onboarding, în loc de emoji
+- **Onboarding**: bară de progres cu gradient
+- Bannerele de recomandare și tempo au acum iconițe aliniate și spațiere corectă
+
 ## v0.5.2 — Dashboard redesenat
 
 - Header personal: salut + data de azi + buton de preferințe (iconiță, nu text)

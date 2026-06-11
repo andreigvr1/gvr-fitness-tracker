@@ -89,6 +89,17 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
 /* ── Loading ─────────────────────────────────────────────────────────────────── */
 .loading { padding: 40px 20px; text-align: center; color: var(--t2); font-size: 14px; }
 
+/* ── Icons ──────────────────────────────────────────────────────────────────── */
+.ico { display: inline-flex; flex-shrink: 0; }
+.ico svg { width: 15px; height: 15px; }
+.btn-start-day svg { width: 13px; height: 13px; }
+.dex-swap-btn svg { width: 13px; height: 13px; }
+.day-num svg { width: 14px; height: 14px; }
+.ex-skip-btn svg { width: 13px; height: 13px; }
+.set-ok svg, .set-fail svg { width: 16px; height: 16px; }
+.log-ex-status svg { width: 13px; height: 13px; }
+.btn-back svg { width: 16px; height: 16px; }
+
 /* ════════════════════════════════════════════════════════════════════════════ */
 /*  ONBOARDING                                                                  */
 /* ════════════════════════════════════════════════════════════════════════════ */
@@ -105,7 +116,8 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
   flex: 1; height: 3px; background: var(--border); border-radius: 999px; overflow: hidden;
 }
 .ob-progress-fill {
-  height: 100%; background: var(--accent); border-radius: 999px;
+  height: 100%; background: linear-gradient(90deg, var(--accent), var(--accent-2));
+  border-radius: 999px;
   transition: width .4s ease;
 }
 .ob-step-label { font-size: 12px; color: var(--t2); font-weight: 600; white-space: nowrap; }
@@ -243,12 +255,14 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
 /* Start day button on day card header */
 .btn-start-day {
   margin-left: auto; flex-shrink: 0;
-  width: 32px; height: 32px; border-radius: 50%;
-  background: var(--acc-dim); color: var(--accent);
-  font-size: 11px; display: flex; align-items: center; justify-content: center;
-  transition: background .15s;
+  width: 38px; height: 38px; border-radius: 50%;
+  background: linear-gradient(180deg, var(--accent-2), var(--accent)); color: #fff;
+  box-shadow: var(--glow-accent);
+  display: flex; align-items: center; justify-content: center;
+  transition: transform .1s;
 }
-.btn-start-day:hover { background: var(--accent); color: #fff; }
+.btn-start-day:active { transform: scale(.92); }
+.btn-start-day svg { margin-left: 2px; }
 
 /* Exercise swap */
 .dex-main { display: flex; align-items: center; gap: 8px; }
@@ -285,10 +299,21 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
   padding: 16px 20px 0;
 }
 .btn-back {
+  display: inline-flex; align-items: center; gap: 4px;
   font-size: 13px; font-weight: 700; color: var(--t2);
-  padding: 8px 0; background: none;
+  padding: 8px 10px 8px 0; background: none;
 }
 .btn-back:hover { color: var(--t1); }
+
+/* Progress bar sub topbar */
+.today-progress {
+  height: 3px; background: var(--border); border-radius: 999px;
+  margin: 10px 20px 0; overflow: hidden;
+}
+.today-progress-fill {
+  height: 100%; background: linear-gradient(90deg, var(--accent), var(--accent-2));
+  border-radius: 999px; transition: width .4s ease;
+}
 .today-version { font-size: 11px; color: var(--t3); }
 
 /* Day tabs */
@@ -376,9 +401,12 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
 
 /* ── Recommendation banners ─────────────────────────────────────────────────── */
 .rec-banner {
+  display: flex; align-items: flex-start; gap: 9px;
   font-size: 12px; font-weight: 600; line-height: 1.5;
-  padding: 9px 12px; border-radius: var(--rs); margin: 12px 0 8px;
+  padding: 10px 12px; border-radius: var(--rs); margin: 12px 0 8px;
 }
+.rec-banner .ico { margin-top: 1px; }
+.rec-banner .ico svg { width: 14px; height: 14px; }
 .rec-creste    { background: var(--grn-dim); color: var(--green);  }
 .rec-regresia  { background: var(--org-dim); color: var(--orange); }
 .rec-calibrare { background: var(--acc-dim); color: var(--acc-txt); }
@@ -386,10 +414,12 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
 
 /* ── Tempo explanation ──────────────────────────────────────────────────────── */
 .tempo-explain {
+  display: flex; align-items: flex-start; gap: 9px;
   font-size: 12px; color: var(--orange); font-weight: 600;
-  background: var(--org-dim); padding: 8px 12px; border-radius: var(--rs);
+  background: var(--org-dim); padding: 10px 12px; border-radius: var(--rs);
   margin-bottom: 8px; line-height: 1.4;
 }
+.tempo-explain .ico svg { width: 14px; height: 14px; }
 
 .log-ex-desc {
   font-size: 12px; color: var(--t2); line-height: 1.55;
@@ -462,16 +492,21 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
 
 /* ── Done banner ────────────────────────────────────────────────────────────── */
 .done-banner {
-  text-align: center; font-size: 18px; font-weight: 800;
+  display: flex; align-items: center; justify-content: center; gap: 9px;
+  text-align: center; font-size: 17px; font-weight: 800;
   padding: 16px; background: var(--grn-dim); color: var(--green);
+  border: 1px solid rgba(52,209,122,.25);
   border-radius: var(--r);
 }
+.done-banner .ico svg { width: 19px; height: 19px; }
 .done-banner-partial { background: var(--org-dim); color: var(--orange); }
 
 /* ── Skip ───────────────────────────────────────────────────────────────────── */
 .ex-skip-btn {
+  display: inline-flex; align-items: center; gap: 5px;
   flex-shrink: 0; font-size: 11px; font-weight: 700; color: var(--t2);
-  padding: 6px 10px; background: var(--surf2); border-radius: 999px;
+  padding: 7px 11px; background: var(--surf2); border-radius: 999px;
+  border: 1px solid var(--border);
   white-space: nowrap; transition: background .15s, color .15s;
 }
 .ex-skip-btn:hover { background: var(--org-dim); color: var(--orange); }
@@ -491,7 +526,15 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
   -webkit-tap-highlight-color: transparent;
 }
 .skip-reason-opt.selected { border-color: var(--accent); background: var(--acc-dim); }
-.skip-r-icon  { font-size: 16px; flex-shrink: 0; }
+.skip-r-radio {
+  width: 18px; height: 18px; border-radius: 50%;
+  border: 2px solid var(--t3); flex-shrink: 0;
+  transition: border-color .15s, background .15s;
+}
+.skip-reason-opt.selected .skip-r-radio {
+  border-color: var(--accent); background: var(--accent);
+  box-shadow: 0 0 0 3px var(--acc-dim);
+}
 .skip-r-label { font-size: 13px; font-weight: 600; color: var(--t1); }
 
 /* ── Adaptive suggestions ───────────────────────────────────────────────────── */
