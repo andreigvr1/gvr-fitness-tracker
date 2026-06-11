@@ -33,8 +33,22 @@ export class DashboardRenderer {
       document.getElementById('tpl-next-day-name').textContent = nextInfo.day.label;
       document.getElementById('tpl-next-day-meta').textContent =
         `Ziua ${nextInfo.number} din ${nextInfo.totalDays} · ${nextInfo.day.exercitii.length} exerciții`;
-      document.getElementById('tpl-next-day-ring').innerHTML =
-        `${nextInfo.number}<span>/${nextInfo.totalDays}</span>`;
+      const _r = 22, _cx = 28, _cy = 28, _circ = 2 * Math.PI * _r;
+      const _progress = nextInfo.totalDays > 0 ? nextInfo.number / nextInfo.totalDays : 0;
+      const _offset = _circ * (1 - _progress);
+      document.getElementById('tpl-next-day-ring').innerHTML = `
+        <svg viewBox="0 0 56 56" width="58" height="58">
+          <circle cx="${_cx}" cy="${_cy}" r="${_r}" fill="none"
+            stroke="rgba(124,111,247,.18)" stroke-width="3.5"/>
+          <circle cx="${_cx}" cy="${_cy}" r="${_r}" fill="none"
+            stroke="var(--accent)" stroke-width="3.5" stroke-linecap="round"
+            stroke-dasharray="${_circ.toFixed(2)}" stroke-dashoffset="${_offset.toFixed(2)}"
+            transform="rotate(-90 ${_cx} ${_cy})"/>
+          <text x="${_cx}" y="${_cy - 5}" text-anchor="middle"
+            fill="var(--t1)" font-size="12" font-weight="900" font-family="system-ui,sans-serif">${nextInfo.number}</text>
+          <text x="${_cx}" y="${_cy + 8}" text-anchor="middle"
+            fill="var(--acc-txt)" font-size="8" font-weight="700" font-family="system-ui,sans-serif">/${nextInfo.totalDays}</text>
+        </svg>`;
 
       document.getElementById('tpl-stat-bolt').innerHTML = ICONS.bolt;
       document.getElementById('tpl-stat-sessions').textContent = totalSessions;

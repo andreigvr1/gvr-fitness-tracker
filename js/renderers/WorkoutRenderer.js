@@ -228,7 +228,8 @@ export class WorkoutRenderer {
     this.session.markSetDone(exIdx, setIdx, kg, rep, reusit);
 
     row.dataset.done = '1';
-    row.style.opacity = '0.65';
+    row.classList.add('set-flash');
+    row.addEventListener('animationend', () => { row.classList.remove('set-flash'); row.style.opacity = '0.62'; }, { once: true });
     row.querySelector('.set-ok').style.cssText = reusit ? 'background:var(--green);color:#0d0d0f;border-color:var(--green)' : '';
     row.querySelector('.set-fail').style.cssText = !reusit ? 'background:var(--orange);color:#0d0d0f;border-color:var(--orange)' : '';
 

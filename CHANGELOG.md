@@ -1,5 +1,14 @@
 # Changelog — GVR Fitness Tracker
 
+## v0.9.0 — Îmbunătățiri vizuale
+
+- **Inel de progres SVG** pe cardul „Următorul antrenament" — arc colorat care arată ziua curentă din total (ex. 2/4), nu doar cifre
+- **Animații de intrare** pe carduri: statisticile și istoricul de antrenamente apar cu un efect de fade-in cu decalaj (stagger), nu brusc
+- **Numere statistici mai mari** — valorile principale (total antrenamente, volum, etc.) sunt acum mai lizibile
+- **Animație flash la completarea unei serii** — când apeși ✓ sau ✗, rândul are un scurt flash verde înainte să se estompeze
+- **Puls pe butonul CTA** din bara de navigare — butonul violet de start pulsează subtil continuu
+- **Fade-in la schimbarea ecranului** — trecerea între Dashboard, Program și Profil e acum fluidă, nu instant
+
 ## v0.8.0 — Pagina Profil + siluetă caricaturală animată
 
 - **Pagina Profil e activă** în meniu: vezi BMI-ul cu silueta, genul, înălțimea, greutatea, obiectivul, zilele și experiența + buton de editare
