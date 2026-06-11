@@ -1,5 +1,12 @@
 # Changelog — GVR Fitness Tracker
 
+## v0.7.3 — BMI cu siluetă vizuală
+
+- La pasul de înălțime + greutate, **BMI-ul se calculează live** pe măsură ce tastezi
+- Apare o **siluetă** care reflectă categoria: subțire la subponderal, normală, mai lată la supraponderal, și mai lată la obezitate
+- Silueta e diferită pentru femei (șolduri mai late, talie marcată) și bărbați (umeri mai lați)
+- Culori pe categorie: verde = normal, portocaliu = sub/supraponderal, roșu = obezitate
+
 ## v0.7.2 — Logică de gen implementată
 
 - **Intervale de repetări feminine**: +2 rep față de bărbați la exerciții compuse și izolare (ex. 8–12 în loc de 6–10 la masă musculară) — femeile au mai mulți mușchi de rezistență și pot face mai multe rep la aceeași greutate relativă

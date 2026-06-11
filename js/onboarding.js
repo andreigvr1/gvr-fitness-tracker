@@ -289,8 +289,78 @@ function renderMeasurements() {
         </div>
       </div>
     </div>
+    <div class="bmi-panel" id="bmi-panel" style="display:none"></div>
     <p class="meas-hint">Opționale — poți sări dacă preferi</p>
   `;
+}
+
+// ── BMI + siluetă ────────────────────────────────────────────────────────────
+function bmiCategory(bmi) {
+  if (bmi < 18.5) return { id: 'sub',  label: 'Subponderal',        cls: 'bmi-sub'  };
+  if (bmi < 25)   return { id: 'norm', label: 'Greutate normală',   cls: 'bmi-norm' };
+  if (bmi < 30)   return { id: 'over', label: 'Supraponderal',      cls: 'bmi-over' };
+  return            { id: 'obez', label: 'Obezitate',           cls: 'bmi-obez' };
+}
+
+// Silueta e desenată procedural: lățimile umerilor / taliei / șoldurilor variază
+// pe gen și pe categoria BMI. Nimic complicat — un contur simplu, umplut cu culoare.
+function silhouetteSVG(gen, catId) {
+  // factorul de "îngrășare" pe categorie (aplicat mai mult pe talie decât pe umeri)
+  const F = { sub: 0.82, norm: 1.0, over: 1.3, obez: 1.62 }[catId];
+  const fem = gen === 'feminin';
+
+  // jumătăți de lățime de bază (viewBox 100 × 200)
+  const base = fem
+    ? { um: 16, ta: 12, so: 20, picior: 8.5 }
+    : { um: 21, ta: 15, so: 17, picior: 9 };
+
+  const um = base.um * (1 + (F - 1) * 0.35); // umerii se lățesc puțin
+  const ta = base.ta * F;                     // talia cel mai mult
+  const so = base.so * (1 + (F - 1) * 0.7);  // șoldurile destul de mult
+  const pi = base.picior * (1 + (F - 1) * 0.5);
+
+  const cx = 50;
+  // contur corp: umeri → talie → șolduri (oglindit stânga/dreapta)
+  const body = `
+    M ${cx - um} 42
+    C ${cx - um - 2} 58, ${cx - ta} 66, ${cx - ta} 78
+    C ${cx - ta} 92, ${cx - so} 98, ${cx - so} 112
+    L ${cx + so} 112
+    C ${cx + so} 98, ${cx + ta} 92, ${cx + ta} 78
+    C ${cx + ta} 66, ${cx + um + 2} 58, ${cx + um} 42
+    C ${cx + um * 0.55} 36, ${cx - um * 0.55} 36, ${cx - um} 42 Z`;
+
+  // picioare: două trapeze de la șolduri în jos, ușor conice spre gleznă
+  const legL = `M ${cx - so} 110 L ${cx - 2} 110 L ${cx - 4} 190 L ${cx - 4 - pi} 190 Z`;
+  const legR = `M ${cx + 2} 110 L ${cx + so} 110 L ${cx + 4 + pi} 190 L ${cx + 4} 190 Z`;
+
+  return `
+    <svg viewBox="0 0 100 200" class="bmi-fig" aria-hidden="true">
+      <circle cx="${cx}" cy="22" r="12"/>
+      <path d="${body}"/>
+      <path d="${legL}"/>
+      <path d="${legR}"/>
+    </svg>`;
+}
+
+function updateBMIPanel() {
+  const panel = document.getElementById('bmi-panel');
+  if (!panel) return;
+  const h = answers.inaltime, g = answers.greutate;
+  if (!h || !g) { panel.style.display = 'none'; return; }
+
+  const bmi = g / Math.pow(h / 100, 2);
+  const cat = bmiCategory(bmi);
+  const bmiTxt = bmi.toFixed(1).replace('.', ',');
+
+  panel.style.display = 'flex';
+  panel.className = `bmi-panel ${cat.cls}`;
+  panel.innerHTML = `
+    ${silhouetteSVG(answers.gen, cat.id)}
+    <div class="bmi-info">
+      <div class="bmi-value">BMI ${bmiTxt}</div>
+      <div class="bmi-label">${cat.label}</div>
+    </div>`;
 }
 
 function renderSkand() {
@@ -470,10 +540,12 @@ function attachOptionHandlers(s) {
       const g = parseFloat(inpG.value);
       answers.inaltime = (!isNaN(h) && h >= 130 && h <= 230) ? h : null;
       answers.greutate = (!isNaN(g) && g >= 30  && g <= 300) ? g : null;
+      updateBMIPanel();
       validateNext();
     };
     inpH.addEventListener('input', onInput);
     inpG.addEventListener('input', onInput);
+    updateBMIPanel(); // valori pre-completate în edit mode
     // Focus first empty field
     if (!answers.inaltime) inpH.focus();
     else if (!answers.greutate) inpG.focus();
