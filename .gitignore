@@ -3,3 +3,4 @@ Thumbs.db
 *.log
 node_modules/
 tmpclaude-e433-cwd
+.claude/settings.local.json
