@@ -116,7 +116,7 @@
     {
       "id": "flotari",
       "nume": "Flotari",
-      "pattern": "împins orizontal",
+      "pattern": "impins orizontal",
       "grupe_principale": ["piept", "triceps", "umeri"],
       "tip": "compound",
       "echipament": ["corp"],
@@ -128,7 +128,7 @@
     {
       "id": "flotari_picioare_ridicate",
       "nume": "Flotari cu picioarele ridicate",
-      "pattern": "împins orizontal",
+      "pattern": "impins orizontal",
       "grupe_principale": ["piept", "triceps", "umeri"],
       "tip": "compound",
       "echipament": ["corp", "banca"],
@@ -140,7 +140,7 @@
     {
       "id": "bench_press_gantere",
       "nume": "Bench press cu gantere",
-      "pattern": "împins orizontal",
+      "pattern": "impins orizontal",
       "grupe_principale": ["piept", "triceps", "umeri"],
       "tip": "compound",
       "echipament": ["gantera", "banca"],
@@ -152,7 +152,7 @@
     {
       "id": "bench_press_haltera",
       "nume": "Bench press cu haltera",
-      "pattern": "împins orizontal",
+      "pattern": "impins orizontal",
       "grupe_principale": ["piept", "triceps", "umeri"],
       "tip": "compound",
       "echipament": ["haltera", "banca", "rack"],
@@ -165,7 +165,7 @@
     {
       "id": "pike_pushup",
       "nume": "Pike push-up",
-      "pattern": "împins vertical",
+      "pattern": "impins vertical",
       "grupe_principale": ["umeri", "triceps"],
       "tip": "compound",
       "echipament": ["corp"],
@@ -177,7 +177,7 @@
     {
       "id": "overhead_press_gantere",
       "nume": "Overhead press cu gantere",
-      "pattern": "împins vertical",
+      "pattern": "impins vertical",
       "grupe_principale": ["umeri", "triceps"],
       "tip": "compound",
       "echipament": ["gantera"],
@@ -189,7 +189,7 @@
     {
       "id": "overhead_press_haltera",
       "nume": "Overhead press cu haltera",
-      "pattern": "împins vertical",
+      "pattern": "impins vertical",
       "grupe_principale": ["umeri", "triceps"],
       "tip": "compound",
       "echipament": ["haltera", "rack"],
