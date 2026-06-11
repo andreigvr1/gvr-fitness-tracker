@@ -48,18 +48,6 @@ async function renderProgram(data) {
         console.error(e);
       }
     },
-    // onRegenerate
-    async () => {
-      try {
-        const newProgram = await generateProgram(profile, program.split_id);
-        const d = loadData();
-        d.program = newProgram;
-        saveData(d);
-        await renderProgram(d);
-      } catch (e) {
-        console.error(e);
-      }
-    },
     // onSave
     () => {
       const d = loadData();
@@ -69,8 +57,11 @@ async function renderProgram(data) {
       renderDashboard(d);
       viewManager.showView('view-dashboard');
     },
-    // onViewProgram
-    () => renderProgram(loadData())
+    // onBack
+    () => {
+      renderDashboard(loadData());
+      viewManager.showView('view-dashboard');
+    }
   );
 
   // Show adaptive suggestions banner if any

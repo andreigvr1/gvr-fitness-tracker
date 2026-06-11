@@ -14,7 +14,7 @@ export class ProgramRenderer {
     this.programSalvat = programSalvat;
   }
 
-  async render(onSplitChange, onRegenerate, onSave, onViewProgram) {
+  async render(onSplitChange, onSave, onBack) {
     try {
       const template = await loadTemplate('program');
       this.container.innerHTML = '';
@@ -68,20 +68,16 @@ export class ProgramRenderer {
 
       // Update button icons and visibility
       document.getElementById('btn-save-program').firstElementChild.innerHTML = ICONS.check;
-      document.getElementById('btn-regenerate').firstElementChild.innerHTML = ICONS.refresh;
       const backBtn = document.getElementById('btn-to-dashboard');
-      if (this.programSalvat) {
-        backBtn.style.display = 'block';
-        backBtn.firstElementChild.innerHTML = ICONS.back;
-      }
+      backBtn.firstElementChild.innerHTML = ICONS.back;
 
-      this.attachEventListeners(onSplitChange, onRegenerate, onSave, onViewProgram);
+      this.attachEventListeners(onSplitChange, onSave, onBack);
     } catch (error) {
       console.error('Error rendering program:', error);
     }
   }
 
-  attachEventListeners(onSplitChange, onRegenerate, onSave, onViewProgram) {
+  attachEventListeners(onSplitChange, onSave, onBack) {
     const container = this.container;
 
     // Split switching
@@ -95,22 +91,6 @@ export class ProgramRenderer {
         }
       });
     });
-
-    // Regenerate exercises
-    const regBtn = container.querySelector('#btn-regenerate');
-    if (regBtn) {
-      regBtn.addEventListener('click', async () => {
-        regBtn.disabled = true;
-        const originalText = regBtn.innerHTML;
-        regBtn.textContent = 'Se regenerează...';
-        try {
-          await onRegenerate();
-        } catch (e) {
-          regBtn.disabled = false;
-          regBtn.innerHTML = originalText;
-        }
-      });
-    }
 
     // Exercise swapping
     container.querySelectorAll('.dex-swap-btn').forEach(btn => {
@@ -174,8 +154,7 @@ export class ProgramRenderer {
     const backBtn = container.querySelector('#btn-to-dashboard');
     if (backBtn) {
       backBtn.addEventListener('click', () => {
-        const event = new CustomEvent('view-dashboard');
-        container.dispatchEvent(event);
+        onBack?.();
       });
     }
   }
