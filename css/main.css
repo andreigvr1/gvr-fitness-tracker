@@ -5,6 +5,7 @@
   --surf2:     #1e1e24;
   --border:    rgba(255,255,255,0.07);
   --accent:    #7c6ff7;
+  --accent-2:  #9b8cff;
   --acc-dim:   rgba(124,111,247,0.13);
   --acc-txt:   #a99fff;
   --green:     #34d17a;
@@ -16,6 +17,9 @@
   --t3: #3a3a48;
   --r:  16px;
   --rs: 10px;
+  --card-border: 1px solid rgba(255,255,255,0.05);
+  --card-shadow: 0 1px 2px rgba(0,0,0,.35), 0 8px 24px -12px rgba(0,0,0,.5);
+  --glow-accent: 0 4px 20px -6px rgba(124,111,247,.55);
 }
 
 /* ── Update banner ──────────────────────────────────────────────────────────── */
@@ -40,14 +44,18 @@
 html { height: 100%; }
 
 body {
-  background: var(--bg);
+  background:
+    radial-gradient(900px 480px at 50% -140px, rgba(124,111,247,.10), transparent 70%),
+    var(--bg);
   color: var(--t1);
-  font-family: system-ui, -apple-system, sans-serif;
+  font-family: system-ui, -apple-system, 'Segoe UI', sans-serif;
   font-variant-numeric: tabular-nums;
   -webkit-font-smoothing: antialiased;
   min-height: 100%;
   overscroll-behavior: none;
 }
+
+h1 { letter-spacing: -0.02em; }
 
 button { font-family: inherit; cursor: pointer; border: none; background: none; }
 
@@ -58,13 +66,19 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
 /* ── Buttons ────────────────────────────────────────────────────────────────── */
 .btn {
   display: inline-flex; align-items: center; justify-content: center;
-  gap: 7px; padding: 14px 22px; border-radius: var(--rs);
-  font-size: 15px; font-weight: 700; transition: opacity .15s;
+  gap: 7px; padding: 14px 22px; border-radius: 12px;
+  font-size: 15px; font-weight: 700;
+  transition: opacity .15s, transform .1s, box-shadow .2s;
 }
+.btn:active { transform: scale(.98); }
 .btn:disabled { opacity: .4; cursor: not-allowed; }
-.btn-primary  { background: var(--accent); color: #fff; }
-.btn-ghost    { background: var(--surf2); color: var(--t1); border: 1px solid var(--border); }
-.btn-full     { width: 100%; }
+.btn-primary {
+  background: linear-gradient(180deg, var(--accent-2), var(--accent));
+  color: #fff; box-shadow: var(--glow-accent), inset 0 1px 0 rgba(255,255,255,.18);
+  text-shadow: 0 1px 2px rgba(0,0,0,.2);
+}
+.btn-ghost { background: var(--surf2); color: var(--t1); border: 1px solid var(--border); }
+.btn-full  { width: 100%; }
 
 /* ── Section label ───────────────────────────────────────────────────────────── */
 .section-label {
@@ -109,8 +123,9 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
 /* ── Option card ─────────────────────────────────────────────────────────────── */
 .opt-card {
   display: flex; align-items: center; gap: 13px;
-  padding: 14px 14px; border-radius: var(--rs);
-  background: var(--surf); border: 1.5px solid transparent;
+  padding: 14px 14px; border-radius: 12px;
+  background: var(--surf); border: 1.5px solid rgba(255,255,255,.04);
+  box-shadow: 0 1px 2px rgba(0,0,0,.25);
   cursor: pointer; transition: border-color .15s, background .15s;
   -webkit-tap-highlight-color: transparent;
 }
@@ -179,7 +194,9 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
 .split-section { padding: 0 16px; margin-bottom: 20px; }
 
 .split-active-card {
-  background: var(--acc-dim); border: 1px solid rgba(124,111,247,.2);
+  background: linear-gradient(135deg, rgba(124,111,247,.18), rgba(124,111,247,.07));
+  border: 1px solid rgba(124,111,247,.28);
+  box-shadow: 0 8px 28px -14px rgba(124,111,247,.45);
   border-radius: var(--r); padding: 16px; margin-bottom: 4px;
 }
 .sac-label { font-size: 11px; font-weight: 700; letter-spacing: .07em; text-transform: uppercase; color: var(--acc-txt); margin-bottom: 4px; }
@@ -201,7 +218,11 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
 /* Day cards */
 .days-list { padding: 0 16px; display: flex; flex-direction: column; gap: 6px; margin-bottom: 16px; }
 
-.day-card { background: var(--surf); border-radius: var(--r); overflow: hidden; }
+.day-card {
+  background: linear-gradient(180deg, rgba(255,255,255,.015), transparent 40%), var(--surf);
+  border: var(--card-border); box-shadow: var(--card-shadow);
+  border-radius: var(--r); overflow: hidden;
+}
 .day-header {
   display: flex; align-items: flex-start; gap: 12px;
   padding: 14px 14px 12px; border-bottom: 1px solid var(--border);
@@ -322,8 +343,10 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
 .log-list { padding: 0 16px; display: flex; flex-direction: column; gap: 8px; margin-bottom: 20px; }
 
 .log-ex-card {
-  background: var(--surf); border-radius: var(--r);
-  border: 1.5px solid transparent;
+  background: linear-gradient(180deg, rgba(255,255,255,.015), transparent 40%), var(--surf);
+  border-radius: var(--r);
+  border: 1.5px solid rgba(255,255,255,.05);
+  box-shadow: var(--card-shadow);
   transition: border-color .2s;
   overflow: hidden;
 }
@@ -414,7 +437,7 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
 }
 .set-input::-webkit-outer-spin-button,
 .set-input::-webkit-inner-spin-button { -webkit-appearance: none; }
-.set-input:focus { outline: none; border-color: var(--accent); }
+.set-input:focus { outline: none; border-color: var(--accent); box-shadow: 0 0 0 3px var(--acc-dim); }
 .set-field-lbl {
   font-size: 10px; color: var(--t2); font-weight: 600; letter-spacing: .03em;
   margin-top: 2px;
@@ -493,9 +516,12 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
 .dash-header { padding: 32px 4px 20px; }
 
 .dash-next-card {
-  background: linear-gradient(135deg, var(--acc-dim), var(--surf));
-  border: 1px solid rgba(124,111,247,.25);
-  border-radius: var(--r); padding: 18px;
+  background:
+    radial-gradient(420px 200px at 85% -40px, rgba(124,111,247,.22), transparent 70%),
+    linear-gradient(135deg, var(--acc-dim), var(--surf));
+  border: 1px solid rgba(124,111,247,.3);
+  box-shadow: 0 12px 36px -16px rgba(124,111,247,.5);
+  border-radius: 20px; padding: 20px 18px;
 }
 .dnc-label { font-size: 11px; font-weight: 700; letter-spacing: .09em; text-transform: uppercase; color: var(--acc-txt); margin-bottom: 6px; }
 .dnc-name  { font-size: 24px; font-weight: 900; }
@@ -504,7 +530,9 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
 .hist-list { display: flex; flex-direction: column; gap: 6px; }
 .hist-item {
   display: flex; align-items: center; gap: 12px;
-  background: var(--surf); border-radius: var(--rs); padding: 11px 14px;
+  background: var(--surf); border: var(--card-border);
+  box-shadow: 0 1px 2px rgba(0,0,0,.25);
+  border-radius: var(--rs); padding: 11px 14px;
 }
 .hist-date { display: flex; flex-direction: column; align-items: center; min-width: 48px; }
 .hist-day     { font-size: 13px; font-weight: 800; }

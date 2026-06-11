@@ -1,5 +1,14 @@
 # Changelog — GVR Fitness Tracker
 
+## v0.5.1 — Polish vizual
+
+- Fundal cu gradient violet subtil în partea de sus
+- Carduri cu adâncime: umbre fine, borduri delicate, gradient discret
+- Butonul principal cu gradient și strălucire violet
+- Cardul „Urmează" de pe Dashboard cu efect de lumină
+- Câmpurile de input cu inel de focus violet
+- Micro-animație la apăsarea butoanelor
+
 ## v0.5.0 — Dashboard + generator inteligent + skip cu motive
 
 ### Dashboard și flux de antrenament
