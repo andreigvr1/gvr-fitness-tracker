@@ -34,7 +34,7 @@ async function renderProgram(data) {
   const programObj = new Program(program);
   const suggestions = adaptiveEngine.analyzeSkips(antrenamente, program);
 
-  const renderer = new ProgramRenderer(container, programObj, profile, antrenamente);
+  const renderer = new ProgramRenderer(container, programObj, profile, antrenamente, data.program_salvat);
   await renderer.render(
     // onSplitChange
     async (splitId) => {

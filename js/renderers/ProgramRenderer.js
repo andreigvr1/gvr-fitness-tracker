@@ -6,11 +6,12 @@ import { getExercisesByIds, getSplitsForZile } from '../generator.js';
 import { loadTemplate } from '../utils/TemplateLoader.js';
 
 export class ProgramRenderer {
-  constructor(container, program, profile, antrenamente = []) {
+  constructor(container, program, profile, antrenamente = [], programSalvat = false) {
     this.container = container;
     this.program = program;
     this.profile = profile;
     this.antrenamente = antrenamente;
+    this.programSalvat = programSalvat;
   }
 
   async render(onSplitChange, onRegenerate, onSave, onViewProgram) {
@@ -69,7 +70,7 @@ export class ProgramRenderer {
       document.getElementById('btn-save-program').firstElementChild.innerHTML = ICONS.check;
       document.getElementById('btn-regenerate').firstElementChild.innerHTML = ICONS.refresh;
       const backBtn = document.getElementById('btn-to-dashboard');
-      if (this.profile?.program_salvat) {
+      if (this.programSalvat) {
         backBtn.style.display = 'block';
         backBtn.firstElementChild.innerHTML = ICONS.back;
       }

@@ -1,5 +1,7 @@
 // View switching and navigation management
 
+import { loadData } from '../storage.js';
+
 export class ViewManager {
   constructor(data) {
     this.data = data;
@@ -16,8 +18,11 @@ export class ViewManager {
     const nav = document.getElementById('app-nav');
     if (!nav) return;
 
+    // Read fresh data from storage to check current program_salvat status
+    const currentData = loadData();
+
     // Nav only visible after program saved; hidden during onboarding and workout
-    const visible = this.data?.program_salvat && (viewId === 'view-dashboard' || viewId === 'view-program');
+    const visible = currentData?.program_salvat && (viewId === 'view-dashboard' || viewId === 'view-program');
     nav.hidden = !visible;
     document.body.classList.toggle('has-nav', visible);
 
