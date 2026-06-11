@@ -728,3 +728,43 @@ body.has-nav .view.active { padding-bottom: 86px; }
 }
 
 .dash-footer { margin-top: 20px; display: flex; flex-direction: column; gap: 8px; }
+
+/* ════════════════════════════════════════════════════════════════════════════ */
+/*  LAYOUT DESKTOP (≥900px) — la finalul fișierului ca să câștige cascada       */
+/* ════════════════════════════════════════════════════════════════════════════ */
+@media (min-width: 900px) {
+  /* Dashboard pe 2 coloane */
+  .dash-wrap { max-width: 1060px; padding: 0 40px 60px; }
+  .dash-top  { padding: 36px 4px 26px; }
+  .dash-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1.45fr) minmax(0, 1fr);
+    column-gap: 32px;
+    grid-auto-flow: row dense;
+    align-items: start;
+  }
+  .dash-next-card, .stat-row, .head-soon, .soon-grid, .dash-footer { grid-column: 1; }
+  .dash-side { grid-column: 2; grid-row: 1 / span 6; }
+  .head-activity { margin-top: 0; }
+  .stat-row { margin-top: 14px; }
+  .soon-grid { grid-template-columns: 1fr 1fr; }
+  .dash-footer { margin-top: 24px; }
+  .dnc-name { font-size: 28px; }
+
+  /* Program: split-uri și zile pe 2 coloane */
+  .prog-wrap { max-width: 1020px; padding: 0 40px 60px; }
+  .prog-header { padding: 36px 4px 24px; }
+  .split-section { padding: 0; }
+  .split-opts { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+  .section-label { padding: 0 4px; }
+  .days-list {
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 12px; align-items: start; padding: 0;
+  }
+  .prog-footer { padding: 16px 0; display: flex; flex-direction: row; }
+  .prog-footer .btn { flex: 1; }
+  .adapt-banner { padding: 0; }
+
+  /* Antrenament: coloană mai generoasă, centrată */
+  .today-wrap { max-width: 640px; }
+}

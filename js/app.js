@@ -375,6 +375,7 @@ function renderDashboard(data) {
         <button class="dash-icon-btn" id="btn-edit-prefs" title="Preferințe">${ICONS.settings}</button>
       </header>
 
+      <div class="dash-grid">
       <div class="dash-next-card">
         <div class="dnc-row">
           <div>
@@ -407,12 +408,14 @@ function renderDashboard(data) {
         </div>
       </div>
 
-      <div class="dash-section-head">
-        <span>Activitate recentă</span>
+      <div class="dash-side">
+        <div class="dash-section-head head-activity">
+          <span>Activitate recentă</span>
+        </div>
+        <div class="hist-list">${historyHTML}</div>
       </div>
-      <div class="hist-list">${historyHTML}</div>
 
-      <div class="dash-section-head">
+      <div class="dash-section-head head-soon">
         <span>În curând</span>
       </div>
       <div class="soon-grid">
@@ -444,6 +447,7 @@ function renderDashboard(data) {
 
       <div class="dash-footer">
         <button class="btn btn-ghost btn-full" id="btn-view-program"><span class="btn-ico">${ICONS.list}</span> Vezi / modifică programul</button>
+      </div>
       </div>
     </div>`;
 

@@ -11,7 +11,11 @@
       "Bash(git push *)",
       "Bash(curl -s https://andreigvr1.github.io/gvr-fitness-tracker/index.html)",
       "Bash(curl -s https://andreigvr1.github.io/gvr-fitness-tracker/sw.js)",
-      "Bash(git commit -m 'v0.6.1 — Fix: HTML network-first in service worker, update instant la refresh *)"
+      "Bash(git commit -m 'v0.6.1 — Fix: HTML network-first in service worker, update instant la refresh *)",
+      "Bash(curl -s https://andreigvr1.github.io/gvr-fitness-tracker/js/app.js)",
+      "Bash(curl -s https://andreigvr1.github.io/gvr-fitness-tracker/css/main.css)",
+      "Bash(curl -sI https://andreigvr1.github.io/gvr-fitness-tracker/index.html)",
+      "Bash(git commit -m 'v0.6.2 — Layout pe 2 coloane pe desktop \\(dashboard + program\\) *)"
     ]
   }
 }

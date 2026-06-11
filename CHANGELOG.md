@@ -1,5 +1,13 @@
 # Changelog — GVR Fitness Tracker
 
+## v0.6.2 — Layout adaptat pe ecrane late
+
+- **Dashboard pe 2 coloane** pe desktop: antrenamentul următor + statistici + „În curând" în stânga, activitatea recentă în dreapta
+- **Programul pe 2 coloane**: variantele de split și zilele de antrenament una lângă alta
+- Butoanele din subsolul programului stau pe un rând
+- Ecranul de antrenament: coloană mai lată, centrată
+- Pe mobil totul rămâne neschimbat (o coloană)
+
 ## v0.6.1 — Fix actualizare
 
 - Pagina principală (HTML) se încarcă acum mereu de pe internet când ești online, cu fallback offline din cache — versiunile noi apar imediat la refresh, fără așteptare
