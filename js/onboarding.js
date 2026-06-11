@@ -20,15 +20,6 @@ const STEPS = [
     sub_global: 'Folosite pentru a personaliza exercițiile și valorile de start',
   },
   {
-    id: 'seriozitate',
-    q: 'Cât de serios vrei să iei antrenamentul?',
-    tip: 'single',
-    opt: [
-      { val: 'sanatate', label: 'Vreau să mă mișc și să fiu sănătos',       sub: 'Interfață simplă, fără cifre complicate' },
-      { val: 'serios',   label: 'Vreau rezultate serioase (forță / mușchi)', sub: 'Interfață completă, progresie precisă' },
-    ],
-  },
-  {
     id: 'obiectiv',
     q: 'Obiectivul tău principal?',
     tip: 'single',
@@ -118,7 +109,7 @@ let step = 0;
 let answers = {
   gen: null,
   inaltime: null, greutate: null,
-  seriozitate: null, obiectiv: null, zile: null, timp: null, experienta: null,
+  obiectiv: null, zile: null, timp: null, experienta: null,
   echipament: ['corp'], manere: [],
   grupe_prioritare: [], articulatii: [],
   skandenberg: false, stil_skandenberg: null,
@@ -144,7 +135,6 @@ export function initOnboarding(container, onComplete, opts = {}) {
       gen:              p.gen            ?? null,
       inaltime:         p.inaltime       ?? null,
       greutate:         p.greutate       ?? null,
-      seriozitate:      p.seriozitate    ?? null,
       obiectiv:         p.obiectiv       ?? null,
       zile:             p.zile           ?? null,
       timp:             p.timp           ?? null,
@@ -162,7 +152,7 @@ export function initOnboarding(container, onComplete, opts = {}) {
     answers = {
       gen: null,
       inaltime: null, greutate: null,
-      seriozitate: null, obiectiv: null, zile: null, timp: null, experienta: null,
+      obiectiv: null, zile: null, timp: null, experienta: null,
       echipament: ['corp'], manere: [],
       grupe_prioritare: [], articulatii: [],
       skandenberg: false, stil_skandenberg: null,
@@ -587,7 +577,6 @@ function buildProfile() {
     gen:               answers.gen,
     inaltime:          answers.inaltime,
     greutate:          answers.greutate,
-    seriozitate:       answers.seriozitate,
     obiectiv:          answers.obiectiv,
     zile:              answers.zile,
     timp:              answers.timp,
@@ -598,6 +587,6 @@ function buildProfile() {
     articulatii_sensibile: answers.articulatii.filter(v => v !== 'niciuna'),
     skandenberg:       answers.skandenberg,
     stil_skandenberg:  answers.stil_skandenberg,
-    interfata:         answers.seriozitate === 'sanatate' ? 'simpla' : 'completa',
+    interfata:         'completa',
   };
 }
