@@ -1,0 +1,25 @@
+PROMPTUL PENTRU PRIMA SESIUNE DE CLAUDE CODE
+(copiaza tot ce e sub linie, dupa ce ai deschis Claude Code in folderul gvr-fitness-tracker)
+------------------------------------------------------------------
+
+Salut! Acesta e proiectul GVR Fitness Tracker. Eu sunt Andrei, proprietarul
+proiectului — nu sunt programator, deci explica-mi totul pe limbaj simplu.
+
+Citeste mai intai CLAUDE.md si docs/specificatie_mvp.md integral.
+
+Apoi, in sesiunea asta, vreau sa facem DOAR Etapa 0 din CLAUDE.md:
+
+1. Verifica daca git si GitHub CLI (gh) sunt instalate; daca nu, ghideaza-ma
+   pas cu pas sa le instalam si sa ma autentific cu contul meu de GitHub
+   (eu doar imi fac cont pe github.com — restul imi spui tu exact ce sa apas).
+2. Initializeaza repository-ul git local, creeaza repository-ul public
+   "gvr-fitness-tracker" pe contul meu de GitHub si fa primul push cu
+   fisierele existente.
+3. Creeaza o pagina minimala "GVR Fitness Tracker — in constructie"
+   (index.html simplu, cu tema dark din spec cap. 12) si activeaza GitHub Pages.
+4. Da-mi linkul live si verificam impreuna ca se deschide pe telefonul meu.
+5. La final: rezumat pe scurt ce am facut si ce urmeaza in Etapa 1
+   (biblioteca de exercitii, pe care o voi valida eu).
+
+Nu trece la Etapa 1 in sesiunea asta. Daca ceva nu merge, explica-mi simplu
+ce s-a intamplat si ce optiuni am.
