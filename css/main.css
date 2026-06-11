@@ -566,7 +566,7 @@ body.has-nav .view.active { padding-bottom: 86px; }
 
 /* Progress bar sub topbar */
 .today-progress {
-  height: 3px; background: var(--border); border-radius: 999px;
+  height: 4px; background: var(--border); border-radius: 999px;
   margin: 10px 20px 0; overflow: hidden;
 }
 .today-progress-fill {
@@ -712,9 +712,9 @@ body.has-nav .view.active { padding-bottom: 86px; }
 }
 
 .step-btn {
-  width: 28px; height: 28px; border-radius: 50%;
+  width: 40px; height: 40px; border-radius: 50%;
   background: var(--surf); color: var(--t1);
-  font-size: 16px; font-weight: 700;
+  font-size: 18px; font-weight: 700;
   display: flex; align-items: center; justify-content: center;
   flex-shrink: 0; transition: background .15s;
 }
@@ -746,8 +746,8 @@ body.has-nav .view.active { padding-bottom: 86px; }
 .set-result-btns { display: flex; gap: 6px; margin-left: auto; }
 
 .set-ok, .set-fail {
-  width: 34px; height: 34px; border-radius: 50%;
-  font-size: 14px; font-weight: 800;
+  width: 44px; height: 44px; border-radius: 50%;
+  font-size: 15px; font-weight: 800;
   display: flex; align-items: center; justify-content: center;
   flex-shrink: 0; transition: background .15s, color .15s;
 }
@@ -771,7 +771,7 @@ body.has-nav .view.active { padding-bottom: 86px; }
 .ex-skip-btn {
   display: inline-flex; align-items: center; gap: 5px;
   flex-shrink: 0; font-size: 11px; font-weight: 700; color: var(--t2);
-  padding: 7px 11px; background: var(--surf2); border-radius: 999px;
+  min-height: 36px; padding: 0 12px; background: var(--surf2); border-radius: 999px;
   border: 1px solid var(--border);
   white-space: nowrap; transition: background .15s, color .15s;
 }
@@ -935,6 +935,14 @@ body.has-nav .view.active { padding-bottom: 86px; }
 }
 
 .dash-footer { margin-top: 20px; display: flex; flex-direction: column; gap: 8px; }
+
+/* ── Accessibility: reduced motion ─────────────────────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  .view.active { animation: none; }
+  .bmi-jelly, .bmi-obez .bmi-fig, .nav-item-cta .nav-ico,
+  .stat-card, .hist-item { animation: none !important; }
+  .btn, .opt-card, .split-opt, .log-ex-card { transition: none; }
+}
 
 /* ════════════════════════════════════════════════════════════════════════════ */
 /*  LAYOUT DESKTOP (≥900px) — la finalul fișierului ca să câștige cascada       */

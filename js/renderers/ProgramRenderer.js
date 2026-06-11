@@ -36,9 +36,10 @@ export class ProgramRenderer {
 
       // Populate split options
       const splitOpts = document.getElementById('tpl-split-opts');
-      const splits = getSplitsForZile(this.profile.zile, this.profile.experienta, this.profile.obiectiv);
+      const splits = getSplitsForZile(this.profile.zile, this.profile.experienta, this.profile.obiectiv)
+        .filter(s => s.id !== this.program.split_id);
       splitOpts.innerHTML = splits.map(s => `
-        <button class="split-opt ${s.id === this.program.split_id ? 'active' : ''}" data-split="${s.id}">
+        <button class="split-opt" data-split="${s.id}">
           <span class="so-label">${s.recomandat ? '★ ' : ''}${s.label}</span>
           <span class="so-desc">${s.desc}</span>
         </button>`).join('');

@@ -1,5 +1,14 @@
 # Changelog — GVR Fitness Tracker
 
+## v0.9.1 — Bugfix-uri după review complet
+
+- **Bugfix: split duplicat** în „Alte variante" — split-ul activ nu mai apărea și în lista de alternative
+- **Bugfix: Skandenberg fără gen** — modulul de skandenberg transmitea acum corect parametrul `gen` la `prescribe()`, evitând recomandări greșite pentru femei
+- **Bugfix: pauza la forță** — perioada de odihnă la exerciții de forță corectată la 180s (era 150s, sub minimul CSCS recomandat de 3 min)
+- **Touch targets mărite**: butoanele +/− (step) 28→40px, butoanele ✓/✗ per serie 34→44px, butonul „Sari" min-height 36px — conform standardului Apple HIG
+- **Bara de progres** din topbar antrenament îngroșată 3→4px pentru vizibilitate mai bună
+- **Reducere mișcare** (`prefers-reduced-motion`): animațiile sunt dezactivate pentru utilizatorii care au setat această preferință în sistem
+
 ## v0.9.0 — Îmbunătățiri vizuale
 
 - **Inel de progres SVG** pe cardul „Următorul antrenament" — arc colorat care arată ziua curentă din total (ex. 2/4), nu doar cifre

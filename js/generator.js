@@ -119,7 +119,7 @@ function isSafe(ex, badJoints) {
 // ── Prescription ─────────────────────────────────────────────────────────────
 const PRESC = {
   //              compound          izolare          static        conditie
-  forta:     { c: [4,3,5,150],  i: [3,6,10,90],  s: [3,30,60,90],  d: [3,10,15,45] },
+  forta:     { c: [4,3,5,180],  i: [3,6,10,90],  s: [3,30,60,90],  d: [3,10,15,45] },
   masa:      { c: [3,6,10,105], i: [3,8,15,60],  s: [3,30,60,75],  d: [3,12,15,45] },
   sanatate:  { c: [3,8,12,75],  i: [3,10,15,60], s: [3,20,45,60],  d: [3,10,15,30] },
   anduranta: { c: [3,12,15,45], i: [3,15,20,30], s: [3,20,45,45],  d: [3,15,20,30] },
@@ -344,7 +344,7 @@ function addSkandenbergBlock(zile, profile, allExercises) {
       const c = validS.filter(ex => ex.pattern === pattern && !usedS.has(ex.id));
       if (!c.length) return;
       const winner = c[0];
-      const item   = prescribe(winner, profile.obiectiv);
+      const item   = prescribe(winner, profile.obiectiv, profile.gen);
       item.seturi = 3; item.rep_min = 8; item.rep_max = 12;
       item.reguli_speciale = item.reguli_speciale || 'tempo 3-1-3';
       day.exercitii.push(item);
