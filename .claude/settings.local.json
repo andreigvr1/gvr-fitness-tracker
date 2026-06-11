@@ -15,7 +15,27 @@
       "Bash(curl -s https://andreigvr1.github.io/gvr-fitness-tracker/js/app.js)",
       "Bash(curl -s https://andreigvr1.github.io/gvr-fitness-tracker/css/main.css)",
       "Bash(curl -sI https://andreigvr1.github.io/gvr-fitness-tracker/index.html)",
-      "Bash(git commit -m 'v0.6.2 — Layout pe 2 coloane pe desktop \\(dashboard + program\\) *)"
+      "Bash(git commit -m 'v0.6.2 — Layout pe 2 coloane pe desktop \\(dashboard + program\\) *)",
+      "WebSearch",
+      "PowerShell(Copy-Item \"C:\\\\Users\\\\andre\\\\Downloads\\\\gvr-starter\\\\gvr-fitness-tracker\\\\Fitness platform logo.png\" \"C:\\\\Users\\\\andre\\\\Downloads\\\\gvr-starter\\\\gvr-fitness-tracker\\\\assets\\\\logo.png\")",
+      "Bash(find /tmp/liftosaur -name \"*.ts\" -o -name \"*.tsx\" -o -name \"*.md\" | grep -iE \"\\(program|progression|logic|algorithm|onboard\\)\" | head -30)",
+      "Bash(wsl ls *)",
+      "Bash(git commit -m ' *)",
+      "Bash(xargs grep -l \"onboard\\\\|onboarding\\\\|initial\\\\|quiz\")",
+      "mcp__visualize__read_me",
+      "Bash(git fetch *)",
+      "WebFetch(domain:github.com)",
+      "Bash(gh api *)",
+      "Bash(git pull *)",
+      "mcp__visualize__show_widget",
+      "Bash(node -e \"const d = require\\('./data/exercises.json'\\); const bw = d.exercitii.filter\\(e => e.echipament.length === 1 && e.echipament[0] === 'corp'\\); console.log\\(JSON.stringify\\(bw.map\\(e => \\({id: e.id, nume: e.nume, pattern: e.pattern, nivel: e.nivel}\\)\\), null, 2\\)\\)\")",
+      "PowerShell(Get-Content \"C:\\\\Users\\\\andre\\\\Downloads\\\\gvr-starter\\\\gvr-fitness-tracker\\\\data\\\\exercises.json\" | ConvertFrom-Json | Select-Object -ExpandProperty exercitii | Where-Object { $_.echipament.Count -eq 1 -and $_.echipament[0] -eq 'corp' } | Select-Object id, nume, pattern, nivel | Format-Table -AutoSize)",
+      "Skill(code-review)",
+      "Skill(code-review:*)",
+      "Bash(Get-ChildItem -Path \"C:\\\\Users\\\\andre\\\\Downloads\\\\gvr-starter\\\\gvr-fitness-tracker\" -Recurse -Directory)",
+      "Bash(Select-Object -First 20)",
+      "WebFetch(domain:www.designrush.com)",
+      "WebFetch(domain:fireart.studio)"
     ]
   }
 }

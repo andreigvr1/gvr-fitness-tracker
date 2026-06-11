@@ -98,11 +98,7 @@ const STEPS = [
       { val: 'cot',     label: 'Cot / încheietură' },
     ],
   },
-  {
-    id: 'skandenberg',
-    q: 'Vrei modulul de skandenberg / armwrestling?',
-    tip: 'skand',
-  },
+
 ];
 
 // ── State ────────────────────────────────────────────────────────────────────
@@ -111,9 +107,8 @@ let answers = {
   gen: null,
   inaltime: null, greutate: null,
   obiectiv: null, zile: null, timp: null, experienta: null,
-  echipament: ['corp'], manere: [],
+  echipament: ['corp'],
   grupe_prioritare: [], articulatii: [],
-  skandenberg: false, stil_skandenberg: null,
 };
 let _container = null;
 let _onComplete = null;
@@ -141,22 +136,18 @@ export function initOnboarding(container, onComplete, opts = {}) {
       timp:             p.timp           ?? null,
       experienta:       p.experienta     ?? null,
       echipament:       p.echipament?.length ? [...p.echipament] : ['corp'],
-      manere:           p.manere         ? [...p.manere] : [],
       grupe_prioritare: p.grupe_prioritare ? [...p.grupe_prioritare] : [],
       articulatii:      p.articulatii_sensibile?.length
                           ? [...p.articulatii_sensibile]
                           : ['niciuna'],
-      skandenberg:      p.skandenberg    ?? false,
-      stil_skandenberg: p.stil_skandenberg ?? null,
     };
   } else {
     answers = {
       gen: null,
       inaltime: null, greutate: null,
       obiectiv: null, zile: null, timp: null, experienta: null,
-      echipament: ['corp'], manere: [],
+      echipament: ['corp'],
       grupe_prioritare: [], articulatii: [],
-      skandenberg: false, stil_skandenberg: null,
     };
   }
 
@@ -220,7 +211,6 @@ function renderOptions(s) {
   }
 
   if (s.tip === 'equipment')    return renderEquipment();
-  if (s.tip === 'skand')        return renderSkand();
   if (s.tip === 'measurements') return renderMeasurements();
   return '';
 }
@@ -238,18 +228,6 @@ function renderEquipment() {
     { val: 'scripete',          label: 'Scripete / cablu' },
     { val: '_sala',             label: 'Sală completă (bifează tot)' },
   ];
-  const skandItems = [
-    { val: 'masa',         label: 'Masă de skandenberg' },
-    { val: 'centura judo', label: 'Centură de judo' },
-    { val: 'FG',           label: 'Fat Gripz / manșoane' },
-  ];
-  const manereItems = [
-    { val: 'maner-rotativ',      label: 'Mâner rotativ (rolling handle)' },
-    { val: 'maner-conic',        label: 'Mâner conic (cone grip)' },
-    { val: 'maner-multi-grip',   label: 'Mâner multi-grip / gros (2–3")' },
-    { val: 'maner-excentric',    label: 'Mâner excentric (offset)' },
-    { val: 'maner-wrist-wrench', label: 'Wrist wrench' },
-  ];
 
   const eq = (items) => items.map(o => `
     <label class="opt-card compact" data-val="${o.val}" data-group="equip">
@@ -262,12 +240,7 @@ function renderEquipment() {
       <div class="equip-title">General</div>
       ${eq(generalItems)}
     </div>
-    <div class="equip-section" style="margin-top:16px">
-      <div class="equip-title">Skandenberg / Armwrestling</div>
-      ${eq(skandItems)}
-      <div class="equip-title" style="margin-top:10px; font-size:11px">Mânere deținute</div>
-      ${eq(manereItems)}
-    </div>`;
+    `;
 }
 
 function renderMeasurements() {
@@ -315,37 +288,6 @@ function updateBMIPanel() {
   }
 }
 
-function renderSkand() {
-  const sel = answers.skandenberg;
-  const stilOpt = [
-    { val: 'top_roll', label: 'Top roll',              sub: 'Cupping + pronation + rise' },
-    { val: 'hook',     label: 'Hook (cârlig)',          sub: 'Flexie profundă + biceps static' },
-    { val: 'presa',    label: 'Presă (triceps press)',  sub: 'Triceps static + side pressure' },
-    { val: 'baza',     label: 'Nu știu încă / bază',   sub: 'Bloc echilibrat' },
-  ];
-
-  return `
-    <label class="opt-card" data-val="false" data-single-skand>
-      <div class="opt-radio ${sel === false ? 'checked' : ''}"></div>
-      <div class="opt-text"><span class="opt-label">Nu, mulțumesc</span></div>
-    </label>
-    <label class="opt-card" data-val="true" data-single-skand>
-      <div class="opt-radio ${sel === true ? 'checked' : ''}"></div>
-      <div class="opt-text"><span class="opt-label">Da, activează modulul</span></div>
-    </label>
-    <div id="skand-stil" style="display:${sel ? 'block' : 'none'}; margin-top:16px">
-      <p class="ob-hint" style="margin-bottom:10px">Ce stil tragi / vrei să dezvolți?</p>
-      ${stilOpt.map(o => `
-        <label class="opt-card compact" data-val="${o.val}" data-stil>
-          <div class="opt-radio ${answers.stil_skandenberg === o.val ? 'checked' : ''}"></div>
-          <div class="opt-text">
-            <span class="opt-label">${o.label}</span>
-            <span class="opt-sub">${o.sub}</span>
-          </div>
-        </label>`).join('')}
-    </div>`;
-}
-
 // ── Restore saved values ──────────────────────────────────────────────────────
 function restoreSelection(s) {
   const opts = _container.querySelectorAll('.opt-card');
@@ -362,10 +304,9 @@ function restoreSelection(s) {
     });
   } else if (s.tip === 'equipment') {
     const curEq  = answers.echipament || [];
-    const curMan = answers.manere || [];
     opts.forEach(el => {
       const v = el.dataset.val;
-      if (curEq.includes(v) || curMan.includes(v)) el.classList.add('selected');
+      if (curEq.includes(v)) el.classList.add('selected');
     });
   }
 }
@@ -432,7 +373,6 @@ function attachOptionHandlers(s) {
 
   if (s.tip === 'equipment') {
     const SALA_ALL = ['corp','centura_greutati','banda','gantera','haltera','banca','rack','bara tractiuni','scripete'];
-    const MANERE   = ['maner-rotativ','maner-conic','maner-multi-grip','maner-excentric','maner-wrist-wrench'];
 
     _container.querySelectorAll('.opt-card[data-group="equip"]').forEach(el => {
       el.addEventListener('click', () => {
@@ -457,17 +397,6 @@ function attachOptionHandlers(s) {
               const e = _container.querySelector(`[data-val="${v}"]`);
               if (e) { e.classList.add('selected'); e.querySelector('.opt-check')?.classList.add('checked'); }
             });
-          }
-          return;
-        }
-
-        if (MANERE.includes(val)) {
-          if (answers.manere.includes(val)) {
-            answers.manere = answers.manere.filter(v => v !== val);
-            el.classList.remove('selected'); el.querySelector('.opt-check')?.classList.remove('checked');
-          } else {
-            answers.manere = [...answers.manere, val];
-            el.classList.add('selected'); el.querySelector('.opt-check')?.classList.add('checked');
           }
           return;
         }
@@ -502,36 +431,6 @@ function attachOptionHandlers(s) {
     if (!answers.inaltime) inpH.focus();
     else if (!answers.greutate) inpG.focus();
   }
-
-  if (s.tip === 'skand') {
-    _container.querySelectorAll('[data-single-skand]').forEach(el => {
-      el.addEventListener('click', () => {
-        _container.querySelectorAll('[data-single-skand]').forEach(e => {
-          e.classList.remove('selected');
-          e.querySelector('.opt-radio')?.classList.remove('checked');
-        });
-        el.classList.add('selected');
-        el.querySelector('.opt-radio')?.classList.add('checked');
-        answers.skandenberg = el.dataset.val === 'true';
-        document.getElementById('skand-stil').style.display = answers.skandenberg ? 'block' : 'none';
-        if (!answers.skandenberg) answers.stil_skandenberg = null;
-        validateNext();
-      });
-    });
-
-    _container.querySelectorAll('[data-stil]').forEach(el => {
-      el.addEventListener('click', () => {
-        _container.querySelectorAll('[data-stil]').forEach(e => {
-          e.classList.remove('selected');
-          e.querySelector('.opt-radio')?.classList.remove('checked');
-        });
-        el.classList.add('selected');
-        el.querySelector('.opt-radio')?.classList.add('checked');
-        answers.stil_skandenberg = el.dataset.val;
-        validateNext();
-      });
-    });
-  }
 }
 
 function parseVal(v) {
@@ -551,7 +450,6 @@ function validateNext() {
   if (s.tip === 'multi')        ok = true;
   if (s.tip === 'equipment')    ok = answers.echipament.length > 0;
   if (s.tip === 'measurements') ok = true; // optional fields
-  if (s.tip === 'skand')        ok = answers.skandenberg !== null && (!answers.skandenberg || answers.stil_skandenberg !== null);
 
   btn.disabled = !ok;
   btn.style.opacity = ok ? '1' : '0.4';
@@ -606,11 +504,11 @@ function buildProfile() {
     timp:              answers.timp,
     experienta:        answers.experienta,
     echipament:        answers.echipament.filter(v => v !== '_sala'),
-    manere:            answers.manere,
+    manere:            [],
     grupe_prioritare:  answers.grupe_prioritare,
     articulatii_sensibile: answers.articulatii.filter(v => v !== 'niciuna'),
-    skandenberg:       answers.skandenberg,
-    stil_skandenberg:  answers.stil_skandenberg,
+    skandenberg:       false,
+    stil_skandenberg:  null,
     interfata:         'completa',
   };
 }
