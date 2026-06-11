@@ -1,5 +1,13 @@
 # Changelog — GVR Fitness Tracker
 
+## v0.6.0 — Navigație adaptivă (mobil vs desktop)
+
+- **Pe telefon**: bară de navigare fixă jos (Acasă · Antrenează · Program), cu butonul de start central, proeminent — ca în aplicațiile native de fitness
+- **Pe laptop/desktop** (ecrane late): sidebar lateral cu logo „GVR Fitness" și etichete complete
+- Navigația apare doar după salvarea programului; în timpul antrenamentului ecranul rămâne „focus", fără bară (nu pierzi seriile logate dintr-o atingere greșită)
+- Butonul „Antrenează" pornește direct ziua care urmează
+- Respectă zona de siguranță a telefoanelor cu notch (safe-area)
+
 ## v0.5.3 — Refactor vizual pe toată aplicația
 
 - **Iconițe SVG peste tot** — au dispărut toate simbolurile text (▶ ↔ ⊘ ✓ ✗ ⚑ 🎉) și emoji-urile inconsistente

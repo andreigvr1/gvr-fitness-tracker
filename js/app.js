@@ -6,6 +6,36 @@ import { initOnboarding } from './onboarding.js';
 function showView(id) {
   document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
   document.getElementById(id)?.classList.add('active');
+  updateNav(id);
+  window.scrollTo(0, 0);
+}
+
+// ── Navigație principală ──────────────────────────────────────────────────────
+function updateNav(viewId) {
+  const nav = document.getElementById('app-nav');
+  if (!nav) return;
+  const data = loadData();
+  // Nav doar după salvarea programului; ascuns în onboarding și în timpul antrenamentului (focus mode)
+  const visible = data?.program_salvat && (viewId === 'view-dashboard' || viewId === 'view-program');
+  nav.hidden = !visible;
+  document.body.classList.toggle('has-nav', visible);
+  nav.querySelectorAll('.nav-item').forEach(b => {
+    b.classList.toggle('active',
+      (b.dataset.nav === 'dashboard' && viewId === 'view-dashboard') ||
+      (b.dataset.nav === 'program'   && viewId === 'view-program'));
+  });
+}
+
+function initNav() {
+  document.getElementById('app-nav')?.addEventListener('click', e => {
+    const btn = e.target.closest('.nav-item');
+    if (!btn) return;
+    const d = loadData();
+    if (!d?.program) return;
+    if (btn.dataset.nav === 'dashboard') { renderDashboard(d); showView('view-dashboard'); }
+    if (btn.dataset.nav === 'program')   { renderProgram(d);   showView('view-program'); }
+    if (btn.dataset.nav === 'start')     { renderToday(d, getNextDayIdx(d.program, d.antrenamente)); showView('view-today'); }
+  });
 }
 
 // ── Onboarding ────────────────────────────────────────────────────────────────
@@ -769,6 +799,7 @@ function showUpdateBanner() {
 // ── Boot ───────────────────────────────────────────────────────────────────────
 document.addEventListener('DOMContentLoaded', () => {
   registerSW();
+  initNav();
   const data = loadData();
   if (!data?.profile || !data?.program) {
     startOnboarding();
