@@ -1,32 +1,37 @@
-# Review complet GVR Fitness Tracker
+# /review-all — Review complet GVR Fitness Tracker
 
-Rulează toate cele trei review-uri specializate în ordine și produce un raport consolidat.
+Rulează cele trei review-uri specializate în ordine și produce un raport consolidat.
 
-Execută pe rând:
-1. `/review-platform` — funcționalitate generală
-2. `/review-workout` — logică antrenamente
-3. `/review-ui` — grafică și UX
+1. Execută instrucțiunile din `/review-platform` complet
+2. Execută instrucțiunile din `/review-workout` complet
+3. Execută instrucțiunile din `/review-ui` complet
 
-La final, prezintă un **Raport Master** cu:
+La final, sintetizează rezultatele într-un **Raport Master**:
 
 ```
 ## Raport Master GVR Fitness Tracker — [data]
 
 ### Scoruri
-| Categorie       | Scor |
-|-----------------|------|
-| Platformă       | X/10 |
-| Antrenamente    | X/10 |
-| UI/Grafică      | X/10 |
-| **TOTAL**       | X/30 |
+| Categorie            | Scor  | Probleme critice | Probleme majore |
+|----------------------|-------|------------------|-----------------|
+| Platformă (QA)       | X/10  | N                | N               |
+| Antrenamente (Fitness)| X/10 | N                | N               |
+| UI/Grafică (Design)  | X/10  | N                | N               |
+| **TOTAL**            | X/30  |                  |                 |
 
-### Top 3 probleme critice (de rezolvat imediat)
-1. [problemă]
-2. [problemă]
-3. [problemă]
+### Probleme critice (de rezolvat imediat)
+1. [problemă — categorie]
+2. ...
+
+### Probleme majore (de rezolvat în sprint-ul următor)
+1. [problemă — categorie]
+2. ...
 
 ### Top 3 îmbunătățiri recomandate
 1. [sugestie]
 2. [sugestie]
 3. [sugestie]
+
+### Concluzie
+[2-3 propoziții: starea generală a produsului, cel mai important lucru de făcut acum]
 ```
