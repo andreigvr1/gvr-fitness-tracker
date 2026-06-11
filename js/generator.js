@@ -241,6 +241,11 @@ async function loadExercises() {
   return _cache;
 }
 
+export async function getExercisesByIds(ids) {
+  const all = await loadExercises();
+  return ids.map(id => all.find(ex => ex.id === id)).filter(Boolean);
+}
+
 // ── Public API ───────────────────────────────────────────────────────────────
 export async function generateProgram(profile, splitId) {
   const all   = await loadExercises();
