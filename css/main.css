@@ -75,6 +75,7 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
 }
 .app-nav[hidden] { display: none; }
 body.has-nav .view.active { padding-bottom: 86px; }
+.nav-logo { display: none; }
 
 .nav-item {
   flex: 1; max-width: 120px;
@@ -110,11 +111,11 @@ body.has-nav .view.active { padding-bottom: 86px; }
     border-top: none; border-right: 1px solid var(--border);
     padding: 28px 14px;
   }
-  .app-nav::before {
-    content: 'GVR Fitness';
-    font-size: 15px; font-weight: 900; letter-spacing: -0.01em;
-    color: var(--t1); padding: 0 12px 22px;
+  .nav-logo {
+    display: flex; align-items: center; justify-content: center;
+    padding: 0 0 8px; text-decoration: none;
   }
+  .nav-logo img { width: 172px; height: 172px; object-fit: contain; }
   .nav-item {
     flex: none; max-width: none; width: 100%;
     flex-direction: row; gap: 12px;
