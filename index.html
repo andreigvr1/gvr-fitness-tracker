@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>GVR Fitness Tracker</title>
+  <style>
+    :root {
+      --bg: #0f0f11;
+      --surface: #1a1a1f;
+      --accent: #6c63ff;
+      --text: #e8e8ee;
+      --text-muted: #6b6b78;
+      --green: #3ecf74;
+      --radius: 16px;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: system-ui, -apple-system, sans-serif;
+      min-height: 100dvh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+    }
+
+    .card {
+      background: var(--surface);
+      border-radius: var(--radius);
+      padding: 48px 40px;
+      max-width: 440px;
+      width: 100%;
+      text-align: center;
+    }
+
+    .badge {
+      display: inline-block;
+      background: color-mix(in srgb, var(--accent) 15%, transparent);
+      color: var(--accent);
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      padding: 6px 14px;
+      border-radius: 999px;
+      margin-bottom: 28px;
+    }
+
+    h1 {
+      font-size: clamp(24px, 6vw, 32px);
+      font-weight: 700;
+      line-height: 1.2;
+      margin-bottom: 16px;
+    }
+
+    h1 span {
+      color: var(--accent);
+    }
+
+    p {
+      color: var(--text-muted);
+      font-size: 15px;
+      line-height: 1.6;
+      margin-bottom: 36px;
+    }
+
+    .progress-wrap {
+      background: var(--bg);
+      border-radius: 999px;
+      height: 6px;
+      overflow: hidden;
+      margin-bottom: 12px;
+    }
+
+    .progress-bar {
+      height: 100%;
+      width: 0%;
+      background: linear-gradient(90deg, var(--accent), var(--green));
+      border-radius: 999px;
+      animation: fill 2s ease-out forwards;
+    }
+
+    @keyframes fill { to { width: 15%; } }
+
+    .progress-label {
+      color: var(--text-muted);
+      font-size: 12px;
+    }
+
+    .progress-label strong {
+      color: var(--green);
+    }
+
+    footer {
+      margin-top: 32px;
+      color: var(--text-muted);
+      font-size: 12px;
+    }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <div class="badge">În construcție</div>
+    <h1>GVR<br><span>Fitness Tracker</span></h1>
+    <p>Aplicația care îți construiește programul de antrenament și ia deciziile de antrenor în locul tău.<br>Revenim în curând.</p>
+    <div class="progress-wrap">
+      <div class="progress-bar"></div>
+    </div>
+    <div class="progress-label">Etapa 1 din 6 — <strong>în lucru</strong></div>
+  </div>
+  <footer>v0.1.0 · GVR Fitness Tracker</footer>
+</body>
+</html>
