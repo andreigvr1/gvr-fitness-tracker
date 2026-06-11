@@ -48,12 +48,18 @@ export class WorkoutRenderer {
   }
 
   buildExerciseHTML(ex, exIdx) {
+    const LOWER_PATTERNS = new Set(['squat','hinge','unilateral picior','flexie genunchi','izolare-fesieri','izolare-gambe']);
+    const isLowerBody        = LOWER_PATTERNS.has(ex.pattern);
+    const isBodyweight       = ex.echipament?.every(e => e === 'corp') ?? false;
+    const hasCenturaGreutati = this.profile.echipament?.includes('centura_greutati') ?? false;
+
     const rec = this.progressionEngine.getRecommendation(
       ex.id,
       ex.rep_min,
       ex.rep_max,
       this.antrenamente,
-      this.profile.experienta
+      this.profile.experienta,
+      { isLowerBody, isBodyweight, hasCenturaGreutati }
     );
     const suggestKg = rec.kg || '';
     const isStatic = ex.reguli_speciale?.includes('timp');
@@ -103,7 +109,7 @@ export class WorkoutRenderer {
         ? `<div class="rec-banner rec-calibrare">${ico('flag')}<span>${rec.mesaj}</span></div>`
         : rec.tip === 'creste'
           ? `<div class="rec-banner rec-creste">${ico('up')}<span>${rec.mesaj}</span></div>`
-          : rec.tip === 'regresia'
+          : rec.tip === 'scade'
             ? `<div class="rec-banner rec-regresia">${ico('down')}<span>${rec.mesaj}</span></div>`
             : `<div class="rec-banner rec-info">${ico('arrow')}<span>${rec.mesaj}</span></div>`}
           ${hasTempo ? `<div class="tempo-explain">${ico('timer')}<span>Tempo 3-1-3 = 3 sec coborâre · 1 sec pauză jos · 3 sec ridicare</span></div>` : ''}

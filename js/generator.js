@@ -73,7 +73,25 @@ const SPLITS = {
   },
 };
 
-const REC_SPLIT = { 2: 'full_body_ab', 3: 'full_body_abc', 4: 'upper_lower_x2', 5: 'upper_lower_ppl' };
+// Split recommendation matrix: (zile, experienta, obiectiv) → split_id
+// experienta: 0=incepator, 1=sub1an, 2=1-3ani, 3=peste3ani
+function _recSplit(zile, experienta, obiectiv) {
+  if (zile === 2) return 'full_body_ab';
+  if (zile === 3) {
+    if (experienta <= 1) return 'full_body_abc';             // beginner: frecvență mare
+    if (obiectiv === 'forta') return 'full_body_abc';        // forță: frecvență obligatorie
+    if (obiectiv === 'masa')  return 'push_pull_legs';       // masă intermediar: volum per grupă
+    return 'upper_lower_full';                               // sănătate/anduranță
+  }
+  if (zile === 4) {
+    if (experienta <= 1) return 'upper_lower_x2';
+    if (experienta >= 3) return 'ppl_upper';
+    return 'upper_lower_x2';
+  }
+  // 5 zile
+  if (obiectiv === 'forta' && experienta >= 2) return 'ppl_upper_lower';
+  return 'upper_lower_ppl';
+}
 
 // ── Helpers ─────────────────────────────────────────────────────────────────
 function numSlots(timp) {
@@ -114,6 +132,7 @@ function prescribe(ex, obiectiv) {
     id: ex.id, nume: ex.nume, pattern: ex.pattern, tip: ex.tip,
     grupe: ex.grupe_principale, descriere: ex.descriere,
     reguli_speciale: ex.reguli_speciale,
+    echipament: ex.echipament,
     seturi, rep_min, rep_max, pauza_sec,
     alternative: [],
   };
@@ -166,20 +185,30 @@ const SLOT_TEMPLATES = {
 };
 
 // ── Scoring ──────────────────────────────────────────────────────────────────
-function scoreEx(ex, obiectiv, prioritati, usedGroups, slotsTotal) {
+// equipment: Set cu echipamentul utilizatorului — preferăm exerciții cu echipament
+// față de varianta bodyweight dacă utilizatorul are echipamentul respectiv.
+function scoreEx(ex, obiectiv, prioritati, usedGroups, slotsTotal, equipment) {
   let s = 10;
-  // Fundamentalele (compound multi-articular) au mereu prioritate
   if (ex.tip === 'compound') s += 10;
   if (obiectiv === 'forta'    && ex.tip === 'compound')  s += 8;
   if (obiectiv === 'masa'     && ex.tip === 'izolare')   s += 4;
   if (obiectiv === 'anduranta'&& ex.tip === 'conditie')  s += 8;
   if (ex.grupe_principale.some(g => prioritati.has(g)))  s += 20;
-  // Carry / condiție / static nu merită un slot când timpul e scurt
   if (slotsTotal <= 5 && (ex.pattern === 'carry' || ex.tip === 'conditie')) s -= 25;
   if (slotsTotal <= 5 && ex.tip === 'static') s -= 10;
   const overlap = ex.grupe_principale.filter(g => usedGroups.has(g)).length;
   s -= overlap * 8;
-  s += (Math.random() * 4 - 2); // slight variety
+
+  // Preferă exercițiile cu echipament față de bodyweight-only când echipamentul e disponibil.
+  // Excepție: pull-up rămâne competitiv față de lat pulldown, core e bodyweight by default.
+  const isBWOnly = ex.echipament.length === 1 && ex.echipament[0] === 'corp';
+  const isPullUp  = ex.id === 'pullup' || ex.id === 'chinup';
+  const isCore    = CORE_P.includes(ex.pattern);
+  if (!isBWOnly && !isCore && !isPullUp && equipment && ex.echipament.some(e => e !== 'corp' && equipment.has(e))) {
+    s += 7;
+  }
+
+  s += (Math.random() * 4 - 2);
   return s;
 }
 
@@ -197,6 +226,7 @@ function selectForDay(dayTip, allValid, profile, usedIds) {
 
   const selected   = [];
   const usedGroups = new Set();
+  const equipSet   = new Set(profile.echipament || []);
 
   for (let si = 0; si < template.length && selected.length < slots && candidates.length > 0; si++) {
     const slotDef = template[si];
@@ -211,10 +241,15 @@ function selectForDay(dayTip, allValid, profile, usedIds) {
     } else {
       pool = candidates.filter(ex => slotDef.includes(ex.pattern));
     }
-    if (!pool.length) pool = candidates; // fallback: nu pierdem slotul
+    // Fallback special pentru hinge fără echipament: slotul cere 'hinge' dar nu există
+    // hinge real bodyweight-only — folosim izolare-fesieri (glute bridge) ca substitut funcțional.
+    if (!pool.length && slotDef.includes('hinge')) {
+      pool = candidates.filter(ex => ex.pattern === 'izolare-fesieri');
+    }
+    if (!pool.length) pool = candidates; // fallback generic: nu pierdem slotul
 
     const scored = pool
-      .map(ex => ({ ex, sc: scoreEx(ex, obj, prior, usedGroups, slots) }))
+      .map(ex => ({ ex, sc: scoreEx(ex, obj, prior, usedGroups, slots, equipSet) }))
       .sort((a, b) => b.sc - a.sc);
 
     const winner = scored[0].ex;
@@ -338,12 +373,13 @@ export async function generateProgram(profile, splitId) {
   return { split_id: splitId, split_label: split.label, split_desc: split.desc, zile, generat_la: Date.now() };
 }
 
-export function getRecommendedSplit(zile) {
-  return REC_SPLIT[zile] || 'full_body_ab';
+export function getRecommendedSplit(zile, experienta = 0, obiectiv = 'sanatate') {
+  return _recSplit(zile, experienta, obiectiv);
 }
 
-export function getSplitsForZile(zile) {
+export function getSplitsForZile(zile, experienta = 0, obiectiv = 'sanatate') {
+  const rec = _recSplit(zile, experienta, obiectiv);
   return Object.entries(SPLITS)
     .filter(([, s]) => s.zile_target.includes(zile))
-    .map(([id, s]) => ({ id, label: s.label, desc: s.desc, recomandat: REC_SPLIT[zile] === id }));
+    .map(([id, s]) => ({ id, label: s.label, desc: s.desc, recomandat: rec === id }));
 }

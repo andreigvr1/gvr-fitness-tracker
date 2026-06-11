@@ -1,1430 +1,1615 @@
-{
-  "version": "1.0",
-  "nota": "Biblioteca de exercitii GVR Fitness Tracker. Livrabil Etapa 1 — de revizuit de Andrei inainte de implementare, in special sectiunile skandenberg si risc_articular.",
-  "exercitii": [
-    {
-      "id": "squat_perete",
-      "nume": "Squat la perete",
-      "pattern": "squat",
-      "grupe_principale": [
-        "cvadriceps",
-        "fesieri"
-      ],
-      "tip": "compound",
-      "echipament": [
-        "corp"
-      ],
-      "nivel": 1,
-      "risc_articular": [
-        "genunchi"
-      ],
-      "descriere": "Sprijin cu spatele pe perete, coboara pana la 90° si mentine pozitia. Genunchii raman deasupra vârfurilor, nu depasesc degetele.",
-      "reguli_speciale": "timp in loc de repetari"
-    },
-    {
-      "id": "goblet_squat",
-      "nume": "Goblet squat",
-      "pattern": "squat",
-      "grupe_principale": [
-        "cvadriceps",
-        "fesieri"
-      ],
-      "tip": "compound",
-      "echipament": [
-        "gantera"
-      ],
-      "nivel": 1,
-      "risc_articular": [],
-      "descriere": "Tine gantera vertical la piept cu ambele maini sub disc. Coboara cu spatele drept pana la paralel cu solul; coatele imping genunchii spre exterior la fund.",
-      "reguli_speciale": null
-    },
-    {
-      "id": "squat_banda",
-      "nume": "Squat cu banda",
-      "pattern": "squat",
-      "grupe_principale": [
-        "cvadriceps",
-        "fesieri"
-      ],
-      "tip": "compound",
-      "echipament": [
-        "banda"
-      ],
-      "nivel": 1,
-      "risc_articular": [],
-      "descriere": "Banda trece sub talpi si peste umeri. Coboara controlat pana la paralel; genunchii urmeaza directia degetelor.",
-      "reguli_speciale": null
-    },
-    {
-      "id": "back_squat",
-      "nume": "Back squat",
-      "pattern": "squat",
-      "grupe_principale": [
-        "cvadriceps",
-        "fesieri",
-        "ischio"
-      ],
-      "tip": "compound",
-      "echipament": [
-        "haltera",
-        "rack"
-      ],
-      "nivel": 2,
-      "risc_articular": [
-        "genunchi",
-        "lombar"
-      ],
-      "descriere": "Haltera pe trapez, pozitie high-bar sau low-bar. Coboara cu spatele neutru pana la paralel; genunchii si soldurile se extind simultan la ridicare.",
-      "reguli_speciale": null
-    },
-    {
-      "id": "bulgarian_split_squat",
-      "nume": "Bulgarian split squat",
-      "pattern": "squat",
-      "grupe_principale": [
-        "cvadriceps",
-        "fesieri"
-      ],
-      "tip": "compound",
-      "echipament": [
-        "gantera",
-        "banca"
-      ],
-      "nivel": 2,
-      "risc_articular": [
-        "genunchi"
-      ],
-      "descriere": "Piciorul din spate pe banca, coboara vertical cu trunchiul usor aplecat inainte. Genunchiul din fata nu depaseste vârful degetelor mai mult de 2-3 cm.",
-      "reguli_speciale": "unilateral"
-    },
-    {
-      "id": "hip_hinge_corp",
-      "nume": "Hip hinge",
-      "pattern": "hinge",
-      "grupe_principale": [
-        "ischio",
-        "fesieri"
-      ],
-      "tip": "compound",
-      "echipament": [
-        "corp"
-      ],
-      "nivel": 1,
-      "risc_articular": [],
-      "descriere": "Picioarele la latimea soldurilor, impinge soldurile inapoi cu spatele drept pana simti tensiune in ischiori. Intoarce-te impingand cu calcaiele in podea.",
-      "reguli_speciale": null
-    },
-    {
-      "id": "romanian_deadlift_gantere",
-      "nume": "Romanian deadlift cu gantere",
-      "pattern": "hinge",
-      "grupe_principale": [
-        "ischio",
-        "fesieri"
-      ],
-      "tip": "compound",
-      "echipament": [
-        "gantera"
-      ],
-      "nivel": 1,
-      "risc_articular": [
-        "lombar"
-      ],
-      "descriere": "Gantere in fata coapselor, coboara cu spatele neutru si genunchii usor flexati pana simti tensiune in ischiori. Opreste inainte ca spatele sa cedeze.",
-      "reguli_speciale": null
-    },
-    {
-      "id": "deadlift",
-      "nume": "Deadlift",
-      "pattern": "hinge",
-      "grupe_principale": [
-        "ischio",
-        "fesieri",
-        "spate"
-      ],
-      "tip": "compound",
-      "echipament": [
-        "haltera"
-      ],
-      "nivel": 2,
-      "risc_articular": [
-        "lombar"
-      ],
-      "descriere": "Haltera deasupra mijlocului labei; inainte de ridicare impinge solul cu calcaiele si ridica pieptul. Mentine bara aproape de corp pe tot parcursul.",
-      "reguli_speciale": null
-    },
-    {
-      "id": "kettlebell_swing_gantera",
-      "nume": "Kettlebell swing cu gantera",
-      "pattern": "hinge",
-      "grupe_principale": [
-        "fesieri",
-        "ischio"
-      ],
-      "tip": "compound",
-      "echipament": [
-        "gantera"
-      ],
-      "nivel": 2,
-      "risc_articular": [
-        "lombar"
-      ],
-      "descriere": "Gantera intre picioare, impuls puternic din solduri — nu din brate. La varf trunchiul e vertical si fesierii contractati; nu lasa gantera sa traga spatele la coborare.",
-      "reguli_speciale": null
-    },
-    {
-      "id": "flotari",
-      "nume": "Flotari",
-      "pattern": "impins orizontal",
-      "grupe_principale": [
-        "piept",
-        "triceps",
-        "umeri"
-      ],
-      "tip": "compound",
-      "echipament": [
-        "corp"
-      ],
-      "nivel": 1,
-      "risc_articular": [],
-      "descriere": "Corp drept de la cap la calcaie; coboara pieptul pana la 2-3 cm de podea cu coatele la 45° fata de trunchi. Nu lasa soldurile sa coboare sau sa se ridice.",
-      "reguli_speciale": null
-    },
-    {
-      "id": "flotari_picioare_ridicate",
-      "nume": "Flotari cu picioarele ridicate",
-      "pattern": "impins orizontal",
-      "grupe_principale": [
-        "piept",
-        "triceps",
-        "umeri"
-      ],
-      "tip": "compound",
-      "echipament": [
-        "corp",
-        "banca"
-      ],
-      "nivel": 2,
-      "risc_articular": [
-        "umar"
-      ],
-      "descriere": "Picioarele pe banca, palmele pe podea. Accentueaza portiunea superioara a pieptului; mentine corpul drept pe tot parcursul.",
-      "reguli_speciale": null
-    },
-    {
-      "id": "bench_press_gantere",
-      "nume": "Bench press cu gantere",
-      "pattern": "impins orizontal",
-      "grupe_principale": [
-        "piept",
-        "triceps",
-        "umeri"
-      ],
-      "tip": "compound",
-      "echipament": [
-        "gantera",
-        "banca"
-      ],
-      "nivel": 2,
-      "risc_articular": [
-        "umar"
-      ],
-      "descriere": "Gantere la nivelul pieptului cu coatele la ~75°, impinge vertical spre tavan. Nu lasa ganterele sa coboare sub nivelul pieptului; mentine omoplatiis retrasi pe banca.",
-      "reguli_speciale": null
-    },
-    {
-      "id": "bench_press_haltera",
-      "nume": "Bench press cu haltera",
-      "pattern": "impins orizontal",
-      "grupe_principale": [
-        "piept",
-        "triceps",
-        "umeri"
-      ],
-      "tip": "compound",
-      "echipament": [
-        "haltera",
-        "banca",
-        "rack"
-      ],
-      "nivel": 2,
-      "risc_articular": [
-        "umar"
-      ],
-      "descriere": "Priza usor mai lata decat umerii, coboara bara controlat pana atinge usor pieptul. Omoplatiis retrasi si jos pe banca pe toata durata setului.",
-      "reguli_speciale": null
-    },
-    {
-      "id": "pike_pushup",
-      "nume": "Pike push-up",
-      "pattern": "impins vertical",
-      "grupe_principale": [
-        "umeri",
-        "triceps"
-      ],
-      "tip": "compound",
-      "echipament": [
-        "corp"
-      ],
-      "nivel": 1,
-      "risc_articular": [
-        "umar"
-      ],
-      "descriere": "Din pozitia de V inversat, coboara capul spre podea indoind coatele. Mentine soldurile sus si coloana neutra; opreste imediat daca simti durere in umar.",
-      "reguli_speciale": null
-    },
-    {
-      "id": "overhead_press_gantere",
-      "nume": "Overhead press cu gantere",
-      "pattern": "impins vertical",
-      "grupe_principale": [
-        "umeri",
-        "triceps"
-      ],
-      "tip": "compound",
-      "echipament": [
-        "gantera"
-      ],
-      "nivel": 2,
-      "risc_articular": [
-        "umar"
-      ],
-      "descriere": "Pornind de la nivelul umerilor, impinge ganterele vertical cu coatele usor in fata, nu in lateral. Contracta abdomenul si nu arcui excesiv lombar.",
-      "reguli_speciale": null
-    },
-    {
-      "id": "overhead_press_haltera",
-      "nume": "Overhead press cu haltera",
-      "pattern": "impins vertical",
-      "grupe_principale": [
-        "umeri",
-        "triceps"
-      ],
-      "tip": "compound",
-      "echipament": [
-        "haltera",
-        "rack"
-      ],
-      "nivel": 3,
-      "risc_articular": [
-        "umar"
-      ],
-      "descriere": "Priza la latimea umerilor, bara in fata la nivelul claviculelor. Impinge vertical; la trecerea pe langa fata muta usor capul inapoi, revino in fata dupa ce bara trece.",
-      "reguli_speciale": null
-    },
-    {
-      "id": "ramat_gantera",
-      "nume": "Ramat cu gantera",
-      "pattern": "tractiune orizontala",
-      "grupe_principale": [
-        "spate",
-        "biceps"
-      ],
-      "tip": "compound",
-      "echipament": [
-        "gantera",
-        "banca"
-      ],
-      "nivel": 1,
-      "risc_articular": [],
-      "descriere": "Genunchiul si palma ipsilaterala pe banca, trage gantera spre sold cu cotul aproape de corp. Mentine spatele paralel cu solul si nu roti trunchiul.",
-      "reguli_speciale": "unilateral"
-    },
-    {
-      "id": "ramat_banda",
-      "nume": "Ramat cu banda",
-      "pattern": "tractiune orizontala",
-      "grupe_principale": [
-        "spate",
-        "biceps"
-      ],
-      "tip": "compound",
-      "echipament": [
-        "banda"
-      ],
-      "nivel": 1,
-      "risc_articular": [],
-      "descriere": "Banda ancorată la nivelul pieptului, trage cu coatele spre spate finalizand cu omoplatiis retrasi. Rezistenta creste pe masura ce tragi; controleaza revenirea.",
-      "reguli_speciale": null
-    },
-    {
-      "id": "ramat_scripete",
-      "nume": "Ramat la scripete orizontal",
-      "pattern": "tractiune orizontala",
-      "grupe_principale": [
-        "spate",
-        "biceps"
-      ],
-      "tip": "compound",
-      "echipament": [
-        "scripete"
-      ],
-      "nivel": 1,
-      "risc_articular": [],
-      "descriere": "Sezut cu spatele drept, trage manerele spre abdomen cu coatele aproape de corp. La final retrage omoplatiis si tine 1 secunda; revenire controlata.",
-      "reguli_speciale": null
-    },
-    {
-      "id": "barbell_row",
-      "nume": "Barbell row",
-      "pattern": "tractiune orizontala",
-      "grupe_principale": [
-        "spate",
-        "biceps"
-      ],
-      "tip": "compound",
-      "echipament": [
-        "haltera"
-      ],
-      "nivel": 2,
-      "risc_articular": [
-        "lombar"
-      ],
-      "descriere": "Trunchi la ~45°, spatele neutru; trage bara spre buric cu coatele aproape de corp. Nu ridica trunchiul pentru a ajuta miscarea.",
-      "reguli_speciale": null
-    },
-    {
-      "id": "pullup_asistat_banda",
-      "nume": "Pull-up asistat cu banda",
-      "pattern": "tractiune verticala",
-      "grupe_principale": [
-        "spate",
-        "biceps"
-      ],
-      "tip": "compound",
-      "echipament": [
-        "bara tractiuni",
-        "banda"
-      ],
-      "nivel": 1,
-      "risc_articular": [],
-      "descriere": "Banda fixata pe bara si sub genunchi reduce greutatea corporala. Trage cu coatele spre solduri, nu spre spate; controleaza coborarea 3 secunde.",
-      "reguli_speciale": null
-    },
-    {
-      "id": "lat_pulldown",
-      "nume": "Lat pulldown",
-      "pattern": "tractiune verticala",
-      "grupe_principale": [
-        "spate",
-        "biceps"
-      ],
-      "tip": "compound",
-      "echipament": [
-        "scripete"
-      ],
-      "nivel": 1,
-      "risc_articular": [],
-      "descriere": "Usor aplecat inapoi, trage bara spre clavicule cu coatele orientate spre podea. Nu te balansa; revenire controlata cu omoplatiis care se deschid complet.",
-      "reguli_speciale": null
-    },
-    {
-      "id": "pullup",
-      "nume": "Pull-up",
-      "pattern": "tractiune verticala",
-      "grupe_principale": [
-        "spate",
-        "biceps"
-      ],
-      "tip": "compound",
-      "echipament": [
-        "bara tractiuni"
-      ],
-      "nivel": 2,
-      "risc_articular": [],
-      "descriere": "Priza pronata la latimea umerilor, trage barbia deasupra barei cu coatele orientate spre podea. Coborare completa si controlata la fiecare repetare.",
-      "reguli_speciale": null
-    },
-    {
-      "id": "chinup",
-      "nume": "Chin-up",
-      "pattern": "tractiune verticala",
-      "grupe_principale": [
-        "spate",
-        "biceps"
-      ],
-      "tip": "compound",
-      "echipament": [
-        "bara tractiuni"
-      ],
-      "nivel": 2,
-      "risc_articular": [],
-      "descriere": "Priza supinata la latimea umerilor; implica mai mult bicepsul fata de pull-up. Trage pieptul spre bara, coboara complet cu control.",
-      "reguli_speciale": null
-    },
-    {
-      "id": "fandare",
-      "nume": "Fandare",
-      "pattern": "unilateral picior",
-      "grupe_principale": [
-        "cvadriceps",
-        "fesieri"
-      ],
-      "tip": "compound",
-      "echipament": [
-        "corp"
-      ],
-      "nivel": 1,
-      "risc_articular": [
-        "genunchi"
-      ],
-      "descriere": "Pas mare inainte, coboara genunchiul din spate spre podea fara sa atinga. Genunchiul din fata nu depaseste vârful degetelor; trunchiul ramane vertical.",
-      "reguli_speciale": "unilateral"
-    },
-    {
-      "id": "step_up",
-      "nume": "Step-up",
-      "pattern": "unilateral picior",
-      "grupe_principale": [
-        "cvadriceps",
-        "fesieri"
-      ],
-      "tip": "compound",
-      "echipament": [
-        "gantera",
-        "banca"
-      ],
-      "nivel": 1,
-      "risc_articular": [
-        "genunchi"
-      ],
-      "descriere": "Urca pe banca cu un picior, impingand exclusiv din piciorul de sus fara sa te ajuti cu cel din urma. Coboara controlat.",
-      "reguli_speciale": "unilateral"
-    },
-    {
-      "id": "single_leg_rdl",
-      "nume": "Single leg Romanian deadlift",
-      "pattern": "unilateral picior",
-      "grupe_principale": [
-        "ischio",
-        "fesieri"
-      ],
-      "tip": "compound",
-      "echipament": [
-        "gantera"
-      ],
-      "nivel": 2,
-      "risc_articular": [],
-      "descriere": "Sprijin pe un picior, gantera in mana opusa; coboara cu spatele drept pana la paralel cu solul. Genunchiul de sprijin usor flexat, nu blocat.",
-      "reguli_speciale": "unilateral"
-    },
-    {
-      "id": "leg_curl_banda",
-      "nume": "Leg curl cu banda",
-      "pattern": "flexie genunchi",
-      "grupe_principale": [
-        "ischio"
-      ],
-      "tip": "izolare",
-      "echipament": [
-        "banda"
-      ],
-      "nivel": 1,
-      "risc_articular": [
-        "genunchi"
-      ],
-      "descriere": "Banda ancorată jos, culcat pe burta; indoaie genunchiul tragand calcaiul spre fese. Mentine soldul pe podea; nu arcui lombar.",
-      "reguli_speciale": "unilateral"
-    },
-    {
-      "id": "nordic_curl",
-      "nume": "Nordic curl",
-      "pattern": "flexie genunchi",
-      "grupe_principale": [
-        "ischio"
-      ],
-      "tip": "compound",
-      "echipament": [
-        "corp"
-      ],
-      "nivel": 3,
-      "risc_articular": [
-        "genunchi"
-      ],
-      "descriere": "Genunchii fixati, coboara trunchiul cat mai lent spre podea cu ajutorul ischiorilor. Exercitiu de preventie foarte eficient; opreste imediat la durere in genunchi.",
-      "reguli_speciale": null
-    },
-    {
-      "id": "plansa",
-      "nume": "Plansa",
-      "pattern": "core",
-      "grupe_principale": [
-        "abdomen"
-      ],
-      "tip": "static",
-      "echipament": [
-        "corp"
-      ],
-      "nivel": 1,
-      "risc_articular": [],
-      "descriere": "Sprijin pe antebrate si varfurile picioarelor, corp perfect drept. Contracta abdomenul si fesierii; nu lasa soldurile sa coboare sau sa urce.",
-      "reguli_speciale": "timp in loc de repetari"
-    },
-    {
-      "id": "dead_bug",
-      "nume": "Dead bug",
-      "pattern": "core",
-      "grupe_principale": [
-        "abdomen"
-      ],
-      "tip": "compound",
-      "echipament": [
-        "corp"
-      ],
-      "nivel": 1,
-      "risc_articular": [],
-      "descriere": "Culcat pe spate, brate spre tavan, genunchi la 90°. Coboara simultan bratul drept si piciorul stang spre podea fara sa atinga, mentinand lombarul lipit de sol.",
-      "reguli_speciale": null
-    },
-    {
-      "id": "pallof_press_banda",
-      "nume": "Pallof press cu banda",
-      "pattern": "core",
-      "grupe_principale": [
-        "abdomen"
-      ],
-      "tip": "izolare",
-      "echipament": [
-        "banda"
-      ],
-      "nivel": 2,
-      "risc_articular": [],
-      "descriere": "Banda ancorată lateral la inaltimea pieptului; impinge bratele inainte si rezista la rotatie. Forta vine din stabilizarea trunchiului, nu din brate.",
-      "reguli_speciale": null
-    },
-    {
-      "id": "hollow_body",
-      "nume": "Hollow body hold",
-      "pattern": "core",
-      "grupe_principale": [
-        "abdomen"
-      ],
-      "tip": "static",
-      "echipament": [
-        "corp"
-      ],
-      "nivel": 2,
-      "risc_articular": [],
-      "descriere": "Culcat pe spate, brate si picioare ridicate la ~30° de sol, lombarul presat in podea. Mentine pozitia fara sa ridici umerii prin tensionarea gatului.",
-      "reguli_speciale": "timp in loc de repetari"
-    },
-    {
-      "id": "ab_wheel_rollout",
-      "nume": "Ab wheel rollout",
-      "pattern": "core",
-      "grupe_principale": [
-        "abdomen"
-      ],
-      "tip": "compound",
-      "echipament": [
-        "gantera"
-      ],
-      "nivel": 3,
-      "risc_articular": [
-        "lombar"
-      ],
-      "descriere": "Din genunchi, ruleaza roata/gantera inainte cat poti fara sa cedeze lombarul. Revino contractand abdomenul, nu tragand cu bratele.",
-      "reguli_speciale": null
-    },
-    {
-      "id": "farmer_carry",
-      "nume": "Farmer carry",
-      "pattern": "carry",
-      "grupe_principale": [
-        "antebrat",
-        "umeri",
-        "abdomen"
-      ],
-      "tip": "compound",
-      "echipament": [
-        "gantera"
-      ],
-      "nivel": 1,
-      "risc_articular": [],
-      "descriere": "Gantere grele in ambele maini, mers drept fara sa te inclini lateral. Umerii trasi inapoi si jos; respiratie normala pe tot parcursul.",
-      "reguli_speciale": "timp in loc de repetari"
-    },
-    {
-      "id": "suitcase_carry",
-      "nume": "Suitcase carry",
-      "pattern": "carry",
-      "grupe_principale": [
-        "abdomen",
-        "antebrat"
-      ],
-      "tip": "compound",
-      "echipament": [
-        "gantera"
-      ],
-      "nivel": 2,
-      "risc_articular": [
-        "lombar"
-      ],
-      "descriere": "O singura gantera intr-o mana; rezista la incovoierea laterala a trunchiului mentinand soldurile si umerii nivelati. Alterneaza mainile la seturi.",
-      "reguli_speciale": "unilateral, timp in loc de repetari"
-    },
-    {
-      "id": "bicep_curl_gantere",
-      "nume": "Bicep curl cu gantere",
-      "pattern": "izolare-biceps",
-      "grupe_principale": [
-        "biceps"
-      ],
-      "tip": "izolare",
-      "echipament": [
-        "gantera"
-      ],
-      "nivel": 1,
-      "risc_articular": [
-        "cot"
-      ],
-      "descriere": "Coatele lipite de trunchi, ridica ganterele supinand progresiv antebratele. Coboara controlat in 3 secunde; nu balansa trunchiul.",
-      "reguli_speciale": null
-    },
-    {
-      "id": "bicep_curl_haltera",
-      "nume": "Bicep curl cu haltera",
-      "pattern": "izolare-biceps",
-      "grupe_principale": [
-        "biceps"
-      ],
-      "tip": "izolare",
-      "echipament": [
-        "haltera"
-      ],
-      "nivel": 1,
-      "risc_articular": [
-        "cot"
-      ],
-      "descriere": "Priza supinata la latimea umerilor, coatele fixe langa trunchi. Ridica bara in arc complet; nu folosi inertia.",
-      "reguli_speciale": null
-    },
-    {
-      "id": "bicep_curl_banda",
-      "nume": "Bicep curl cu banda",
-      "pattern": "izolare-biceps",
-      "grupe_principale": [
-        "biceps"
-      ],
-      "tip": "izolare",
-      "echipament": [
-        "banda"
-      ],
-      "nivel": 1,
-      "risc_articular": [
-        "cot"
-      ],
-      "descriere": "Banda sub talpi, priza supinata; ridica mainile spre umeri. Rezistenta creste la varful miscarii, invers fata de gantera — mentine coatele fixe.",
-      "reguli_speciale": null
-    },
-    {
-      "id": "bicep_curl_scripete",
-      "nume": "Bicep curl la scripete",
-      "pattern": "izolare-biceps",
-      "grupe_principale": [
-        "biceps"
-      ],
-      "tip": "izolare",
-      "echipament": [
-        "scripete"
-      ],
-      "nivel": 1,
-      "risc_articular": [
-        "cot"
-      ],
-      "descriere": "Scripetele jos, priza supinata; tensiunea ramane constanta pe tot arcul de miscare. Coatele fixe langa trunchi.",
-      "reguli_speciale": null
-    },
-    {
-      "id": "triceps_overhead_gantera",
-      "nume": "Triceps overhead extension cu gantera",
-      "pattern": "izolare-triceps",
-      "grupe_principale": [
-        "triceps"
-      ],
-      "tip": "izolare",
-      "echipament": [
-        "gantera"
-      ],
-      "nivel": 1,
-      "risc_articular": [
-        "cot"
-      ],
-      "descriere": "Gantera cu ambele maini deasupra capului, coboara in spatele capului indoind coatele. Coatele raman aproape de cap; nu forta la capatul miscarii daca simti presiune in cot.",
-      "reguli_speciale": null
-    },
-    {
-      "id": "triceps_pushdown_scripete",
-      "nume": "Triceps pushdown la scripete",
-      "pattern": "izolare-triceps",
-      "grupe_principale": [
-        "triceps"
-      ],
-      "tip": "izolare",
-      "echipament": [
-        "scripete"
-      ],
-      "nivel": 1,
-      "risc_articular": [],
-      "descriere": "Scripetele sus, coatele fixe langa trunchi; impinge bara/franghia in jos pana la extensie completa. Revenire controlata fara sa lasi coatele sa se ridice.",
-      "reguli_speciale": null
-    },
-    {
-      "id": "triceps_dips",
-      "nume": "Triceps dips",
-      "pattern": "izolare-triceps",
-      "grupe_principale": [
-        "triceps",
-        "piept"
-      ],
-      "tip": "compound",
-      "echipament": [
-        "corp",
-        "banca"
-      ],
-      "nivel": 2,
-      "risc_articular": [
-        "umar",
-        "cot"
-      ],
-      "descriere": "Mainile pe marginea bancii, coboara pana coatele ajung la 90°. Nu cobora mai jos de 90°; daca simti durere in umar, opreste imediat.",
-      "reguli_speciale": null
-    },
-    {
-      "id": "glute_bridge",
-      "nume": "Glute bridge",
-      "pattern": "izolare-fesieri",
-      "grupe_principale": [
-        "fesieri"
-      ],
-      "tip": "izolare",
-      "echipament": [
-        "corp"
-      ],
-      "nivel": 1,
-      "risc_articular": [],
-      "descriere": "Culcat pe spate, genunchi la 90°; impinge soldurile spre tavan contractand fesierii la varf. Tine 2 secunde sus; coloana neutra, nu forta arcuirea lombara.",
-      "reguli_speciale": null
-    },
-    {
-      "id": "hip_thrust_gantera",
-      "nume": "Hip thrust cu gantera",
-      "pattern": "izolare-fesieri",
-      "grupe_principale": [
-        "fesieri"
-      ],
-      "tip": "izolare",
-      "echipament": [
-        "gantera",
-        "banca"
-      ],
-      "nivel": 1,
-      "risc_articular": [],
-      "descriere": "Spatele pe marginea bancii, gantera pe sold; ridica soldurile contractand fesierii maxim. Barbia la piept, nu arunca capul pe spate.",
-      "reguli_speciale": null
-    },
-    {
-      "id": "hip_thrust_haltera",
-      "nume": "Hip thrust cu haltera",
-      "pattern": "izolare-fesieri",
-      "grupe_principale": [
-        "fesieri"
-      ],
-      "tip": "izolare",
-      "echipament": [
-        "haltera",
-        "banca"
-      ],
-      "nivel": 2,
-      "risc_articular": [],
-      "descriere": "Varianta cu sarcina mai mare; foloseste un pad de protectie pe haltera. Ridica soldurile pana la extensie completa, tine 1 secunda.",
-      "reguli_speciale": null
-    },
-    {
-      "id": "glute_kickback_banda",
-      "nume": "Glute kickback cu banda",
-      "pattern": "izolare-fesieri",
-      "grupe_principale": [
-        "fesieri"
-      ],
-      "tip": "izolare",
-      "echipament": [
-        "banda"
-      ],
-      "nivel": 1,
-      "risc_articular": [],
-      "descriere": "Banda in jurul gleznelor, patruped; impinge piciorul inapoi si sus fara sa rotesti pelvisul. Contracta fesierii la extensie maxima.",
-      "reguli_speciale": "unilateral"
-    },
-    {
-      "id": "abductie_sold_banda",
-      "nume": "Abductie sold cu banda",
-      "pattern": "izolare-fesieri",
-      "grupe_principale": [
-        "fesieri"
-      ],
-      "tip": "izolare",
-      "echipament": [
-        "banda"
-      ],
-      "nivel": 1,
-      "risc_articular": [],
-      "descriere": "Banda deasupra genunchilor, sezut sau culcat lateral; deschide genunchii rezistând la banda. Contracta fesierii la deschidere maxima.",
-      "reguli_speciale": null
-    },
-    {
-      "id": "calf_raise_corp",
-      "nume": "Calf raise",
-      "pattern": "izolare-gambe",
-      "grupe_principale": [
-        "gambe"
-      ],
-      "tip": "izolare",
-      "echipament": [
-        "corp"
-      ],
-      "nivel": 1,
-      "risc_articular": [],
-      "descriere": "Urca pe varfuri complet, tine 1 secunda, coboara sub nivelul podelei daca stai pe o treapta. Miscare completa, nu half-rep.",
-      "reguli_speciale": null
-    },
-    {
-      "id": "calf_raise_gantera",
-      "nume": "Calf raise cu gantera",
-      "pattern": "izolare-gambe",
-      "grupe_principale": [
-        "gambe"
-      ],
-      "tip": "izolare",
-      "echipament": [
-        "gantera"
-      ],
-      "nivel": 1,
-      "risc_articular": [],
-      "descriere": "Gantera intr-o mana, mana libera pentru echilibru; executie identica cu varianta corp. Unilateral creste intensitatea.",
-      "reguli_speciale": "unilateral"
-    },
-    {
-      "id": "reverse_fly_gantere",
-      "nume": "Reverse fly cu gantere",
-      "pattern": "izolare-umeri",
-      "grupe_principale": [
-        "umeri"
-      ],
-      "tip": "izolare",
-      "echipament": [
-        "gantera"
-      ],
-      "nivel": 1,
-      "risc_articular": [],
-      "descriere": "Aplecat la 45°, gantere mici cu coatele usor flexate; ridica bratele lateral pana la nivelul umerilor. Accent pe deltoidul posterior; nu balansa trunchiul.",
-      "reguli_speciale": null
-    },
-    {
-      "id": "face_pull_banda",
-      "nume": "Face pull cu banda",
-      "pattern": "izolare-umeri",
-      "grupe_principale": [
-        "umeri"
-      ],
-      "tip": "izolare",
-      "echipament": [
-        "banda"
-      ],
-      "nivel": 1,
-      "risc_articular": [],
-      "descriere": "Banda ancorată la nivelul fetei; trage spre fata cu coatele ridicate si la final roteaza extern umerii. Exercitiu de sanatate a umarului, ideal dupa seturi de impins.",
-      "reguli_speciale": null
-    },
-    {
-      "id": "band_pull_apart",
-      "nume": "Band pull-apart",
-      "pattern": "izolare-umeri",
-      "grupe_principale": [
-        "umeri"
-      ],
-      "tip": "izolare",
-      "echipament": [
-        "banda"
-      ],
-      "nivel": 1,
-      "risc_articular": [],
-      "descriere": "Tine banda in fata la nivelul pieptului si trage lateral pana la extensie completa. Retrage omoplatiis la fiecare repetare; executie lenta.",
-      "reguli_speciale": null
-    },
-    {
-      "id": "chest_fly_gantere",
-      "nume": "Chest fly cu gantere",
-      "pattern": "izolare-piept",
-      "grupe_principale": [
-        "piept"
-      ],
-      "tip": "izolare",
-      "echipament": [
-        "gantera",
-        "banca"
-      ],
-      "nivel": 2,
-      "risc_articular": [
-        "umar"
-      ],
-      "descriere": "Culcat pe banca, gantere deasupra pieptului; deschide bratele cu coatele usor flexate pana simti tensiune in piept. Nu cobori mai jos de nivelul bancii.",
-      "reguli_speciale": null
-    },
-    {
-      "id": "cable_fly_scripete",
-      "nume": "Cable fly la scripete",
-      "pattern": "izolare-piept",
-      "grupe_principale": [
-        "piept"
-      ],
-      "tip": "izolare",
-      "echipament": [
-        "scripete"
-      ],
-      "nivel": 2,
-      "risc_articular": [
-        "umar"
-      ],
-      "descriere": "Scripetele sus sau la mijloc; trage spre centru cu coatele usor flexate, finalizand cu mainile care se ating. Tensiune continua pe tot arcul, spre deosebire de gantera.",
-      "reguli_speciale": null
-    },
-    {
-      "id": "wrist_curl_gantera",
-      "nume": "Wrist curl cu gantera",
-      "pattern": "izolare-antebrat",
-      "grupe_principale": [
-        "antebrat"
-      ],
-      "tip": "izolare",
-      "echipament": [
-        "gantera"
-      ],
-      "nivel": 1,
-      "risc_articular": [
-        "cot"
-      ],
-      "descriere": "Antebratul pe coapsa, palma sus; flecteaza incheietura complet si coboara controlat. Miscare mica, greutate mica, volum suficient.",
-      "reguli_speciale": null
-    },
-    {
-      "id": "reverse_curl_gantera",
-      "nume": "Reverse curl cu gantera",
-      "pattern": "izolare-antebrat",
-      "grupe_principale": [
-        "antebrat",
-        "biceps"
-      ],
-      "tip": "izolare",
-      "echipament": [
-        "gantera"
-      ],
-      "nivel": 1,
-      "risc_articular": [
-        "cot"
-      ],
-      "descriere": "Priza pronata, coatele langa trunchi; ridica ganterele cu extensorul carpian si brahioradialul. Greutate semnificativ mai mica decat la curl normal.",
-      "reguli_speciale": null
-    },
-    {
-      "id": "skand_cupping_centura_scripete",
-      "nume": "Cupping cu centura la scripete",
-      "pattern": "skandenberg-cupping",
-      "grupe_principale": [
-        "antebrat",
-        "biceps"
-      ],
-      "tip": "izolare",
-      "echipament": [
-        "scripete",
-        "centura judo"
-      ],
-      "nivel": 2,
-      "risc_articular": [
-        "cot"
-      ],
-      "descriere": "Centura de judo prinsa la scripete, antebratul in supinatie; flecteaza incheietura si antebratul simuland gestul de cupping. Tempo 3-1-3; opreste la durere in cot.",
-      "reguli_speciale": "tempo 3-1-3"
-    },
-    {
-      "id": "skand_cupping_maner_rotativ",
-      "nume": "Cupping cu maner rotativ la scripete",
-      "pattern": "skandenberg-cupping",
-      "grupe_principale": [
-        "antebrat",
-        "biceps"
-      ],
-      "tip": "izolare",
-      "echipament": [
-        "scripete",
-        "maner-rotativ"
-      ],
-      "nivel": 2,
-      "risc_articular": [
-        "cot"
-      ],
-      "descriere": "Manerul rotativ permite supinatia naturala a antebratului pe tot arcul, mimand mai fidel gestul de la masa. Trage dinspre extensie spre flexie completa a incheieturii.",
-      "reguli_speciale": "tempo 3-1-3"
-    },
-    {
-      "id": "skand_cupping_banda",
-      "nume": "Cupping cu banda",
-      "pattern": "skandenberg-cupping",
-      "grupe_principale": [
-        "antebrat",
-        "biceps"
-      ],
-      "tip": "izolare",
-      "echipament": [
-        "banda"
-      ],
-      "nivel": 1,
-      "risc_articular": [
-        "cot"
-      ],
-      "descriere": "Banda ancorată jos, antebradul supinат; flecteaza incheietura spre tine. Varianta entry-level pentru pattern-ul de cupping; controleaza revenirea.",
-      "reguli_speciale": "tempo 3-1-3"
-    },
-    {
-      "id": "skand_pronation_centura_scripete",
-      "nume": "Pronation cu centura la scripete",
-      "pattern": "skandenberg-pronation",
-      "grupe_principale": [
-        "antebrat"
-      ],
-      "tip": "izolare",
-      "echipament": [
-        "scripete",
-        "centura judo"
-      ],
-      "nivel": 2,
-      "risc_articular": [
-        "cot"
-      ],
-      "descriere": "Centura prinsa lateral la scripete; roteaza antebratul dinspre supinatie spre pronatie completa. Simuli actiunea de rasucire a mainii adversarului in top roll.",
-      "reguli_speciale": "tempo 3-1-3"
-    },
-    {
-      "id": "skand_pronation_maner_excentric",
-      "nume": "Pronation cu maner excentric la scripete",
-      "pattern": "skandenberg-pronation",
-      "grupe_principale": [
-        "antebrat"
-      ],
-      "tip": "izolare",
-      "echipament": [
-        "scripete",
-        "maner-excentric"
-      ],
-      "nivel": 2,
-      "risc_articular": [
-        "cot"
-      ],
-      "descriere": "Manerul excentric plaseaza sarcina usor in afara axei, recrutand mai intens pronator teres. Unghi de tractiune mai specific fata de manerul standard.",
-      "reguli_speciale": "tempo 3-1-3"
-    },
-    {
-      "id": "skand_pronation_banda",
-      "nume": "Pronation cu banda",
-      "pattern": "skandenberg-pronation",
-      "grupe_principale": [
-        "antebrat"
-      ],
-      "tip": "izolare",
-      "echipament": [
-        "banda"
-      ],
-      "nivel": 1,
-      "risc_articular": [
-        "cot"
-      ],
-      "descriere": "Banda ancorată, antebratul neutru; roteaza spre pronatie completa. Varianta accesibila fara scripete; rezistenta creste la sfarsitul miscarii.",
-      "reguli_speciale": "tempo 3-1-3"
-    },
-    {
-      "id": "skand_rise_scripete",
-      "nume": "Rise la scripete",
-      "pattern": "skandenberg-rise",
-      "grupe_principale": [
-        "antebrat"
-      ],
-      "tip": "izolare",
-      "echipament": [
-        "scripete"
-      ],
-      "nivel": 2,
-      "risc_articular": [
-        "cot"
-      ],
-      "descriere": "Scripetele jos, priza pronata; extinde incheietura ridicand mana. Antreneaza extensorii carpieni, esentiali pentru gestul de rise in top roll. Rezistenta constanta pe tot arcul.",
-      "reguli_speciale": "tempo 3-1-3"
-    },
-    {
-      "id": "skand_rise_wrist_wrench",
-      "nume": "Rise cu wrist wrench",
-      "pattern": "skandenberg-rise",
-      "grupe_principale": [
-        "antebrat"
-      ],
-      "tip": "izolare",
-      "echipament": [
-        "maner-wrist-wrench"
-      ],
-      "nivel": 2,
-      "risc_articular": [
-        "cot"
-      ],
-      "descriere": "Manerul wrist wrench combina extensia cu o componenta de rotatie, replicand exact gestul complet de rise din top roll. Greutate mica, precizie mare.",
-      "reguli_speciale": "tempo 3-1-3"
-    },
-    {
-      "id": "skand_rise_banda",
-      "nume": "Rise cu banda",
-      "pattern": "skandenberg-rise",
-      "grupe_principale": [
-        "antebrat"
-      ],
-      "tip": "izolare",
-      "echipament": [
-        "banda"
-      ],
-      "nivel": 1,
-      "risc_articular": [
-        "cot"
-      ],
-      "descriere": "Banda ancorată jos; extinde incheietura impotriva rezistentei. Entry-level pentru extensorii carpieni; revenire lenta.",
-      "reguli_speciale": "tempo 3-1-3"
-    },
-    {
-      "id": "skand_farmer_hold",
-      "nume": "Farmer hold",
-      "pattern": "skandenberg-grip",
-      "grupe_principale": [
-        "antebrat"
-      ],
-      "tip": "static",
-      "echipament": [
-        "gantera"
-      ],
-      "nivel": 1,
-      "risc_articular": [],
-      "descriere": "Tine gantere grele in ambele maini cat mai mult posibil. Fortifica flexorii degetelor si rezistenta generala a gripului.",
-      "reguli_speciale": "timp in loc de repetari"
-    },
-    {
-      "id": "skand_hang_bara_fg",
-      "nume": "Atarnat pe bara cu Fat Gripz",
-      "pattern": "skandenberg-grip",
-      "grupe_principale": [
-        "antebrat"
-      ],
-      "tip": "static",
-      "echipament": [
-        "bara tractiuni",
-        "FG"
-      ],
-      "nivel": 2,
-      "risc_articular": [],
-      "descriere": "Bara ingrosata cu Fat Gripz obliga o priza de forta mai mare. Atarna cat mai mult; cand simti ca pierzi priza, coboara controlat fara sa cazi brusc.",
-      "reguli_speciale": "timp in loc de repetari"
-    },
-    {
-      "id": "skand_hang_maner_gros",
-      "nume": "Atarnat pe maner gros sau rotativ",
-      "pattern": "skandenberg-grip",
-      "grupe_principale": [
-        "antebrat"
-      ],
-      "tip": "static",
-      "echipament": [
-        "bara tractiuni",
-        "maner-multi-grip"
-      ],
-      "nivel": 2,
-      "risc_articular": [],
-      "descriere": "Manerul gros sau rotativ agatat de bara; mentine priza cat mai mult. Manerul rotativ adauga instabilitate si recruteaza musculatura intriseca a mainii.",
-      "reguli_speciale": "timp in loc de repetari"
-    },
-    {
-      "id": "skand_static_biceps_gantera",
-      "nume": "Static biceps unghi inchis cu gantera",
-      "pattern": "skandenberg-static-biceps",
-      "grupe_principale": [
-        "biceps",
-        "antebrat"
-      ],
-      "tip": "static",
-      "echipament": [
-        "gantera"
-      ],
-      "nivel": 2,
-      "risc_articular": [
-        "cot"
-      ],
-      "descriere": "Cotul la ~70-80° (unghi specific carligului la masa), supinatie completa, tine gantera izometric. Recruteaza bicepsul la lungimea scurta, specifica pozitiei de hook.",
-      "reguli_speciale": "timp in loc de repetari"
-    },
-    {
-      "id": "skand_static_biceps_scripete",
-      "nume": "Static biceps la scripete unghi inchis",
-      "pattern": "skandenberg-static-biceps",
-      "grupe_principale": [
-        "biceps",
-        "antebrat"
-      ],
-      "tip": "static",
-      "echipament": [
-        "scripete"
-      ],
-      "nivel": 2,
-      "risc_articular": [
-        "cot"
-      ],
-      "descriere": "Scripetele jos, cot la 70-80°, tine pozitia izometric. Tensiunea scripetului mentine sarcina mai constant decat gantera la acest unghi.",
-      "reguli_speciale": "timp in loc de repetari"
-    },
-    {
-      "id": "skand_static_triceps_masa",
-      "nume": "Static triceps pe masa de skandenberg",
-      "pattern": "skandenberg-static-triceps",
-      "grupe_principale": [
-        "triceps"
-      ],
-      "tip": "static",
-      "echipament": [
-        "masa",
-        "gantera"
-      ],
-      "nivel": 2,
-      "risc_articular": [
-        "cot"
-      ],
-      "descriere": "Bratul pe masa in pozitia de presa, apasa gantera sau rezista contra suprafetei izometric. Simuli exact unghiul si directia de forta din pressa de skandenberg.",
-      "reguli_speciale": "timp in loc de repetari"
-    },
-    {
-      "id": "skand_static_triceps_scripete",
-      "nume": "Static triceps la scripete",
-      "pattern": "skandenberg-static-triceps",
-      "grupe_principale": [
-        "triceps"
-      ],
-      "tip": "static",
-      "echipament": [
-        "scripete"
-      ],
-      "nivel": 2,
-      "risc_articular": [
-        "cot"
-      ],
-      "descriere": "Scripetele configurat pentru unghiul de presa; tine pozitia izometric cu tricepsul la unghiul specific mesei. Varianta fara masa cu unghi replicat.",
-      "reguli_speciale": "timp in loc de repetari"
-    },
-    {
-      "id": "skand_side_pressure_banda",
-      "nume": "Side pressure izometric cu banda",
-      "pattern": "skandenberg-side-pressure",
-      "grupe_principale": [
-        "piept",
-        "umeri"
-      ],
-      "tip": "static",
-      "echipament": [
-        "banda"
-      ],
-      "nivel": 2,
-      "risc_articular": [
-        "umar"
-      ],
-      "descriere": "Banda ancorată lateral; impinge izometric sau pe amplitudine mica spre exterior. Bratul nu trece niciodata in spatele planului corpului. Blocat complet la umar sensibil.",
-      "reguli_speciale": "timp in loc de repetari, amplitudine mica"
-    },
-    {
-      "id": "mountain_climbers",
-      "nume": "Mountain climbers",
-      "pattern": "conditie",
-      "grupe_principale": [
-        "abdomen"
-      ],
-      "tip": "conditie",
-      "echipament": [
-        "corp"
-      ],
-      "nivel": 1,
-      "risc_articular": [],
-      "descriere": "Din pozitie de flotare, alterneaza genunchii spre piept cat mai rapid. Mentine soldurile nivelate; nu ridica fundul.",
-      "reguli_speciale": "timp in loc de repetari"
-    },
-    {
-      "id": "burpee",
-      "nume": "Burpee",
-      "pattern": "conditie",
-      "grupe_principale": [
-        "abdomen",
-        "piept"
-      ],
-      "tip": "conditie",
-      "echipament": [
-        "corp"
-      ],
-      "nivel": 2,
-      "risc_articular": [
-        "lombar",
-        "genunchi"
-      ],
-      "descriere": "Secventa: squat → flotare → squat → salt cu bratele sus. Mentine spatele neutru la trecerea in plansa; nu plesnesti solul cu palmele.",
-      "reguli_speciale": null
-    },
-    {
-      "id": "ramat_inversat",
-      "nume": "Ramat inversat (sub masa / bara joasa)",
-      "pattern": "tractiune orizontala",
-      "grupe_principale": [
-        "spate",
-        "biceps"
-      ],
-      "tip": "compound",
-      "echipament": [
-        "corp"
-      ],
-      "nivel": 1,
-      "risc_articular": [],
-      "descriere": "Intins sub o masa solida sau o bara joasa, apuca marginea si trage pieptul spre ea cu corpul drept. Cu cat esti mai orizontal, cu atat e mai greu.",
-      "reguli_speciale": null
-    },
-    {
-      "id": "ramat_prosop_usa",
-      "nume": "Ramat cu prosop la usa",
-      "pattern": "tractiune orizontala",
-      "grupe_principale": [
-        "spate",
-        "biceps"
-      ],
-      "tip": "compound",
-      "echipament": [
-        "corp"
-      ],
-      "nivel": 1,
-      "risc_articular": [],
-      "descriere": "Prinde un prosop infasurat pe clanta unei usi solide, lasa-te pe spate cu bratele intinse si trage-te spre usa. Controleaza coborarea.",
-      "reguli_speciale": null
-    },
-    {
-      "id": "superman",
-      "nume": "Superman",
-      "pattern": "hinge",
-      "grupe_principale": [
-        "spate",
-        "fesieri"
-      ],
-      "tip": "izolare",
-      "echipament": [
-        "corp"
-      ],
-      "nivel": 1,
-      "risc_articular": [],
-      "descriere": "Intins pe burta, ridica simultan bratele si picioarele de pe sol, tine 1-2 secunde sus si coboara controlat. Intareste lantul posterior fara echipament.",
-      "reguli_speciale": null
-    }
-  ]
+﻿{
+    "version":  "1.0",
+    "nota":  "Biblioteca de exercitii GVR Fitness Tracker. Livrabil Etapa 1 — de revizuit de Andrei inainte de implementare, in special sectiunile skandenberg si risc_articular.",
+    "exercitii":  [
+                      {
+                          "id":  "squat_perete",
+                          "nume":  "Squat la perete",
+                          "pattern":  "squat",
+                          "grupe_principale":  [
+                                                   "cvadriceps",
+                                                   "fesieri"
+                                               ],
+                          "tip":  "compound",
+                          "echipament":  [
+                                             "corp"
+                                         ],
+                          "nivel":  1,
+                          "risc_articular":  [
+                                                 "genunchi"
+                                             ],
+                          "descriere":  "Sprijin cu spatele pe perete, coboara pana la 90° si mentine pozitia. Genunchii raman deasupra vârfurilor, nu depasesc degetele.",
+                          "reguli_speciale":  "timp in loc de repetari",
+                          "progressie_bw":  "fandare"
+                      },
+                      {
+                          "id":  "goblet_squat",
+                          "nume":  "Goblet squat",
+                          "pattern":  "squat",
+                          "grupe_principale":  [
+                                                   "cvadriceps",
+                                                   "fesieri"
+                                               ],
+                          "tip":  "compound",
+                          "echipament":  [
+                                             "gantera"
+                                         ],
+                          "nivel":  1,
+                          "risc_articular":  [
+
+                                             ],
+                          "descriere":  "Tine gantera vertical la piept cu ambele maini sub disc. Coboara cu spatele drept pana la paralel cu solul; coatele imping genunchii spre exterior la fund.",
+                          "reguli_speciale":  null
+                      },
+                      {
+                          "id":  "squat_banda",
+                          "nume":  "Squat cu banda",
+                          "pattern":  "squat",
+                          "grupe_principale":  [
+                                                   "cvadriceps",
+                                                   "fesieri"
+                                               ],
+                          "tip":  "compound",
+                          "echipament":  [
+                                             "banda"
+                                         ],
+                          "nivel":  1,
+                          "risc_articular":  [
+
+                                             ],
+                          "descriere":  "Banda trece sub talpi si peste umeri. Coboara controlat pana la paralel; genunchii urmeaza directia degetelor.",
+                          "reguli_speciale":  null
+                      },
+                      {
+                          "id":  "back_squat",
+                          "nume":  "Back squat",
+                          "pattern":  "squat",
+                          "grupe_principale":  [
+                                                   "cvadriceps",
+                                                   "fesieri",
+                                                   "ischio"
+                                               ],
+                          "tip":  "compound",
+                          "echipament":  [
+                                             "haltera",
+                                             "rack"
+                                         ],
+                          "nivel":  2,
+                          "risc_articular":  [
+                                                 "genunchi",
+                                                 "lombar"
+                                             ],
+                          "descriere":  "Haltera pe trapez, pozitie high-bar sau low-bar. Coboara cu spatele neutru pana la paralel; genunchii si soldurile se extind simultan la ridicare.",
+                          "reguli_speciale":  null
+                      },
+                      {
+                          "id":  "bulgarian_split_squat",
+                          "nume":  "Bulgarian split squat",
+                          "pattern":  "squat",
+                          "grupe_principale":  [
+                                                   "cvadriceps",
+                                                   "fesieri"
+                                               ],
+                          "tip":  "compound",
+                          "echipament":  [
+                                             "gantera",
+                                             "banca"
+                                         ],
+                          "nivel":  2,
+                          "risc_articular":  [
+                                                 "genunchi"
+                                             ],
+                          "descriere":  "Piciorul din spate pe banca, coboara vertical cu trunchiul usor aplecat inainte. Genunchiul din fata nu depaseste vârful degetelor mai mult de 2-3 cm.",
+                          "reguli_speciale":  "unilateral"
+                      },
+                      {
+                          "id":  "hip_hinge_corp",
+                          "nume":  "Hip hinge",
+                          "pattern":  "hinge",
+                          "grupe_principale":  [
+                                                   "ischio",
+                                                   "fesieri"
+                                               ],
+                          "tip":  "compound",
+                          "echipament":  [
+                                             "corp"
+                                         ],
+                          "nivel":  1,
+                          "risc_articular":  [
+
+                                             ],
+                          "descriere":  "Picioarele la latimea soldurilor, impinge soldurile inapoi cu spatele drept pana simti tensiune in ischiori. Intoarce-te impingand cu calcaiele in podea.",
+                          "reguli_speciale":  null,
+                          "progressie_bw":  null
+                      },
+                      {
+                          "id":  "romanian_deadlift_gantere",
+                          "nume":  "Romanian deadlift cu gantere",
+                          "pattern":  "hinge",
+                          "grupe_principale":  [
+                                                   "ischio",
+                                                   "fesieri"
+                                               ],
+                          "tip":  "compound",
+                          "echipament":  [
+                                             "gantera"
+                                         ],
+                          "nivel":  1,
+                          "risc_articular":  [
+                                                 "lombar"
+                                             ],
+                          "descriere":  "Gantere in fata coapselor, coboara cu spatele neutru si genunchii usor flexati pana simti tensiune in ischiori. Opreste inainte ca spatele sa cedeze.",
+                          "reguli_speciale":  null
+                      },
+                      {
+                          "id":  "deadlift",
+                          "nume":  "Deadlift",
+                          "pattern":  "hinge",
+                          "grupe_principale":  [
+                                                   "ischio",
+                                                   "fesieri",
+                                                   "spate"
+                                               ],
+                          "tip":  "compound",
+                          "echipament":  [
+                                             "haltera"
+                                         ],
+                          "nivel":  2,
+                          "risc_articular":  [
+                                                 "lombar"
+                                             ],
+                          "descriere":  "Haltera deasupra mijlocului labei; inainte de ridicare impinge solul cu calcaiele si ridica pieptul. Mentine bara aproape de corp pe tot parcursul.",
+                          "reguli_speciale":  null
+                      },
+                      {
+                          "id":  "kettlebell_swing_gantera",
+                          "nume":  "Kettlebell swing cu gantera",
+                          "pattern":  "hinge",
+                          "grupe_principale":  [
+                                                   "fesieri",
+                                                   "ischio"
+                                               ],
+                          "tip":  "compound",
+                          "echipament":  [
+                                             "gantera"
+                                         ],
+                          "nivel":  2,
+                          "risc_articular":  [
+                                                 "lombar"
+                                             ],
+                          "descriere":  "Gantera intre picioare, impuls puternic din solduri — nu din brate. La varf trunchiul e vertical si fesierii contractati; nu lasa gantera sa traga spatele la coborare.",
+                          "reguli_speciale":  null
+                      },
+                      {
+                          "id":  "flotari",
+                          "nume":  "Flotari",
+                          "pattern":  "impins orizontal",
+                          "grupe_principale":  [
+                                                   "piept",
+                                                   "triceps",
+                                                   "umeri"
+                                               ],
+                          "tip":  "compound",
+                          "echipament":  [
+                                             "corp"
+                                         ],
+                          "nivel":  1,
+                          "risc_articular":  [
+
+                                             ],
+                          "descriere":  "Corp drept de la cap la calcaie; coboara pieptul pana la 2-3 cm de podea cu coatele la 45° fata de trunchi. Nu lasa soldurile sa coboare sau sa se ridice.",
+                          "reguli_speciale":  null,
+                          "progressie_bw":  "flotari_picioare_ridicate"
+                      },
+                      {
+                          "id":  "flotari_picioare_ridicate",
+                          "nume":  "Flotari cu picioarele ridicate",
+                          "pattern":  "impins orizontal",
+                          "grupe_principale":  [
+                                                   "piept",
+                                                   "triceps",
+                                                   "umeri"
+                                               ],
+                          "tip":  "compound",
+                          "echipament":  [
+                                             "corp",
+                                             "banca"
+                                         ],
+                          "nivel":  2,
+                          "risc_articular":  [
+                                                 "umar"
+                                             ],
+                          "descriere":  "Picioarele pe banca, palmele pe podea. Accentueaza portiunea superioara a pieptului; mentine corpul drept pe tot parcursul.",
+                          "reguli_speciale":  null,
+                          "progressie_bw":  "archer_pushup"
+                      },
+                      {
+                          "id":  "bench_press_gantere",
+                          "nume":  "Bench press cu gantere",
+                          "pattern":  "impins orizontal",
+                          "grupe_principale":  [
+                                                   "piept",
+                                                   "triceps",
+                                                   "umeri"
+                                               ],
+                          "tip":  "compound",
+                          "echipament":  [
+                                             "gantera",
+                                             "banca"
+                                         ],
+                          "nivel":  2,
+                          "risc_articular":  [
+                                                 "umar"
+                                             ],
+                          "descriere":  "Gantere la nivelul pieptului cu coatele la ~75°, impinge vertical spre tavan. Nu lasa ganterele sa coboare sub nivelul pieptului; mentine omoplatiis retrasi pe banca.",
+                          "reguli_speciale":  null
+                      },
+                      {
+                          "id":  "bench_press_haltera",
+                          "nume":  "Bench press cu haltera",
+                          "pattern":  "impins orizontal",
+                          "grupe_principale":  [
+                                                   "piept",
+                                                   "triceps",
+                                                   "umeri"
+                                               ],
+                          "tip":  "compound",
+                          "echipament":  [
+                                             "haltera",
+                                             "banca",
+                                             "rack"
+                                         ],
+                          "nivel":  2,
+                          "risc_articular":  [
+                                                 "umar"
+                                             ],
+                          "descriere":  "Priza usor mai lata decat umerii, coboara bara controlat pana atinge usor pieptul. Omoplatiis retrasi si jos pe banca pe toata durata setului.",
+                          "reguli_speciale":  null
+                      },
+                      {
+                          "id":  "pike_pushup",
+                          "nume":  "Pike push-up",
+                          "pattern":  "impins vertical",
+                          "grupe_principale":  [
+                                                   "umeri",
+                                                   "triceps"
+                                               ],
+                          "tip":  "compound",
+                          "echipament":  [
+                                             "corp"
+                                         ],
+                          "nivel":  1,
+                          "risc_articular":  [
+                                                 "umar"
+                                             ],
+                          "descriere":  "Din pozitia de V inversat, coboara capul spre podea indoind coatele. Mentine soldurile sus si coloana neutra; opreste imediat daca simti durere in umar.",
+                          "reguli_speciale":  null,
+                          "progressie_bw":  "pike_pushup_elevat"
+                      },
+                      {
+                          "id":  "overhead_press_gantere",
+                          "nume":  "Overhead press cu gantere",
+                          "pattern":  "impins vertical",
+                          "grupe_principale":  [
+                                                   "umeri",
+                                                   "triceps"
+                                               ],
+                          "tip":  "compound",
+                          "echipament":  [
+                                             "gantera"
+                                         ],
+                          "nivel":  2,
+                          "risc_articular":  [
+                                                 "umar"
+                                             ],
+                          "descriere":  "Pornind de la nivelul umerilor, impinge ganterele vertical cu coatele usor in fata, nu in lateral. Contracta abdomenul si nu arcui excesiv lombar.",
+                          "reguli_speciale":  null
+                      },
+                      {
+                          "id":  "overhead_press_haltera",
+                          "nume":  "Overhead press cu haltera",
+                          "pattern":  "impins vertical",
+                          "grupe_principale":  [
+                                                   "umeri",
+                                                   "triceps"
+                                               ],
+                          "tip":  "compound",
+                          "echipament":  [
+                                             "haltera",
+                                             "rack"
+                                         ],
+                          "nivel":  3,
+                          "risc_articular":  [
+                                                 "umar"
+                                             ],
+                          "descriere":  "Priza la latimea umerilor, bara in fata la nivelul claviculelor. Impinge vertical; la trecerea pe langa fata muta usor capul inapoi, revino in fata dupa ce bara trece.",
+                          "reguli_speciale":  null
+                      },
+                      {
+                          "id":  "ramat_gantera",
+                          "nume":  "Ramat cu gantera",
+                          "pattern":  "tractiune orizontala",
+                          "grupe_principale":  [
+                                                   "spate",
+                                                   "biceps"
+                                               ],
+                          "tip":  "compound",
+                          "echipament":  [
+                                             "gantera",
+                                             "banca"
+                                         ],
+                          "nivel":  1,
+                          "risc_articular":  [
+
+                                             ],
+                          "descriere":  "Genunchiul si palma ipsilaterala pe banca, trage gantera spre sold cu cotul aproape de corp. Mentine spatele paralel cu solul si nu roti trunchiul.",
+                          "reguli_speciale":  "unilateral"
+                      },
+                      {
+                          "id":  "ramat_banda",
+                          "nume":  "Ramat cu banda",
+                          "pattern":  "tractiune orizontala",
+                          "grupe_principale":  [
+                                                   "spate",
+                                                   "biceps"
+                                               ],
+                          "tip":  "compound",
+                          "echipament":  [
+                                             "banda"
+                                         ],
+                          "nivel":  1,
+                          "risc_articular":  [
+
+                                             ],
+                          "descriere":  "Banda ancorată la nivelul pieptului, trage cu coatele spre spate finalizand cu omoplatiis retrasi. Rezistenta creste pe masura ce tragi; controleaza revenirea.",
+                          "reguli_speciale":  null
+                      },
+                      {
+                          "id":  "ramat_scripete",
+                          "nume":  "Ramat la scripete orizontal",
+                          "pattern":  "tractiune orizontala",
+                          "grupe_principale":  [
+                                                   "spate",
+                                                   "biceps"
+                                               ],
+                          "tip":  "compound",
+                          "echipament":  [
+                                             "scripete"
+                                         ],
+                          "nivel":  1,
+                          "risc_articular":  [
+
+                                             ],
+                          "descriere":  "Sezut cu spatele drept, trage manerele spre abdomen cu coatele aproape de corp. La final retrage omoplatiis si tine 1 secunda; revenire controlata.",
+                          "reguli_speciale":  null
+                      },
+                      {
+                          "id":  "barbell_row",
+                          "nume":  "Barbell row",
+                          "pattern":  "tractiune orizontala",
+                          "grupe_principale":  [
+                                                   "spate",
+                                                   "biceps"
+                                               ],
+                          "tip":  "compound",
+                          "echipament":  [
+                                             "haltera"
+                                         ],
+                          "nivel":  2,
+                          "risc_articular":  [
+                                                 "lombar"
+                                             ],
+                          "descriere":  "Trunchi la ~45°, spatele neutru; trage bara spre buric cu coatele aproape de corp. Nu ridica trunchiul pentru a ajuta miscarea.",
+                          "reguli_speciale":  null
+                      },
+                      {
+                          "id":  "pullup_asistat_banda",
+                          "nume":  "Pull-up asistat cu banda",
+                          "pattern":  "tractiune verticala",
+                          "grupe_principale":  [
+                                                   "spate",
+                                                   "biceps"
+                                               ],
+                          "tip":  "compound",
+                          "echipament":  [
+                                             "bara tractiuni",
+                                             "banda"
+                                         ],
+                          "nivel":  1,
+                          "risc_articular":  [
+
+                                             ],
+                          "descriere":  "Banda fixata pe bara si sub genunchi reduce greutatea corporala. Trage cu coatele spre solduri, nu spre spate; controleaza coborarea 3 secunde.",
+                          "reguli_speciale":  null
+                      },
+                      {
+                          "id":  "lat_pulldown",
+                          "nume":  "Lat pulldown",
+                          "pattern":  "tractiune verticala",
+                          "grupe_principale":  [
+                                                   "spate",
+                                                   "biceps"
+                                               ],
+                          "tip":  "compound",
+                          "echipament":  [
+                                             "scripete"
+                                         ],
+                          "nivel":  1,
+                          "risc_articular":  [
+
+                                             ],
+                          "descriere":  "Usor aplecat inapoi, trage bara spre clavicule cu coatele orientate spre podea. Nu te balansa; revenire controlata cu omoplatiis care se deschid complet.",
+                          "reguli_speciale":  null
+                      },
+                      {
+                          "id":  "pullup",
+                          "nume":  "Pull-up",
+                          "pattern":  "tractiune verticala",
+                          "grupe_principale":  [
+                                                   "spate",
+                                                   "biceps"
+                                               ],
+                          "tip":  "compound",
+                          "echipament":  [
+                                             "bara tractiuni"
+                                         ],
+                          "nivel":  2,
+                          "risc_articular":  [
+
+                                             ],
+                          "descriere":  "Priza pronata la latimea umerilor, trage barbia deasupra barei cu coatele orientate spre podea. Coborare completa si controlata la fiecare repetare.",
+                          "reguli_speciale":  null
+                      },
+                      {
+                          "id":  "chinup",
+                          "nume":  "Chin-up",
+                          "pattern":  "tractiune verticala",
+                          "grupe_principale":  [
+                                                   "spate",
+                                                   "biceps"
+                                               ],
+                          "tip":  "compound",
+                          "echipament":  [
+                                             "bara tractiuni"
+                                         ],
+                          "nivel":  2,
+                          "risc_articular":  [
+
+                                             ],
+                          "descriere":  "Priza supinata la latimea umerilor; implica mai mult bicepsul fata de pull-up. Trage pieptul spre bara, coboara complet cu control.",
+                          "reguli_speciale":  null
+                      },
+                      {
+                          "id":  "fandare",
+                          "nume":  "Fandare",
+                          "pattern":  "unilateral picior",
+                          "grupe_principale":  [
+                                                   "cvadriceps",
+                                                   "fesieri"
+                                               ],
+                          "tip":  "compound",
+                          "echipament":  [
+                                             "corp"
+                                         ],
+                          "nivel":  1,
+                          "risc_articular":  [
+                                                 "genunchi"
+                                             ],
+                          "descriere":  "Pas mare inainte, coboara genunchiul din spate spre podea fara sa atinga. Genunchiul din fata nu depaseste vârful degetelor; trunchiul ramane vertical.",
+                          "reguli_speciale":  "unilateral",
+                          "progressie_bw":  "split_squat_bw"
+                      },
+                      {
+                          "id":  "step_up",
+                          "nume":  "Step-up",
+                          "pattern":  "unilateral picior",
+                          "grupe_principale":  [
+                                                   "cvadriceps",
+                                                   "fesieri"
+                                               ],
+                          "tip":  "compound",
+                          "echipament":  [
+                                             "gantera",
+                                             "banca"
+                                         ],
+                          "nivel":  1,
+                          "risc_articular":  [
+                                                 "genunchi"
+                                             ],
+                          "descriere":  "Urca pe banca cu un picior, impingand exclusiv din piciorul de sus fara sa te ajuti cu cel din urma. Coboara controlat.",
+                          "reguli_speciale":  "unilateral"
+                      },
+                      {
+                          "id":  "single_leg_rdl",
+                          "nume":  "Single leg Romanian deadlift",
+                          "pattern":  "unilateral picior",
+                          "grupe_principale":  [
+                                                   "ischio",
+                                                   "fesieri"
+                                               ],
+                          "tip":  "compound",
+                          "echipament":  [
+                                             "gantera"
+                                         ],
+                          "nivel":  2,
+                          "risc_articular":  [
+
+                                             ],
+                          "descriere":  "Sprijin pe un picior, gantera in mana opusa; coboara cu spatele drept pana la paralel cu solul. Genunchiul de sprijin usor flexat, nu blocat.",
+                          "reguli_speciale":  "unilateral"
+                      },
+                      {
+                          "id":  "leg_curl_banda",
+                          "nume":  "Leg curl cu banda",
+                          "pattern":  "flexie genunchi",
+                          "grupe_principale":  [
+                                                   "ischio"
+                                               ],
+                          "tip":  "izolare",
+                          "echipament":  [
+                                             "banda"
+                                         ],
+                          "nivel":  1,
+                          "risc_articular":  [
+                                                 "genunchi"
+                                             ],
+                          "descriere":  "Banda ancorată jos, culcat pe burta; indoaie genunchiul tragand calcaiul spre fese. Mentine soldul pe podea; nu arcui lombar.",
+                          "reguli_speciale":  "unilateral"
+                      },
+                      {
+                          "id":  "nordic_curl",
+                          "nume":  "Nordic curl",
+                          "pattern":  "flexie genunchi",
+                          "grupe_principale":  [
+                                                   "ischio"
+                                               ],
+                          "tip":  "compound",
+                          "echipament":  [
+                                             "corp"
+                                         ],
+                          "nivel":  3,
+                          "risc_articular":  [
+                                                 "genunchi"
+                                             ],
+                          "descriere":  "Genunchii fixati, coboara trunchiul cat mai lent spre podea cu ajutorul ischiorilor. Exercitiu de preventie foarte eficient; opreste imediat la durere in genunchi.",
+                          "reguli_speciale":  null
+                      },
+                      {
+                          "id":  "plansa",
+                          "nume":  "Plansa",
+                          "pattern":  "core",
+                          "grupe_principale":  [
+                                                   "abdomen"
+                                               ],
+                          "tip":  "static",
+                          "echipament":  [
+                                             "corp"
+                                         ],
+                          "nivel":  1,
+                          "risc_articular":  [
+
+                                             ],
+                          "descriere":  "Sprijin pe antebrate si varfurile picioarelor, corp perfect drept. Contracta abdomenul si fesierii; nu lasa soldurile sa coboare sau sa urce.",
+                          "reguli_speciale":  "timp in loc de repetari",
+                          "progressie_bw":  "hollow_body"
+                      },
+                      {
+                          "id":  "dead_bug",
+                          "nume":  "Dead bug",
+                          "pattern":  "core",
+                          "grupe_principale":  [
+                                                   "abdomen"
+                                               ],
+                          "tip":  "compound",
+                          "echipament":  [
+                                             "corp"
+                                         ],
+                          "nivel":  1,
+                          "risc_articular":  [
+
+                                             ],
+                          "descriere":  "Culcat pe spate, brate spre tavan, genunchi la 90°. Coboara simultan bratul drept si piciorul stang spre podea fara sa atinga, mentinand lombarul lipit de sol.",
+                          "reguli_speciale":  null
+                      },
+                      {
+                          "id":  "pallof_press_banda",
+                          "nume":  "Pallof press cu banda",
+                          "pattern":  "core",
+                          "grupe_principale":  [
+                                                   "abdomen"
+                                               ],
+                          "tip":  "izolare",
+                          "echipament":  [
+                                             "banda"
+                                         ],
+                          "nivel":  2,
+                          "risc_articular":  [
+
+                                             ],
+                          "descriere":  "Banda ancorată lateral la inaltimea pieptului; impinge bratele inainte si rezista la rotatie. Forta vine din stabilizarea trunchiului, nu din brate.",
+                          "reguli_speciale":  null
+                      },
+                      {
+                          "id":  "hollow_body",
+                          "nume":  "Hollow body hold",
+                          "pattern":  "core",
+                          "grupe_principale":  [
+                                                   "abdomen"
+                                               ],
+                          "tip":  "static",
+                          "echipament":  [
+                                             "corp"
+                                         ],
+                          "nivel":  2,
+                          "risc_articular":  [
+
+                                             ],
+                          "descriere":  "Culcat pe spate, brate si picioare ridicate la ~30° de sol, lombarul presat in podea. Mentine pozitia fara sa ridici umerii prin tensionarea gatului.",
+                          "reguli_speciale":  "timp in loc de repetari"
+                      },
+                      {
+                          "id":  "ab_wheel_rollout",
+                          "nume":  "Ab wheel rollout",
+                          "pattern":  "core",
+                          "grupe_principale":  [
+                                                   "abdomen"
+                                               ],
+                          "tip":  "compound",
+                          "echipament":  [
+                                             "gantera"
+                                         ],
+                          "nivel":  3,
+                          "risc_articular":  [
+                                                 "lombar"
+                                             ],
+                          "descriere":  "Din genunchi, ruleaza roata/gantera inainte cat poti fara sa cedeze lombarul. Revino contractand abdomenul, nu tragand cu bratele.",
+                          "reguli_speciale":  null
+                      },
+                      {
+                          "id":  "farmer_carry",
+                          "nume":  "Farmer carry",
+                          "pattern":  "carry",
+                          "grupe_principale":  [
+                                                   "antebrat",
+                                                   "umeri",
+                                                   "abdomen"
+                                               ],
+                          "tip":  "compound",
+                          "echipament":  [
+                                             "gantera"
+                                         ],
+                          "nivel":  1,
+                          "risc_articular":  [
+
+                                             ],
+                          "descriere":  "Gantere grele in ambele maini, mers drept fara sa te inclini lateral. Umerii trasi inapoi si jos; respiratie normala pe tot parcursul.",
+                          "reguli_speciale":  "timp in loc de repetari"
+                      },
+                      {
+                          "id":  "suitcase_carry",
+                          "nume":  "Suitcase carry",
+                          "pattern":  "carry",
+                          "grupe_principale":  [
+                                                   "abdomen",
+                                                   "antebrat"
+                                               ],
+                          "tip":  "compound",
+                          "echipament":  [
+                                             "gantera"
+                                         ],
+                          "nivel":  2,
+                          "risc_articular":  [
+                                                 "lombar"
+                                             ],
+                          "descriere":  "O singura gantera intr-o mana; rezista la incovoierea laterala a trunchiului mentinand soldurile si umerii nivelati. Alterneaza mainile la seturi.",
+                          "reguli_speciale":  "unilateral, timp in loc de repetari"
+                      },
+                      {
+                          "id":  "bicep_curl_gantere",
+                          "nume":  "Bicep curl cu gantere",
+                          "pattern":  "izolare-biceps",
+                          "grupe_principale":  [
+                                                   "biceps"
+                                               ],
+                          "tip":  "izolare",
+                          "echipament":  [
+                                             "gantera"
+                                         ],
+                          "nivel":  1,
+                          "risc_articular":  [
+                                                 "cot"
+                                             ],
+                          "descriere":  "Coatele lipite de trunchi, ridica ganterele supinand progresiv antebratele. Coboara controlat in 3 secunde; nu balansa trunchiul.",
+                          "reguli_speciale":  null
+                      },
+                      {
+                          "id":  "bicep_curl_haltera",
+                          "nume":  "Bicep curl cu haltera",
+                          "pattern":  "izolare-biceps",
+                          "grupe_principale":  [
+                                                   "biceps"
+                                               ],
+                          "tip":  "izolare",
+                          "echipament":  [
+                                             "haltera"
+                                         ],
+                          "nivel":  1,
+                          "risc_articular":  [
+                                                 "cot"
+                                             ],
+                          "descriere":  "Priza supinata la latimea umerilor, coatele fixe langa trunchi. Ridica bara in arc complet; nu folosi inertia.",
+                          "reguli_speciale":  null
+                      },
+                      {
+                          "id":  "bicep_curl_banda",
+                          "nume":  "Bicep curl cu banda",
+                          "pattern":  "izolare-biceps",
+                          "grupe_principale":  [
+                                                   "biceps"
+                                               ],
+                          "tip":  "izolare",
+                          "echipament":  [
+                                             "banda"
+                                         ],
+                          "nivel":  1,
+                          "risc_articular":  [
+                                                 "cot"
+                                             ],
+                          "descriere":  "Banda sub talpi, priza supinata; ridica mainile spre umeri. Rezistenta creste la varful miscarii, invers fata de gantera — mentine coatele fixe.",
+                          "reguli_speciale":  null
+                      },
+                      {
+                          "id":  "bicep_curl_scripete",
+                          "nume":  "Bicep curl la scripete",
+                          "pattern":  "izolare-biceps",
+                          "grupe_principale":  [
+                                                   "biceps"
+                                               ],
+                          "tip":  "izolare",
+                          "echipament":  [
+                                             "scripete"
+                                         ],
+                          "nivel":  1,
+                          "risc_articular":  [
+                                                 "cot"
+                                             ],
+                          "descriere":  "Scripetele jos, priza supinata; tensiunea ramane constanta pe tot arcul de miscare. Coatele fixe langa trunchi.",
+                          "reguli_speciale":  null
+                      },
+                      {
+                          "id":  "triceps_overhead_gantera",
+                          "nume":  "Triceps overhead extension cu gantera",
+                          "pattern":  "izolare-triceps",
+                          "grupe_principale":  [
+                                                   "triceps"
+                                               ],
+                          "tip":  "izolare",
+                          "echipament":  [
+                                             "gantera"
+                                         ],
+                          "nivel":  1,
+                          "risc_articular":  [
+                                                 "cot"
+                                             ],
+                          "descriere":  "Gantera cu ambele maini deasupra capului, coboara in spatele capului indoind coatele. Coatele raman aproape de cap; nu forta la capatul miscarii daca simti presiune in cot.",
+                          "reguli_speciale":  null
+                      },
+                      {
+                          "id":  "triceps_pushdown_scripete",
+                          "nume":  "Triceps pushdown la scripete",
+                          "pattern":  "izolare-triceps",
+                          "grupe_principale":  [
+                                                   "triceps"
+                                               ],
+                          "tip":  "izolare",
+                          "echipament":  [
+                                             "scripete"
+                                         ],
+                          "nivel":  1,
+                          "risc_articular":  [
+
+                                             ],
+                          "descriere":  "Scripetele sus, coatele fixe langa trunchi; impinge bara/franghia in jos pana la extensie completa. Revenire controlata fara sa lasi coatele sa se ridice.",
+                          "reguli_speciale":  null
+                      },
+                      {
+                          "id":  "triceps_dips",
+                          "nume":  "Triceps dips",
+                          "pattern":  "izolare-triceps",
+                          "grupe_principale":  [
+                                                   "triceps",
+                                                   "piept"
+                                               ],
+                          "tip":  "compound",
+                          "echipament":  [
+                                             "corp",
+                                             "banca"
+                                         ],
+                          "nivel":  2,
+                          "risc_articular":  [
+                                                 "umar",
+                                                 "cot"
+                                             ],
+                          "descriere":  "Mainile pe marginea bancii, coboara pana coatele ajung la 90°. Nu cobora mai jos de 90°; daca simti durere in umar, opreste imediat.",
+                          "reguli_speciale":  null
+                      },
+                      {
+                          "id":  "glute_bridge",
+                          "nume":  "Glute bridge",
+                          "pattern":  "izolare-fesieri",
+                          "grupe_principale":  [
+                                                   "fesieri"
+                                               ],
+                          "tip":  "izolare",
+                          "echipament":  [
+                                             "corp"
+                                         ],
+                          "nivel":  1,
+                          "risc_articular":  [
+
+                                             ],
+                          "descriere":  "Culcat pe spate, genunchi la 90°; impinge soldurile spre tavan contractand fesierii la varf. Tine 2 secunde sus; coloana neutra, nu forta arcuirea lombara.",
+                          "reguli_speciale":  null,
+                          "progressie_bw":  "glute_bridge_unilateral"
+                      },
+                      {
+                          "id":  "hip_thrust_gantera",
+                          "nume":  "Hip thrust cu gantera",
+                          "pattern":  "izolare-fesieri",
+                          "grupe_principale":  [
+                                                   "fesieri"
+                                               ],
+                          "tip":  "izolare",
+                          "echipament":  [
+                                             "gantera",
+                                             "banca"
+                                         ],
+                          "nivel":  1,
+                          "risc_articular":  [
+
+                                             ],
+                          "descriere":  "Spatele pe marginea bancii, gantera pe sold; ridica soldurile contractand fesierii maxim. Barbia la piept, nu arunca capul pe spate.",
+                          "reguli_speciale":  null
+                      },
+                      {
+                          "id":  "hip_thrust_haltera",
+                          "nume":  "Hip thrust cu haltera",
+                          "pattern":  "izolare-fesieri",
+                          "grupe_principale":  [
+                                                   "fesieri"
+                                               ],
+                          "tip":  "izolare",
+                          "echipament":  [
+                                             "haltera",
+                                             "banca"
+                                         ],
+                          "nivel":  2,
+                          "risc_articular":  [
+
+                                             ],
+                          "descriere":  "Varianta cu sarcina mai mare; foloseste un pad de protectie pe haltera. Ridica soldurile pana la extensie completa, tine 1 secunda.",
+                          "reguli_speciale":  null
+                      },
+                      {
+                          "id":  "glute_kickback_banda",
+                          "nume":  "Glute kickback cu banda",
+                          "pattern":  "izolare-fesieri",
+                          "grupe_principale":  [
+                                                   "fesieri"
+                                               ],
+                          "tip":  "izolare",
+                          "echipament":  [
+                                             "banda"
+                                         ],
+                          "nivel":  1,
+                          "risc_articular":  [
+
+                                             ],
+                          "descriere":  "Banda in jurul gleznelor, patruped; impinge piciorul inapoi si sus fara sa rotesti pelvisul. Contracta fesierii la extensie maxima.",
+                          "reguli_speciale":  "unilateral"
+                      },
+                      {
+                          "id":  "abductie_sold_banda",
+                          "nume":  "Abductie sold cu banda",
+                          "pattern":  "izolare-fesieri",
+                          "grupe_principale":  [
+                                                   "fesieri"
+                                               ],
+                          "tip":  "izolare",
+                          "echipament":  [
+                                             "banda"
+                                         ],
+                          "nivel":  1,
+                          "risc_articular":  [
+
+                                             ],
+                          "descriere":  "Banda deasupra genunchilor, sezut sau culcat lateral; deschide genunchii rezistând la banda. Contracta fesierii la deschidere maxima.",
+                          "reguli_speciale":  null
+                      },
+                      {
+                          "id":  "calf_raise_corp",
+                          "nume":  "Calf raise",
+                          "pattern":  "izolare-gambe",
+                          "grupe_principale":  [
+                                                   "gambe"
+                                               ],
+                          "tip":  "izolare",
+                          "echipament":  [
+                                             "corp"
+                                         ],
+                          "nivel":  1,
+                          "risc_articular":  [
+
+                                             ],
+                          "descriere":  "Urca pe varfuri complet, tine 1 secunda, coboara sub nivelul podelei daca stai pe o treapta. Miscare completa, nu half-rep.",
+                          "reguli_speciale":  null
+                      },
+                      {
+                          "id":  "calf_raise_gantera",
+                          "nume":  "Calf raise cu gantera",
+                          "pattern":  "izolare-gambe",
+                          "grupe_principale":  [
+                                                   "gambe"
+                                               ],
+                          "tip":  "izolare",
+                          "echipament":  [
+                                             "gantera"
+                                         ],
+                          "nivel":  1,
+                          "risc_articular":  [
+
+                                             ],
+                          "descriere":  "Gantera intr-o mana, mana libera pentru echilibru; executie identica cu varianta corp. Unilateral creste intensitatea.",
+                          "reguli_speciale":  "unilateral"
+                      },
+                      {
+                          "id":  "reverse_fly_gantere",
+                          "nume":  "Reverse fly cu gantere",
+                          "pattern":  "izolare-umeri",
+                          "grupe_principale":  [
+                                                   "umeri"
+                                               ],
+                          "tip":  "izolare",
+                          "echipament":  [
+                                             "gantera"
+                                         ],
+                          "nivel":  1,
+                          "risc_articular":  [
+
+                                             ],
+                          "descriere":  "Aplecat la 45°, gantere mici cu coatele usor flexate; ridica bratele lateral pana la nivelul umerilor. Accent pe deltoidul posterior; nu balansa trunchiul.",
+                          "reguli_speciale":  null
+                      },
+                      {
+                          "id":  "face_pull_banda",
+                          "nume":  "Face pull cu banda",
+                          "pattern":  "izolare-umeri",
+                          "grupe_principale":  [
+                                                   "umeri"
+                                               ],
+                          "tip":  "izolare",
+                          "echipament":  [
+                                             "banda"
+                                         ],
+                          "nivel":  1,
+                          "risc_articular":  [
+
+                                             ],
+                          "descriere":  "Banda ancorată la nivelul fetei; trage spre fata cu coatele ridicate si la final roteaza extern umerii. Exercitiu de sanatate a umarului, ideal dupa seturi de impins.",
+                          "reguli_speciale":  null
+                      },
+                      {
+                          "id":  "band_pull_apart",
+                          "nume":  "Band pull-apart",
+                          "pattern":  "izolare-umeri",
+                          "grupe_principale":  [
+                                                   "umeri"
+                                               ],
+                          "tip":  "izolare",
+                          "echipament":  [
+                                             "banda"
+                                         ],
+                          "nivel":  1,
+                          "risc_articular":  [
+
+                                             ],
+                          "descriere":  "Tine banda in fata la nivelul pieptului si trage lateral pana la extensie completa. Retrage omoplatiis la fiecare repetare; executie lenta.",
+                          "reguli_speciale":  null
+                      },
+                      {
+                          "id":  "chest_fly_gantere",
+                          "nume":  "Chest fly cu gantere",
+                          "pattern":  "izolare-piept",
+                          "grupe_principale":  [
+                                                   "piept"
+                                               ],
+                          "tip":  "izolare",
+                          "echipament":  [
+                                             "gantera",
+                                             "banca"
+                                         ],
+                          "nivel":  2,
+                          "risc_articular":  [
+                                                 "umar"
+                                             ],
+                          "descriere":  "Culcat pe banca, gantere deasupra pieptului; deschide bratele cu coatele usor flexate pana simti tensiune in piept. Nu cobori mai jos de nivelul bancii.",
+                          "reguli_speciale":  null
+                      },
+                      {
+                          "id":  "cable_fly_scripete",
+                          "nume":  "Cable fly la scripete",
+                          "pattern":  "izolare-piept",
+                          "grupe_principale":  [
+                                                   "piept"
+                                               ],
+                          "tip":  "izolare",
+                          "echipament":  [
+                                             "scripete"
+                                         ],
+                          "nivel":  2,
+                          "risc_articular":  [
+                                                 "umar"
+                                             ],
+                          "descriere":  "Scripetele sus sau la mijloc; trage spre centru cu coatele usor flexate, finalizand cu mainile care se ating. Tensiune continua pe tot arcul, spre deosebire de gantera.",
+                          "reguli_speciale":  null
+                      },
+                      {
+                          "id":  "wrist_curl_gantera",
+                          "nume":  "Wrist curl cu gantera",
+                          "pattern":  "izolare-antebrat",
+                          "grupe_principale":  [
+                                                   "antebrat"
+                                               ],
+                          "tip":  "izolare",
+                          "echipament":  [
+                                             "gantera"
+                                         ],
+                          "nivel":  1,
+                          "risc_articular":  [
+                                                 "cot"
+                                             ],
+                          "descriere":  "Antebratul pe coapsa, palma sus; flecteaza incheietura complet si coboara controlat. Miscare mica, greutate mica, volum suficient.",
+                          "reguli_speciale":  null
+                      },
+                      {
+                          "id":  "reverse_curl_gantera",
+                          "nume":  "Reverse curl cu gantera",
+                          "pattern":  "izolare-antebrat",
+                          "grupe_principale":  [
+                                                   "antebrat",
+                                                   "biceps"
+                                               ],
+                          "tip":  "izolare",
+                          "echipament":  [
+                                             "gantera"
+                                         ],
+                          "nivel":  1,
+                          "risc_articular":  [
+                                                 "cot"
+                                             ],
+                          "descriere":  "Priza pronata, coatele langa trunchi; ridica ganterele cu extensorul carpian si brahioradialul. Greutate semnificativ mai mica decat la curl normal.",
+                          "reguli_speciale":  null
+                      },
+                      {
+                          "id":  "skand_cupping_centura_scripete",
+                          "nume":  "Cupping cu centura la scripete",
+                          "pattern":  "skandenberg-cupping",
+                          "grupe_principale":  [
+                                                   "antebrat",
+                                                   "biceps"
+                                               ],
+                          "tip":  "izolare",
+                          "echipament":  [
+                                             "scripete",
+                                             "centura judo"
+                                         ],
+                          "nivel":  2,
+                          "risc_articular":  [
+                                                 "cot"
+                                             ],
+                          "descriere":  "Centura de judo prinsa la scripete, antebratul in supinatie; flecteaza incheietura si antebratul simuland gestul de cupping. Tempo 3-1-3; opreste la durere in cot.",
+                          "reguli_speciale":  "tempo 3-1-3"
+                      },
+                      {
+                          "id":  "skand_cupping_maner_rotativ",
+                          "nume":  "Cupping cu maner rotativ la scripete",
+                          "pattern":  "skandenberg-cupping",
+                          "grupe_principale":  [
+                                                   "antebrat",
+                                                   "biceps"
+                                               ],
+                          "tip":  "izolare",
+                          "echipament":  [
+                                             "scripete",
+                                             "maner-rotativ"
+                                         ],
+                          "nivel":  2,
+                          "risc_articular":  [
+                                                 "cot"
+                                             ],
+                          "descriere":  "Manerul rotativ permite supinatia naturala a antebratului pe tot arcul, mimand mai fidel gestul de la masa. Trage dinspre extensie spre flexie completa a incheieturii.",
+                          "reguli_speciale":  "tempo 3-1-3"
+                      },
+                      {
+                          "id":  "skand_cupping_banda",
+                          "nume":  "Cupping cu banda",
+                          "pattern":  "skandenberg-cupping",
+                          "grupe_principale":  [
+                                                   "antebrat",
+                                                   "biceps"
+                                               ],
+                          "tip":  "izolare",
+                          "echipament":  [
+                                             "banda"
+                                         ],
+                          "nivel":  1,
+                          "risc_articular":  [
+                                                 "cot"
+                                             ],
+                          "descriere":  "Banda ancorată jos, antebradul supinат; flecteaza incheietura spre tine. Varianta entry-level pentru pattern-ul de cupping; controleaza revenirea.",
+                          "reguli_speciale":  "tempo 3-1-3"
+                      },
+                      {
+                          "id":  "skand_pronation_centura_scripete",
+                          "nume":  "Pronation cu centura la scripete",
+                          "pattern":  "skandenberg-pronation",
+                          "grupe_principale":  [
+                                                   "antebrat"
+                                               ],
+                          "tip":  "izolare",
+                          "echipament":  [
+                                             "scripete",
+                                             "centura judo"
+                                         ],
+                          "nivel":  2,
+                          "risc_articular":  [
+                                                 "cot"
+                                             ],
+                          "descriere":  "Centura prinsa lateral la scripete; roteaza antebratul dinspre supinatie spre pronatie completa. Simuli actiunea de rasucire a mainii adversarului in top roll.",
+                          "reguli_speciale":  "tempo 3-1-3"
+                      },
+                      {
+                          "id":  "skand_pronation_maner_excentric",
+                          "nume":  "Pronation cu maner excentric la scripete",
+                          "pattern":  "skandenberg-pronation",
+                          "grupe_principale":  [
+                                                   "antebrat"
+                                               ],
+                          "tip":  "izolare",
+                          "echipament":  [
+                                             "scripete",
+                                             "maner-excentric"
+                                         ],
+                          "nivel":  2,
+                          "risc_articular":  [
+                                                 "cot"
+                                             ],
+                          "descriere":  "Manerul excentric plaseaza sarcina usor in afara axei, recrutand mai intens pronator teres. Unghi de tractiune mai specific fata de manerul standard.",
+                          "reguli_speciale":  "tempo 3-1-3"
+                      },
+                      {
+                          "id":  "skand_pronation_banda",
+                          "nume":  "Pronation cu banda",
+                          "pattern":  "skandenberg-pronation",
+                          "grupe_principale":  [
+                                                   "antebrat"
+                                               ],
+                          "tip":  "izolare",
+                          "echipament":  [
+                                             "banda"
+                                         ],
+                          "nivel":  1,
+                          "risc_articular":  [
+                                                 "cot"
+                                             ],
+                          "descriere":  "Banda ancorată, antebratul neutru; roteaza spre pronatie completa. Varianta accesibila fara scripete; rezistenta creste la sfarsitul miscarii.",
+                          "reguli_speciale":  "tempo 3-1-3"
+                      },
+                      {
+                          "id":  "skand_rise_scripete",
+                          "nume":  "Rise la scripete",
+                          "pattern":  "skandenberg-rise",
+                          "grupe_principale":  [
+                                                   "antebrat"
+                                               ],
+                          "tip":  "izolare",
+                          "echipament":  [
+                                             "scripete"
+                                         ],
+                          "nivel":  2,
+                          "risc_articular":  [
+                                                 "cot"
+                                             ],
+                          "descriere":  "Scripetele jos, priza pronata; extinde incheietura ridicand mana. Antreneaza extensorii carpieni, esentiali pentru gestul de rise in top roll. Rezistenta constanta pe tot arcul.",
+                          "reguli_speciale":  "tempo 3-1-3"
+                      },
+                      {
+                          "id":  "skand_rise_wrist_wrench",
+                          "nume":  "Rise cu wrist wrench",
+                          "pattern":  "skandenberg-rise",
+                          "grupe_principale":  [
+                                                   "antebrat"
+                                               ],
+                          "tip":  "izolare",
+                          "echipament":  [
+                                             "maner-wrist-wrench"
+                                         ],
+                          "nivel":  2,
+                          "risc_articular":  [
+                                                 "cot"
+                                             ],
+                          "descriere":  "Manerul wrist wrench combina extensia cu o componenta de rotatie, replicand exact gestul complet de rise din top roll. Greutate mica, precizie mare.",
+                          "reguli_speciale":  "tempo 3-1-3"
+                      },
+                      {
+                          "id":  "skand_rise_banda",
+                          "nume":  "Rise cu banda",
+                          "pattern":  "skandenberg-rise",
+                          "grupe_principale":  [
+                                                   "antebrat"
+                                               ],
+                          "tip":  "izolare",
+                          "echipament":  [
+                                             "banda"
+                                         ],
+                          "nivel":  1,
+                          "risc_articular":  [
+                                                 "cot"
+                                             ],
+                          "descriere":  "Banda ancorată jos; extinde incheietura impotriva rezistentei. Entry-level pentru extensorii carpieni; revenire lenta.",
+                          "reguli_speciale":  "tempo 3-1-3"
+                      },
+                      {
+                          "id":  "skand_farmer_hold",
+                          "nume":  "Farmer hold",
+                          "pattern":  "skandenberg-grip",
+                          "grupe_principale":  [
+                                                   "antebrat"
+                                               ],
+                          "tip":  "static",
+                          "echipament":  [
+                                             "gantera"
+                                         ],
+                          "nivel":  1,
+                          "risc_articular":  [
+
+                                             ],
+                          "descriere":  "Tine gantere grele in ambele maini cat mai mult posibil. Fortifica flexorii degetelor si rezistenta generala a gripului.",
+                          "reguli_speciale":  "timp in loc de repetari"
+                      },
+                      {
+                          "id":  "skand_hang_bara_fg",
+                          "nume":  "Atarnat pe bara cu Fat Gripz",
+                          "pattern":  "skandenberg-grip",
+                          "grupe_principale":  [
+                                                   "antebrat"
+                                               ],
+                          "tip":  "static",
+                          "echipament":  [
+                                             "bara tractiuni",
+                                             "FG"
+                                         ],
+                          "nivel":  2,
+                          "risc_articular":  [
+
+                                             ],
+                          "descriere":  "Bara ingrosata cu Fat Gripz obliga o priza de forta mai mare. Atarna cat mai mult; cand simti ca pierzi priza, coboara controlat fara sa cazi brusc.",
+                          "reguli_speciale":  "timp in loc de repetari"
+                      },
+                      {
+                          "id":  "skand_hang_maner_gros",
+                          "nume":  "Atarnat pe maner gros sau rotativ",
+                          "pattern":  "skandenberg-grip",
+                          "grupe_principale":  [
+                                                   "antebrat"
+                                               ],
+                          "tip":  "static",
+                          "echipament":  [
+                                             "bara tractiuni",
+                                             "maner-multi-grip"
+                                         ],
+                          "nivel":  2,
+                          "risc_articular":  [
+
+                                             ],
+                          "descriere":  "Manerul gros sau rotativ agatat de bara; mentine priza cat mai mult. Manerul rotativ adauga instabilitate si recruteaza musculatura intriseca a mainii.",
+                          "reguli_speciale":  "timp in loc de repetari"
+                      },
+                      {
+                          "id":  "skand_static_biceps_gantera",
+                          "nume":  "Static biceps unghi inchis cu gantera",
+                          "pattern":  "skandenberg-static-biceps",
+                          "grupe_principale":  [
+                                                   "biceps",
+                                                   "antebrat"
+                                               ],
+                          "tip":  "static",
+                          "echipament":  [
+                                             "gantera"
+                                         ],
+                          "nivel":  2,
+                          "risc_articular":  [
+                                                 "cot"
+                                             ],
+                          "descriere":  "Cotul la ~70-80° (unghi specific carligului la masa), supinatie completa, tine gantera izometric. Recruteaza bicepsul la lungimea scurta, specifica pozitiei de hook.",
+                          "reguli_speciale":  "timp in loc de repetari"
+                      },
+                      {
+                          "id":  "skand_static_biceps_scripete",
+                          "nume":  "Static biceps la scripete unghi inchis",
+                          "pattern":  "skandenberg-static-biceps",
+                          "grupe_principale":  [
+                                                   "biceps",
+                                                   "antebrat"
+                                               ],
+                          "tip":  "static",
+                          "echipament":  [
+                                             "scripete"
+                                         ],
+                          "nivel":  2,
+                          "risc_articular":  [
+                                                 "cot"
+                                             ],
+                          "descriere":  "Scripetele jos, cot la 70-80°, tine pozitia izometric. Tensiunea scripetului mentine sarcina mai constant decat gantera la acest unghi.",
+                          "reguli_speciale":  "timp in loc de repetari"
+                      },
+                      {
+                          "id":  "skand_static_triceps_masa",
+                          "nume":  "Static triceps pe masa de skandenberg",
+                          "pattern":  "skandenberg-static-triceps",
+                          "grupe_principale":  [
+                                                   "triceps"
+                                               ],
+                          "tip":  "static",
+                          "echipament":  [
+                                             "masa",
+                                             "gantera"
+                                         ],
+                          "nivel":  2,
+                          "risc_articular":  [
+                                                 "cot"
+                                             ],
+                          "descriere":  "Bratul pe masa in pozitia de presa, apasa gantera sau rezista contra suprafetei izometric. Simuli exact unghiul si directia de forta din pressa de skandenberg.",
+                          "reguli_speciale":  "timp in loc de repetari"
+                      },
+                      {
+                          "id":  "skand_static_triceps_scripete",
+                          "nume":  "Static triceps la scripete",
+                          "pattern":  "skandenberg-static-triceps",
+                          "grupe_principale":  [
+                                                   "triceps"
+                                               ],
+                          "tip":  "static",
+                          "echipament":  [
+                                             "scripete"
+                                         ],
+                          "nivel":  2,
+                          "risc_articular":  [
+                                                 "cot"
+                                             ],
+                          "descriere":  "Scripetele configurat pentru unghiul de presa; tine pozitia izometric cu tricepsul la unghiul specific mesei. Varianta fara masa cu unghi replicat.",
+                          "reguli_speciale":  "timp in loc de repetari"
+                      },
+                      {
+                          "id":  "skand_side_pressure_banda",
+                          "nume":  "Side pressure izometric cu banda",
+                          "pattern":  "skandenberg-side-pressure",
+                          "grupe_principale":  [
+                                                   "piept",
+                                                   "umeri"
+                                               ],
+                          "tip":  "static",
+                          "echipament":  [
+                                             "banda"
+                                         ],
+                          "nivel":  2,
+                          "risc_articular":  [
+                                                 "umar"
+                                             ],
+                          "descriere":  "Banda ancorată lateral; impinge izometric sau pe amplitudine mica spre exterior. Bratul nu trece niciodata in spatele planului corpului. Blocat complet la umar sensibil.",
+                          "reguli_speciale":  "timp in loc de repetari, amplitudine mica"
+                      },
+                      {
+                          "id":  "mountain_climbers",
+                          "nume":  "Mountain climbers",
+                          "pattern":  "conditie",
+                          "grupe_principale":  [
+                                                   "abdomen"
+                                               ],
+                          "tip":  "conditie",
+                          "echipament":  [
+                                             "corp"
+                                         ],
+                          "nivel":  1,
+                          "risc_articular":  [
+
+                                             ],
+                          "descriere":  "Din pozitie de flotare, alterneaza genunchii spre piept cat mai rapid. Mentine soldurile nivelate; nu ridica fundul.",
+                          "reguli_speciale":  "timp in loc de repetari"
+                      },
+                      {
+                          "id":  "burpee",
+                          "nume":  "Burpee",
+                          "pattern":  "conditie",
+                          "grupe_principale":  [
+                                                   "abdomen",
+                                                   "piept"
+                                               ],
+                          "tip":  "conditie",
+                          "echipament":  [
+                                             "corp"
+                                         ],
+                          "nivel":  2,
+                          "risc_articular":  [
+                                                 "lombar",
+                                                 "genunchi"
+                                             ],
+                          "descriere":  "Secventa: squat → flotare → squat → salt cu bratele sus. Mentine spatele neutru la trecerea in plansa; nu plesnesti solul cu palmele.",
+                          "reguli_speciale":  null
+                      },
+                      {
+                          "id":  "ramat_inversat",
+                          "nume":  "Ramat inversat (sub masa / bara joasa)",
+                          "pattern":  "tractiune orizontala",
+                          "grupe_principale":  [
+                                                   "spate",
+                                                   "biceps"
+                                               ],
+                          "tip":  "compound",
+                          "echipament":  [
+                                             "corp"
+                                         ],
+                          "nivel":  1,
+                          "risc_articular":  [
+
+                                             ],
+                          "descriere":  "Intins sub o masa solida sau o bara joasa, apuca marginea si trage pieptul spre ea cu corpul drept. Cu cat esti mai orizontal, cu atat e mai greu.",
+                          "reguli_speciale":  null,
+                          "progressie_bw":  "ramat_inversat_picioare_ridicate"
+                      },
+                      {
+                          "id":  "ramat_prosop_usa",
+                          "nume":  "Ramat cu prosop la usa",
+                          "pattern":  "tractiune orizontala",
+                          "grupe_principale":  [
+                                                   "spate",
+                                                   "biceps"
+                                               ],
+                          "tip":  "compound",
+                          "echipament":  [
+                                             "corp"
+                                         ],
+                          "nivel":  1,
+                          "risc_articular":  [
+
+                                             ],
+                          "descriere":  "Prinde un prosop infasurat pe clanta unei usi solide, lasa-te pe spate cu bratele intinse si trage-te spre usa. Controleaza coborarea.",
+                          "reguli_speciale":  null,
+                          "progressie_bw":  "ramat_inversat"
+                      },
+                      {
+                          "id":  "superman",
+                          "nume":  "Superman",
+                          "pattern":  "hinge",
+                          "grupe_principale":  [
+                                                   "spate",
+                                                   "fesieri"
+                                               ],
+                          "tip":  "izolare",
+                          "echipament":  [
+                                             "corp"
+                                         ],
+                          "nivel":  1,
+                          "risc_articular":  [
+
+                                             ],
+                          "descriere":  "Intins pe burta, ridica simultan bratele si picioarele de pe sol, tine 1-2 secunde sus si coboara controlat. Intareste lantul posterior fara echipament.",
+                          "reguli_speciale":  null
+                      },
+                      {
+                          "id":  "split_squat_bw",
+                          "nume":  "Split squat bodyweight",
+                          "pattern":  "squat",
+                          "grupe_principale":  [
+                                                   "cvadriceps",
+                                                   "fesieri"
+                                               ],
+                          "tip":  "compound",
+                          "echipament":  [
+                                             "corp"
+                                         ],
+                          "nivel":  2,
+                          "risc_articular":  [
+                                                 "genunchi"
+                                             ],
+                          "descriere":  "Un picior in fata, unul in spate. Coboara pana cand genunchiul din spate atinge aproape solul, mentinand bustul drept. Mai solicitant decat fandarea simpla.",
+                          "reguli_speciale":  null,
+                          "progressie_bw":  null
+                      },
+                      {
+                          "id":  "archer_pushup",
+                          "nume":  "Archer push-up",
+                          "pattern":  "impins orizontal",
+                          "grupe_principale":  [
+                                                   "piept",
+                                                   "triceps",
+                                                   "umeri"
+                                               ],
+                          "tip":  "compound",
+                          "echipament":  [
+                                             "corp"
+                                         ],
+                          "nivel":  2,
+                          "risc_articular":  [
+                                                 "umar",
+                                                 "cot"
+                                             ],
+                          "descriere":  "In pozitie de flotare larga, cobori spre o singura parte lasand celalalt brat intins. Alterna stanga-dreapta. Pregatire pentru flotarea pe o mana.",
+                          "reguli_speciale":  null,
+                          "progressie_bw":  null
+                      },
+                      {
+                          "id":  "pike_pushup_elevat",
+                          "nume":  "Pike push-up cu picioarele ridicate",
+                          "pattern":  "impins vertical",
+                          "grupe_principale":  [
+                                                   "umeri",
+                                                   "triceps"
+                                               ],
+                          "tip":  "compound",
+                          "echipament":  [
+                                             "corp",
+                                             "banca"
+                                         ],
+                          "nivel":  2,
+                          "risc_articular":  [
+                                                 "umar"
+                                             ],
+                          "descriere":  "Picioarele pe banca sau scaun, corp in V invers, cobori capul spre sol. Unghiul de impins devine aproape vertical — simulare partial de handstand push-up.",
+                          "reguli_speciale":  null,
+                          "progressie_bw":  null
+                      },
+                      {
+                          "id":  "ramat_inversat_picioare_ridicate",
+                          "nume":  "Ramat inversat cu picioarele ridicate",
+                          "pattern":  "tractiune orizontala",
+                          "grupe_principale":  [
+                                                   "spate",
+                                                   "biceps",
+                                                   "umeri"
+                                               ],
+                          "tip":  "compound",
+                          "echipament":  [
+                                             "corp",
+                                             "banca"
+                                         ],
+                          "nivel":  2,
+                          "risc_articular":  [
+
+                                             ],
+                          "descriere":  "Ramat inversat clasic dar cu picioarele pe o banca sau scaun. Corpul mai orizontal inseamna greutate mai mare pe spate. Cel mai bun exercitiu de tractiune orizontala fara echipament.",
+                          "reguli_speciale":  null,
+                          "progressie_bw":  null
+                      },
+                      {
+                          "id":  "glute_bridge_unilateral",
+                          "nume":  "Glute bridge unilateral",
+                          "pattern":  "izolare-fesieri",
+                          "grupe_principale":  [
+                                                   "fesieri",
+                                                   "ischio"
+                                               ],
+                          "tip":  "compound",
+                          "echipament":  [
+                                             "corp"
+                                         ],
+                          "nivel":  2,
+                          "risc_articular":  [
+
+                                             ],
+                          "descriere":  "Glute bridge pe un singur picior. Celalalt picior intins sau in aer. Dubla solicitare pe fesier si corectia dezechilibrelor dintre parti.",
+                          "reguli_speciale":  null,
+                          "progressie_bw":  null
+                      }
+                  ]
 }

@@ -175,15 +175,16 @@ function renderOptions(s) {
 
 function renderEquipment() {
   const generalItems = [
-    { val: 'corp',          label: 'Nimic / doar corpul' },
-    { val: 'banda',         label: 'Benzi elastice' },
-    { val: 'gantera',       label: 'Gantere' },
-    { val: 'haltera',       label: 'Halteră + discuri' },
-    { val: 'banca',         label: 'Bancă' },
-    { val: 'rack',          label: 'Power rack / suport' },
-    { val: 'bara tractiuni',label: 'Bară de tracțiuni' },
-    { val: 'scripete',      label: 'Scripete / cablu' },
-    { val: '_sala',         label: 'Sală completă (bifează tot)' },
+    { val: 'corp',              label: 'Nimic / doar corpul' },
+    { val: 'centura_greutati',  label: 'Centură de greutăți (dips/pull-up cu kg)' },
+    { val: 'banda',             label: 'Benzi elastice' },
+    { val: 'gantera',           label: 'Gantere' },
+    { val: 'haltera',           label: 'Halteră + discuri' },
+    { val: 'banca',             label: 'Bancă' },
+    { val: 'rack',              label: 'Power rack / suport' },
+    { val: 'bara tractiuni',    label: 'Bară de tracțiuni' },
+    { val: 'scripete',          label: 'Scripete / cablu' },
+    { val: '_sala',             label: 'Sală completă (bifează tot)' },
   ];
   const skandItems = [
     { val: 'masa',         label: 'Masă de skandenberg' },
@@ -333,7 +334,7 @@ function attachOptionHandlers(s) {
   }
 
   if (s.tip === 'equipment') {
-    const SALA_ALL = ['corp','banda','gantera','haltera','banca','rack','bara tractiuni','scripete'];
+    const SALA_ALL = ['corp','centura_greutati','banda','gantera','haltera','banca','rack','bara tractiuni','scripete'];
     const MANERE   = ['maner-rotativ','maner-conic','maner-multi-grip','maner-excentric','maner-wrist-wrench'];
 
     _container.querySelectorAll('.opt-card[data-group="equip"]').forEach(el => {
@@ -458,7 +459,7 @@ async function handleNext() {
 
   try {
     const profile = buildProfile();
-    const splitId = getRecommendedSplit(profile.zile);
+    const splitId = getRecommendedSplit(profile.zile, profile.experienta, profile.obiectiv);
     const program = await generateProgram(profile, splitId);
 
     // Păstrăm istoricul de antrenamente dacă userul doar își modifică preferințele

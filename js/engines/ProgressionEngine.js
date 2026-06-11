@@ -1,7 +1,36 @@
-// Progression engine — calculates weight recommendations based on history
+// ProgressionEngine — recomandări de greutate / progresie bazate pe istoric + feedback
+//
+// Surse de decizie (în ordine de prioritate):
+//   1. Feedback explicit al utilizatorului (prea_greu / prea_usor / durere)
+//   2. RIR raportat față de RIR țintă
+//   3. Reps completate față de intervalul prescris
+//   4. Regresie pe sesiuni consecutive
+
+// Incremente standard (kg)
+const INC = { upper: 2.5, lower: 5 };
+
+// Prag reps la care bodyweight fără centură urcă la variație mai grea (evităm anduranță pură)
+const BW_REPS_UPGRADE = 20;
 
 export class ProgressionEngine {
-  getRecommendation(exId, repMin, repMax, antrenamente = [], profileExp) {
+  /**
+   * @param {string}   exId
+   * @param {number}   repMin
+   * @param {number}   repMax
+   * @param {Array}    antrenamente   - toate sesiunile salvate
+   * @param {number}   profileExp     - 0/1/2/3
+   * @param {object}   opts
+   *   @param {number}  [opts.rir]            - RIR raportat pe ultimul set (0–5+)
+   *   @param {string}  [opts.feedbackUser]   - 'prea_greu' | 'prea_usor' | 'ok' | 'durere'
+   *   @param {boolean} [opts.isBodyweight]   - exercițiu pur bodyweight (echipament: ['corp'])
+   *   @param {boolean} [opts.hasCenturaGreutati] - utilizatorul are centură de greutăți
+   *   @param {boolean} [opts.isLowerBody]    - true = increment lower body (5 kg)
+   */
+  getRecommendation(exId, repMin, repMax, antrenamente = [], profileExp = 0, opts = {}) {
+    const { rir, feedbackUser, isBodyweight = false, hasCenturaGreutati = false, isLowerBody = false } = opts;
+    const inc = isLowerBody ? INC.lower : INC.upper;
+
+    // ── Fără istoric ─────────────────────────────────────────────────────────
     const sessions = (antrenamente || [])
       .filter(a => a.exercitii?.some(e => e.ex_id === exId))
       .sort((a, b) => b.data - a.data);
@@ -9,73 +38,174 @@ export class ProgressionEngine {
     if (!sessions.length) {
       return {
         tip: 'calibrare',
-        mesaj: 'Prima sesiune — alege o greutate cu care poți face 2–3 rep în plus față de target. Loghează ce ai făcut și data viitoare recomand eu.',
+        mesaj: isBodyweight
+          ? 'Prima sesiune — execută varianta de bază și raportează câte reps mai puteai face.'
+          : 'Prima sesiune — alege o greutate cu care poți face 2–3 rep în plus față de target.',
       };
     }
 
-    const last = sessions[0].exercitii.find(e => e.ex_id === exId);
+    const last   = sessions[0].exercitii.find(e => e.ex_id === exId);
     const weights = last.serii.map(s => s.greutate).filter(Boolean);
-    const kg = weights.length ? Math.max(...weights) : 0;
+    const kg      = weights.length ? Math.max(...weights) : 0;
 
     if (last.skip) {
+      return { tip: 'info', mesaj: `Ultima sesiune ai sărit acest exercițiu. Reia de unde ai lăsat.` };
+    }
+
+    // ── 1. Feedback explicit — prioritate maximă ──────────────────────────────
+    if (feedbackUser === 'durere') {
       return {
-        tip: 'info',
-        mesaj: `Ultima sesiune ai sărit acest exercițiu. Continuă cu ${kg || '?'} kg.`,
+        tip: 'durere',
+        kg,
+        mesaj: 'Durere raportată — recomandăm o variantă alternativă pentru aceeași grupă.',
+        actiune: 'swap',
       };
     }
 
+    if (feedbackUser === 'prea_greu') {
+      return this._decrease(kg, inc, 'Feedback: prea greu');
+    }
+
+    if (feedbackUser === 'prea_usor') {
+      // Salt dublu față de progresia normală
+      if (isBodyweight && !hasCenturaGreutati) {
+        return {
+          tip: 'upgrade_variatie',
+          mesaj: 'Prea ușor! Trecem la o variație mai dificilă a exercițiului.',
+          actiune: 'upgrade_bw',
+        };
+      }
+      const newKg = kg + inc * 2;
+      return {
+        tip: 'creste',
+        kg: newKg,
+        mesaj: `Prea ușor! Sari direct la ${newKg} kg.`,
+      };
+    }
+
+    // ── 2. Bodyweight fără centură — progresie prin variații ─────────────────
+    if (isBodyweight && !hasCenturaGreutati) {
+      return this._bodyweightProgression(last, repMin, repMax, rir);
+    }
+
+    // ── 3. RIR — dacă e disponibil ───────────────────────────────────────────
+    if (rir !== undefined && rir !== null) {
+      return this._rirDecision(kg, inc, rir, repMin, repMax, last);
+    }
+
+    // ── 4. Logică clasică reps ────────────────────────────────────────────────
+    return this._repsDecision(kg, inc, last, repMin, repMax, sessions, profileExp);
+  }
+
+  // ── Decizie bazată pe RIR ──────────────────────────────────────────────────
+  // RIR țintă implicit: 2 (poți face încă 2 rep). Ajustează în jurul valorii de 2.
+  _rirDecision(kg, inc, rir, repMin, repMax, last) {
+    const allOk = last.serii.every(s => s.reusit);
+
+    if (!allOk) {
+      // N-a completat seriile — scade indiferent de RIR raportat
+      return this._decrease(kg, inc, 'Serii incomplete');
+    }
+
+    if (rir === 0) {
+      // Eșec absolut — n-a mai putut face niciun rep în plus
+      return this._decrease(kg, inc, 'La limita absolută (RIR 0)');
+    }
+
+    if (rir === 1) {
+      const newKg = kg + inc;
+      return { tip: 'creste', kg: newKg, mesaj: `Aproape de limită — treci la ${newKg} kg.` };
+    }
+
+    if (rir >= 4) {
+      // Mult prea ușor → crește mai agresiv
+      const newKg = kg + inc * 2;
+      return { tip: 'creste', kg: newKg, mesaj: `Prea ușor (RIR ${rir}) — treci la ${newKg} kg.` };
+    }
+
+    if (rir === 2 || rir === 3) {
+      // Zona țintă — dacă și reps sunt la plafon, crește; altfel menține
+      const atTop = last.serii.every(s => s.reusit && s.repetari >= repMax);
+      if (atTop) {
+        const newKg = kg + inc;
+        return { tip: 'creste', kg: newKg, mesaj: `Bine! Treci la ${newKg} kg.` };
+      }
+      return { tip: 'mentine', kg, mesaj: `Continuă cu ${kg} kg — atinge ${repMax} rep pe toate seriile.` };
+    }
+
+    return { tip: 'mentine', kg, mesaj: `Continuă cu ${kg} kg.` };
+  }
+
+  // ── Decizie clasică bazată pe reps ────────────────────────────────────────
+  _repsDecision(kg, inc, last, repMin, repMax, sessions, profileExp) {
     const allOk = last.serii.every(s => s.reusit);
     const atTop = last.serii.every(s => s.reusit && s.repetari >= repMax);
 
-    // Detect regression (2+ consecutive failed sessions)
+    // Regresie: 2 sesiuni consecutive cu serii incomplete
     if (sessions.length >= 2) {
-      const prev = sessions[1].exercitii.find(e => e.ex_id === exId);
+      const prev = sessions[1].exercitii.find(e => e.ex_id === last.ex_id);
       if (!prev?.skip && prev?.serii.some(s => !s.reusit) && last.serii.some(s => !s.reusit)) {
-        const newKg = Math.round(kg * 0.925 / 2.5) * 2.5;
-        return {
-          tip: 'regresia',
-          kg: newKg,
-          mesaj: `Stagnare — recomand ${newKg} kg (-7,5%) și reconstruire.`,
-        };
+        return this._decrease(kg, inc, 'Stagnare 2 sesiuni consecutive');
       }
     }
 
     if (!allOk) {
-      return {
-        tip: 'mentine',
-        kg,
-        mesaj: `Rămâi la ${kg} kg până închizi toate seriile la ${repMin}–${repMax} rep.`,
-      };
+      return { tip: 'mentine', kg, mesaj: `Rămâi la ${kg} kg până închizi toate seriile la ${repMin}–${repMax} rep.` };
     }
 
-    // Check consecutive successful sessions
+    // Câte sesiuni consecutive la plafon (toate rep >= repMax)?
     const N = profileExp === 0 ? 1 : 2;
     const cleanCount = sessions.filter(s => {
-      const e = s.exercitii.find(x => x.ex_id === exId);
+      const e = s.exercitii.find(x => x.ex_id === last.ex_id);
       return !e?.skip && e?.serii.every(x => x.reusit && x.repetari >= repMax);
     }).length;
 
     if (atTop && cleanCount >= N) {
-      const newKg = kg + 2.5;
-      return {
-        tip: 'creste',
-        kg: newKg,
-        mesaj: `+2,5 kg azi! Treci la ${newKg} kg.`,
-      };
+      const newKg = kg + inc;
+      return { tip: 'creste', kg: newKg, mesaj: `+${inc} kg azi! Treci la ${newKg} kg.` };
     }
 
     if (atTop && cleanCount < N) {
+      return { tip: 'aproape', kg, mesaj: `Bine! Încă ${N - cleanCount} sesiune(i) identică și crești.` };
+    }
+
+    return { tip: 'mentine', kg, mesaj: `Continuă cu ${kg} kg.` };
+  }
+
+  // ── Progresie bodyweight fără centură ─────────────────────────────────────
+  // Dacă reps-urile depășesc pragul BW_REPS_UPGRADE pe toate seriile → upgrade variație.
+  // Altfel crește reps.
+  _bodyweightProgression(last, repMin, repMax, rir) {
+    const allOk  = last.serii.every(s => s.reusit);
+    const avgReps = last.serii.reduce((sum, s) => sum + (s.repetari || 0), 0) / (last.serii.length || 1);
+
+    if (!allOk) {
+      return { tip: 'mentine_bw', mesaj: `Continuă cu aceeași variație — completează toate seriile la ${repMin}–${repMax} rep.` };
+    }
+
+    if (avgReps >= BW_REPS_UPGRADE || (rir !== undefined && rir >= 4)) {
       return {
-        tip: 'aproape',
-        kg,
-        mesaj: `Bine! Încă ${N - cleanCount} sesiune(i) identică și crești.`,
+        tip: 'upgrade_variatie',
+        mesaj: `Ai ajuns la ${Math.round(avgReps)} rep — trecem la o variație mai dificilă!`,
+        actiune: 'upgrade_bw',
       };
     }
 
+    const targetReps = Math.min(Math.round(avgReps) + 2, BW_REPS_UPGRADE);
     return {
-      tip: 'mentine',
-      kg,
-      mesaj: `Continuă cu ${kg} kg.`,
+      tip: 'creste_reps_bw',
+      mesaj: `Bine! Încearcă ${targetReps} rep pe serie data viitoare.`,
+      targetReps,
+    };
+  }
+
+  // ── Scădere greutate ──────────────────────────────────────────────────────
+  _decrease(kg, inc, motiv) {
+    const newKg = Math.max(0, Math.round((kg * 0.925) / inc) * inc);
+    return {
+      tip: 'scade',
+      kg: newKg,
+      mesaj: `${motiv} — recomandăm ${newKg} kg (~7,5% mai puțin) și reconstrucție graduală.`,
     };
   }
 }
