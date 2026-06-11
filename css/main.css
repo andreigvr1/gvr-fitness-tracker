@@ -267,6 +267,42 @@ body.has-nav .view.active { padding-bottom: 86px; }
 }
 .btn-ob-close:hover { background: var(--surf); color: var(--t1); }
 
+/* ── Measurements step ───────────────────────────────────────────────────────── */
+.meas-row {
+  display: flex; gap: 16px; margin-top: 8px;
+}
+.meas-field {
+  flex: 1; display: flex; flex-direction: column; gap: 8px;
+}
+.meas-label {
+  font-size: 12px; font-weight: 700; color: var(--t2);
+  text-transform: uppercase; letter-spacing: .06em;
+}
+.meas-input-wrap {
+  display: flex; align-items: center;
+  background: var(--surf2); border: 1px solid var(--border);
+  border-radius: var(--rs); overflow: hidden;
+  transition: border-color .15s;
+}
+.meas-input-wrap:focus-within {
+  border-color: var(--accent);
+}
+.meas-input {
+  flex: 1; background: transparent; border: none; outline: none;
+  color: var(--t1); font-size: 28px; font-weight: 700;
+  padding: 18px 14px; width: 0;
+  -moz-appearance: textfield;
+}
+.meas-input::-webkit-outer-spin-button,
+.meas-input::-webkit-inner-spin-button { -webkit-appearance: none; }
+.meas-unit {
+  font-size: 14px; font-weight: 600; color: var(--t2);
+  padding-right: 14px; white-space: nowrap;
+}
+.meas-hint {
+  font-size: 12px; color: var(--t3); margin-top: 14px; text-align: center;
+}
+
 .ob-body { flex: 1; padding: 28px 20px 16px; overflow-y: auto; }
 
 .ob-question {

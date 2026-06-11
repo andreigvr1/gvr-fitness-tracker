@@ -1,4 +1,4 @@
-const CACHE_VERSION = 'gvr-v12';
+const CACHE_VERSION = 'gvr-v13';
 const BASE = '/gvr-fitness-tracker';
 const PRECACHE = [
   BASE + '/',

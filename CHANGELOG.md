@@ -1,5 +1,12 @@
 # Changelog — GVR Fitness Tracker
 
+## v0.7.1 — Înălțime și greutate adăugate în profil
+
+- Pas nou în onboarding (pasul 2): **Înălțime** (cm) și **Greutate** (kg)
+- Câmpurile sunt opționale — poți trece mai departe fără să le completezi
+- La editarea preferințelor, valorile salvate se pre-completează automat
+- Datele sunt salvate în profil și vor fi folosite pentru personalizare avansată
+
 ## v0.7.0 — Setări fixate, gen adăugat, navigație completă
 
 - **Fix Setări**: buton ✕ de închidere în colțul de sus; răspunsurile existente sunt pre-completate — nu mai ești întrebat de la zero

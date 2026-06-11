@@ -14,6 +14,12 @@ const STEPS = [
     ],
   },
   {
+    id: 'measurements',
+    q: 'Înălțimea și greutatea ta?',
+    tip: 'measurements',
+    sub_global: 'Folosite pentru a personaliza exercițiile și valorile de start',
+  },
+  {
     id: 'seriozitate',
     q: 'Cât de serios vrei să iei antrenamentul?',
     tip: 'single',
@@ -111,6 +117,7 @@ const STEPS = [
 let step = 0;
 let answers = {
   gen: null,
+  inaltime: null, greutate: null,
   seriozitate: null, obiectiv: null, zile: null, timp: null, experienta: null,
   echipament: ['corp'], manere: [],
   grupe_prioritare: [], articulatii: [],
@@ -135,6 +142,8 @@ export function initOnboarding(container, onComplete, opts = {}) {
     const p = opts.existingProfile;
     answers = {
       gen:              p.gen            ?? null,
+      inaltime:         p.inaltime       ?? null,
+      greutate:         p.greutate       ?? null,
       seriozitate:      p.seriozitate    ?? null,
       obiectiv:         p.obiectiv       ?? null,
       zile:             p.zile           ?? null,
@@ -152,6 +161,7 @@ export function initOnboarding(container, onComplete, opts = {}) {
   } else {
     answers = {
       gen: null,
+      inaltime: null, greutate: null,
       seriozitate: null, obiectiv: null, zile: null, timp: null, experienta: null,
       echipament: ['corp'], manere: [],
       grupe_prioritare: [], articulatii: [],
@@ -218,8 +228,9 @@ function renderOptions(s) {
       </label>`).join('');
   }
 
-  if (s.tip === 'equipment') return renderEquipment();
-  if (s.tip === 'skand')     return renderSkand();
+  if (s.tip === 'equipment')    return renderEquipment();
+  if (s.tip === 'skand')        return renderSkand();
+  if (s.tip === 'measurements') return renderMeasurements();
   return '';
 }
 
@@ -266,6 +277,30 @@ function renderEquipment() {
       <div class="equip-title" style="margin-top:10px; font-size:11px">Mânere deținute</div>
       ${eq(manereItems)}
     </div>`;
+}
+
+function renderMeasurements() {
+  return `
+    <div class="meas-row">
+      <div class="meas-field">
+        <label class="meas-label" for="inp-inaltime">Înălțime</label>
+        <div class="meas-input-wrap">
+          <input class="meas-input" id="inp-inaltime" type="number" inputmode="numeric"
+            min="130" max="230" placeholder="175" value="${answers.inaltime ?? ''}" />
+          <span class="meas-unit">cm</span>
+        </div>
+      </div>
+      <div class="meas-field">
+        <label class="meas-label" for="inp-greutate">Greutate</label>
+        <div class="meas-input-wrap">
+          <input class="meas-input" id="inp-greutate" type="number" inputmode="decimal"
+            min="30" max="300" placeholder="75" value="${answers.greutate ?? ''}" />
+          <span class="meas-unit">kg</span>
+        </div>
+      </div>
+    </div>
+    <p class="meas-hint">Opționale — poți sări dacă preferi</p>
+  `;
 }
 
 function renderSkand() {
@@ -437,6 +472,23 @@ function attachOptionHandlers(s) {
     });
   }
 
+  if (s.tip === 'measurements') {
+    const inpH = document.getElementById('inp-inaltime');
+    const inpG = document.getElementById('inp-greutate');
+    const onInput = () => {
+      const h = parseFloat(inpH.value);
+      const g = parseFloat(inpG.value);
+      answers.inaltime = (!isNaN(h) && h >= 130 && h <= 230) ? h : null;
+      answers.greutate = (!isNaN(g) && g >= 30  && g <= 300) ? g : null;
+      validateNext();
+    };
+    inpH.addEventListener('input', onInput);
+    inpG.addEventListener('input', onInput);
+    // Focus first empty field
+    if (!answers.inaltime) inpH.focus();
+    else if (!answers.greutate) inpG.focus();
+  }
+
   if (s.tip === 'skand') {
     _container.querySelectorAll('[data-single-skand]').forEach(el => {
       el.addEventListener('click', () => {
@@ -481,10 +533,11 @@ function validateNext() {
   if (!btn) return;
 
   let ok = true;
-  if (s.tip === 'single')    ok = answers[s.id] !== null && answers[s.id] !== undefined;
-  if (s.tip === 'multi')     ok = true; // multi allows 0 selections
-  if (s.tip === 'equipment') ok = answers.echipament.length > 0;
-  if (s.tip === 'skand')     ok = answers.skandenberg !== null && (!answers.skandenberg || answers.stil_skandenberg !== null);
+  if (s.tip === 'single')       ok = answers[s.id] !== null && answers[s.id] !== undefined;
+  if (s.tip === 'multi')        ok = true;
+  if (s.tip === 'equipment')    ok = answers.echipament.length > 0;
+  if (s.tip === 'measurements') ok = true; // optional fields
+  if (s.tip === 'skand')        ok = answers.skandenberg !== null && (!answers.skandenberg || answers.stil_skandenberg !== null);
 
   btn.disabled = !ok;
   btn.style.opacity = ok ? '1' : '0.4';
@@ -532,6 +585,8 @@ async function handleNext() {
 function buildProfile() {
   return {
     gen:               answers.gen,
+    inaltime:          answers.inaltime,
+    greutate:          answers.greutate,
     seriozitate:       answers.seriozitate,
     obiectiv:          answers.obiectiv,
     zile:              answers.zile,
