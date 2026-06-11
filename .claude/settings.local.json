@@ -4,7 +4,8 @@
       "mcp__Claude_Preview__preview_start",
       "PowerShell(\\(Get-Command npx\\).Source)",
       "PowerShell(gh api repos/andreigvr1/gvr-fitness-tracker/pages --method POST --field source='{\"branch\":\"master\",\"path\":\"/\"}' 2>&1)",
-      "PowerShell($body = '{\"source\":{\"branch\":\"master\",\"path\":\"/\"}}'; $body | Out-File -Encoding utf8 -FilePath \"$env:TEMP\\\\pages.json\"; gh api repos/andreigvr1/gvr-fitness-tracker/pages --method POST --input \"$env:TEMP\\\\pages.json\")"
+      "PowerShell($body = '{\"source\":{\"branch\":\"master\",\"path\":\"/\"}}'; $body | Out-File -Encoding utf8 -FilePath \"$env:TEMP\\\\pages.json\"; gh api repos/andreigvr1/gvr-fitness-tracker/pages --method POST --input \"$env:TEMP\\\\pages.json\")",
+      "Bash(python -c ' *)"
     ]
   }
 }

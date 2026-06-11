@@ -1,5 +1,5 @@
 import { generateProgram, getRecommendedSplit, getSplitsForZile } from './generator.js';
-import { saveData } from './storage.js';
+import { saveData, loadData } from './storage.js';
 
 // ── Step definitions ─────────────────────────────────────────────────────────
 const STEPS = [
@@ -461,7 +461,14 @@ async function handleNext() {
     const splitId = getRecommendedSplit(profile.zile);
     const program = await generateProgram(profile, splitId);
 
-    const data = { profile, program, antrenamente: [], preferinte: { nu_imi_place: [], ma_doare: [] } };
+    // Păstrăm istoricul de antrenamente dacă userul doar își modifică preferințele
+    const existing = loadData();
+    const data = {
+      profile, program,
+      antrenamente: existing?.antrenamente || [],
+      preferinte: existing?.preferinte || { nu_imi_place: [], ma_doare: [] },
+      program_salvat: false,
+    };
     saveData(data);
     _onComplete(data);
   } catch (e) {

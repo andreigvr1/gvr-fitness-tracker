@@ -1,5 +1,25 @@
 # Changelog — GVR Fitness Tracker
 
+## v0.5.0 — Dashboard + generator inteligent + skip cu motive
+
+### Dashboard și flux de antrenament
+- Buton **„✓ Salvează programul"** după configurare → te duce pe noul **Dashboard**
+- Dashboard-ul știe ce zi urmează (după Ziua 1 urmează Ziua 2, apoi reia ciclul)
+- **Istoric cu date calendaristice**: fiecare antrenament salvat apare cu ziua și data
+- Buton **„Modifică preferințele"** — refaci onboarding-ul fără să pierzi istoricul de antrenamente
+
+### Generator de exerciții rescris (selecție pe sloturi)
+- Fiecare zi pornește de la mișcările fundamentale: picioare (squat/hinge), împins, tracțiune — apoi exerciții pe grupele tale prioritare, iar core/carry doar la final
+- La antrenamente scurte (4-5 exerciții), carry și exercițiile de condiție nu mai ocupă sloturi importante
+- Alternativele propuse la swap sunt acum din același tipar de mișcare
+- **3 exerciții noi bodyweight** (ramat inversat, ramat cu prosop la ușă, superman) — acum și fără echipament primești un program complet, inclusiv spate
+
+### Skip exerciții cu motive
+- Buton „⊘ Sari" pe fiecare exercițiu în timpul antrenamentului
+- La finalul zilei: întrebare „De ce ai sărit?" cu 6 motive (oboseală, timp, durere, prea greu, echipament, altceva)
+- **Adaptare automată**: durere/prea greu de 2+ ori pe același exercițiu → aplicația propune înlocuirea; lipsă de timp/oboseală de 3+ ori → sugerează program mai scurt / volum redus
+- Ziua finalizată apare cu bifă verde în lista programului
+
 ## v0.4.0 — Etapa 4: Logare serii + Motor de progresie
 
 ### Ce s-a adăugat

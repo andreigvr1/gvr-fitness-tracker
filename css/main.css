@@ -443,3 +443,79 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
   padding: 16px; background: var(--grn-dim); color: var(--green);
   border-radius: var(--r);
 }
+.done-banner-partial { background: var(--org-dim); color: var(--orange); }
+
+/* ── Skip ───────────────────────────────────────────────────────────────────── */
+.ex-skip-btn {
+  flex-shrink: 0; font-size: 11px; font-weight: 700; color: var(--t2);
+  padding: 6px 10px; background: var(--surf2); border-radius: 999px;
+  white-space: nowrap; transition: background .15s, color .15s;
+}
+.ex-skip-btn:hover { background: var(--org-dim); color: var(--orange); }
+.log-ex-card.ex-skipped { opacity: .55; }
+
+.skip-reason-wrap { padding: 8px 0 16px; display: flex; flex-direction: column; gap: 14px; }
+.skip-reason-title { font-size: 20px; font-weight: 900; line-height: 1.25; }
+.skip-reason-sub   { font-size: 13px; color: var(--t2); line-height: 1.5; margin-top: -8px; }
+.skip-ex-block  { background: var(--surf); border-radius: var(--r); padding: 14px; }
+.skip-ex-name   { font-size: 14px; font-weight: 800; margin-bottom: 10px; }
+.skip-reasons-grid { display: flex; flex-direction: column; gap: 5px; }
+.skip-reason-opt {
+  display: flex; align-items: center; gap: 10px;
+  padding: 10px 12px; background: var(--surf2); border-radius: var(--rs);
+  border: 1.5px solid transparent; text-align: left;
+  transition: border-color .15s, background .15s;
+  -webkit-tap-highlight-color: transparent;
+}
+.skip-reason-opt.selected { border-color: var(--accent); background: var(--acc-dim); }
+.skip-r-icon  { font-size: 16px; flex-shrink: 0; }
+.skip-r-label { font-size: 13px; font-weight: 600; color: var(--t1); }
+
+/* ── Adaptive suggestions ───────────────────────────────────────────────────── */
+.adapt-banner { padding: 0 16px; display: flex; flex-direction: column; gap: 8px; margin-bottom: 12px; }
+.adapt-item {
+  background: var(--org-dim); border: 1px solid rgba(245,166,36,.25);
+  border-radius: var(--r); padding: 13px 14px;
+  display: flex; flex-direction: column; gap: 9px;
+}
+.adapt-msg { font-size: 13px; color: var(--orange); font-weight: 600; line-height: 1.5; }
+.adapt-btn {
+  align-self: flex-start; background: var(--orange); color: #0d0d0f;
+  font-size: 12px; font-weight: 800; padding: 7px 14px; border-radius: 999px;
+}
+
+/* ── Completed day on program view ──────────────────────────────────────────── */
+.day-card.day-done { border: 1px solid rgba(52,209,122,.3); }
+.day-num-done { background: var(--grn-dim) !important; color: var(--green) !important; }
+
+/* ── Dashboard ──────────────────────────────────────────────────────────────── */
+.dash-wrap { max-width: 480px; margin: 0 auto; padding: 0 16px 40px; }
+.dash-header { padding: 32px 4px 20px; }
+
+.dash-next-card {
+  background: linear-gradient(135deg, var(--acc-dim), var(--surf));
+  border: 1px solid rgba(124,111,247,.25);
+  border-radius: var(--r); padding: 18px;
+}
+.dnc-label { font-size: 11px; font-weight: 700; letter-spacing: .09em; text-transform: uppercase; color: var(--acc-txt); margin-bottom: 6px; }
+.dnc-name  { font-size: 24px; font-weight: 900; }
+.dnc-meta  { font-size: 13px; color: var(--t2); margin-top: 4px; }
+
+.hist-list { display: flex; flex-direction: column; gap: 6px; }
+.hist-item {
+  display: flex; align-items: center; gap: 12px;
+  background: var(--surf); border-radius: var(--rs); padding: 11px 14px;
+}
+.hist-date { display: flex; flex-direction: column; align-items: center; min-width: 48px; }
+.hist-day     { font-size: 13px; font-weight: 800; }
+.hist-weekday { font-size: 10px; color: var(--t2); text-transform: capitalize; }
+.hist-info  { flex: 1; min-width: 0; display: flex; flex-direction: column; }
+.hist-label { font-size: 14px; font-weight: 700; }
+.hist-meta  { font-size: 11px; color: var(--t2); margin-top: 1px; }
+.hist-check { color: var(--green); font-weight: 900; font-size: 14px; }
+.hist-empty {
+  font-size: 13px; color: var(--t2); line-height: 1.6; text-align: center;
+  padding: 20px 16px; background: var(--surf); border-radius: var(--r);
+}
+
+.dash-footer { margin-top: 20px; display: flex; flex-direction: column; gap: 8px; }

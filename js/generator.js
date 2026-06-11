@@ -119,15 +119,64 @@ function prescribe(ex, obiectiv) {
   };
 }
 
+// ── Slot templates ────────────────────────────────────────────────────────────
+// Fiecare zi are sloturi ordonate pe priorități: mișcările fundamentale primele
+// (squat/hinge, împins, tracțiune), apoi sloturi prioritare/libere, core la final.
+// '*' = orice pattern din ziua respectivă; 'prio' = exerciții pe grupele prioritare.
+const SQ_H   = ['squat', 'hinge', 'unilateral picior'];
+const PUSH_C = ['impins orizontal', 'impins vertical'];
+const PULL_C = ['tractiune orizontala', 'tractiune verticala'];
+
+const SLOT_TEMPLATES = {
+  full: [
+    SQ_H, PUSH_C, PULL_C,
+    ['prio'],
+    ['hinge', 'squat', 'flexie genunchi', 'unilateral picior'],
+    [...PUSH_C, ...PULL_C],
+    ['*'],
+    ['core'], ['core', 'carry'],
+  ],
+  upper: [
+    ['impins orizontal'], ['tractiune orizontala'],
+    ['impins vertical'],  ['tractiune verticala'],
+    ['prio'], ['*'], ['*'],
+    ['core'], ['core', 'carry'],
+  ],
+  lower: [
+    ['squat'], ['hinge'],
+    ['unilateral picior'], ['flexie genunchi'],
+    ['prio'], ['*'], ['*'],
+    ['core'], ['core', 'carry'],
+  ],
+  push: [
+    ['impins orizontal'], ['impins vertical'], ['impins orizontal', 'impins vertical'],
+    ['prio'], ['*'], ['*'], ['*'],
+    ['core'], ['core'],
+  ],
+  pull: [
+    ['tractiune orizontala'], ['tractiune verticala'], ['tractiune orizontala', 'tractiune verticala'],
+    ['prio'], ['*'], ['*'], ['*'],
+    ['core'], ['core', 'carry'],
+  ],
+  legs: [
+    ['squat'], ['hinge'], ['unilateral picior'], ['flexie genunchi'],
+    ['prio'], ['*'], ['*'],
+    ['core'], ['core'],
+  ],
+};
+
 // ── Scoring ──────────────────────────────────────────────────────────────────
-function scoreEx(ex, obiectiv, prioritati, usedGroups) {
+function scoreEx(ex, obiectiv, prioritati, usedGroups, slotsTotal) {
   let s = 10;
-  if (obiectiv === 'forta'    && ex.tip === 'compound')  s += 12;
-  if (obiectiv === 'masa'     && ex.tip === 'compound')  s += 8;
+  // Fundamentalele (compound multi-articular) au mereu prioritate
+  if (ex.tip === 'compound') s += 10;
+  if (obiectiv === 'forta'    && ex.tip === 'compound')  s += 8;
   if (obiectiv === 'masa'     && ex.tip === 'izolare')   s += 4;
-  if (obiectiv === 'anduranta'&& ex.tip === 'conditie')  s += 12;
-  if (obiectiv === 'sanatate')                           s += 4;
+  if (obiectiv === 'anduranta'&& ex.tip === 'conditie')  s += 8;
   if (ex.grupe_principale.some(g => prioritati.has(g)))  s += 20;
+  // Carry / condiție / static nu merită un slot când timpul e scurt
+  if (slotsTotal <= 5 && (ex.pattern === 'carry' || ex.tip === 'conditie')) s -= 25;
+  if (slotsTotal <= 5 && ex.tip === 'static') s -= 10;
   const overlap = ex.grupe_principale.filter(g => usedGroups.has(g)).length;
   s -= overlap * 8;
   s += (Math.random() * 4 - 2); // slight variety
@@ -140,6 +189,7 @@ function selectForDay(dayTip, allValid, profile, usedIds) {
   const slots    = numSlots(profile.timp);
   const prior    = new Set(profile.grupe_prioritare);
   const obj      = profile.obiectiv;
+  const template = SLOT_TEMPLATES[dayTip];
 
   let candidates = allValid.filter(ex =>
     patterns.includes(ex.pattern) && !usedIds.has(ex.id)
@@ -148,14 +198,31 @@ function selectForDay(dayTip, allValid, profile, usedIds) {
   const selected   = [];
   const usedGroups = new Set();
 
-  for (let i = 0; i < slots && candidates.length > 0; i++) {
-    const scored = candidates
-      .map(ex => ({ ex, sc: scoreEx(ex, obj, prior, usedGroups) }))
+  for (let si = 0; si < template.length && selected.length < slots && candidates.length > 0; si++) {
+    const slotDef = template[si];
+
+    let pool;
+    if (slotDef.includes('*')) {
+      pool = candidates;
+    } else if (slotDef.includes('prio')) {
+      pool = prior.size
+        ? candidates.filter(ex => ex.grupe_principale.some(g => prior.has(g)))
+        : candidates;
+    } else {
+      pool = candidates.filter(ex => slotDef.includes(ex.pattern));
+    }
+    if (!pool.length) pool = candidates; // fallback: nu pierdem slotul
+
+    const scored = pool
+      .map(ex => ({ ex, sc: scoreEx(ex, obj, prior, usedGroups, slots) }))
       .sort((a, b) => b.sc - a.sc);
 
     const winner = scored[0].ex;
     const item   = prescribe(winner, obj);
-    item.alternative = scored.slice(1, 4).map(s => s.ex.id);
+    // alternativele: întâi același pattern, apoi restul candidaților din slot
+    const samePattern = scored.slice(1).filter(s => s.ex.pattern === winner.pattern);
+    const others      = scored.slice(1).filter(s => s.ex.pattern !== winner.pattern);
+    item.alternative = [...samePattern, ...others].slice(0, 4).map(s => s.ex.id);
 
     selected.push(item);
     usedIds.add(winner.id);
