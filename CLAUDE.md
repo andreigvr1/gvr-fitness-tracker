@@ -2,7 +2,8 @@
 
 ## Ce este proiectul
 PWA de antrenament care generează programe personalizate și ghidează progresia.
-Specificația completă și OBLIGATORIE: `docs/specificatie_mvp.md` (v0.2). Citește-o integral la începutul fiecărei sesiuni înainte de orice modificare. Spec-ul e sursa de adevăr; dacă o cerință din chat contrazice spec-ul, semnalează și cere confirmare înainte de implementare.
+Specificația completă și OBLIGATORIE: `docs/specificatie_mvp.md` (v0.3). Citește-o integral la începutul fiecărei sesiuni înainte de orice modificare. Spec-ul e sursa de adevăr; dacă o cerință din chat contrazice spec-ul, semnalează și cere confirmare înainte de implementare.
+Pentru orientare în cod, citește ÎNTÂI `docs/arhitectura.md` (harta fișierelor, schema datelor, „unde modifici ce") în loc să explorezi fișierele — economisește tokeni. Dacă schimbi structura, actualizează harta în același commit.
 
 ## Proprietarul proiectului
 Andrei — decide tot, dar NU e programator. Consecințe:
@@ -20,13 +21,21 @@ Andrei — decide tot, dar NU e programator. Consecințe:
 
 ## Structura repository-ului
 ```
-index.html          — shell-ul aplicației
-css/                — stiluri (un fișier principal + tokens de design)
-js/                 — module: onboarding, generator, logare, progresie, skandenberg, storage, ui
-data/exercises.json — biblioteca de exerciții
+index.html          — shell-ul aplicației (APP_VERSION)
+css/main.css        — stiluri + design tokens (variabilele :root)
+js/app.js           — orchestrator slim
+js/onboarding.js    — pașii de onboarding + construirea profilului
+js/generator.js     — split-uri, selecție exerciții, prescripții
+js/storage.js       — localStorage (cheia `gvr-data-v1`)
+js/engines/         — ProgressionEngine, AdaptiveEngine, StatsEngine
+js/models/          — Program, WorkoutSession
+js/renderers/       — DashboardRenderer, ProgramRenderer, WorkoutRenderer
+js/utils/           — Constants, UIHelpers, ViewManager, TemplateLoader, ExerciseManager, BodyViz
+templates/          — HTML-ul ecranelor (dashboard, program, today, add-exercise)
+data/exercises.json — biblioteca de exerciții (schema din spec cap. 4)
 sw.js               — service worker (incrementezi CACHE_VERSION la FIECARE release)
 manifest.json       — manifest PWA
-docs/               — specificația și deciziile de proiect
+docs/               — specificația (sursa de adevăr), deciziile deschise, analizele, planul pe versiuni
 CHANGELOG.md        — fiecare versiune: ce s-a schimbat, pe limbaj simplu
 ```
 
@@ -44,6 +53,7 @@ CHANGELOG.md        — fiecare versiune: ce s-a schimbat, pe limbaj simplu
 4. **Limba aplicației și a commit-urilor vizibile: română.** Codul (variabile, funcții): engleză.
 5. **Siguranță:** principiile din spec cap. 1 sunt invariante. Filtrele de articulații sensibile și echipament nu se relaxează niciodată pentru "mai multe opțiuni".
 6. **Testare minimă per etapă:** înainte de push, verifică manual fluxul atins de schimbare + că aplicația pornește curat cu localStorage gol ȘI cu date existente.
+7. **Harta proiectului (`docs/arhitectura.md`) e prima sursă de orientare.** Caută ÎNTÂI în ea (fișiere, schema datelor, „unde modifici ce") înainte de a explora sau citi cod — explorezi doar ce harta nu acoperă. Reversul obligatoriu: orice schimbare de structură, schemă de date, fișier nou sau funcționalitate nouă actualizează harta ÎN ACELAȘI commit. O hartă învechită e mai rea decât niciuna.
 
 ## Ce NU faci
 - Nu adaugi dependențe externe / CDN-uri fără să întrebi (offline-first).

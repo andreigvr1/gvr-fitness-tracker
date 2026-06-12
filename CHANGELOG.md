@@ -1,5 +1,13 @@
 # Changelog — GVR Fitness Tracker
 
+## v0.9.2 — Redesign vizual, logare simplificată, documentație la zi
+
+- **Carduri de exerciții cu dungă violet** pe stânga + nume îngroșat, metadata discretă — ierarhie vizuală clară (inspirat din aplicațiile premium)
+- **Buton activ evidențiat** în bara de navigare (fundal colorat)
+- **Logarea seriilor simplificată**: doar câmpuri de scris pentru kg și repetări (butoanele +/− eliminate) — rezolvă și ieșirea conținutului din ecran pe mobil
+- **Documentația adusă la zi**: spec v0.3 (onboarding-ul real, modulul skandenberg și interfața simplă marcate amânate), plan pe versiuni nou (`docs/plan_versiuni.md`), analize de produs (`docs/decizii_deschise.md`, `docs/analiza_onboarding.md`), structura repo corectată în CLAUDE.md și README
+- *Notă: schimbările vizuale fuseseră publicate în doi pași intermediari fără incrementarea versiunii — corectat cu acest release.*
+
 ## v0.9.1 — Bugfix-uri după review complet
 
 - **Bugfix: split duplicat** în „Alte variante" — split-ul activ nu mai apărea și în lista de alternative

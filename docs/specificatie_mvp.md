@@ -1,5 +1,7 @@
 # GVR Fitness Tracker — Specificație funcțională MVP
-Versiune document: 0.2 · iunie 2026 · status: în review
+Versiune document: 0.3 · 12 iunie 2026 · status: aliniat la implementare (aplicația v0.9.2)
+
+Schimbări față de v0.2: cap. 3 rescris conform onboarding-ului implementat (ieșite: seriozitate, skandenberg; intrate: gen, măsurători); modulul skandenberg și interfața simplă marcate amânate post-MVP (cap. 2, 8, 9); notă de validare pentru profilurile cu skandenberg (cap. 10); trimiteri la documentele de analiză (`docs/decizii_deschise.md`, `docs/analiza_onboarding.md`, `docs/plan_versiuni.md`).
 
 Schimbări față de v0.1: echipament skandenberg detaliat (Î6), stiluri de skandenberg (Î9 + cap. 8), split-uri alternative cu override manual (cap. 5), corelații obiective rescrise pe 4 dimensiuni (Pas 3), regula scapulară devenită condiționată (Pas 6), decizii închise (cap. 11), capitol nou de design (cap. 12), nume oficial.
 
@@ -29,64 +31,48 @@ Principii care nu se negociază:
 | Logare pe serie + calibrare | Faze de revenire după pauză (v1.1) |
 | Motor de progresie/regresie (cap. 7) | Înlocuire automată la stagnare repetată (v1.1) |
 | Înlocuire manuală exerciții + split | Statistici avansate, grafice pe grupe (v1.2) |
-| Modul skandenberg cu stiluri (cap. 8) | Skandenberg: niveluri av./încep., zi grea/moderată, izometrie la masă (v1.2) |
-| Interfață simplă / completă (toggle) | Conturi online, sincronizare cloud (v2) |
+| ~~Modul skandenberg cu stiluri (cap. 8)~~ → **amânat post-MVP** (decizie 06.2026) | Skandenberg: niveluri av./încep., zi grea/moderată, izometrie la masă (v1.2) |
+| ~~Interfață simplă / completă (toggle)~~ → **amânată**; MVP fix pe completă (cap. 9) | Conturi online, sincronizare cloud (v2) |
 | PWA: offline, instalabilă, export/import | Versiuni iOS/Android native (v2) |
 
-Criteriul de tăiere: MVP-ul trebuie să genereze un program corect pentru cele 4 profiluri-test (cap. 10) și să ghideze progresia săptămână de săptămână. Tot ce nu servește direct asta iese.
+Criteriul de tăiere: MVP-ul trebuie să genereze un program corect pentru profilurile-test (cap. 10; componenta skandenberg se validează la reactivarea modulului) și să ghideze progresia săptămână de săptămână. Tot ce nu servește direct asta iese.
 
 ---
 
 ## 3. Onboarding (o singură dată, ~2 minute)
 
-Fiecare răspuns e modificabil ulterior din setări.
+*Rescris în v0.3 conform implementării. Istoric: întrebările de seriozitate (fosta Î1) și skandenberg (fosta Î9) au fost scoase prin decizia lui Andrei (06.2026) — interfața e fixă pe varianta completă în MVP, iar configurarea skandenberg (stil + echipament dedicat) se mută la activarea modulului (cap. 8). Genul și măsurătorile au fost adăugate în v0.7.2–v0.7.3. Efectele detaliate pe fiecare opțiune: `docs/analiza_onboarding.md`.*
 
-**Î1. Cât de serios vrei să iei antrenamentul?**
-- Vreau doar să mă mișc și să fiu sănătos → interfața simplă
-- Vreau rezultate serioase (forță / mușchi / sport) → interfața completă
+Fiecare răspuns e modificabil ulterior din pagina Profil (re-rulează onboarding-ul precompletat).
 
-**Î2. Obiectivul principal?** (unul singur)
-- Sănătate generală / tonifiere · Masă musculară · Forță / putere · Anduranță / condiție
+**Î1. Ești femeie sau bărbat?**
+Afectează: range-urile de repetări (+2 feminin la compound/izolare), pauzele (−20% feminin), incrementele de greutate (1,25/2,5 kg feminin vs 2,5/5 kg masculin), prioritizarea fesieri/abducții + avertisment valgus (feminin), silueta BMI.
 
-**Î3. Câte zile pe săptămână poți antrena realist?** — 2 / 3 / 4 / 5
+**Î2. Înălțimea și greutatea ta?** (opționale)
+Azi: BMI live + siluetă animată. Planificat (decizie 12.06.2026): sugestia greutății de start — vezi `docs/decizii_deschise.md`.
 
-**Î4. Cât timp ai pe sesiune?** — ~30 / ~45 / ~60 / 75+ min
+**Î3. Obiectivul principal?** (unul singur)
+Sănătate generală / tonifiere · Masă musculară · Forță / putere · Anduranță / condiție → prescripția serii×rep+pauze (tabelul Pas 3, cap. 5), raportul compound:izolare, split-ul recomandat.
 
-**Î5. Experiența cu greutățile?** — Încep de la zero / Sub 1 an / 1-3 ani / Peste 3 ani
+**Î4. Câte zile pe săptămână poți antrena realist?** — 2 / 3 / 4 / 5 → split-ul (tabelul Pas 1, cap. 5).
 
-**Î6. Ce echipament ai?** (bifare multiplă)
+**Î5. Cât timp ai pe sesiune?** — ~30 / ~45 / ~60 / 75+ min → 4 / 5 / 7 / 9 sloturi; sub 6 sloturi, accesoriile (condiție, carry, statice) sunt depriorizate la selecție.
 
-*General:*
-- Nimic / doar corpul · Benzi elastice · Gantere · Halteră + discuri · Bancă · Power rack / suport · Bară de tracțiuni · Scripete / cablu · Sală completă (bifează tot generalul)
+**Î6. Experiența cu greutățile?** — Încep de la zero / Sub 1 an / 1-3 ani / Peste 3 ani → nivelul maxim de dificultate al exercițiilor (1/2/3/3), pragul de progresie N (1/2/2/2 sesiuni curate), split-urile deblocate.
 
-*Skandenberg / armwrestling* (secțiune separată, vizibilă mereu dar relevantă mai ales cu modulul activ):
-- Masă de skandenberg
-- Centură de judo (pentru cupping/pronation la scripete)
-- Fat Gripz / manșoane de îngroșare
-- **Mânere de skandenberg** → dropdown cu bifare multiplă:
-  - Mâner rotativ (rolling handle)
-  - Mâner conic (con / cone grip)
-  - Mâner multi-grip / gros (2-3")
-  - Mâner excentric (offset)
-  - Wrist wrench
-  - Bilă / sferă de grip
-  - Altul (text liber)
+**Î7. Ce echipament ai?** (bifare multiplă; „Sală completă" bifează tot)
+Nimic / doar corpul · Centură de greutăți · Benzi elastice · Gantere · Halteră + discuri · Bancă · Power rack / suport · Bară de tracțiuni · Scripete / cablu.
+Filtru strict de selecție (principiul 2, cap. 1). Centura de greutăți comută progresia bodyweight de pe variații pe kg. *Echipamentul de skandenberg (masă, centură judo, FG, mânere — lista detaliată e păstrată mai jos, pentru reactivare) se va întreba la activarea modulului:*
+- Masă de skandenberg · Centură de judo (cupping/pronation la scripete) · Fat Gripz / manșoane
+- Mânere: rotativ (rolling handle) · conic · multi-grip / gros (2-3") · excentric (offset) · wrist wrench · bilă/sferă de grip · altul
 
-**Î7. Grupe musculare prioritare?** (0-3 selecții)
-Piept · Spate · Umeri · Brațe · Fesieri · Picioare · Abdomen
+**Î8. Grupe musculare prioritare?** (0-3 selecții)
+Piept · Spate · Umeri · Biceps · Triceps · Fesieri · Picioare · Abdomen → slot dedicat per zi + bonus de selecție pe toate sloturile.
 
-**Î8. Articulații sensibile sau accidentări?** (bifare multiplă)
-Umăr · Genunchi · Lombar · Cot/încheietură · Niciuna
+**Î9. Articulații sensibile sau accidentări?** (bifare multiplă)
+Umăr · Genunchi · Lombar · Cot/încheietură · Niciuna → filtru strict de siguranță (principiul 3, cap. 1).
 
-**Î9. Vrei modulul de skandenberg / armwrestling?** — Da / Nu
-Dacă DA → **Ce stil tragi / vrei să dezvolți?**
-- Top roll
-- Hook (cârlig)
-- Presă (triceps press)
-- Nu știu încă / vreau bază generală
-*(stilul determină compoziția blocului — vezi cap. 8; modificabil oricând din setări)*
-
-**Final:** ecran-rezumat cu split-ul propus + programul generat. De aici: "Schimbă split-ul" (cap. 5, Pas 1), "Arată-mi altă variantă" (regenerare exerciții, max. 3 variante), înlocuire manuală per exercițiu. Abia apoi "Începe".
+**Final:** programul generat se afișează cu split-ul propus + alternativele. Utilizatorul poate schimba split-ul, înlocui / șterge / adăuga exerciții per zi, apoi salvează. Abia după salvare apare navigarea aplicației.
 
 ---
 
@@ -161,6 +147,8 @@ Notă de fundament: evidența (meta-analizele Schoenfeld et al.) arată că hipe
 
 **Calibrare (prima sesiune pe fiecare exercițiu):** aplicația afișează: *"Alege o greutate cu care poți face confortabil 2-3 repetări peste target. Loghează ce ai făcut — de data viitoare îți recomand eu."* De la sesiunea 2, greutatea vine precompletată.
 
+> În analiză (v0.3): extinderea calibrării la 2–4 sesiuni per exercițiu, cu criteriu de convergență și semnal de efort „prea ușor / ok / prea greu" — vezi `docs/decizii_deschise.md` (research verificat multi-sursă).
+
 **Logarea pe serie:** greutate + repetări (precompletate cu recomandarea) + **bifă reușit/nereușit per serie**. Serie nereușită = repetări neînchise SAU formă cedată. Exercițiile statice loghează secunde; condiția loghează runde.
 
 **Editare manuală:**
@@ -187,7 +175,9 @@ Progresia se urmărește **per exercițiu**, nu per slot. În interfața simplă
 
 ## 8. Modulul skandenberg
 
-Activat din onboarding (Î9) sau din setări. Două axe de adaptare: **stilul** decide compoziția blocului, **split-ul** decide plasarea.
+> **Status v0.3 (06.2026): modul amânat post-MVP**, prin decizia lui Andrei. Biblioteca conține deja exercițiile (`skandenberg-*`), generatorul are suportul de bloc, dar întrebările de activare/stil au ieșit din onboarding. La reactivare: activare din setări → mini-onboarding propriu (stil + echipament dedicat, lista din cap. 3/Î7). Conținutul capitolului rămâne valabil ca specificație a modulului.
+
+Activat din setări (fost: onboarding Î9). Două axe de adaptare: **stilul** decide compoziția blocului, **split-ul** decide plasarea.
 
 **8.1 Compoziția blocului după stil** (3 componente + grip, 2x/săptămână unde split-ul permite):
 
@@ -223,6 +213,8 @@ Amânat v1.2: niveluri începător/avansat, zi grea vs. moderată, izometria la 
 
 ## 9. Interfață simplă vs. completă
 
+> **Status v0.3 (06.2026): amânată.** MVP livrează doar interfața completă (`interfata: 'completa'` fixat la generarea profilului). Capitolul rămâne ca specificație pentru momentul reactivării.
+
 Comutabilă oricând din setări. Același motor, aceleași date — diferă afișarea:
 
 | | Simplă | Completă |
@@ -247,6 +239,8 @@ Comutabilă oricând din setări. Același motor, aceleași date — diferă afi
 3. Sănătate + fesieri prioritar: 3 zile × 45 min, echipament de acasă
 4. Zero: începător total, 2 zile × 30 min, fără echipament
 5. *(nou)* Skandenberg hook, 4 zile × 60 min, scripete + mâner rotativ, fără masă
+
+> Notă v0.3: profilurile 1 și 5 includ componenta skandenberg — aceasta se validează la reactivarea modulului; restul cerințelor lor (split, echipament, articulații) se validează în MVP.
 
 ---
 
