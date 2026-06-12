@@ -9,7 +9,7 @@
   <title>GVR Fitness Tracker</title>
   <link rel="manifest" href="manifest.json" />
   <link rel="stylesheet" href="css/main.css" />
-  <script>window.APP_VERSION = '0.9.2';</script>
+  <script>window.APP_VERSION = '0.9.3';</script>
 </head>
 <body>
 
@@ -28,6 +28,15 @@
   <!-- Profil -->
   <div id="view-profil" class="view"></div>
 
+  <!-- Statistici (hub: Sumar / Progres / Recorduri) -->
+  <div id="view-statistici" class="view"></div>
+
+  <!-- Calendar lunar -->
+  <div id="view-calendar" class="view"></div>
+
+  <!-- Configurare skandenberg (mini-onboarding) -->
+  <div id="view-skand" class="view"></div>
+
   <!-- Navigație principală (bottom bar pe mobil, sidebar pe desktop) -->
   <nav id="app-nav" class="app-nav" hidden>
     <a class="nav-logo" href="#" aria-label="GVR Fitness">
@@ -45,7 +54,7 @@
       <span class="nav-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/></svg></span>
       <span class="nav-lbl">Program</span>
     </button>
-    <button class="nav-item nav-item-soon" data-nav="statistici" disabled>
+    <button class="nav-item" data-nav="statistici">
       <span class="nav-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg></span>
       <span class="nav-lbl">Statistici</span>
     </button>

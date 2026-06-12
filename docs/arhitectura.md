@@ -1,6 +1,6 @@
 # Arhitectura proiectului — harta completă
 
-Ultima actualizare: 12 iunie 2026 (v0.9.2)
+Ultima actualizare: 12 iunie 2026 (v0.9.3)
 
 **Scopul fișierului:** orice sesiune de lucru (om sau Claude) citește ÎNTÂI acest fișier în loc să exploreze codul — economisește timp și tokeni. Regulă: când structura se schimbă, acest fișier se actualizează în același commit.
 
@@ -9,8 +9,8 @@ Ultima actualizare: 12 iunie 2026 (v0.9.2)
 ## 1. Harta codului
 
 ```
-index.html                      Shell: view-uri goale (onboarding/program/today/dashboard/profil),
-                                nav bar, APP_VERSION, înregistrare ES modules
+index.html                      Shell: view-uri goale (onboarding/program/today/dashboard/profil/
+                                statistici/calendar/skand), nav bar, APP_VERSION, înregistrare ES modules
 sw.js                           Service worker: CACHE_VERSION (incrementat la ORICE release),
                                 precache + network-first pe HTML/JS/CSS
 manifest.json                   PWA manifest
@@ -20,10 +20,14 @@ data/exercises.json             85 exerciții: {id, nume, pattern, grupe_princip
                                 (compound/izolare/static/conditie), echipament[], nivel 1-3,
                                 risc_articular[], descriere, reguli_speciale[], progressie_bw}
 
-js/app.js          (~340 l.)    ORCHESTRATOR. Boot + router (fără profil→onboarding;
+js/app.js          (~400 l.)    ORCHESTRATOR. Boot + router (fără profil→onboarding;
                                 program_salvat→dashboard; altfel→program). Funcțiile
-                                renderProgram/renderDashboard/renderToday/renderProfil leagă
+                                renderProgram/renderDashboard/renderToday/renderProfil/
+                                renderStatistici/renderCalendar/renderSkand leagă
                                 renderers de storage. initNav, registerSW + update banner.
+js/skandenberg.js  (~190 l.)    Mini-onboarding skandenberg (stil + echipament dedicat, 2 pași
+                                + confirmare). Salvează DOAR profile.stil_skandenberg + manere;
+                                flag-ul profile.skandenberg rămâne false (modulul stă adormit).
 js/onboarding.js   (~515 l.)    STEPS[] (cele 9 întrebări), render pași, buildProfile()
                                 (aici sunt fixate: skandenberg:false, manere:[], interfata:'completa'),
                                 la final: generateProgram + saveData
@@ -42,8 +46,10 @@ js/engines/ProgressionEngine.js getRecommendation(exId,...): prioritate feedback
 js/engines/AdaptiveEngine.js    analyzeSkips (durere×2→swap, prea_greu×2→swap, timp×3/oboseală×3→info).
                    (~150 l.)    checkInjuryFollowUp + processInjuryCheckin: ADORMITE (nechemat din UI,
                                 injury_log nu e populat nicăieri).
-js/engines/StatsEngine.js       Statistici dashboard: total sesiuni, săptămâna curentă, volum total,
-                   (60 l.)      istoric 7, următorul antrenament. Fără UI propriu încă (nav „Statistici" e placeholder).
+js/engines/StatsEngine.js       Statistici: total sesiuni, săptămâna curentă, volum, istoric,
+                   (~150 l.)    următorul antrenament + (v0.9.3) getExerciseSeries (puncte de
+                                progres per exercițiu), getRecords (PR-uri), getWeeklyCounts,
+                                serii reușite, exerciții distincte. UI: StatsRenderer.
 
 js/models/Program.js (44 l.)    Wrapper program: swapExercise, serialize
 js/models/WorkoutSession.js     Starea sesiunii curente: markSetDone, skipExercise+setSkipReason,
@@ -57,6 +63,11 @@ js/renderers/ProgramRenderer.js    Programul: split activ + alternative (filtrat
 js/renderers/WorkoutRenderer.js    Logarea: carduri exercițiu colapsabile, rânduri serii
                                    (input kg/rep + ✓/✗), banner recomandare (ProgressionEngine),
                                    skip cu motive, eveniment 'switch-day', onSessionSaved
+js/renderers/StatsRenderer.js      Hub Statistici cu 3 tab-uri: Sumar (stat-cards + bare săptămânale),
+                                   Progres (select exercițiu + grafic linie SVG desenat în cod),
+                                   Recorduri (PR-uri din istoric). Nume exerciții din exercises.json.
+js/renderers/CalendarRenderer.js   Calendar lunar: grilă cu zilele antrenate marcate, navigare
+                                   lună±, tap pe zi → rezumat sesiuni (label, exerciții, volum)
 
 js/utils/Constants.js           ICONS (SVG-uri inline), SKIP_REASONS
 js/utils/UIHelpers.js           ico(), formatDate/Weekday/Volume, getWeekStart, getNextDayIdx
@@ -71,6 +82,8 @@ templates/dashboard.html        HTML-ul ecranelor (încărcat la runtime de Temp
 templates/program.html
 templates/today.html
 templates/add-exercise.html
+templates/statistici.html       Hub statistici (tab-uri Sumar/Progres/Recorduri)
+templates/calendar.html         Calendar lunar
 ```
 
 ## 2. Fluxuri-cheie

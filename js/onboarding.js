@@ -495,6 +495,9 @@ async function handleNext() {
 }
 
 function buildProfile() {
+  // Configurarea de skandenberg (din mini-onboarding-ul dedicat) se păstrează
+  // la re-editarea profilului — nu se resetează.
+  const prev = loadData()?.profile;
   return {
     gen:               answers.gen,
     inaltime:          answers.inaltime,
@@ -504,11 +507,11 @@ function buildProfile() {
     timp:              answers.timp,
     experienta:        answers.experienta,
     echipament:        answers.echipament.filter(v => v !== '_sala'),
-    manere:            [],
+    manere:            prev?.manere?.length ? [...prev.manere] : [],
     grupe_prioritare:  answers.grupe_prioritare,
     articulatii_sensibile: answers.articulatii.filter(v => v !== 'niciuna'),
     skandenberg:       false,
-    stil_skandenberg:  null,
+    stil_skandenberg:  prev?.stil_skandenberg ?? null,
     interfata:         'completa',
   };
 }

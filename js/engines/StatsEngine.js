@@ -57,4 +57,72 @@ export class StatsEngine {
       totalDays: program.zile.length,
     };
   }
+
+  // ── Progres & Recorduri ──────────────────────────────────────────────────────
+  // Per exercițiu: cel mai bun set din fiecare sesiune (doar serii reușite),
+  // în ordine cronologică. Exercițiile fără greutate folosesc repetările.
+  getExerciseSeries(antrenamente = []) {
+    const map = {};
+    [...antrenamente]
+      .sort((a, b) => a.data - b.data)
+      .forEach(a => {
+        a.exercitii.forEach(e => {
+          if (e.skip) return;
+          const done = (e.serii || []).filter(s => s.reusit === true && (s.repetari || 0) > 0);
+          if (!done.length) return;
+          const withW = done.filter(s => (s.greutate || 0) > 0);
+          const pool = withW.length ? withW : done;
+          const best = pool.reduce((m, s) =>
+            ((s.greutate || 0) > (m.greutate || 0) ||
+             ((s.greutate || 0) === (m.greutate || 0) && (s.repetari || 0) > (m.repetari || 0))) ? s : m);
+          (map[e.ex_id] ||= []).push({
+            data: a.data,
+            greutate: best.greutate || 0,
+            repetari: best.repetari || 0,
+          });
+        });
+      });
+    return map;
+  }
+
+  // Recordul personal per exercițiu (cel mai greu set reușit; la bodyweight: cele mai multe repetări)
+  getRecords(antrenamente = []) {
+    const series = this.getExerciseSeries(antrenamente);
+    return Object.entries(series)
+      .map(([exId, pts]) => {
+        const best = pts.reduce((m, p) =>
+          (p.greutate > m.greutate ||
+           (p.greutate === m.greutate && p.repetari > m.repetari)) ? p : m);
+        return { exId, ...best, sesiuni: pts.length };
+      })
+      .sort((a, b) => b.greutate - a.greutate || b.repetari - a.repetari);
+  }
+
+  getTotalSuccessfulSets(antrenamente = []) {
+    return antrenamente.reduce((n, a) =>
+      n + a.exercitii.reduce((m, e) =>
+        m + (e.skip ? 0 : (e.serii || []).filter(s => s.reusit === true).length), 0), 0);
+  }
+
+  getDistinctExercisesCount(antrenamente = []) {
+    const ids = new Set();
+    antrenamente.forEach(a => a.exercitii.forEach(e => { if (!e.skip) ids.add(e.ex_id); }));
+    return ids.size;
+  }
+
+  // Numărul de antrenamente complete pe fiecare din ultimele N săptămâni (pentru mini-graficul din Sumar)
+  getWeeklyCounts(antrenamente = [], weeks = 8) {
+    const WEEK = 7 * 24 * 60 * 60 * 1000;
+    const thisWeekStart = getWeekStart();
+    const out = [];
+    for (let i = weeks - 1; i >= 0; i--) {
+      const start = thisWeekStart - i * WEEK;
+      const end = start + WEEK;
+      out.push({
+        start,
+        count: antrenamente.filter(a => a.zi_complet && a.data >= start && a.data < end).length,
+      });
+    }
+    return out;
+  }
 }

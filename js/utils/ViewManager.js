@@ -21,8 +21,8 @@ export class ViewManager {
     // Read fresh data from storage to check current program_salvat status
     const currentData = loadData();
 
-    // Nav only visible after program saved; hidden during onboarding and workout
-    const NAV_VIEWS = ['view-dashboard', 'view-program', 'view-profil'];
+    // Nav only visible after program saved; hidden during onboarding, workout and skandenberg config
+    const NAV_VIEWS = ['view-dashboard', 'view-program', 'view-profil', 'view-statistici', 'view-calendar'];
     const visible = currentData?.program_salvat && NAV_VIEWS.includes(viewId);
     nav.hidden = !visible;
     document.body.classList.toggle('has-nav', visible);
@@ -31,6 +31,7 @@ export class ViewManager {
       b.classList.toggle('active',
         (b.dataset.nav === 'dashboard' && viewId === 'view-dashboard') ||
         (b.dataset.nav === 'program' && viewId === 'view-program') ||
+        (b.dataset.nav === 'statistici' && viewId === 'view-statistici') ||
         (b.dataset.nav === 'profil' && viewId === 'view-profil'));
     });
   }

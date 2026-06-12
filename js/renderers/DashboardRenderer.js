@@ -6,14 +6,15 @@ import { formatVolume, getTodayLabel } from '../utils/UIHelpers.js';
 import { loadTemplate } from '../utils/TemplateLoader.js';
 
 export class DashboardRenderer {
-  constructor(container, program, antrenamente = []) {
+  constructor(container, program, antrenamente = [], profile = null) {
     this.container = container;
     this.program = program;
     this.antrenamente = antrenamente;
+    this.profile = profile;
     this.statsEngine = new StatsEngine();
   }
 
-  async render(onStartNext, onViewProgram, onEditPrefs) {
+  async render(onStartNext, onViewProgram, onEditPrefs, explore = {}) {
     try {
       const template = await loadTemplate('dashboard');
       this.container.innerHTML = '';
@@ -79,13 +80,26 @@ export class DashboardRenderer {
         historyList.innerHTML = '<div class="hist-empty">Niciun antrenament încă.<br>Primul pas e cel mai important.</div>';
       }
 
-      this.attachEventListeners(onStartNext, onViewProgram, onEditPrefs);
+      // Explore cards: icons + skandenberg config status chip
+      document.querySelector('#card-calendar .soon-ico').innerHTML = ICONS.calendar;
+      document.querySelector('#card-progres .soon-ico').innerHTML = ICONS.trend;
+      document.querySelector('#card-recorduri .soon-ico').innerHTML = ICONS.trophy;
+      document.querySelector('#card-skand .soon-ico').innerHTML = ICONS.arm;
+      const skandChip = document.getElementById('skand-chip');
+      if (this.profile?.stil_skandenberg) {
+        skandChip.textContent = 'Configurat';
+        skandChip.classList.add('chip-done');
+      } else {
+        skandChip.textContent = 'Nou';
+      }
+
+      this.attachEventListeners(onStartNext, onViewProgram, onEditPrefs, explore);
     } catch (error) {
       console.error('Error rendering dashboard:', error);
     }
   }
 
-  attachEventListeners(onStartNext, onViewProgram, onEditPrefs) {
+  attachEventListeners(onStartNext, onViewProgram, onEditPrefs, explore = {}) {
     document.querySelector('#btn-start-next').addEventListener('click', () => {
       onStartNext?.();
     });
@@ -97,5 +111,10 @@ export class DashboardRenderer {
     document.querySelector('#btn-edit-prefs').addEventListener('click', () => {
       onEditPrefs?.();
     });
+
+    document.querySelector('#card-calendar').addEventListener('click', () => explore.onOpenCalendar?.());
+    document.querySelector('#card-progres').addEventListener('click', () => explore.onOpenStats?.('progres'));
+    document.querySelector('#card-recorduri').addEventListener('click', () => explore.onOpenStats?.('recorduri'));
+    document.querySelector('#card-skand').addEventListener('click', () => explore.onOpenSkand?.());
   }
 }

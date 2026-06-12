@@ -1,5 +1,15 @@
 # Changelog — GVR Fitness Tracker
 
+## v0.9.3 — Paginile noi: Statistici, Progres, Recorduri, Calendar + configurare Skandenberg
+
+- **Butonul Statistici din meniu e activ**: pagină nouă cu 3 tab-uri — Sumar (totaluri, volum, serii reușite, graficul ultimelor 8 săptămâni), Progres (graficul evoluției greutății per exercițiu, cu selector) și Recorduri (cel mai bun set al tău la fiecare exercițiu, calculat din istoric)
+- **Calendar lunar**: zilele antrenate apar marcate; atingi o zi și vezi ce ai lucrat (sesiune, exerciții, volum); navighezi între luni
+- **Cardurile de pe dashboard s-au trezit**: „În curând" a devenit „Explorează" — Calendar, Progres și Recorduri deschid paginile lor; toate cu iconițe
+- **Configurare Skandenberg**: cardul deschide un mini-chestionar (stilul tău: Top roll / Hook / Presă / bază + echipamentul dedicat: masă, centură de judo, mânere). Configurarea se salvează și te așteaptă — **programul tău NU se schimbă încă**; modulul de antrenament se activează într-o versiune viitoare
+- **Fix de siguranță a datelor**: configurarea de skandenberg nu se mai pierde când îți editezi profilul
+- Graficele sunt desenate direct în aplicație (fără biblioteci externe) — totul merge offline, ca până acum
+- Stări goale prietenoase peste tot: utilizatorul nou vede ce urmează să apară, nu ecrane goale
+
 ## v0.9.2 — Redesign vizual, logare simplificată, documentație la zi
 
 - **Carduri de exerciții cu dungă violet** pe stânga + nume îngroșat, metadata discretă — ierarhie vizuală clară (inspirat din aplicațiile premium)

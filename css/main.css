@@ -970,3 +970,158 @@ body.has-nav .view.active { padding-bottom: 86px; }
   /* Antrenament: coloană mai generoasă, centrată */
   .today-wrap { max-width: 640px; }
 }
+
+/* ════════════════════════════════════════════════════════════════════════════ */
+/*  STATISTICI (hub: Sumar / Progres / Recorduri)                               */
+/* ════════════════════════════════════════════════════════════════════════════ */
+.stats-wrap { max-width: 480px; margin: 0 auto; padding: 0 16px 40px; }
+.stats-top  { padding: 28px 4px 16px; }
+.stats-title { font-size: 26px; font-weight: 900; }
+.stats-sub   { font-size: 13px; color: var(--t2); margin-top: 4px; }
+
+.stats-tabs {
+  display: flex; gap: 6px; margin-bottom: 16px;
+}
+.stats-tab {
+  flex: 1; padding: 9px 0; border-radius: 999px;
+  font-size: 13px; font-weight: 700;
+  background: var(--surf); color: var(--t2);
+  border: 1.5px solid transparent;
+  transition: all .15s; -webkit-tap-highlight-color: transparent;
+}
+.stats-tab.active { background: var(--acc-dim); color: var(--acc-txt); border-color: var(--accent); }
+
+.stats-cards { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; }
+
+.stats-section-head {
+  display: flex; align-items: center; gap: 10px;
+  margin: 22px 4px 10px;
+  font-size: 11px; font-weight: 700; letter-spacing: .09em;
+  text-transform: uppercase; color: var(--t2);
+}
+.stats-section-head::after { content: ''; flex: 1; height: 1px; background: var(--border); }
+
+.stats-chart-card {
+  background: var(--surf); border: var(--card-border); box-shadow: var(--card-shadow);
+  border-radius: var(--r); padding: 14px;
+}
+.stats-svg { display: block; width: 100%; height: auto; }
+
+.stats-empty {
+  background: var(--surf); border: var(--card-border); border-radius: var(--r);
+  padding: 26px 20px; text-align: center;
+  font-size: 13px; color: var(--t2); line-height: 1.6;
+  display: flex; flex-direction: column; gap: 8px;
+}
+.stats-empty strong { color: var(--t1); font-size: 14px; }
+
+.progres-delta {
+  display: flex; align-items: center; justify-content: center; gap: 7px;
+  margin-top: 10px; padding-top: 12px; border-top: 1px solid var(--border);
+  font-size: 13px; font-weight: 700; color: var(--t2);
+}
+.progres-delta .ico svg { width: 14px; height: 14px; }
+.progres-delta.delta-up   { color: var(--green); }
+.progres-delta.delta-down { color: var(--orange); }
+
+/* Recorduri */
+.rec-list { display: flex; flex-direction: column; gap: 6px; }
+.rec-item {
+  display: flex; align-items: center; gap: 12px;
+  background: var(--surf); border: var(--card-border);
+  box-shadow: 0 1px 2px rgba(0,0,0,.25);
+  border-radius: var(--rs); padding: 12px 14px;
+  animation: card-in .35s ease both;
+}
+.rec-item:nth-child(1) { animation-delay: .05s; }
+.rec-item:nth-child(2) { animation-delay: .1s; }
+.rec-item:nth-child(3) { animation-delay: .15s; }
+.rec-trophy { color: var(--t3); display: inline-flex; flex-shrink: 0; }
+.rec-trophy svg { width: 18px; height: 18px; }
+.rec-trophy.rec-gold { color: var(--orange); }
+.rec-info { flex: 1; min-width: 0; display: flex; flex-direction: column; }
+.rec-name { font-size: 14px; font-weight: 700; }
+.rec-meta { font-size: 11px; color: var(--t2); margin-top: 1px; }
+.rec-val  { font-size: 14px; font-weight: 900; color: var(--acc-txt); white-space: nowrap; }
+
+/* ════════════════════════════════════════════════════════════════════════════ */
+/*  CALENDAR                                                                    */
+/* ════════════════════════════════════════════════════════════════════════════ */
+.cal-wrap { max-width: 480px; margin: 0 auto; padding: 0 16px 40px; }
+.cal-topbar { padding: 16px 4px 0; }
+
+.cal-head {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 14px 4px 16px;
+}
+.cal-month { font-size: 20px; font-weight: 900; }
+.cal-nav-btn {
+  width: 38px; height: 38px; border-radius: 50%;
+  background: var(--surf); border: var(--card-border);
+  color: var(--t1); font-size: 20px; font-weight: 700; line-height: 1;
+  display: flex; align-items: center; justify-content: center;
+  transition: background .15s;
+}
+.cal-nav-btn:hover { background: var(--surf2); }
+
+.cal-dows {
+  display: grid; grid-template-columns: repeat(7, 1fr); gap: 4px;
+  margin-bottom: 6px;
+}
+.cal-dow {
+  text-align: center; font-size: 10px; font-weight: 700;
+  letter-spacing: .04em; text-transform: uppercase; color: var(--t3);
+}
+
+.cal-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 4px; }
+.cal-cell {
+  aspect-ratio: 1; border-radius: 10px;
+  display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 2px;
+  background: var(--surf); border: 1.5px solid transparent;
+  color: var(--t2); position: relative;
+  -webkit-tap-highlight-color: transparent;
+}
+.cal-cell:disabled { cursor: default; }
+.cal-empty { background: transparent; }
+.cal-daynum { font-size: 13px; font-weight: 700; }
+.cal-has { background: var(--acc-dim); color: var(--acc-txt); cursor: pointer; }
+.cal-has .cal-daynum { font-weight: 900; }
+.cal-dot {
+  min-width: 6px; height: 6px; border-radius: 999px;
+  background: var(--accent); color: #fff;
+  font-size: 8px; font-weight: 800; line-height: 6px;
+  padding: 0 2px;
+}
+.cal-today { border-color: rgba(255,255,255,.25); }
+.cal-sel   { border-color: var(--accent); background: var(--acc-dim); }
+
+.cal-detail { margin-top: 16px; display: flex; flex-direction: column; gap: 6px; }
+.cal-hint {
+  font-size: 12px; color: var(--t2); text-align: center;
+  padding: 14px; background: var(--surf); border-radius: var(--r); line-height: 1.5;
+}
+
+/* ════════════════════════════════════════════════════════════════════════════ */
+/*  EXPLORE CARDS (dashboard) + SKANDENBERG CONFIG                              */
+/* ════════════════════════════════════════════════════════════════════════════ */
+.explore-card {
+  border: var(--card-border); border-style: solid; opacity: 1;
+  box-shadow: var(--card-shadow);
+  text-align: left; cursor: pointer; font-family: inherit; color: var(--t1);
+  transition: border-color .15s, transform .1s;
+  -webkit-tap-highlight-color: transparent;
+}
+.explore-card:hover { border-color: rgba(124,111,247,.45); }
+.explore-card:active { transform: scale(.98); }
+.explore-card .soon-ico { color: var(--acc-txt); }
+.soon-chip.chip-done { color: var(--green); background: var(--grn-dim); }
+
+.sk-confirm { display: flex; flex-direction: column; gap: 14px; justify-content: center; }
+.sk-confirm-ico { font-size: 44px; text-align: center; }
+.sk-confirm .ob-question { text-align: center; }
+.sk-confirm-note { text-align: center; margin-bottom: 0; }
+
+@media (min-width: 900px) {
+  .stats-wrap, .cal-wrap { max-width: 640px; padding: 0 40px 60px; }
+  .stats-top { padding: 36px 4px 18px; }
+}

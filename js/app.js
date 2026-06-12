@@ -16,6 +16,11 @@ import { StatsEngine } from './engines/StatsEngine.js';
 import { ProgramRenderer } from './renderers/ProgramRenderer.js';
 import { DashboardRenderer } from './renderers/DashboardRenderer.js';
 import { WorkoutRenderer } from './renderers/WorkoutRenderer.js';
+import { StatsRenderer } from './renderers/StatsRenderer.js';
+import { CalendarRenderer } from './renderers/CalendarRenderer.js';
+
+// Skandenberg mini-onboarding (configurare; modulul rămâne dezactivat)
+import { initSkandConfig } from './skandenberg.js';
 
 // Utilities
 import { ViewManager } from './utils/ViewManager.js';
@@ -115,9 +120,9 @@ function setupProgramUpdateListener() {
 }
 
 async function renderDashboard(data) {
-  const { program, antrenamente = [] } = data;
+  const { program, antrenamente = [], profile } = data;
   const container = document.getElementById('view-dashboard');
-  const renderer = new DashboardRenderer(container, program, antrenamente);
+  const renderer = new DashboardRenderer(container, program, antrenamente, profile);
 
   await renderer.render(
     // onStartNext
@@ -134,8 +139,41 @@ async function renderDashboard(data) {
     // onEditPrefs
     () => {
       startOnboarding(true);
+    },
+    // explore cards
+    {
+      onOpenCalendar: () => renderCalendar(loadData()),
+      onOpenStats:    (tab) => renderStatistici(loadData(), tab),
+      onOpenSkand:    () => renderSkand(),
     }
   );
+}
+
+// ── Statistici / Calendar / Skandenberg ───────────────────────────────────────
+async function renderStatistici(data, tab = 'sumar') {
+  const container = document.getElementById('view-statistici');
+  const renderer = new StatsRenderer(container, data.program, data.antrenamente || []);
+  viewManager.showView('view-statistici');
+  await renderer.render(tab);
+}
+
+async function renderCalendar(data) {
+  const container = document.getElementById('view-calendar');
+  const renderer = new CalendarRenderer(container, data.antrenamente || []);
+  viewManager.showView('view-calendar');
+  await renderer.render(() => {
+    renderDashboard(loadData());
+    viewManager.showView('view-dashboard');
+  });
+}
+
+function renderSkand() {
+  const container = document.getElementById('view-skand');
+  viewManager.showView('view-skand');
+  initSkandConfig(container, () => {
+    renderDashboard(loadData());
+    viewManager.showView('view-dashboard');
+  });
 }
 
 async function renderToday(data, dayIdx) {
@@ -272,6 +310,9 @@ function initNav() {
     if (btn.dataset.nav === 'profil') {
       renderProfil(d);
       viewManager.showView('view-profil');
+    }
+    if (btn.dataset.nav === 'statistici') {
+      renderStatistici(d);
     }
   });
 }
