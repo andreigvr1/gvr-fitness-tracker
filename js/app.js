@@ -315,6 +315,17 @@ function initNav() {
       renderStatistici(d);
     }
   });
+
+  document.getElementById('btn-theme-toggle')?.addEventListener('click', () => {
+    const current = document.documentElement.dataset.theme || 'chalk';
+    const next = current === 'slate' ? 'chalk' : 'slate';
+    document.documentElement.dataset.theme = next;
+    const meta = document.querySelector('meta[name="theme-color"]');
+    if (meta) meta.content = next === 'slate' ? '#141310' : '#F2F1EC';
+    const d = loadData() || {};
+    d.tema = next;
+    saveData(d);
+  });
 }
 
 // ── Service Worker ────────────────────────────────────────────────────────────

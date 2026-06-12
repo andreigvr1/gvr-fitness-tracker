@@ -1,5 +1,20 @@
 # Changelog — GVR Fitness Tracker
 
+## v0.9.4 — Redesign vizual: teme Chalk (luminos) + Slate (întunecat), fonturi noi, logo barbell
+
+- **Două teme de culoare**: Chalk (fundal cald, hârtie) și Slate (cărbune închis) — comuți cu butonul din bara laterală pe desktop; aplicația ține minte alegerea ta
+- **Tema se aplică înainte de primul pixel afișat** — nu mai există flash de culori la pornire
+- **Accent nou: roșu brand** (#D5362B / #E5463A) înlocuiește violetul — mai atletic, mai clar pe ambele teme
+- **Fonturi noi, descărcate local** (funcționează offline):
+  - *Bricolage Grotesque* — titluri, cifre mari, statistici
+  - *Albert Sans* — text curent, etichete, butoane
+  - *Saira Condensed* — logo wordmark
+- **Logo barbell nou** în bara laterală desktop: halteră SVG + GVR FITNESS (V roșu)
+- **Fix teme luminos**: borduri, umbre și efect de luciu pe carduri tokenizate — nu mai dispar pe fundal alb
+- **Cardul „Următorul antrenament"** rămâne inversat (panel întunecat) indiferent de temă — contrast garantat
+- **Graficele** din Statistici și calendarele sunt lizibile în ambele teme (folosesc tokeni, nu culori hardcodate)
+- Fonturile sunt self-hosted în `assets/fonts/` — nu se face nicio cerere externă
+
 ## v0.9.3 — Paginile noi: Statistici, Progres, Recorduri, Calendar + configurare Skandenberg
 
 - **Butonul Statistici din meniu e activ**: pagină nouă cu 3 tab-uri — Sumar (totaluri, volum, serii reușite, graficul ultimelor 8 săptămâni), Progres (graficul evoluției greutății per exercițiu, cu selector) și Recorduri (cel mai bun set al tău la fiecare exercițiu, calculat din istoric)

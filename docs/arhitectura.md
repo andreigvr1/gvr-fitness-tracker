@@ -1,6 +1,6 @@
 # Arhitectura proiectului — harta completă
 
-Ultima actualizare: 12 iunie 2026 (v0.9.3)
+Ultima actualizare: 12 iunie 2026 (v0.9.4)
 
 **Scopul fișierului:** orice sesiune de lucru (om sau Claude) citește ÎNTÂI acest fișier în loc să exploreze codul — economisește timp și tokeni. Regulă: când structura se schimbă, acest fișier se actualizează în același commit.
 
@@ -10,12 +10,20 @@ Ultima actualizare: 12 iunie 2026 (v0.9.3)
 
 ```
 index.html                      Shell: view-uri goale (onboarding/program/today/dashboard/profil/
-                                statistici/calendar/skand), nav bar, APP_VERSION, înregistrare ES modules
+                                statistici/calendar/skand), nav bar, APP_VERSION, înregistrare ES modules.
+                                Script inline pre-paint: aplică tema (chalk/slate) din localStorage
+                                înainte de primul pixel, evitând flash-ul de culori.
+assets/fonts/                   Fonturi self-hosted (offline-first): Bricolage Grotesque, Albert Sans,
+                                Saira Condensed — descărcate din Google Fonts, fișiere .woff2 +
+                                fonts.css cu @font-face. Legate din index.html cu <link>.
 sw.js                           Service worker: CACHE_VERSION (incrementat la ORICE release),
                                 precache + network-first pe HTML/JS/CSS
 manifest.json                   PWA manifest
-css/main.css                    TOT stilul. Tokens în :root (--bg, --surf, --accent #7c6ff7,
-                                --green, --orange, --t1/t2/t3, --r 16px, --rs 10px)
+css/main.css                    TOT stilul. Tokens în :root (Chalk, default) și :root[data-theme="slate"]
+                                (Slate, dark). Accent roșu (#D5362B Chalk / #E5463A Slate).
+                                Font tokens: --font-body (Albert Sans), --font-display (Bricolage
+                                Grotesque), --font-num. Hero card: tokeni --hero-* (panel inversat
+                                în ambele teme). --nav-bg: backdrop semi-transparent per temă.
 data/exercises.json             85 exerciții: {id, nume, pattern, grupe_principale, tip
                                 (compound/izolare/static/conditie), echipament[], nivel 1-3,
                                 risc_articular[], descriere, reguli_speciale[], progressie_bw}
