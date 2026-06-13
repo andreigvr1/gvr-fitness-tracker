@@ -36,10 +36,10 @@ const STEPS = [
     q: 'Câte zile pe săptămână poți antrena?',
     tip: 'single',
     opt: [
-      { val: 2, label: '2 zile', sub: 'Full body A/B' },
-      { val: 3, label: '3 zile', sub: 'Full body A/B/C' },
-      { val: 4, label: '4 zile', sub: 'Upper / Lower × 2' },
-      { val: 5, label: '5 zile', sub: 'Upper / Lower / P/P/L' },
+      { val: 2, label: '2 zile', sub: 'Tot corpul, de 2 ori pe săptămână' },
+      { val: 3, label: '3 zile', sub: 'Frecvență mare pe fiecare grupă' },
+      { val: 4, label: '4 zile', sub: 'Fiecare grupă de ~2 ori' },
+      { val: 5, label: '5 zile', sub: 'Zile tematice, volum mare' },
     ],
   },
   {

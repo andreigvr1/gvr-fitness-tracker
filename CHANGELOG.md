@@ -1,5 +1,10 @@
 # Changelog — GVR Fitness Tracker
 
+## v0.9.5 — Logare bodyweight curată + etichete zile corecte
+
+- **Exercițiile cu greutatea corpului nu mai cer kg degeaba**: la flotări, genuflexiuni fără greutate, planșă etc. câmpul „kg" dispare — logezi doar repetările (sau secundele). Câmpul reapare automat dacă bifezi **Centură de greutăți** în echipament (atunci faci dips/tracțiuni cu kg adăugat). Aliniat cu modul în care progresează deja aceste exerciții (prin variații mai grele, nu prin greutate).
+- **Etichetele de la pasul „Câte zile?" sunt acum corecte**: înainte spuneau un split fix (ex. „4 zile → Upper/Lower × 2"), dar programul real depinde și de experiență (întrebată după). Acum descriu abordarea („Fiecare grupă de ~2 ori"), nu un split care s-ar putea să nu fie cel ales.
+
 ## v0.9.4 — Redesign vizual: teme Chalk (luminos) + Slate (întunecat), fonturi noi, logo barbell
 
 - **Două teme de culoare**: Chalk (fundal cald, hârtie) și Slate (cărbune închis) — comuți cu butonul din bara laterală pe desktop; aplicația ține minte alegerea ta

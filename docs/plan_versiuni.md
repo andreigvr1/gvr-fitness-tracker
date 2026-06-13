@@ -6,9 +6,11 @@ Regulă de întreținere: la fiecare release se actualizează secțiunea „Unde
 
 ---
 
-## Unde suntem: v0.9.2
+## Unde suntem: v0.9.4
 
-Funcționează end-to-end: onboarding 9 pași → generator (85 exerciții, 9 split-uri, prescripții pe obiectiv+gen) → editare program (schimbare split, înlocuire/ștergere/adăugare exerciții) → logare pe serie (kg, rep, ✓/✗) → motor de progresie (+increment după N sesiuni curate, −7,5% la stagnare, skip cu motive + adaptare) → dashboard (statistici, istoric) → profil (BMI + siluetă, editare) → PWA offline cu banner de update.
+Funcționează end-to-end: onboarding 9 pași → generator (85 exerciții, 9 split-uri, prescripții pe obiectiv+gen) → editare program (schimbare split, înlocuire/ștergere/adăugare exerciții) → logare pe serie (kg, rep, ✓/✗) → motor de progresie (+increment după N sesiuni curate, −7,5% la stagnare, skip cu motive + adaptare) → dashboard (statistici, istoric, calendar, recorduri) → profil (BMI + siluetă, editare) → PWA offline cu banner de update. Vizual: teme Chalk + Slate, fonturi self-hosted.
+
+Fix recent (nepublicat încă): câmpul de kg dispare la exercițiile pur bodyweight dacă utilizatorul nu are centură de greutăți (spec cap. 7) — logarea afișează doar repetări; reapare automat dacă bifează centura.
 
 ### Inventar placeholder-e și conținut „în adormire"
 
@@ -31,13 +33,32 @@ Detaliile funcționale pentru v0.10 și v1.0 (spec calibrare, export/import, pro
 
 ## v0.10 — Calibrare inteligentă (următoarea versiune de lucru)
 
-Depinde de deciziile lui Andrei din `docs/decizii_deschise.md` (Î1–Î5). Conținut propus:
-- Stare de calibrare per exercițiu: 2–4 sesiuni, criteriu de convergență + semnal de efort „prea ușor / ok / prea greu" (motorul îl suportă deja prin `feedbackUser`)
-- Pași de corecție 5–10% în calibrare (conform ACSM/NSCA), rotunjiți pe categoria de echipament
-- Greutate de start estimată din greutatea corporală (research R1 — face utilă întrebarea de măsurători)
-- Logarea răspunsurilor la bannerele de progresie (confirmat / modificat / ignorat) — fundație pentru v1.1
+**Deciziile Î1–Î5 sunt luate (13.06.2026)** — vezi tabelul din `docs/decizii_deschise.md`. Conținut confirmat:
+- **Calibrare 2–4 sesiuni per exercițiu** (Î1): stare derivată din istoric (`getCalibrationState`), badge „Calibrare · sesiunea X"; regulile de sesiuni curate încep după ieșirea din calibrare.
+- **Semnal de efort categoric „prea ușor / ok / prea greu" pentru toți + RIR numeric doar la avansați** (Î4, experiență ≥2). Motorul suportă ambele (`feedbackUser`, `opts.rir`).
+- **Corecții ~5–10% rotunjite pe categoria de echipament** (Î2), aplicate **relativ la greutatea logată de utilizator**, nu la cea sugerată — sugestia e doar punct de pornire, omul scrie greutatea lui reală (anti-ancorare).
+- **Logarea răspunsurilor la bannere** (Î3): câmp aditiv `banner: {tip, kg_propus, raspuns}`, zero UI nou — fundație v1.1.
+- **Greutate de start estimată din greutatea corporală** (research R1 — de făcut înainte de implementare; face utilă întrebarea de măsurători).
+- **Seriile rămân fixe** în MVP (Î5 amânat v1.1+).
 
 **Criteriu de acceptare:** un utilizator nou ajunge la greutăți stabile în ≤4 sesiuni per exercițiu, fără sesiuni irosite.
+
+## Revizuire programe (de prioritizat — versiune neasignată)
+
+Temă transversală cerută de Andrei (13.06.2026): o trecere în revistă a calității programelor generate, pe două direcții. Nu blochează v1.0; se prioritizează separat.
+
+### A. Split-uri adiționale — evaluat „bro split" și altele
+- **Stare azi:** 9 split-uri în `js/generator.js` (`SPLITS`), toate construite pe tipare push / pull / legs / upper / lower / full body. Selecția automată: matricea `_recSplit(zile, experienta, obiectiv)`.
+- **Lipsește un bro split** (split pe grupe musculare: zi de piept, zi de spate, zi de umeri, zi de brațe, zi de picioare) — tipic la 5 zile, popular la cei orientați pe masă/estetică (experiență ≥2).
+- De evaluat: introducerea bro split-ului ca opțiune (nu neapărat recomandat automat — rămâne o variantă manuală în lista de la 5 zile); eventual și alte variante (ex. Arnold split, PPL × 2 la 6 zile dacă se deschide opțiunea 6 zile).
+- ⚠ Decizii de produs înainte de implementare: la ce nr. de zile apare, pentru ce profiluri îl recomandăm vs. doar îl oferim, cum acoperă slot-urile fiecare zi de grupă (nevoie de `SLOT_TEMPLATES` noi: piept, spate, umeri, brațe).
+- Atenție la regulile de siguranță/echilibru (spec cap. 5): bro split-ul concentrează volumul pe o grupă/zi — verificat că echilibrul push:pull săptămânal rămâne ≥1:1.
+
+### B. Organizarea exercițiilor pe nivel de dificultate
+- **Stare azi:** fiecare exercițiu are câmpul `nivel` (1–3) în `data/exercises.json`; generatorul filtrează cu `maxLevel(experienta)` (exp 0→nivel 1, exp 1→≤2, exp 2+→≤3).
+- De revizuit pe toată biblioteca (85 exerciții): acuratețea atribuirii nivelului per exercițiu, acoperirea fiecărui tipar de mișcare pe toate cele 3 niveluri (spec cap. 4 cere asta), și o progresie clară de la nivel la nivel (varianta de nivel 2 a unei mișcări să fie un pas logic peste nivel 1).
+- Scop: un începător (nivel 1) să primească mereu variante sigure și executabile, iar avansul pe niveluri să fie o cale de progresie reală, nu doar un filtru.
+- Output propus: un audit tabelar (tipar × nivel → ce exerciții există / unde sunt goluri) → completări în bibliotecă acolo unde lipsesc trepte.
 
 ## v1.0 — Lansarea MVP
 

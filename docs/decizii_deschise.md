@@ -1,6 +1,8 @@
 # Decizii deschise — calibrare și progresie
 
-Stare: **în analiză** · Creat: 12 iunie 2026 · Decident: Andrei
+Stare: **ÎNCHISE** (decizii luate de Andrei pe 13.06.2026) · Creat: 12 iunie 2026 · Decident: Andrei
+
+> **Deciziile finale sunt rezumate la final** („Decizii finale — 13.06.2026"). Secțiunile Î1–Î5 de mai jos rămân ca istoric al analizei. Următorul pas: actualizare spec cap. 6–7 + implementare în v0.10.
 
 Context: scenariul de utilizare descris de Andrei (onboarding → program → ghidare la primele antrenamente → acomodare la greutatea potrivită → sugestii precompletate pe baza performanței). Research-ul inițial (surse: ACSM, NSCA/CSCS, studii de familiarizare — vezi istoricul sesiunii) a generat 3 întrebări; validarea lor critică le-a reformulat și a scos la iveală una nouă.
 
@@ -88,7 +90,16 @@ Fiecare afirmație: minim 2 surse independente + verificare în contextul proiec
 
 ---
 
-## Pași următori
+## Decizii finale — 13.06.2026
 
-1. Andrei decide pe formulările finale: Î1 (calibrare 2–4 sesiuni cu semnal de efort), Î2 (rotunjire pe categorie vs. întrebare de inventar), Î3 (logăm răspunsurile la bannere?), Î4 (semnal categoric pentru toți + RIR doar experimentați), Î5 (o cercetăm sau o tăiem?).
-2. Decizie finală → actualizare spec (cap. 6–7) → implementare.
+| # | Întrebare | Decizia lui Andrei | Implicație de implementare |
+|---|---|---|---|
+| **Î1** | Cât „caută" aplicația greutatea? | **2–4 sesiuni** cu semnal de efort, apoi progresie normală | `getCalibrationState(exId, antrenamente)` derivat din istoric; badge „Calibrare · sesiunea X"; regulile de sesiuni curate încep după ieșirea din calibrare |
+| **Î2** | Cât de mari sunt corecțiile? | **Procent rotunjit pe categoria de echipament** (~5–10%). NU adăugăm întrebare de inventar. | **Nuanță cheie de la Andrei:** sugestia e doar un punct de pornire — utilizatorul scrie oricum greutatea reală cu care lucrează. Corecția se aplică **relativ la greutatea logată de el**, nu la cea propusă de noi. Asta elimină ancorarea (riscul confirmat la Î1). |
+| **Î3** | Logăm răspunsurile la bannere? | **Da** | Câmp aditiv `banner: {tip, kg_propus, raspuns}` pe exercițiul din sesiune. Zero UI nou. Fundație pentru v1.1. |
+| **Î4** | Ce semnal de efort? | **Categoric „prea ușor / ok / prea greu" pentru toți + RIR numeric DOAR la avansați** (experiență ≥ 2) | Categoric → `feedbackUser` (există). RIR numeric → doar pentru `experienta >= 2`, unde studiile arată că e fiabil. La începători RIR numeric NU se cere. |
+| **Î5** | Reducem și nr. de serii la oboseală? | **Amânat v1.1+** | Seriile rămân fixe în MVP. Oboseala e deja tratată prin skip-adaptation (oboseală ×3 → propune program mai scurt). Se cercetează serios înainte de implementare. |
+
+### Pași următori (după decizii)
+1. Actualizare spec cap. 6–7 cu deciziile de mai sus.
+2. Implementare v0.10 (vezi `docs/drum_spre_v1.md` §1) — acum deblocată.

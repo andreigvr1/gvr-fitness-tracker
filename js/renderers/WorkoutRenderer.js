@@ -62,6 +62,9 @@ export class WorkoutRenderer {
       { isLowerBody, isBodyweight, hasCenturaGreutati, gen: this.profile.gen }
     );
     const suggestKg = rec.kg || '';
+    // Câmpul de kg apare doar dacă exercițiul nu e pur bodyweight SAU utilizatorul are
+    // centură de greutăți (spec cap. 7: centura comută progresia bodyweight de pe variații pe kg).
+    const showWeight = !isBodyweight || hasCenturaGreutati;
     const isStatic = ex.reguli_speciale?.includes('timp');
     const hasTempo = ex.reguli_speciale?.includes('tempo 3-1-3');
     const VALGUS_PATTERNS = new Set(['squat','unilateral picior','flexie genunchi']);
@@ -70,12 +73,13 @@ export class WorkoutRenderer {
     const setsHTML = Array.from({ length: ex.seturi }, (_, si) => `
       <div class="log-set" id="set-${exIdx}-${si}" data-done="0">
         <span class="set-num">S${si + 1}</span>
+        ${showWeight ? `
         <div class="set-field-wrap">
           <input id="w-${exIdx}-${si}" class="set-input" type="number" inputmode="decimal"
             value="${suggestKg}" min="0" step="2.5" placeholder="kg">
           <span class="set-field-lbl">kg</span>
         </div>
-        <span class="set-x">×</span>
+        <span class="set-x">×</span>` : ''}
         <div class="set-field-wrap">
           <input id="r-${exIdx}-${si}" class="set-input set-reps" type="number" inputmode="numeric"
             value="${ex.rep_min}" min="1" step="1" placeholder="${isStatic ? 'sec' : 'rep'}">
@@ -214,7 +218,8 @@ export class WorkoutRenderer {
     const row = document.getElementById(`set-${exIdx}-${setIdx}`);
     if (!row || row.dataset.done === '1') return;
 
-    const kg = parseFloat(document.getElementById(`w-${exIdx}-${setIdx}`).value) || 0;
+    const wEl = document.getElementById(`w-${exIdx}-${setIdx}`); // absent la bodyweight fără centură
+    const kg = wEl ? (parseFloat(wEl.value) || 0) : 0;
     const rep = parseInt(document.getElementById(`r-${exIdx}-${setIdx}`).value) || 0;
 
     this.session.markSetDone(exIdx, setIdx, kg, rep, reusit);
@@ -227,7 +232,8 @@ export class WorkoutRenderer {
 
     const next = document.getElementById(`set-${exIdx}-${setIdx + 1}`);
     if (next && next.dataset.done !== '1') {
-      document.getElementById(`w-${exIdx}-${setIdx + 1}`).value = kg || '';
+      const nextW = document.getElementById(`w-${exIdx}-${setIdx + 1}`);
+      if (nextW) nextW.value = kg || '';
       document.getElementById(`r-${exIdx}-${setIdx + 1}`).value = rep || this.program.zile[this.session.zi_index].exercitii[exIdx].rep_min;
     }
 
