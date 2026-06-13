@@ -15,8 +15,8 @@ export class StatsEngine {
 
   getTotalVolume(antrenamente = []) {
     return antrenamente.reduce((sum, a) =>
-      sum + a.exercitii.reduce((s, e) =>
-        s + (e.skip ? 0 : e.serii.reduce((v, x) =>
+      sum + (a.exercitii || []).reduce((s, e) =>
+        s + (e.skip ? 0 : (e.serii || []).reduce((v, x) =>
           v + (x.greutate || 0) * (x.repetari || 0), 0)), 0), 0);
   }
 
@@ -28,14 +28,15 @@ export class StatsEngine {
 
     return completed.map(a => {
       const d = new Date(a.data);
-      const skipped = a.exercitii.filter(e => e.skip).length;
+      const exs = a.exercitii || [];
+      const skipped = exs.filter(e => e.skip).length;
       return {
         data: a.data,
         dateStr: d.toLocaleDateString('ro-RO', { day: 'numeric', month: 'short' }),
         weekday: d.toLocaleDateString('ro-RO', { weekday: 'short' }),
         label: a.zi_label,
-        totalEx: a.exercitii.length,
-        completedEx: a.exercitii.length - skipped,
+        totalEx: exs.length,
+        completedEx: exs.length - skipped,
         skippedEx: skipped,
       };
     });
@@ -45,9 +46,11 @@ export class StatsEngine {
     const completed = antrenamente
       .filter(a => a.zi_complet)
       .sort((a, b) => b.data - a.data);
-    const nextIdx = completed.length === 0
+    let nextIdx = completed.length === 0
       ? 0
       : (completed[0].zi_index + 1) % program.zile.length;
+    // Plasă de siguranță: date importate/parțiale pot avea zi_index lipsă → NaN. Cădem pe ziua 0.
+    if (!Number.isInteger(nextIdx) || !program.zile[nextIdx]) nextIdx = 0;
     const nextDay = program.zile[nextIdx];
 
     return {
@@ -66,7 +69,7 @@ export class StatsEngine {
     [...antrenamente]
       .sort((a, b) => a.data - b.data)
       .forEach(a => {
-        a.exercitii.forEach(e => {
+        (a.exercitii || []).forEach(e => {
           if (e.skip) return;
           const done = (e.serii || []).filter(s => s.reusit === true && (s.repetari || 0) > 0);
           if (!done.length) return;
@@ -100,13 +103,13 @@ export class StatsEngine {
 
   getTotalSuccessfulSets(antrenamente = []) {
     return antrenamente.reduce((n, a) =>
-      n + a.exercitii.reduce((m, e) =>
+      n + (a.exercitii || []).reduce((m, e) =>
         m + (e.skip ? 0 : (e.serii || []).filter(s => s.reusit === true).length), 0), 0);
   }
 
   getDistinctExercisesCount(antrenamente = []) {
     const ids = new Set();
-    antrenamente.forEach(a => a.exercitii.forEach(e => { if (!e.skip) ids.add(e.ex_id); }));
+    antrenamente.forEach(a => (a.exercitii || []).forEach(e => { if (!e.skip) ids.add(e.ex_id); }));
     return ids.size;
   }
 

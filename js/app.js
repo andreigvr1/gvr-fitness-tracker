@@ -27,6 +27,7 @@ import { ViewManager } from './utils/ViewManager.js';
 import { ICONS, SKIP_REASONS } from './utils/Constants.js';
 import { getNextDayIdx } from './utils/UIHelpers.js';
 import { bmiPanelHTML } from './utils/BodyViz.js';
+import { exportData, parseBackup } from './utils/DataTransfer.js';
 
 // ── Module State ──────────────────────────────────────────────────────────────
 let viewManager = null;
@@ -256,9 +257,79 @@ function renderProfil(data) {
           </div>`).join('')}
       </div>
       <button class="btn btn-primary profil-edit" id="btn-profil-edit">Editează profilul</button>
+
+      <div class="profil-section-title">Backup &amp; date</div>
+      <p class="profil-data-hint">Toate datele tale stau doar pe acest dispozitiv. Exportă un backup și ține-l în Drive/email — la nevoie îl reimporți și revii exact unde erai.</p>
+      <div class="profil-data-actions">
+        <button class="btn btn-ghost" id="btn-export">Exportă datele</button>
+        <button class="btn btn-ghost" id="btn-import">Importă date</button>
+      </div>
+      <input type="file" id="import-file" accept="application/json,.json" hidden>
     </div>`;
 
   document.getElementById('btn-profil-edit').addEventListener('click', () => startOnboarding(true));
+
+  // ── Export ──
+  const exportBtn = document.getElementById('btn-export');
+  exportBtn.addEventListener('click', () => {
+    const ok = exportData(window.APP_VERSION || '');
+    if (ok) {
+      const orig = exportBtn.textContent;
+      exportBtn.textContent = 'Descărcat ✓';
+      exportBtn.disabled = true;
+      setTimeout(() => { exportBtn.textContent = orig; exportBtn.disabled = false; }, 1800);
+    }
+  });
+
+  // ── Import ──
+  const fileInput = document.getElementById('import-file');
+  document.getElementById('btn-import').addEventListener('click', () => fileInput.click());
+  fileInput.addEventListener('change', async () => {
+    const file = fileInput.files?.[0];
+    if (!file) return;
+    let text = '';
+    try { text = await file.text(); } catch { text = ''; }
+    fileInput.value = ''; // permite reimportul aceluiași fișier
+    const res = parseBackup(text);
+    if (!res.ok) { showImportModal({ error: res.error }); return; }
+    showImportModal({ data: res.data, summary: res.summary });
+  });
+}
+
+// Ecran de confirmare / eroare pentru import. La confirmare suprascrie și reîncarcă.
+function showImportModal({ data, summary, error }) {
+  const ov = document.createElement('div');
+  ov.className = 'modal';
+  const body = error
+    ? `<div class="import-error">${error}<br><span>Datele tale actuale au rămas neatinse.</span></div>`
+    : `<p class="import-warn">Asta înlocuiește <strong>tot</strong> ce ai acum în aplicație cu datele din fișier. Acțiunea nu se poate anula.</p>
+       <div class="import-summary">
+         <div><span>Profil</span><strong>${summary.gen}, ${summary.obj}, ${summary.zile}</strong></div>
+         <div><span>Antrenamente</span><strong>${summary.n}</strong></div>
+         <div><span>Ultima activitate</span><strong>${summary.last}</strong></div>
+       </div>`;
+  const footer = error
+    ? `<button class="btn btn-primary" id="imp-close">Am înțeles</button>`
+    : `<button class="btn btn-ghost" id="imp-cancel">Anulează</button>
+       <button class="btn btn-primary" id="imp-confirm">Importă și suprascrie</button>`;
+
+  ov.innerHTML = `
+    <div class="modal-overlay"></div>
+    <div class="modal-content">
+      <div class="modal-header"><h2>${error ? 'Import eșuat' : 'Confirmi importul?'}</h2></div>
+      <div class="modal-body">${body}</div>
+      <div class="modal-footer">${footer}</div>
+    </div>`;
+  document.body.appendChild(ov);
+
+  const close = () => ov.remove();
+  ov.querySelector('.modal-overlay').addEventListener('click', close);
+  ov.querySelector('#imp-cancel')?.addEventListener('click', close);
+  ov.querySelector('#imp-close')?.addEventListener('click', close);
+  ov.querySelector('#imp-confirm')?.addEventListener('click', () => {
+    saveData(data);
+    location.reload();
+  });
 }
 
 // ── Onboarding ────────────────────────────────────────────────────────────────

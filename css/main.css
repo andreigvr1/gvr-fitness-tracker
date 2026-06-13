@@ -450,6 +450,26 @@ body.has-nav .view.active { padding-bottom: 86px; }
 .profil-val { font-size: 14px; color: var(--t1); font-weight: 700; }
 .profil-edit { width: 100%; }
 
+/* ── Profil: backup & date ──────────────────────────────────────────────────── */
+.profil-section-title {
+  font-size: 12px; font-weight: 800; letter-spacing: .06em; text-transform: uppercase;
+  color: var(--t2); margin-top: 12px;
+}
+.profil-data-hint { font-size: 13px; color: var(--t2); line-height: 1.5; margin: -6px 0 2px; }
+.profil-data-actions { display: flex; gap: 10px; }
+.profil-data-actions .btn { flex: 1; }
+
+.import-warn { font-size: 14px; color: var(--t1); line-height: 1.5; margin: 0 0 14px; }
+.import-summary { display: flex; flex-direction: column; gap: 1px; background: var(--surf2); border-radius: var(--rs); overflow: hidden; }
+.import-summary > div {
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 12px 14px; background: var(--surf);
+}
+.import-summary span { font-size: 13px; color: var(--t2); font-weight: 600; }
+.import-summary strong { font-size: 14px; color: var(--t1); font-weight: 700; }
+.import-error { font-size: 14px; color: var(--t1); line-height: 1.6; }
+.import-error span { color: var(--t2); font-size: 13px; }
+
 .ob-body { flex: 1; padding: 28px 20px 16px; overflow-y: auto; }
 
 .ob-question {

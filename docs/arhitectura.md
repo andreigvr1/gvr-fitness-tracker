@@ -85,6 +85,9 @@ js/utils/TemplateLoader.js      loadTemplate(nume) → fetch templates/<nume>.ht
 js/utils/ExerciseManager.js     loadAll (fetch exercises.json), filtre grupă/tip,
                                 getNextBWProgression (lanț progressie_bw), getAlternatives
 js/utils/BodyViz.js             bmiCategory, silhouetteSVG (caricatură pe gen), bmiPanelHTML
+js/utils/DataTransfer.js        exportData (pachet backup + descărcare .json), parseBackup
+                                (validare schema/profil, acceptă și blob brut), summarize
+                                (rezumat pentru ecranul de confirmare la import)
 
 templates/dashboard.html        HTML-ul ecranelor (încărcat la runtime de TemplateLoader)
 templates/program.html
@@ -165,4 +168,5 @@ Regulă (CLAUDE.md #3): schimbările de schemă au migrare automată; câmpurile
 | adaug/editez un exercițiu | data/exercises.json (schema spec cap. 4) |
 | schimb aspectul | css/main.css (tokens în :root) + templates/*.html |
 | schimb un ecran | js/renderers/*.js + templates/*.html |
+| umblu la export/import date | js/utils/DataTransfer.js + renderProfil/showImportModal în js/app.js |
 | public o versiune | index.html APP_VERSION + sw.js CACHE_VERSION + CHANGELOG (regula 2) |

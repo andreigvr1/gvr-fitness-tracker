@@ -47,8 +47,10 @@ La primele 2–4 sesiuni pe fiecare exercițiu, aplicația „caută" greutatea 
 
 ## Partea 2 — v1.0: Lansarea MVP
 
-### 2.1 Export / import .json (LIPSĂ azi, promis în spec cap. 10 — obligatoriu)
-✏ Propunere completă:
+### 2.1 Export / import .json — ✅ LIVRAT în v0.9.6 (13.06.2026)
+Implementat în `js/utils/DataTransfer.js` + `renderProfil`/`showImportModal` din `js/app.js`, conform propunerii de mai jos (butoane în Profil, pachet `{schema, exportat_la, app_version, data}`, ecran de confirmare cu rezumat, import eșuat = date neatinse, acceptă și blob brut fără wrapper). Bonus „reminder backup la 10 antrenamente" rămâne neimplementat (opțional, vezi §3.5).
+
+Propunerea originală (păstrată ca referință):
 - **Unde:** pagina Profil, sub „Editează profilul": butoane „Exportă datele" + „Importă date".
 - **Export:** descarcă `gvr-backup-AAAA-LL-ZZ.json` = `{ schema: 'gvr-data-v1', exportat_la, app_version, data: <tot blob-ul> }`.
 - **Import:** file picker → validare (schema recunoscută, chei obligatorii prezente) → ecran de confirmare cu rezumat („profil: bărbat, masă, 4 zile · 23 antrenamente · ultima activitate: 10 iunie") → abia apoi suprascrie. Import eșuat = datele actuale rămân neatinse.

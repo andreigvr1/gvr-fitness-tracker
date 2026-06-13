@@ -1,5 +1,12 @@
 # Changelog — GVR Fitness Tracker
 
+## v0.9.6 — Backup: export și import al datelor tale
+
+- **Buton „Exportă datele"** în pagina Profil → descarcă un fișier `gvr-backup-AAAA-LL-ZZ.json` cu tot ce ai (profil, program, istoric, recorduri). Ține-l în Drive/email — e plasa ta de salvare dacă browserul îți șterge datele sau schimbi telefonul.
+- **Buton „Importă date"** → alegi fișierul, vezi un **rezumat de confirmare** (ex. „bărbat, masă, 4 zile · 23 antrenamente · ultima activitate: 13 iunie") și abia după ce confirmi se suprascriu datele. Un fișier greșit sau corupt **nu atinge** datele tale actuale — primești un mesaj clar.
+- De ce contează: aplicația ține totul doar pe dispozitivul tău (fără cont online). Export/import e singura modalitate de a-ți muta sau salva istoricul.
+- **Robustețe**: un backup parțial sau o versiune mai veche de date nu mai poate bloca dashboard-ul sau statisticile (gărzi defensive în motorul de statistici).
+
 ## v0.9.5 — Logare bodyweight curată + etichete zile corecte
 
 - **Exercițiile cu greutatea corpului nu mai cer kg degeaba**: la flotări, genuflexiuni fără greutate, planșă etc. câmpul „kg" dispare — logezi doar repetările (sau secundele). Câmpul reapare automat dacă bifezi **Centură de greutăți** în echipament (atunci faci dips/tracțiuni cu kg adăugat). Aliniat cu modul în care progresează deja aceste exerciții (prin variații mai grele, nu prin greutate).

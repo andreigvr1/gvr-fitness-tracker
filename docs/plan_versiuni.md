@@ -6,7 +6,7 @@ Regulă de întreținere: la fiecare release se actualizează secțiunea „Unde
 
 ---
 
-## Unde suntem: v0.9.4
+## Unde suntem: v0.9.6
 
 Funcționează end-to-end: onboarding 9 pași → generator (85 exerciții, 9 split-uri, prescripții pe obiectiv+gen) → editare program (schimbare split, înlocuire/ștergere/adăugare exerciții) → logare pe serie (kg, rep, ✓/✗) → motor de progresie (+increment după N sesiuni curate, −7,5% la stagnare, skip cu motive + adaptare) → dashboard (statistici, istoric, calendar, recorduri) → profil (BMI + siluetă, editare) → PWA offline cu banner de update. Vizual: teme Chalk + Slate, fonturi self-hosted.
 
@@ -22,7 +22,7 @@ Fix recent (nepublicat încă): câmpul de kg dispare la exercițiile pur bodywe
 | Măsurători (înălțime/greutate) nefolosite la generare | onboarding Î2 | v0.10 — greutate de start (decizie 12.06.2026) |
 | Exerciții skandenberg blocate (pattern `skandenberg-*` + echipament dedicat neselectabil) | `data/exercises.json` | se deblochează cu modulul |
 | `skandenberg: false`, `manere: []`, `interfata: 'completa'` fixate în cod | `js/onboarding.js` (buildProfile) | se dezgheață cu modulul / interfața simplă |
-| Export/import .json **lipsește** (promis în spec cap. 10) | — | v1.0 (obligatoriu înainte de lansare) |
+| ~~Export/import .json lipsește~~ **LIVRAT în v0.9.6** (Profil → Exportă/Importă) | `js/utils/DataTransfer.js` | ✅ gata |
 | Check-in accidentări: motor complet, fără UI (`checkInjuryFollowUp`) | `js/engines/AdaptiveEngine.js` | v1.1 propus — vezi `docs/drum_spre_v1.md` §2.2 |
 | Preferințe „nu-mi place / mă doare": inițializate, nefolosite (promise în spec cap. 6) | storage `preferinte` | v1.0 sau v1.1 — decizie Andrei |
 | Branch `develop` rămas pe GitHub | remote | de curățat sau refolosit |
@@ -62,7 +62,7 @@ Temă transversală cerută de Andrei (13.06.2026): o trecere în revistă a cal
 
 ## v1.0 — Lansarea MVP
 
-- **Export/import .json** al datelor (lipsă azi, promis în spec)
+- ~~Export/import .json al datelor~~ ✅ **livrat în v0.9.6** (Profil → Exportă/Importă datele, cu ecran de confirmare la import)
 - Validare pe profilurile-test din spec cap. 10: profilurile 2 (casual), 3 (fesieri prioritar), 4 (zero echipament) integral; profilurile 1 și 5 fără componenta skandenberg
 - Audit final: filtrele de siguranță, pornire curată cu localStorage gol ȘI cu date existente, comportament PWA offline
 
