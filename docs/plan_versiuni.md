@@ -6,7 +6,7 @@ Regulă de întreținere: la fiecare release se actualizează secțiunea „Unde
 
 ---
 
-## Unde suntem: v0.9.6
+## Unde suntem: v0.9.7
 
 Funcționează end-to-end: onboarding 9 pași → generator (85 exerciții, 9 split-uri, prescripții pe obiectiv+gen) → editare program (schimbare split, înlocuire/ștergere/adăugare exerciții) → logare pe serie (kg, rep, ✓/✗) → motor de progresie (+increment după N sesiuni curate, −7,5% la stagnare, skip cu motive + adaptare) → dashboard (statistici, istoric, calendar, recorduri) → profil (BMI + siluetă, editare) → PWA offline cu banner de update. Vizual: teme Chalk + Slate, fonturi self-hosted.
 
@@ -72,7 +72,7 @@ Temă transversală cerută de Andrei (13.06.2026): o trecere în revistă a cal
 
 - Treapta 2 de stagnare: schemă nouă de repetări / propunere de înlocuire exercițiu (folosește log-ul de bannere din v0.10)
 - Check-in periodic la 4–6 săptămâni · Deload automat propus · Faze de revenire după pauză
-- PR-uri țintă + milestones
+- ~~PR-uri țintă + milestones~~ ✅ **livrat parțial în v0.9.7** (Obiective de forță cu progres + pronostic pe Dashboard, `js/engines/GoalEngine.js`). Rămas: marcarea milestone-ului estimat pe Calendar + eventual obiective de greutate corporală/frecvență (Andrei a ales doar forța pentru start)
 - **Reactivarea modulului skandenberg** (mini-onboarding la activare: stil + echipament dedicat) — ordinea exactă de confirmat cu Andrei
 
 ## v1.2 — Statistici și vizualizare

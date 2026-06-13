@@ -54,6 +54,9 @@ js/engines/ProgressionEngine.js getRecommendation(exId,...): prioritate feedback
 js/engines/AdaptiveEngine.js    analyzeSkips (durere×2→swap, prea_greu×2→swap, timp×3/oboseală×3→info).
                    (~150 l.)    checkInjuryFollowUp + processInjuryCheckin: ADORMITE (nechemat din UI,
                                 injury_log nu e populat nicăieri).
+js/engines/GoalEngine.js        evaluate(goal, antrenamente): progres + pronostic pentru obiective
+                   (~60 l.)     de forță (kg/rep). Regresie liniară pe getExerciseSeries → ETA;
+                                stări oneste: done/need_data/stalled/slow/on_track. UI: DashboardRenderer.
 js/engines/StatsEngine.js       Statistici: total sesiuni, săptămâna curentă, volum, istoric,
                    (~150 l.)    următorul antrenament + (v0.9.3) getExerciseSeries (puncte de
                                 progres per exercițiu), getRecords (PR-uri), getWeeklyCounts,
@@ -64,7 +67,8 @@ js/models/WorkoutSession.js     Starea sesiunii curente: markSetDone, skipExerci
                    (84 l.)      isComplete, serialize → intră în antrenamente[]
 
 js/renderers/DashboardRenderer.js  Dashboard: card „următorul antrenament" + inel SVG progres,
-                                   stat-cards, istoric, carduri „În curând"
+                                   stat-cards, secțiunea „Obiectivele tale" (carduri goal cu bară
+                                   + pronostic via GoalEngine, adăugare/ștergere), istoric, „Explorează"
 js/renderers/ProgramRenderer.js    Programul: split activ + alternative (filtrate de cel activ),
                                    zile cu exerciții, swap/delete/add (modal), evenimente
                                    'program-updated', 'start-workout'
@@ -129,6 +133,9 @@ templates/calendar.html         Calendar lunar
       "serii": [{ "greutate","repetari","reusit",true|false|null,"target_min","target_max" }] }]
   }],
   "preferinte": { "nu_imi_place": [], "ma_doare": [] },
+  "obiective": [{ "id": "g...", "ex_id": "...", "nume": "...",
+    "tip_tinta": "kg|rep", "tinta": 100, "creat_la": 1718... }],
+  "tema": "chalk|slate",
   "program_salvat": true,
   "_savedAt": 1718...
 }
@@ -169,4 +176,5 @@ Regulă (CLAUDE.md #3): schimbările de schemă au migrare automată; câmpurile
 | schimb aspectul | css/main.css (tokens în :root) + templates/*.html |
 | schimb un ecran | js/renderers/*.js + templates/*.html |
 | umblu la export/import date | js/utils/DataTransfer.js + renderProfil/showImportModal în js/app.js |
+| schimb obiective / pronostic | js/engines/GoalEngine.js + DashboardRenderer (renderGoals) + showAddGoalModal în js/app.js |
 | public o versiune | index.html APP_VERSION + sw.js CACHE_VERSION + CHANGELOG (regula 2) |

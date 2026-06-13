@@ -24,6 +24,11 @@ export function formatVolume(kg) {
   return kg >= 1000 ? (kg / 1000).toFixed(1).replace('.', ',') + ' t' : Math.round(kg) + ' kg';
 }
 
+// Număr cu virgulă zecimală românească, fără zecimale inutile (72.5→"72,5", 100→"100")
+export function formatNum(n) {
+  return (Math.round(n * 10) / 10).toString().replace('.', ',');
+}
+
 export function getTodayLabel() {
   const now = new Date();
   const azi = now.toLocaleDateString('ro-RO', { weekday: 'long', day: 'numeric', month: 'long' });

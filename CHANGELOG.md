@@ -1,5 +1,13 @@
 # Changelog — GVR Fitness Tracker
 
+## v0.9.7 — Obiective cu progres și pronostic
+
+- **Secțiune nouă „Obiectivele tale" pe Dashboard**: îți pui o țintă (ex. *Bench press → 100 kg* sau *Tracțiuni → 15 repetări*) și vezi o bară de progres + procentul față de țintă.
+- **Pronostic cinstit**: aplicația estimează din evoluția ta logată când ai putea atinge ținta — ex. *„în ritmul actual (+2 kg/săpt.), estimat ~ septembrie 2026"*. Dacă n-ai destule date sau ritmul e plat, **nu inventează o dată** — îți spune clar „mai loghează câteva sesiuni".
+- **🎉 La atingerea țintei** cardul devine verde și te felicită.
+- Adaugi un obiectiv alegând un exercițiu din programul tău + tipul țintei (kg sau repetări); îl ștergi cu un tap. Datele se salvează lângă restul, fără să afecteze nimic existent.
+- **Fix siguranță date**: editarea profilului nu mai poate șterge obiectivele sau tema aleasă (păstrăm tot ce ține de tine la re-editare).
+
 ## v0.9.6 — Backup: export și import al datelor tale
 
 - **Buton „Exportă datele"** în pagina Profil → descarcă un fișier `gvr-backup-AAAA-LL-ZZ.json` cu tot ce ai (profil, program, istoric, recorduri). Ține-l în Drive/email — e plasa ta de salvare dacă browserul îți șterge datele sau schimbi telefonul.

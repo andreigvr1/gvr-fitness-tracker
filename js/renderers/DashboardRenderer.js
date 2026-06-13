@@ -2,16 +2,19 @@
 
 import { ICONS } from '../utils/Constants.js';
 import { StatsEngine } from '../engines/StatsEngine.js';
-import { formatVolume, getTodayLabel } from '../utils/UIHelpers.js';
+import { GoalEngine } from '../engines/GoalEngine.js';
+import { formatVolume, getTodayLabel, formatNum } from '../utils/UIHelpers.js';
 import { loadTemplate } from '../utils/TemplateLoader.js';
 
 export class DashboardRenderer {
-  constructor(container, program, antrenamente = [], profile = null) {
+  constructor(container, program, antrenamente = [], profile = null, goals = []) {
     this.container = container;
     this.program = program;
     this.antrenamente = antrenamente;
     this.profile = profile;
+    this.goals = goals;
     this.statsEngine = new StatsEngine();
+    this.goalEngine = new GoalEngine();
   }
 
   async render(onStartNext, onViewProgram, onEditPrefs, explore = {}) {
@@ -61,6 +64,9 @@ export class DashboardRenderer {
       document.getElementById('tpl-stat-chart').innerHTML = ICONS.chart;
       document.getElementById('tpl-stat-volume').textContent = formatVolume(totalVolume);
 
+      // Goals
+      this.renderGoals();
+
       // Activity history
       const historyList = document.getElementById('tpl-history-list');
       if (history.length) {
@@ -99,6 +105,63 @@ export class DashboardRenderer {
     }
   }
 
+  renderGoals() {
+    const wrap = document.getElementById('tpl-goals');
+    if (!wrap) return;
+    if (!this.goals.length) {
+      wrap.innerHTML = `<div class="goals-empty">Niciun obiectiv încă. Pune-ți o țintă (ex. 100 kg la bench) și urmărește-ți progresul.</div>`;
+      return;
+    }
+    wrap.innerHTML = this.goals
+      .map(g => this.buildGoalCard(g, this.goalEngine.evaluate(g, this.antrenamente)))
+      .join('');
+  }
+
+  buildGoalCard(goal, ev) {
+    const unit = goal.tip_tinta === 'rep' ? 'rep' : 'kg';
+    const done = ev.status === 'done';
+    return `
+      <div class="goal-card${done ? ' goal-done' : ''}" data-goal-id="${goal.id}">
+        <button class="goal-del" data-goal-id="${goal.id}" title="Șterge obiectivul">${ICONS.x}</button>
+        <div class="goal-head">
+          <div class="goal-name">${goal.nume}</div>
+          <div class="goal-sub">Obiectiv de ${goal.tip_tinta === 'rep' ? 'repetări' : 'forță'}</div>
+        </div>
+        <div class="goal-pct">${ev.pct}%</div>
+        <div class="goal-bar"><div class="goal-bar-fill" style="width:${ev.pct}%"></div></div>
+        <div class="goal-vals">
+          <span>Acum <b>${formatNum(ev.current)} ${unit}</b></span>
+          <span>Țintă <b>${formatNum(ev.target)} ${unit}</b></span>
+        </div>
+        <div class="goal-forecast goal-fc-${this.forecastTone(ev.status)}">
+          <span class="goal-fc-dot"></span>${this.forecastText(ev, unit)}
+        </div>
+      </div>`;
+  }
+
+  forecastTone(status) {
+    return (status === 'on_track' || status === 'done') ? 'ok' : 'wait';
+  }
+
+  forecastText(ev, unit) {
+    switch (ev.status) {
+      case 'done':
+        return '🎉 Atins! Felicitări — pune-ți o țintă nouă.';
+      case 'need_data':
+        return `Mai loghează ${ev.needed} ${ev.needed === 1 ? 'sesiune' : 'sesiuni'} cu acest exercițiu ca să estimăm — nu inventăm o dată.`;
+      case 'stalled':
+        return 'Ritm plat momentan — continuă și reevaluăm pronosticul.';
+      case 'slow':
+        return `În ritmul actual (+${formatNum(ev.slopePerWeek)} ${unit}/săpt.) e prea lent pentru o estimare clară.`;
+      case 'on_track': {
+        const luna = new Date(ev.etaTs).toLocaleDateString('ro-RO', { month: 'long', year: 'numeric' });
+        return `<b>Pronostic:</b> în ritmul actual (+${formatNum(ev.slopePerWeek)} ${unit}/săpt.), estimat ~ <b>${luna}</b>.`;
+      }
+      default:
+        return '';
+    }
+  }
+
   attachEventListeners(onStartNext, onViewProgram, onEditPrefs, explore = {}) {
     document.querySelector('#btn-start-next').addEventListener('click', () => {
       onStartNext?.();
@@ -116,5 +179,10 @@ export class DashboardRenderer {
     document.querySelector('#card-progres').addEventListener('click', () => explore.onOpenStats?.('progres'));
     document.querySelector('#card-recorduri').addEventListener('click', () => explore.onOpenStats?.('recorduri'));
     document.querySelector('#card-skand').addEventListener('click', () => explore.onOpenSkand?.());
+
+    document.querySelector('#btn-add-goal')?.addEventListener('click', () => explore.onAddGoal?.());
+    this.container.querySelectorAll('.goal-del').forEach(btn => {
+      btn.addEventListener('click', () => explore.onDeleteGoal?.(btn.dataset.goalId));
+    });
   }
 }

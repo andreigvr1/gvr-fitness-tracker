@@ -122,8 +122,9 @@ function setupProgramUpdateListener() {
 
 async function renderDashboard(data) {
   const { program, antrenamente = [], profile } = data;
+  const goals = data.obiective || [];
   const container = document.getElementById('view-dashboard');
-  const renderer = new DashboardRenderer(container, program, antrenamente, profile);
+  const renderer = new DashboardRenderer(container, program, antrenamente, profile, goals);
 
   await renderer.render(
     // onStartNext
@@ -146,8 +147,115 @@ async function renderDashboard(data) {
       onOpenCalendar: () => renderCalendar(loadData()),
       onOpenStats:    (tab) => renderStatistici(loadData(), tab),
       onOpenSkand:    () => renderSkand(),
+      onAddGoal:      () => showAddGoalModal(),
+      onDeleteGoal:   (id) => {
+        const d = loadData();
+        d.obiective = (d.obiective || []).filter(g => g.id !== id);
+        saveData(d);
+        renderDashboard(loadData());
+      },
     }
   );
+}
+
+// Modal de adăugare obiectiv: alegi un exercițiu din program + tip (kg/rep) + ținta.
+function showAddGoalModal() {
+  const data = loadData();
+  // exercițiile unice din program (cele pe care le antrenezi)
+  const seen = new Set();
+  const exOptions = [];
+  (data.program?.zile || []).forEach(zi => (zi.exercitii || []).forEach(ex => {
+    if (!seen.has(ex.id)) { seen.add(ex.id); exOptions.push({ id: ex.id, nume: ex.nume }); }
+  }));
+
+  if (!exOptions.length) {
+    showInfoModal('Niciun exercițiu', 'Întâi salvează-ți un program, apoi poți pune obiective pe exercițiile din el.');
+    return;
+  }
+
+  const ov = document.createElement('div');
+  ov.className = 'modal';
+  ov.innerHTML = `
+    <div class="modal-overlay"></div>
+    <div class="modal-content">
+      <div class="modal-header"><h2>Obiectiv nou</h2><button class="modal-close" id="goal-x">×</button></div>
+      <div class="modal-body">
+        <div class="filter-group">
+          <label for="goal-ex">Exercițiu</label>
+          <select id="goal-ex" class="goal-select">
+            ${exOptions.map(o => `<option value="${o.id}">${o.nume}</option>`).join('')}
+          </select>
+        </div>
+        <div class="filter-group">
+          <label>Tip de țintă</label>
+          <div class="goal-tip-row">
+            <button class="goal-tip-opt selected" data-tip="kg">Greutate (kg)</button>
+            <button class="goal-tip-opt" data-tip="rep">Repetări</button>
+          </div>
+        </div>
+        <div class="filter-group">
+          <label for="goal-target">Ținta (<span id="goal-unit">kg</span>)</label>
+          <input id="goal-target" class="goal-target-input" type="number" inputmode="decimal" min="1" step="0.5" placeholder="ex. 100">
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-ghost" id="goal-cancel">Anulează</button>
+        <button class="btn btn-primary" id="goal-save">Salvează obiectivul</button>
+      </div>
+    </div>`;
+  document.body.appendChild(ov);
+
+  let tip = 'kg';
+  const close = () => ov.remove();
+  ov.querySelector('.modal-overlay').addEventListener('click', close);
+  ov.querySelector('#goal-x').addEventListener('click', close);
+  ov.querySelector('#goal-cancel').addEventListener('click', close);
+
+  ov.querySelectorAll('.goal-tip-opt').forEach(btn => {
+    btn.addEventListener('click', () => {
+      ov.querySelectorAll('.goal-tip-opt').forEach(b => b.classList.remove('selected'));
+      btn.classList.add('selected');
+      tip = btn.dataset.tip;
+      ov.querySelector('#goal-unit').textContent = tip === 'rep' ? 'rep' : 'kg';
+      ov.querySelector('#goal-target').step = tip === 'rep' ? '1' : '0.5';
+    });
+  });
+
+  ov.querySelector('#goal-save').addEventListener('click', () => {
+    const exId = ov.querySelector('#goal-ex').value;
+    const nume = exOptions.find(o => o.id === exId)?.nume || exId;
+    const tinta = parseFloat(ov.querySelector('#goal-target').value);
+    if (!tinta || tinta <= 0) { ov.querySelector('#goal-target').focus(); return; }
+
+    const d = loadData();
+    d.obiective = d.obiective || [];
+    d.obiective.push({
+      id: 'g' + Date.now(),
+      ex_id: exId, nume,
+      tip_tinta: tip, tinta,
+      creat_la: Date.now(),
+    });
+    saveData(d);
+    close();
+    renderDashboard(loadData());
+  });
+}
+
+// Mic modal informativ (un singur buton).
+function showInfoModal(title, msg) {
+  const ov = document.createElement('div');
+  ov.className = 'modal';
+  ov.innerHTML = `
+    <div class="modal-overlay"></div>
+    <div class="modal-content">
+      <div class="modal-header"><h2>${title}</h2></div>
+      <div class="modal-body"><p class="import-warn">${msg}</p></div>
+      <div class="modal-footer"><button class="btn btn-primary" id="info-ok">Am înțeles</button></div>
+    </div>`;
+  document.body.appendChild(ov);
+  const close = () => ov.remove();
+  ov.querySelector('.modal-overlay').addEventListener('click', close);
+  ov.querySelector('#info-ok').addEventListener('click', close);
 }
 
 // ── Statistici / Calendar / Skandenberg ───────────────────────────────────────

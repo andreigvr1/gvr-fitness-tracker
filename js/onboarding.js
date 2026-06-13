@@ -477,12 +477,14 @@ async function handleNext() {
     const splitId = getRecommendedSplit(profile.zile, profile.experienta, profile.obiectiv);
     const program = await generateProgram(profile, splitId);
 
-    // Păstrăm istoricul de antrenamente dacă userul doar își modifică preferințele
-    const existing = loadData();
+    // Păstrăm tot ce e legat de utilizator dacă doar își editează preferințele:
+    // istoric, obiective, temă etc. rămân intacte (spread peste blob-ul existent).
+    const existing = loadData() || {};
     const data = {
+      ...existing,
       profile, program,
-      antrenamente: existing?.antrenamente || [],
-      preferinte: existing?.preferinte || { nu_imi_place: [], ma_doare: [] },
+      antrenamente: existing.antrenamente || [],
+      preferinte: existing.preferinte || { nu_imi_place: [], ma_doare: [] },
       program_salvat: false,
     };
     saveData(data);
