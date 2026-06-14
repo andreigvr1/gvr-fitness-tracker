@@ -10,6 +10,7 @@ export class WorkoutSession {
     this.exercitii = day.exercitii.map(ex => ({
       ex_id: ex.id,
       skip: null,
+      efort: null, // 'usor' | 'ok' | 'greu' — colectat în calibrare (§1.A.2)
       serii: Array.from({ length: ex.seturi }, () => ({
         greutate: null,
         repetari: null,
@@ -31,6 +32,11 @@ export class WorkoutSession {
       target_min: this.exercitii[exIdx].serii[setIdx].target_min,
       target_max: this.exercitii[exIdx].serii[setIdx].target_max,
     };
+  }
+
+  setEffort(exIdx, value) {
+    if (exIdx < 0 || exIdx >= this.exercitii.length) return;
+    this.exercitii[exIdx].efort = value;
   }
 
   skipExercise(exIdx, motiv = '__pending__') {

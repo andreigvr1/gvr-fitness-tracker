@@ -14,6 +14,7 @@ export class WorkoutRenderer {
     this.antrenamente = antrenamente;
     this.progressionEngine = new ProgressionEngine();
     this.resolved = new Array(session.exercitii.length).fill(false);
+    this.calib = []; // starea de calibrare per exercițiu (§1.A.1)
     this.openIdx = 0;
   }
 
@@ -62,6 +63,12 @@ export class WorkoutRenderer {
       { isLowerBody, isBodyweight, hasCenturaGreutati, gen: this.profile.gen }
     );
     const suggestKg = rec.kg || '';
+
+    // Starea de calibrare (§1.A.1): badge + întrebare de efort doar cât e în calibrare
+    const calib = this.progressionEngine.getCalibrationState(
+      ex.id, ex.rep_min, ex.rep_max, this.antrenamente, { isLowerBody, gen: this.profile.gen }
+    );
+    this.calib[exIdx] = calib;
     // Câmpul de kg apare doar dacă exercițiul nu e pur bodyweight SAU utilizatorul are
     // centură de greutăți (spec cap. 7: centura comută progresia bodyweight de pe variații pe kg).
     const showWeight = !isBodyweight || hasCenturaGreutati;
@@ -98,6 +105,7 @@ export class WorkoutRenderer {
           <div class="log-ex-info">
             <div class="log-ex-name">${ex.nume}</div>
             <div class="log-ex-meta">${ex.seturi} serii · ${ex.rep_min}${ex.rep_max !== ex.rep_min ? '–' + ex.rep_max : ''} ${isStatic ? 'sec' : 'rep'} · pauză ${ex.pauza_sec}s</div>
+            ${calib.calibrating ? `<div class="calib-badge">${ico('flag')}<span>Calibrare · sesiunea ${calib.sessionNumber}</span></div>` : ''}
           </div>
           <button class="ex-skip-btn" data-ex="${exIdx}">${ICONS.skip}<span>Sari</span></button>
           <div class="log-ex-chevron" id="chev-${exIdx}">▾</div>
@@ -114,6 +122,15 @@ export class WorkoutRenderer {
           ${showValgusCue ? `<div class="tempo-explain cue-valgus">${ico('flag')}<span>Menține genunchii deasupra degetelor mari — evită prăbușirea spre interior.</span></div>` : ''}
           <div class="log-ex-desc">${ex.descriere}</div>
           <div class="log-sets-list">${setsHTML}</div>
+          ${calib.calibrating ? `
+          <div class="effort-q" id="effort-q-${exIdx}" style="display:none">
+            <span class="effort-q-lbl">Cum a fost?</span>
+            <div class="effort-btns">
+              <button class="effort-btn" data-ex="${exIdx}" data-efort="usor">Prea ușor</button>
+              <button class="effort-btn" data-ex="${exIdx}" data-efort="ok">Ok</button>
+              <button class="effort-btn" data-ex="${exIdx}" data-efort="greu">Prea greu</button>
+            </div>
+          </div>` : ''}
         </div>
       </div>`;
   }
@@ -245,10 +262,26 @@ export class WorkoutRenderer {
       stat.style.color = allOk ? 'var(--green)' : 'var(--orange)';
       stat.style.borderColor = allOk ? 'var(--green)' : 'var(--orange)';
       document.getElementById(`ex-card-${exIdx}`).classList.add('is-done');
-      this.markResolved(exIdx);
-      if (exIdx + 1 < this.program.zile[this.session.zi_index].exercitii.length && !this.resolved[exIdx + 1]) {
-        setTimeout(() => this.openExercise(exIdx + 1), 300);
+
+      // În calibrare cerem semnalul de efort înainte de a trece mai departe (§1.A.2)
+      if (this.calib[exIdx]?.calibrating && !this.session.exercitii[exIdx].efort) {
+        this.showEffortQuestion(exIdx);
+      } else {
+        this.resolveExercise(exIdx);
       }
+    }
+  }
+
+  showEffortQuestion(exIdx) {
+    const q = document.getElementById(`effort-q-${exIdx}`);
+    if (!q) { this.resolveExercise(exIdx); return; }
+    q.style.display = 'flex';
+  }
+
+  resolveExercise(exIdx) {
+    this.markResolved(exIdx);
+    if (exIdx + 1 < this.program.zile[this.session.zi_index].exercitii.length && !this.resolved[exIdx + 1]) {
+      setTimeout(() => this.openExercise(exIdx + 1), 300);
     }
   }
 
@@ -300,6 +333,21 @@ export class WorkoutRenderer {
     this.container.querySelectorAll('.set-fail').forEach(btn => {
       btn.addEventListener('click', () => {
         this.handleSetResult(+btn.dataset.ex, +btn.dataset.set, false);
+      });
+    });
+
+    // Semnal de efort (calibrare): un tap, apoi trecem la următorul exercițiu
+    this.container.querySelectorAll('.effort-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const exIdx = +btn.dataset.ex;
+        if (this.session.exercitii[exIdx].efort) return;
+        this.session.setEffort(exIdx, btn.dataset.efort);
+        const q = document.getElementById(`effort-q-${exIdx}`);
+        q.querySelectorAll('.effort-btn').forEach(b => {
+          b.classList.toggle('selected', b === btn);
+          b.disabled = true;
+        });
+        this.resolveExercise(exIdx);
       });
     });
 

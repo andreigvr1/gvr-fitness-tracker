@@ -21,6 +21,44 @@ const BW_REPS_UPGRADE = 20;
 
 export class ProgressionEngine {
   /**
+   * Starea de calibrare a unui exercițiu (derivată din istoric, fără câmp nou în schemă).
+   * Un exercițiu e „în calibrare" până când: 2 sesiuni consecutive cu greutate stabilă
+   * (±1 increment) ȘI repetări în interval ȘI răspuns de efort „ok" — SAU până la a 4-a
+   * sesiune (plasă de siguranță). Vezi docs/drum_spre_v1.md §1.A.1.
+   * @returns {{calibrating: boolean, sessionNumber: number}}
+   */
+  getCalibrationState(exId, repMin, repMax, antrenamente = [], opts = {}) {
+    const { isLowerBody = false, gen } = opts;
+    const sessions = (antrenamente || [])
+      .filter(a => a.exercitii?.some(e => e.ex_id === exId && !e.skip))
+      .sort((a, b) => a.data - b.data); // vechi → nou
+    const n = sessions.length;
+
+    if (n === 0) return { calibrating: true, sessionNumber: 1 };
+    if (n >= 4)  return { calibrating: false, sessionNumber: n }; // plasă de siguranță
+
+    if (n >= 2) {
+      const exA = sessions[n - 2].exercitii.find(e => e.ex_id === exId);
+      const exB = sessions[n - 1].exercitii.find(e => e.ex_id === exId);
+      if (this._converged(exA, exB, repMin, repMax, gen, isLowerBody)) {
+        return { calibrating: false, sessionNumber: n };
+      }
+    }
+    return { calibrating: true, sessionNumber: n + 1 };
+  }
+
+  _converged(exA, exB, repMin, repMax, gen, isLowerBody) {
+    if (!exA || !exB) return false;
+    const kgA = Math.max(0, ...exA.serii.map(s => s.greutate || 0));
+    const kgB = Math.max(0, ...exB.serii.map(s => s.greutate || 0));
+    const inc = getIncrement(gen, isLowerBody, kgB);
+    const stable = Math.abs(kgB - kgA) <= inc; // ±1 increment
+    const repsInRange = exB.serii.every(s => s.reusit && s.repetari >= repMin && s.repetari <= repMax);
+    const effortOk = exB.efort === 'ok';
+    return stable && repsInRange && effortOk;
+  }
+
+  /**
    * @param {string}   exId
    * @param {number}   repMin
    * @param {number}   repMax
@@ -61,8 +99,17 @@ export class ProgressionEngine {
       return { tip: 'info', mesaj: `Ultima sesiune ai sărit acest exercițiu. Reia de unde ai lăsat.` };
     }
 
+    // Semnalul de efort din sesiunea trecută (colectat în calibrare) devine feedback
+    // pentru recomandarea de azi, dacă nu s-a pasat explicit unul. Vezi §1.A.2.
+    let fb = feedbackUser;
+    if (!fb && last.efort) {
+      if (last.efort === 'usor') fb = 'prea_usor';
+      else if (last.efort === 'greu') fb = 'prea_greu';
+      // 'ok' → lăsăm logica normală (reps/RIR)
+    }
+
     // ── 1. Feedback explicit — prioritate maximă ──────────────────────────────
-    if (feedbackUser === 'durere') {
+    if (fb === 'durere') {
       return {
         tip: 'durere',
         kg,
@@ -71,11 +118,11 @@ export class ProgressionEngine {
       };
     }
 
-    if (feedbackUser === 'prea_greu') {
+    if (fb === 'prea_greu') {
       return this._decrease(kg, inc, 'Feedback: prea greu');
     }
 
-    if (feedbackUser === 'prea_usor') {
+    if (fb === 'prea_usor') {
       if (isBodyweight && !hasCenturaGreutati) {
         return {
           tip: 'upgrade_variatie',

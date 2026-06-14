@@ -910,6 +910,33 @@ body.has-nav .view.active { padding-bottom: 86px; }
 .rec-calibrare { background: var(--acc-dim); color: var(--acc-txt); }
 .rec-info      { background: var(--surf2);   color: var(--t2); }
 
+/* ── Badge calibrare (pe cardul exercițiului) ───────────────────────────────── */
+.calib-badge {
+  display: inline-flex; align-items: center; gap: 5px;
+  margin-top: 5px; padding: 2px 8px; border-radius: 999px;
+  background: var(--acc-dim); color: var(--acc-txt);
+  font-size: 10.5px; font-weight: 800; letter-spacing: .2px;
+}
+.calib-badge .ico svg { width: 11px; height: 11px; display: block; }
+
+/* ── Întrebarea de efort (calibrare) ────────────────────────────────────────── */
+.effort-q {
+  display: flex; flex-direction: column; gap: 8px;
+  margin-top: 12px; padding: 12px; border-radius: var(--rs);
+  background: var(--surf2); border: 1px solid var(--border);
+}
+.effort-q-lbl { font-size: 13px; font-weight: 800; color: var(--t1); }
+.effort-btns { display: flex; gap: 8px; }
+.effort-btn {
+  flex: 1; padding: 10px 6px; border-radius: var(--rs);
+  background: var(--surf); border: 1.5px solid var(--border);
+  color: var(--t2); font-size: 13px; font-weight: 700;
+  transition: background .15s, color .15s, border-color .15s;
+  -webkit-tap-highlight-color: transparent;
+}
+.effort-btn.selected { background: var(--accent); color: #fff; border-color: var(--accent); }
+.effort-btn:disabled:not(.selected) { opacity: .45; }
+
 /* ── Tempo explanation ──────────────────────────────────────────────────────── */
 .tempo-explain {
   display: flex; align-items: flex-start; gap: 9px;

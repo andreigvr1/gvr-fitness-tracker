@@ -48,9 +48,12 @@ js/generator.js    (~410 l.)    SPLITS (9 split-uri), _recSplit (matricea zile×
 js/storage.js      (20 l.)      loadData/saveData/clearData pe cheia localStorage `gvr-data-v1`
 
 js/engines/ProgressionEngine.js getRecommendation(exId,...): prioritate feedbackUser(durere/prea_greu/
-                   (~215 l.)    prea_usor) → bodyweight (variații, prag 20 rep) → RIR (suportat,
+                   (~260 l.)    prea_usor) → bodyweight (variații, prag 20 rep) → RIR (suportat,
                                 NECOLECTAT din UI) → reps clasic (N sesiuni curate→+inc;
-                                2 stagnări→−7,5%). getIncrement pe gen+grupă.
+                                2 stagnări→−7,5%). getIncrement pe gen+grupă. feedbackUser e
+                                derivat din `last.efort` (semnal de calibrare) dacă nu e pasat explicit.
+                                getCalibrationState(exId,...): stare derivată (calibrating/sessionNumber),
+                                convergență 2 sesiuni stabile+reps+efort 'ok' sau plasă la 4 (§1.A).
 js/engines/AdaptiveEngine.js    analyzeSkips (durere×2→swap, prea_greu×2→swap, timp×3/oboseală×3→info).
                    (~150 l.)    checkInjuryFollowUp + processInjuryCheckin: ADORMITE (nechemat din UI,
                                 injury_log nu e populat nicăieri).
@@ -139,6 +142,7 @@ templates/realizari.html        Ecran Realizări (rang forță + insigne)
   "antrenamente": [{
     "data": 1718..., "zi_index": 0, "zi_label": "...", "zi_complet": true,
     "exercitii": [{ "ex_id": "...", "skip": null | {"motiv","label"},
+      "efort": null | "usor" | "ok" | "greu",  // semnal de calibrare (§1.A.2), aditiv
       "serii": [{ "greutate","repetari","reusit",true|false|null,"target_min","target_max" }] }]
   }],
   "preferinte": { "nu_imi_place": [], "ma_doare": [] },
@@ -155,7 +159,8 @@ Regulă (CLAUDE.md #3): schimbările de schemă au migrare automată; câmpurile
 
 | Ce | Unde | Stare |
 |---|---|---|
-| RIR ca semnal de progresie | ProgressionEngine `opts.rir` | logică completă, UI nu colectează (decizie: semnal categoric în v0.10) |
+| RIR ca semnal de progresie | ProgressionEngine `opts.rir` | logică completă, UI nu colectează (RIR numeric doar la avansați, ulterior) |
+| Semnal de efort categoric (calibrare) | WorkoutRenderer + `efort` în sesiune + ProgressionEngine | **VIU** (Modul A): „prea ușor/ok/prea greu" în calibrare → influențează recomandarea următoare |
 | Check-in accidentări + prag fizioterapeut | AdaptiveEngine `checkInjuryFollowUp` | motor complet, nechemat; `injury_log` nepopulat |
 | Preferințe „nu-mi place / mă doare" | `preferinte` în storage | inițializate, necitite/nescrise (promise în spec cap. 6) |
 | Exerciții + bloc skandenberg | exercises.json `skandenberg-*`, generator | modul amânat post-MVP |
