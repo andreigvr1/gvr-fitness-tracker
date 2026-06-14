@@ -1,5 +1,10 @@
 # Changelog — GVR Fitness Tracker
 
+## v0.9.9 — Pronosticuri pe calendar + fix vizual
+
+- **Calendarul arată acum pronosticurile obiectivelor tale**: luna estimată în care atingi fiecare țintă apare marcată cu un steguleț pe ziua respectivă, plus o listă „Pronostice obiective" sub calendar (ex. *„Împins la piept → 100 kg · ~iulie 2026"*). Atingi ziua marcată și vezi detaliul. Estimări orientative — apar doar pentru obiectivele cu suficiente date logate.
+- **Fix vizual**: în secțiunea „Explorează" de pe dashboard, cardul rămas singur pe ultimul rând se întinde acum pe toată lățimea (după ce am adăugat cardul „Realizări", al cincilea card rămânea orfan, dezechilibrat).
+
 ## v0.9.8 — Realizări: nivel de forță + insigne (și fix obiective bodyweight)
 
 - **Ecran nou „Realizări"** (din dashboard, cardul Realizări):

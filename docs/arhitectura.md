@@ -82,7 +82,8 @@ js/renderers/StatsRenderer.js      Hub Statistici cu 3 tab-uri: Sumar (stat-card
                                    Progres (select exercițiu + grafic linie SVG desenat în cod),
                                    Recorduri (PR-uri din istoric). Nume exerciții din exercises.json.
 js/renderers/CalendarRenderer.js   Calendar lunar: grilă cu zilele antrenate marcate, navigare
-                                   lună±, tap pe zi → rezumat sesiuni (label, exerciții, volum)
+                                   lună±, tap pe zi → rezumat sesiuni. + milestone-uri de pronostic
+                                   (GoalEngine): zi marcată cu steguleț + listă „Pronostice obiective"
 js/renderers/AchievementsRenderer.js  Ecran „Realizări": carduri rang forță (bară Începător→Elită
                                    + percentilă) + insigne pe categorii (deblocate/cu progres)
 

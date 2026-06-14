@@ -6,7 +6,7 @@ Regulă de întreținere: la fiecare release se actualizează secțiunea „Unde
 
 ---
 
-## Unde suntem: v0.9.8
+## Unde suntem: v0.9.9
 
 Funcționează end-to-end: onboarding 9 pași → generator (85 exerciții, 9 split-uri, prescripții pe obiectiv+gen) → editare program (schimbare split, înlocuire/ștergere/adăugare exerciții) → logare pe serie (kg, rep, ✓/✗) → motor de progresie (+increment după N sesiuni curate, −7,5% la stagnare, skip cu motive + adaptare) → dashboard (statistici, istoric, calendar, recorduri) → profil (BMI + siluetă, editare) → PWA offline cu banner de update. Vizual: teme Chalk + Slate, fonturi self-hosted.
 
@@ -72,7 +72,7 @@ Temă transversală cerută de Andrei (13.06.2026): o trecere în revistă a cal
 
 - Treapta 2 de stagnare: schemă nouă de repetări / propunere de înlocuire exercițiu (folosește log-ul de bannere din v0.10)
 - Check-in periodic la 4–6 săptămâni · Deload automat propus · Faze de revenire după pauză
-- ~~PR-uri țintă + milestones~~ ✅ **livrat parțial în v0.9.7** (Obiective de forță cu progres + pronostic pe Dashboard, `js/engines/GoalEngine.js`). Rămas: marcarea milestone-ului estimat pe Calendar + eventual obiective de greutate corporală/frecvență (Andrei a ales doar forța pentru start)
+- ~~PR-uri țintă + milestones~~ ✅ **livrat** (v0.9.7 Obiective+pronostic pe Dashboard `GoalEngine.js`; v0.9.9 milestone-urile estimate marcate pe Calendar). Rămas opțional: obiective de greutate corporală/frecvență (Andrei a ales doar forța pentru start)
 - ~~Gamificare~~ ✅ **livrat în v0.9.8**: ecran „Realizări" — nivel de forță (Începător→Elită + percentilă față de practicanți, `js/utils/StrengthStandards.js`) + insigne consecvență/forță (`js/engines/AchievementsEngine.js`). Rămas posibil: insigne de volum/varietate (Andrei a ales consecvență+forță), fapte populație generală pe mai multe milestone-uri
 - **Reactivarea modulului skandenberg** (mini-onboarding la activare: stil + echipament dedicat) — ordinea exactă de confirmat cu Andrei
 

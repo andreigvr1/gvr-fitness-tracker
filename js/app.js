@@ -300,7 +300,7 @@ async function renderStatistici(data, tab = 'sumar') {
 
 async function renderCalendar(data) {
   const container = document.getElementById('view-calendar');
-  const renderer = new CalendarRenderer(container, data.antrenamente || []);
+  const renderer = new CalendarRenderer(container, data.antrenamente || [], data.obiective || []);
   viewManager.showView('view-calendar');
   await renderer.render(() => {
     renderDashboard(loadData());
