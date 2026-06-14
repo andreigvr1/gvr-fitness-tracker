@@ -11,6 +11,7 @@ export class WorkoutSession {
       ex_id: ex.id,
       skip: null,
       efort: null, // 'usor' | 'ok' | 'greu' — colectat în calibrare (§1.A.2)
+      banner: null, // {tip, kg_propus, raspuns} — instrumentare progresie (§1.A.4)
       serii: Array.from({ length: ex.seturi }, () => ({
         greutate: null,
         repetari: null,
@@ -37,6 +38,26 @@ export class WorkoutSession {
   setEffort(exIdx, value) {
     if (exIdx < 0 || exIdx >= this.exercitii.length) return;
     this.exercitii[exIdx].efort = value;
+  }
+
+  // Propunerea afișată în banner (tip + kg sugerat), salvată pe exercițiu (§1.A.4)
+  setBannerProposal(exIdx, tip, kgPropus) {
+    if (exIdx < 0 || exIdx >= this.exercitii.length) return;
+    this.exercitii[exIdx].banner = { tip, kg_propus: kgPropus ?? null, raspuns: null };
+  }
+
+  // La salvare: cum a răspuns utilizatorul la sugestie — confirmat / modificat / ignorat
+  finalizeBanners() {
+    this.exercitii.forEach(ex => {
+      if (!ex.banner) return;
+      if (ex.skip) { ex.banner.raspuns = 'ignorat'; return; }
+      const logged = ex.serii.filter(s => s.reusit !== null);
+      if (!logged.length) { ex.banner.raspuns = 'ignorat'; return; }
+      const kgp = ex.banner.kg_propus;
+      if (kgp == null) { ex.banner.raspuns = 'confirmat'; return; }
+      const usedMax = Math.max(0, ...logged.map(s => s.greutate || 0));
+      ex.banner.raspuns = usedMax === kgp ? 'confirmat' : 'modificat';
+    });
   }
 
   skipExercise(exIdx, motiv = '__pending__') {

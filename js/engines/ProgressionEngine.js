@@ -130,7 +130,7 @@ export class ProgressionEngine {
           actiune: 'upgrade_bw',
         };
       }
-      const newKg = kg + inc * 2;
+      const newKg = kg + this._calibStep(kg, inc, 0.10);
       return { tip: 'creste', kg: newKg, mesaj: `Prea ușor! Sari direct la ${newKg} kg.` };
     }
 
@@ -250,9 +250,17 @@ export class ProgressionEngine {
     };
   }
 
+  // ── Pas de corecție (calibrare) ───────────────────────────────────────────
+  // pct din greutatea logată, rotunjit la incrementul de echipament, dar MINIM un
+  // increment — ca să nu existe corecții nule la greutăți mici (§1.A.3).
+  _calibStep(kg, inc, pct) {
+    const rounded = Math.round((kg * pct) / inc) * inc;
+    return Math.max(inc, rounded);
+  }
+
   // ── Scădere greutate ──────────────────────────────────────────────────────
   _decrease(kg, inc, motiv) {
-    const newKg = Math.max(0, Math.round((kg * 0.925) / inc) * inc);
+    const newKg = Math.max(0, kg - this._calibStep(kg, inc, 0.075));
     return {
       tip: 'scade',
       kg: newKg,

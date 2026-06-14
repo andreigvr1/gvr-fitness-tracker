@@ -64,6 +64,9 @@ export class WorkoutRenderer {
     );
     const suggestKg = rec.kg || '';
 
+    // Instrumentare (§1.A.4): reținem propunerea afișată; răspunsul se calculează la salvare
+    this.session.setBannerProposal(exIdx, rec.tip, rec.kg);
+
     // Starea de calibrare (§1.A.1): badge + întrebare de efort doar cât e în calibrare
     const calib = this.progressionEngine.getCalibrationState(
       ex.id, ex.rep_min, ex.rep_max, this.antrenamente, { isLowerBody, gen: this.profile.gen }
@@ -373,6 +376,7 @@ export class WorkoutRenderer {
     if (saveBtn) {
       saveBtn.addEventListener('click', () => {
         this.session.zi_complet = true;
+        this.session.finalizeBanners();
         saveBtn.textContent = 'Salvat ✓';
         saveBtn.disabled = true;
         setTimeout(() => {
