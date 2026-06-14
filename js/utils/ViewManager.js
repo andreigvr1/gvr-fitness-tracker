@@ -2,6 +2,19 @@
 
 import { loadData } from '../storage.js';
 
+// Maparea view → hash (routing). Persistente (deep-link/refresh/back) + tranzitorii.
+export const VIEW_HASH = {
+  'view-dashboard': 'dashboard',
+  'view-program': 'program',
+  'view-profil': 'profil',
+  'view-statistici': 'statistici',
+  'view-calendar': 'calendar',
+  'view-realizari': 'realizari',
+  'view-today': 'antreneaza',
+  'view-onboarding': 'onboarding',
+  'view-skand': 'skand',
+};
+
 export class ViewManager {
   constructor(data) {
     this.data = data;
@@ -12,6 +25,10 @@ export class ViewManager {
     document.getElementById(id)?.classList.add('active');
     this.updateNav(id);
     window.scrollTo(0, 0);
+    // Sincronizează URL-ul (hash) cu ecranul curent, ca să meargă Back/refresh/bookmark.
+    // Handler-ul de hashchange sare peste re-randare dacă view-ul e deja activ.
+    const hash = VIEW_HASH[id];
+    if (hash && location.hash !== '#' + hash) location.hash = hash;
   }
 
   updateNav(viewId) {

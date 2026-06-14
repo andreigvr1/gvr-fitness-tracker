@@ -583,6 +583,47 @@ function initNav() {
   });
 }
 
+// ── Router (hash-based) ───────────────────────────────────────────────────────
+// URL-uri de tip …/#program. Persistente: deep-link, refresh și Back funcționează.
+// Ecranele tranzitorii (antrenament, onboarding, skand) nu se pot deep-linka.
+const ROUTE_RENDER = {
+  dashboard:  d => { renderDashboard(d); viewManager.showView('view-dashboard'); },
+  program:    d => { renderProgram(d);   viewManager.showView('view-program'); },
+  profil:     d => { renderProfil(d);    viewManager.showView('view-profil'); },
+  statistici: d => renderStatistici(d),   // showView intern
+  calendar:   d => renderCalendar(d),     // showView intern
+  realizari:  d => renderRealizari(d),    // showView intern
+};
+const ROUTE_VIEW = {
+  dashboard: 'view-dashboard', program: 'view-program', profil: 'view-profil',
+  statistici: 'view-statistici', calendar: 'view-calendar', realizari: 'view-realizari',
+};
+const TRANSIENT_VIEW = { antreneaza: 'view-today', onboarding: 'view-onboarding', skand: 'view-skand' };
+
+function resolveRoute() {
+  const d = loadData();
+  if (!d?.profile || !d?.program) { startOnboarding(); return; }
+
+  let route = (location.hash || '').replace(/^#/, '');
+
+  // Ecran tranzitoriu: rămâi pe el dacă e activ (navigare internă); altfel (refresh/
+  // deep-link, fără starea necesară) cazi pe ecranul implicit.
+  if (TRANSIENT_VIEW[route]) {
+    if (document.getElementById(TRANSIENT_VIEW[route])?.classList.contains('active')) return;
+    route = '';
+  }
+
+  // Rută invalidă sau program nesalvat → ecran implicit.
+  if (!ROUTE_RENDER[route] || !d.program_salvat) {
+    route = d.program_salvat ? 'dashboard' : 'program';
+  }
+
+  // Deja pe ecranul cerut (ex. hash setat de showView) → nu re-randa.
+  if (document.getElementById(ROUTE_VIEW[route])?.classList.contains('active')) return;
+
+  ROUTE_RENDER[route](d);
+}
+
 // ── Service Worker ────────────────────────────────────────────────────────────
 function registerSW() {
   if (!('serviceWorker' in navigator)) return;
@@ -619,18 +660,10 @@ document.addEventListener('DOMContentLoaded', async () => {
   registerSW();
   initNav();
 
-  // Router - determine initial view based on data state
-  const data = loadData();
+  // Router pe hash: Back/refresh/deep-link funcționează (vezi resolveRoute)
+  window.addEventListener('hashchange', resolveRoute);
   try {
-    if (!data?.profile || !data?.program) {
-      startOnboarding();
-    } else if (data.program_salvat) {
-      await renderDashboard(data);
-      viewManager.showView('view-dashboard');
-    } else {
-      await renderProgram(data);
-      viewManager.showView('view-program');
-    }
+    resolveRoute();
   } catch (error) {
     console.error('Error during initialization:', error);
   }
