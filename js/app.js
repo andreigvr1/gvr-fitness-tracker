@@ -19,6 +19,7 @@ import { WorkoutRenderer } from './renderers/WorkoutRenderer.js';
 import { StatsRenderer } from './renderers/StatsRenderer.js';
 import { CalendarRenderer } from './renderers/CalendarRenderer.js';
 import { AchievementsRenderer } from './renderers/AchievementsRenderer.js';
+import { MeasurementsRenderer } from './renderers/MeasurementsRenderer.js';
 
 // Skandenberg mini-onboarding (configurare; modulul rămâne dezactivat)
 import { initSkandConfig } from './skandenberg.js';
@@ -387,6 +388,7 @@ function renderProfil(data) {
 
   const rows = [
     ['Gen',        p.gen === 'feminin' ? 'Femeie' : p.gen === 'masculin' ? 'Bărbat' : '—'],
+    ['Vârstă',     p.varsta ? `${p.varsta} ani` : '—'],
     ['Înălțime',   p.inaltime ? `${p.inaltime} cm` : '—'],
     ['Greutate',   p.greutate ? `${p.greutate} kg` : '—'],
     ['Obiectiv',   { sanatate: 'Sănătate / tonifiere', masa: 'Masă musculară', forta: 'Forță / putere', anduranta: 'Anduranță' }[p.obiectiv] ?? '—'],
@@ -407,6 +409,8 @@ function renderProfil(data) {
           </div>`).join('')}
       </div>
       <button class="btn btn-primary profil-edit" id="btn-profil-edit">Editează profilul</button>
+
+      <div id="meas-section"></div>
 
       <div class="profil-section-title">Afișare</div>
       <div class="profil-card">
@@ -429,6 +433,12 @@ function renderProfil(data) {
     </div>`;
 
   document.getElementById('btn-profil-edit').addEventListener('click', () => startOnboarding(true));
+
+  // ── Măsurători (jurnal de corp în timp) ──
+  const measSection = document.getElementById('meas-section');
+  if (measSection) {
+    new MeasurementsRenderer(measSection, () => renderProfil(loadData())).render();
+  }
 
   // ── Temă ──
   const themeSeg = document.getElementById('theme-seg');

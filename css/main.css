@@ -1421,6 +1421,31 @@ body.has-nav .view.active { padding-bottom: 86px; }
 .confirm-actions { display: flex; gap: 10px; }
 .confirm-actions .btn { flex: 1; }
 
+/* ── Măsurători (Profil) ────────────────────────────────────────────────────── */
+.meas-empty {
+  font-size: 13px; color: var(--t2); line-height: 1.5;
+  background: var(--surf2); border-radius: var(--rs); padding: 14px; margin-bottom: 12px;
+}
+.meas-cards { display: flex; flex-direction: column; gap: 12px; margin-bottom: 12px; }
+.meas-card {
+  background: var(--surf); border: var(--card-border); border-style: solid;
+  border-radius: var(--rs); padding: 14px;
+}
+.meas-card-head { display: flex; align-items: baseline; justify-content: space-between; }
+.meas-card-label { font-size: 13px; font-weight: 700; color: var(--t2); }
+.meas-card-val { font-size: 20px; font-weight: 800; color: var(--t1); font-family: var(--font-num, inherit); }
+.meas-card-val small { font-size: 12px; font-weight: 700; color: var(--t3); }
+.meas-svg { width: 100%; height: auto; display: block; margin-top: 6px; }
+.meas-single { font-size: 11.5px; color: var(--t3); margin-top: 6px; }
+.meas-delta { font-size: 12px; font-weight: 700; color: var(--t2); margin-top: 4px; }
+.meas-delta.up { color: var(--green); }
+.meas-delta.down { color: var(--orange); }
+.meas-form { display: flex; flex-direction: column; gap: 10px; margin-bottom: 18px; }
+.meas-form-row { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+.meas-form-lbl { font-size: 14px; font-weight: 600; color: var(--t1); }
+.meas-form-lbl small { font-weight: 500; color: var(--t3); }
+.meas-form .meas-input-wrap { width: 120px; }
+
 /* ════════════════════════════════════════════════════════════════════════════ */
 /*  EXPLORE CARDS (dashboard) + SKANDENBERG CONFIG                              */
 /* ════════════════════════════════════════════════════════════════════════════ */
