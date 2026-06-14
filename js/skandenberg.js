@@ -168,7 +168,7 @@ function renderConfirm() {
       </div>
       <div class="ob-nav">
         <div></div>
-        <button class="btn btn-primary" id="sk-done">Înapoi la panou →</button>
+        <button class="btn btn-primary" id="sk-done">Acasă →</button>
       </div>
     </div>`;
   document.getElementById('sk-done').addEventListener('click', () => _onDone?.(true));

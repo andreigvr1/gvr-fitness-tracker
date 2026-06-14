@@ -104,7 +104,7 @@ export class CalendarRenderer {
         <button class="cal-cell ${has ? 'cal-has' : ''} ${goal ? 'cal-goal' : ''} ${isToday ? 'cal-today' : ''} ${isSel ? 'cal-sel' : ''}"
           data-day="${d}" ${clickable ? '' : 'disabled'}>
           <span class="cal-daynum">${d}</span>
-          ${has ? `<span class="cal-dot">${byDay[d].length > 1 ? byDay[d].length : ''}</span>` : ''}
+          ${has && byDay[d].length > 1 ? `<span class="cal-dot">${byDay[d].length}</span>` : ''}
           ${goal ? `<span class="cal-goal-mark">${ICONS.flag}</span>` : ''}
         </button>`;
     }

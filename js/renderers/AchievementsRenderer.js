@@ -77,7 +77,7 @@ export class AchievementsRenderer {
     const pct = prog ? Math.min(100, Math.round((prog.current / prog.target) * 100)) : 0;
     return `
       <div class="ach-badge ${locked ? 'locked' : 'unlocked'}">
-        <div class="ach-ico">${a.unlocked ? ICONS.check : ICONS[a.icon] || ICONS.trophy}</div>
+        <div class="ach-ico">${ICONS[a.icon] || ICONS.trophy}${a.unlocked ? `<span class="ach-ico-check">${ICONS.check}</span>` : ''}</div>
         <div class="ach-info">
           <div class="ach-name">${a.titlu}</div>
           <div class="ach-desc">${a.desc}</div>

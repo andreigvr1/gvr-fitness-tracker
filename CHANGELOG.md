@@ -1,5 +1,15 @@
 # Changelog — GVR Fitness Tracker
 
+## v0.9.10 — Pas de design (aspect rafinat)
+
+Set nou de aspect, fără funcționalitate adăugată sau scoasă — doar cum arată:
+- **Schimbarea temei s-a mutat în Profil**: butonul „Temă" din bara de jos a fost înlocuit cu un comutator clar Chalk / Slate în pagina Profil (secțiunea „Afișare"). Bara de navigație rămâne mai curată, cu butonul „Antrenează" pus în centru.
+- **Calendar reproiectat**: zilele antrenate apar ca pastile pline (accent), „azi" ca inel, pronosticurile cu contur punctat; numărul de sesiuni dintr-o zi cu 2+ apare ca un badge. Sub calendar e acum o **legendă** care explică cele trei marcaje.
+- **Ștergerea unui exercițiu** din program are acum o fereastră de confirmare îngrijită (cu numele exercițiului) în loc de pop-up-ul standard al browserului.
+- **Realizări**: insigna deblocată își păstrează pictograma proprie și primește o bifă verde în colț; insignele de nivel arată și progresul către treapta următoare.
+- **Detalii**: butoane „Înapoi" cu săgeată, pictograme consistente (coș de gunoi, ✕), cifre pe grafice și pe inelul de progres cu fontul aplicației (Bricolage Grotesque). Câteva etichete clarificate („Acasă", „Adaugă în program").
+- Sub capotă: încărcarea ecranelor funcționează acum corect indiferent de calea de găzduire.
+
 ## v0.9.9 — Pronosticuri pe calendar + fix vizual
 
 - **Calendarul arată acum pronosticurile obiectivelor tale**: luna estimată în care atingi fiecare țintă apare marcată cu un steguleț pe ziua respectivă, plus o listă „Pronostice obiective" sub calendar (ex. *„Împins la piept → 100 kg · ~iulie 2026"*). Atingi ziua marcată și vezi detaliul. Estimări orientative — apar doar pentru obiectivele cu suficiente date logate.

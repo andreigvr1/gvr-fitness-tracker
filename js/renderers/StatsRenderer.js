@@ -98,9 +98,9 @@ export class StatsRenderer {
         <rect x="${x}" y="${y}" width="${barW}" height="${h}" rx="4"
           fill="${w.count === 0 ? 'var(--surf2)' : 'var(--accent)'}" opacity="${w.count === 0 ? 1 : 0.9}"/>
         ${w.count > 0 ? `<text x="${x + barW / 2}" y="${y - 6}" text-anchor="middle" fill="var(--t1)"
-          font-size="11" font-weight="800" font-family="system-ui,sans-serif">${w.count}</text>` : ''}
+          font-size="11" font-weight="800" font-family="'Bricolage Grotesque',system-ui,sans-serif">${w.count}</text>` : ''}
         ${i % 2 === 0 ? `<text x="${x + barW / 2}" y="${H - 6}" text-anchor="middle" fill="var(--t3)"
-          font-size="8.5" font-family="system-ui,sans-serif">${lbl}</text>` : ''}`;
+          font-size="8.5" font-family="'Bricolage Grotesque',system-ui,sans-serif">${lbl}</text>` : ''}`;
     }).join('');
     return `<svg viewBox="0 0 ${W} ${H}" class="stats-svg" role="img" aria-label="Antrenamente pe săptămâni">${bars}</svg>`;
   }
@@ -176,14 +176,14 @@ export class StatsRenderer {
 
     return `<svg viewBox="0 0 ${W} ${H}" class="stats-svg" role="img" aria-label="Evoluția exercițiului">
       <line x1="${padL}" y1="${H - padB}" x2="${W - padR}" y2="${H - padB}" stroke="var(--border)" stroke-width="1"/>
-      <text x="${padL - 6}" y="${y(max) + 4}" text-anchor="end" fill="var(--t2)" font-size="10" font-weight="700" font-family="system-ui,sans-serif">${max}</text>
-      <text x="${padL - 6}" y="${y(min) + 4}" text-anchor="end" fill="var(--t2)" font-size="10" font-weight="700" font-family="system-ui,sans-serif">${min}</text>
-      <text x="${padL - 6}" y="${padT - 4}" text-anchor="end" fill="var(--t3)" font-size="8.5" font-family="system-ui,sans-serif">${unit}</text>
+      <text x="${padL - 6}" y="${y(max) + 4}" text-anchor="end" fill="var(--t2)" font-size="10" font-weight="700" font-family="'Bricolage Grotesque',system-ui,sans-serif">${max}</text>
+      <text x="${padL - 6}" y="${y(min) + 4}" text-anchor="end" fill="var(--t2)" font-size="10" font-weight="700" font-family="'Bricolage Grotesque',system-ui,sans-serif">${min}</text>
+      <text x="${padL - 6}" y="${padT - 4}" text-anchor="end" fill="var(--t3)" font-size="8.5" font-family="'Bricolage Grotesque',system-ui,sans-serif">${unit}</text>
       <polygon points="${area}" fill="var(--accent)" opacity="0.12"/>
       <polyline points="${line}" fill="none" stroke="var(--accent)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
       ${dots}
-      <text x="${padL}" y="${H - 8}" fill="var(--t3)" font-size="9" font-family="system-ui,sans-serif">${d0}</text>
-      <text x="${W - padR}" y="${H - 8}" text-anchor="end" fill="var(--t3)" font-size="9" font-family="system-ui,sans-serif">${d1}</text>
+      <text x="${padL}" y="${H - 8}" fill="var(--t3)" font-size="9" font-family="'Bricolage Grotesque',system-ui,sans-serif">${d0}</text>
+      <text x="${W - padR}" y="${H - 8}" text-anchor="end" fill="var(--t3)" font-size="9" font-family="'Bricolage Grotesque',system-ui,sans-serif">${d1}</text>
     </svg>`;
   }
 

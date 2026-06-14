@@ -408,6 +408,17 @@ function renderProfil(data) {
       </div>
       <button class="btn btn-primary profil-edit" id="btn-profil-edit">Editează profilul</button>
 
+      <div class="profil-section-title">Afișare</div>
+      <div class="profil-card">
+        <div class="profil-row">
+          <span class="profil-key">Temă</span>
+          <div class="theme-seg" id="theme-seg">
+            <button class="theme-seg-btn" data-theme="chalk">Chalk</button>
+            <button class="theme-seg-btn" data-theme="slate">Slate</button>
+          </div>
+        </div>
+      </div>
+
       <div class="profil-section-title">Backup &amp; date</div>
       <p class="profil-data-hint">Toate datele tale stau doar pe acest dispozitiv. Exportă un backup și ține-l în Drive/email — la nevoie îl reimporți și revii exact unde erai.</p>
       <div class="profil-data-actions">
@@ -418,6 +429,29 @@ function renderProfil(data) {
     </div>`;
 
   document.getElementById('btn-profil-edit').addEventListener('click', () => startOnboarding(true));
+
+  // ── Temă ──
+  const themeSeg = document.getElementById('theme-seg');
+  if (themeSeg) {
+    const applyActive = () => {
+      const cur = document.documentElement.dataset.theme || 'chalk';
+      themeSeg.querySelectorAll('.theme-seg-btn').forEach(b =>
+        b.classList.toggle('active', b.dataset.theme === cur));
+    };
+    applyActive();
+    themeSeg.querySelectorAll('.theme-seg-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const next = btn.dataset.theme;
+        document.documentElement.dataset.theme = next;
+        const meta = document.querySelector('meta[name="theme-color"]');
+        if (meta) meta.content = next === 'slate' ? '#141310' : '#F2F1EC';
+        const d = loadData() || {};
+        d.tema = next;
+        saveData(d);
+        applyActive();
+      });
+    });
+  }
 
   // ── Export ──
   const exportBtn = document.getElementById('btn-export');

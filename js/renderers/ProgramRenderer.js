@@ -60,7 +60,7 @@ export class ProgramRenderer {
               </div>
               <div class="dex-actions">
                 ${ex.alternative?.length ? `<button class="dex-swap-btn" data-day="${di}" data-ex="${ei}">${ICONS.swap}</button>` : ''}
-                <button class="dex-delete-btn" data-day="${di}" data-ex="${ei}" title="Șterge exercițiu">✕</button>
+                <button class="dex-delete-btn" data-day="${di}" data-ex="${ei}" title="Șterge exercițiu">${ICONS.x}</button>
               </div>
             </div>
             <div class="dex-alts" id="alts-${di}-${ei}" style="display:none"></div>
@@ -161,10 +161,12 @@ export class ProgramRenderer {
 
     // Delete exercise buttons
     container.querySelectorAll('.dex-delete-btn').forEach(btn => {
-      btn.addEventListener('click', () => {
+      btn.addEventListener('click', async () => {
         const dayIdx = +btn.dataset.day;
         const exIdx = +btn.dataset.ex;
-        if (confirm('Sigur ștergi exercițiul?')) {
+        const ex = this.program.zile[dayIdx].exercitii[exIdx];
+        const ok = await this.confirmDelete(ex?.nume || 'Exercițiul');
+        if (ok) {
           this.program.zile[dayIdx].exercitii.splice(exIdx, 1);
           container.dispatchEvent(new CustomEvent('program-updated', { 
             detail: { program: this.program.serialize() } 
@@ -183,6 +185,7 @@ export class ProgramRenderer {
 
     // Modal close buttons
     const closeBtn = container.querySelector('#close-add-exercise');
+    if (closeBtn) closeBtn.innerHTML = ICONS.x;
     const cancelBtn = container.querySelector('#cancel-add-exercise');
     const overlay = container.querySelector('.modal-overlay');
     [closeBtn, cancelBtn, overlay].forEach(el => {
@@ -225,6 +228,30 @@ export class ProgramRenderer {
         onBack?.();
       });
     }
+  }
+
+  confirmDelete(name) {
+    return new Promise((resolve) => {
+      const modal = document.createElement('div');
+      modal.className = 'modal';
+      modal.style.display = 'flex';
+      modal.innerHTML = `
+        <div class="modal-overlay"></div>
+        <div class="modal-content modal-confirm">
+          <div class="confirm-ico">${ICONS.trash}</div>
+          <h2 class="confirm-title">Ștergi exercițiul?</h2>
+          <p class="confirm-text"><b>${name}</b> dispare din această zi. Poți să-l adaugi din nou oricând.</p>
+          <div class="confirm-actions">
+            <button class="btn btn-ghost" data-act="cancel">Anulează</button>
+            <button class="btn btn-primary" data-act="ok">Șterge</button>
+          </div>
+        </div>`;
+      this.container.appendChild(modal);
+      const done = (val) => { modal.remove(); resolve(val); };
+      modal.querySelector('[data-act="cancel"]').addEventListener('click', () => done(false));
+      modal.querySelector('.modal-overlay').addEventListener('click', () => done(false));
+      modal.querySelector('[data-act="ok"]').addEventListener('click', () => done(true));
+    });
   }
 
   showAddExerciseModal() {

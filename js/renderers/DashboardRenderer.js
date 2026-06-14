@@ -49,9 +49,9 @@ export class DashboardRenderer {
             stroke-dasharray="${_circ.toFixed(2)}" stroke-dashoffset="${_offset.toFixed(2)}"
             transform="rotate(-90 ${_cx} ${_cy})"/>
           <text x="${_cx}" y="${_cy - 5}" text-anchor="middle"
-            fill="var(--t1)" font-size="12" font-weight="900" font-family="system-ui,sans-serif">${nextInfo.number}</text>
+            fill="var(--t1)" font-size="12" font-weight="900" font-family="'Bricolage Grotesque',system-ui,sans-serif">${nextInfo.number}</text>
           <text x="${_cx}" y="${_cy + 8}" text-anchor="middle"
-            fill="var(--acc-txt)" font-size="8" font-weight="700" font-family="system-ui,sans-serif">/${nextInfo.totalDays}</text>
+            fill="var(--acc-txt)" font-size="8" font-weight="700" font-family="'Bricolage Grotesque',system-ui,sans-serif">/${nextInfo.totalDays}</text>
         </svg>`;
 
       document.getElementById('tpl-stat-bolt').innerHTML = ICONS.bolt;

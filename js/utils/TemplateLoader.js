@@ -2,22 +2,14 @@
 
 const templateCache = {};
 
-// Determine the base path (works both locally and on GitHub Pages)
-function getBasePath() {
-  const path = window.location.pathname;
-  if (path.includes('/gvr-fitness-tracker/')) {
-    return '/gvr-fitness-tracker';
-  }
-  return '';
-}
-
 export async function loadTemplate(name) {
   if (templateCache[name]) {
     return templateCache[name].cloneNode(true);
   }
 
-  const basePath = getBasePath();
-  const templatePath = `${basePath}/templates/${name}.html`;
+  // Resolve relative to the current page so it works under any hosting path
+  // (local server, GitHub Pages project site, etc.)
+  const templatePath = new URL(`templates/${name}.html`, document.baseURI).href;
 
   try {
     const response = await fetch(templatePath);
@@ -28,7 +20,11 @@ export async function loadTemplate(name) {
     const html = await response.text();
     const container = document.createElement('div');
     container.innerHTML = html;
-    const template = container.firstElementChild;
+    // First real element (skip any leading style/script nodes)
+    let template = container.firstElementChild;
+    while (template && (template.tagName === 'STYLE' || template.tagName === 'SCRIPT')) {
+      template = template.nextElementSibling;
+    }
 
     if (!template) {
       throw new Error(`Template ${name} is empty or has no root element`);
@@ -50,4 +46,3 @@ export function setElementContent(el, content) {
     el.appendChild(content);
   }
 }
-

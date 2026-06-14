@@ -58,7 +58,7 @@ export class AchievementsEngine {
     cons('first', 'Primul pas', 'Ai logat primul antrenament.', 1, sessions);
     cons('w10', 'Constant', '10 antrenamente logate.', 10, sessions);
     cons('w25', 'Dedicat', '25 de antrenamente logate.', 25, sessions);
-    cons('w50', 'Veteran', '50 de antrenamente logate.', 50, sessions);
+    cons('w50', 'De neclintit', '50 de antrenamente logate.', 50, sessions);
 
     // Streak de săptămâni active (cel mai lung șir consecutiv)
     const weeks = [...new Set(ant.filter(a => a.zi_complet).map(a => weekStartOf(a.data)))].sort((a, b) => a - b);
@@ -95,24 +95,28 @@ export class AchievementsEngine {
       unlocked: !!bw && exKg >= bw * factor,
       progress: (bw && exKg < bw * factor) ? { current: exKg, target: Math.round(bw * factor), unit: 'kg' } : null,
     });
-    bwMilestone('benchBW', 'Greutatea ta la piept', 'Împinge la piept cât cântărești (1× greutatea corpului).', benchKg, 1);
-    bwMilestone('squat15', 'Squat 1,5×', 'Genuflexiuni cu 1,5× greutatea corpului.', squatKg, 1.5);
-    bwMilestone('dead2',  'Deadlift dublu', 'Îndreptări cu 2× greutatea corpului.', deadKg, 2);
+    bwMilestone('benchBW', 'Propria greutate', 'Împinge la piept cât cântărești.', benchKg, 1);
+    bwMilestone('squat15', 'Picioare de oțel', 'Genuflexiuni cu 1,5× greutatea ta.', squatKg, 1.5);
+    bwMilestone('dead2',  'Dublu cât tine', 'Îndreptări cu 2× greutatea ta.', deadKg, 2);
 
     // Nivel atins pe orice ridicare principală
     const ranks = this.getStrengthRanks(data).ranks.filter(r => r.levelIdx !== undefined);
     const maxLevel = ranks.length ? Math.max(...ranks.map(r => r.levelIdx)) : -1;
+    // Progres pentru insignele de nivel (doar dacă există măcar o ridicare principală logată)
+    const lvlProgress = (targetIdx) => (maxLevel >= targetIdx || maxLevel < 0)
+      ? null
+      : { current: maxLevel + 1, target: targetIdx + 1, unit: 'nivel' };
     list.push({
       id: 'lvlInter', categorie: 'forta', titlu: 'Nivel Intermediar', icon: 'flag',
       desc: 'Atinge nivelul Intermediar la o ridicare principală.',
       needsBodyweight: !bw,
-      unlocked: maxLevel >= 2, progress: null,
+      unlocked: maxLevel >= 2, progress: lvlProgress(2),
     });
     list.push({
       id: 'lvlAdv', categorie: 'forta', titlu: 'Nivel Avansat', icon: 'flag',
       desc: 'Atinge nivelul Avansat la o ridicare principală.',
       needsBodyweight: !bw,
-      unlocked: maxLevel >= 3, progress: null,
+      unlocked: maxLevel >= 3, progress: lvlProgress(3),
     });
 
     return list;

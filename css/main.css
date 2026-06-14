@@ -279,6 +279,7 @@ body.has-nav .view.active { padding-bottom: 86px; }
   justify-content: center; border-radius: 6px; transition: background .2s;
 }
 .modal-close:hover { background: var(--surf2); color: var(--t1); }
+.modal-close svg { width: 20px; height: 20px; }
 .modal-body {
   flex: 1; padding: 20px; overflow-y: auto;
 }
@@ -590,7 +591,17 @@ body.has-nav .view.active { padding-bottom: 86px; }
   display: flex; align-items: center; justify-content: center;
   background: var(--surf2); color: var(--t3);
 }
+.ach-badge.unlocked { border-color: var(--accent); }
 .ach-badge.unlocked .ach-ico { background: var(--acc-dim); color: var(--accent); }
+.ach-ico { position: relative; }
+.ach-ico-check {
+  position: absolute; bottom: -3px; right: -3px;
+  width: 17px; height: 17px; border-radius: 50%;
+  background: var(--green); color: #fff;
+  display: flex; align-items: center; justify-content: center;
+  border: 2px solid var(--surf);
+}
+.ach-ico-check svg { width: 10px; height: 10px; }
 .ach-ico svg { width: 20px; height: 20px; }
 .ach-info { flex: 1; min-width: 0; }
 .ach-name { font-size: 14.5px; font-weight: 800; color: var(--t1); }
@@ -1303,27 +1314,43 @@ body.has-nav .view.active { padding-bottom: 86px; }
   letter-spacing: .04em; text-transform: uppercase; color: var(--t3);
 }
 
-.cal-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 4px; }
+.cal-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 5px; }
 .cal-cell {
-  aspect-ratio: 1; border-radius: 10px;
+  aspect-ratio: 1; border-radius: 11px;
   display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 2px;
-  background: var(--surf); border: 1.5px solid transparent;
-  color: var(--t2); position: relative;
+  background: transparent; border: 2px solid transparent;
+  color: var(--t3); position: relative;
   -webkit-tap-highlight-color: transparent;
 }
 .cal-cell:disabled { cursor: default; }
 .cal-empty { background: transparent; }
-.cal-daynum { font-size: 13px; font-weight: 700; }
-.cal-has { background: var(--acc-dim); color: var(--acc-txt); cursor: pointer; }
-.cal-has .cal-daynum { font-weight: 900; }
+.cal-daynum { font-size: 13px; font-weight: 600; }
+/* Zi antrenata - pastila plina */
+.cal-has { background: var(--accent); cursor: pointer; box-shadow: 0 4px 10px -5px var(--accent); }
+.cal-has .cal-daynum { font-weight: 800; color: #fff; }
+/* Badge cu numarul de sesiuni (zile cu 2+) */
 .cal-dot {
-  min-width: 6px; height: 6px; border-radius: 999px;
-  background: var(--accent); color: #fff;
-  font-size: 8px; font-weight: 800; line-height: 6px;
-  padding: 0 2px;
+  position: absolute; top: -4px; right: -4px;
+  min-width: 16px; height: 16px; border-radius: 999px;
+  background: var(--t1); color: var(--bg);
+  font-size: 9px; font-weight: 800; line-height: 16px; text-align: center;
+  border: 2px solid var(--bg); padding: 0 2px;
 }
+/* Azi - inel, fara umplere */
 .cal-today { border-color: var(--accent); }
-.cal-sel   { border-color: var(--accent); background: var(--acc-dim); }
+.cal-today .cal-daynum { color: var(--acc-txt); font-weight: 800; }
+.cal-today.cal-has .cal-daynum { color: #fff; }
+/* Pronostic - contur punctat */
+.cal-goal:not(.cal-has) { border: 2px dashed var(--accent); }
+.cal-goal:not(.cal-has) .cal-daynum { color: var(--acc-txt); }
+.cal-sel { border-color: var(--accent); }
+/* Legenda */
+.cal-legend { display: flex; flex-wrap: wrap; gap: 16px; margin-top: 16px; padding-top: 14px; border-top: 1px solid var(--border); }
+.cal-leg { display: flex; align-items: center; gap: 6px; font-size: 12px; font-weight: 600; color: var(--t2); }
+.cal-leg-sw { width: 14px; height: 14px; border-radius: 5px; flex: 0 0 auto; }
+.cal-leg-has { background: var(--accent); }
+.cal-leg-today { border: 2px solid var(--accent); }
+.cal-leg-goal { border: 2px dashed var(--accent); }
 
 .cal-detail { margin-top: 16px; display: flex; flex-direction: column; gap: 6px; }
 .cal-hint {
@@ -1332,7 +1359,7 @@ body.has-nav .view.active { padding-bottom: 86px; }
 }
 
 /* Milestone-uri de pronostic pe calendar */
-.cal-goal { box-shadow: inset 0 0 0 1.5px var(--accent); }
+.cal-goal { }
 .cal-goal-mark { position: absolute; top: 3px; right: 3px; color: var(--accent); line-height: 0; }
 .cal-goal-mark svg { width: 11px; height: 11px; display: block; }
 .cal-goal-item .cal-goal-ico { color: var(--accent); }
@@ -1350,6 +1377,22 @@ body.has-nav .view.active { padding-bottom: 86px; }
 }
 .cal-fc-item b { color: var(--t1); white-space: nowrap; }
 .cal-fc-note { font-size: 11px; color: var(--t3); line-height: 1.5; margin-top: 4px; font-style: italic; }
+
+
+/* Confirm modal (stergere) + icon sizing actiuni exercitiu */
+.dex-swap-btn svg, .dex-delete-btn svg { width: 14px; height: 14px; display: block; }
+.modal-confirm { max-width: 340px; padding: 22px 22px 18px; text-align: left; }
+.confirm-ico {
+  width: 42px; height: 42px; border-radius: 12px;
+  background: var(--acc-dim); color: var(--accent);
+  display: flex; align-items: center; justify-content: center; margin-bottom: 12px;
+}
+.confirm-ico svg { width: 22px; height: 22px; }
+.confirm-title { font-size: 19px; font-weight: 800; color: var(--t1); margin: 0 0 6px; }
+.confirm-text { font-size: 14px; color: var(--t2); line-height: 1.5; margin: 0 0 18px; }
+.confirm-text b { color: var(--t1); }
+.confirm-actions { display: flex; gap: 10px; }
+.confirm-actions .btn { flex: 1; }
 
 /* ════════════════════════════════════════════════════════════════════════════ */
 /*  EXPLORE CARDS (dashboard) + SKANDENBERG CONFIG                              */
@@ -1375,3 +1418,9 @@ body.has-nav .view.active { padding-bottom: 86px; }
   .stats-wrap, .cal-wrap { max-width: 640px; padding: 0 40px 60px; }
   .stats-top { padding: 36px 4px 18px; }
 }
+
+
+/* Theme segmented control (Profil) */
+.theme-seg { display: inline-flex; background: var(--surf2); border-radius: 999px; padding: 3px; gap: 2px; }
+.theme-seg-btn { font-size: 13px; font-weight: 700; color: var(--t2); padding: 6px 16px; border-radius: 999px; background: none; transition: background .15s, color .15s; -webkit-tap-highlight-color: transparent; }
+.theme-seg-btn.active { background: var(--t1); color: var(--bg); }
