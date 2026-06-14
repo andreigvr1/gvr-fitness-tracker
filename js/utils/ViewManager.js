@@ -22,7 +22,7 @@ export class ViewManager {
     const currentData = loadData();
 
     // Nav only visible after program saved; hidden during onboarding, workout and skandenberg config
-    const NAV_VIEWS = ['view-dashboard', 'view-program', 'view-profil', 'view-statistici', 'view-calendar'];
+    const NAV_VIEWS = ['view-dashboard', 'view-program', 'view-profil', 'view-statistici', 'view-calendar', 'view-realizari'];
     const visible = currentData?.program_salvat && NAV_VIEWS.includes(viewId);
     nav.hidden = !visible;
     document.body.classList.toggle('has-nav', visible);

@@ -10,7 +10,7 @@ Ultima actualizare: 12 iunie 2026 (v0.9.4)
 
 ```
 index.html                      Shell: view-uri goale (onboarding/program/today/dashboard/profil/
-                                statistici/calendar/skand), nav bar, APP_VERSION, înregistrare ES modules.
+                                statistici/calendar/skand/realizari), nav bar, APP_VERSION, ES modules.
                                 Script inline pre-paint: aplică tema (chalk/slate) din localStorage
                                 înainte de primul pixel, evitând flash-ul de culori.
 assets/fonts/                   Fonturi self-hosted (offline-first): Bricolage Grotesque, Albert Sans,
@@ -57,6 +57,9 @@ js/engines/AdaptiveEngine.js    analyzeSkips (durere×2→swap, prea_greu×2→s
 js/engines/GoalEngine.js        evaluate(goal, antrenamente): progres + pronostic pentru obiective
                    (~60 l.)     de forță (kg/rep). Regresie liniară pe getExerciseSeries → ETA;
                                 stări oneste: done/need_data/stalled/slow/on_track. UI: DashboardRenderer.
+js/engines/AchievementsEngine.js getStrengthRanks (rang per ridicare principală logată) +
+                   (~120 l.)    getAchievements (consecvență: 1/10/25/50 + streak săptămâni;
+                                forță: club 100kg, 1×/1,5×/2× BW, nivel atins). Derivat din istoric+profil.
 js/engines/StatsEngine.js       Statistici: total sesiuni, săptămâna curentă, volum, istoric,
                    (~150 l.)    următorul antrenament + (v0.9.3) getExerciseSeries (puncte de
                                 progres per exercițiu), getRecords (PR-uri), getWeeklyCounts,
@@ -80,6 +83,8 @@ js/renderers/StatsRenderer.js      Hub Statistici cu 3 tab-uri: Sumar (stat-card
                                    Recorduri (PR-uri din istoric). Nume exerciții din exercises.json.
 js/renderers/CalendarRenderer.js   Calendar lunar: grilă cu zilele antrenate marcate, navigare
                                    lună±, tap pe zi → rezumat sesiuni (label, exerciții, volum)
+js/renderers/AchievementsRenderer.js  Ecran „Realizări": carduri rang forță (bară Începător→Elită
+                                   + percentilă) + insigne pe categorii (deblocate/cu progres)
 
 js/utils/Constants.js           ICONS (SVG-uri inline), SKIP_REASONS
 js/utils/UIHelpers.js           ico(), formatDate/Weekday/Volume, getWeekStart, getNextDayIdx
@@ -92,6 +97,8 @@ js/utils/BodyViz.js             bmiCategory, silhouetteSVG (caricatură pe gen),
 js/utils/DataTransfer.js        exportData (pachet backup + descărcare .json), parseBackup
                                 (validare schema/profil, acceptă și blob brut), summarize
                                 (rezumat pentru ecranul de confirmare la import)
+js/utils/StrengthStandards.js   Praguri de forță (multipli BW, per sex, Începător→Elită) confruntate
+                                din 2 surse. LIFT_OF (ex_id→ridicare), evalLift→{level,percentile}.
 
 templates/dashboard.html        HTML-ul ecranelor (încărcat la runtime de TemplateLoader)
 templates/program.html
@@ -99,6 +106,7 @@ templates/today.html
 templates/add-exercise.html
 templates/statistici.html       Hub statistici (tab-uri Sumar/Progres/Recorduri)
 templates/calendar.html         Calendar lunar
+templates/realizari.html        Ecran Realizări (rang forță + insigne)
 ```
 
 ## 2. Fluxuri-cheie
@@ -177,4 +185,5 @@ Regulă (CLAUDE.md #3): schimbările de schemă au migrare automată; câmpurile
 | schimb un ecran | js/renderers/*.js + templates/*.html |
 | umblu la export/import date | js/utils/DataTransfer.js + renderProfil/showImportModal în js/app.js |
 | schimb obiective / pronostic | js/engines/GoalEngine.js + DashboardRenderer (renderGoals) + showAddGoalModal în js/app.js |
+| schimb realizări / praguri forță | js/utils/StrengthStandards.js (praguri) + js/engines/AchievementsEngine.js + AchievementsRenderer + renderRealizari în js/app.js |
 | public o versiune | index.html APP_VERSION + sw.js CACHE_VERSION + CHANGELOG (regula 2) |

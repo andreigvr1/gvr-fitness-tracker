@@ -90,6 +90,7 @@ export class DashboardRenderer {
       document.querySelector('#card-calendar .soon-ico').innerHTML = ICONS.calendar;
       document.querySelector('#card-progres .soon-ico').innerHTML = ICONS.trend;
       document.querySelector('#card-recorduri .soon-ico').innerHTML = ICONS.trophy;
+      document.querySelector('#card-realizari .soon-ico').innerHTML = ICONS.bolt;
       document.querySelector('#card-skand .soon-ico').innerHTML = ICONS.arm;
       const skandChip = document.getElementById('skand-chip');
       if (this.profile?.stil_skandenberg) {
@@ -108,6 +109,19 @@ export class DashboardRenderer {
   renderGoals() {
     const wrap = document.getElementById('tpl-goals');
     if (!wrap) return;
+    
+    // Actualizează starea butonului de adăugare: dezactivat dacă sunt 3 obiective
+    const addBtn = document.querySelector('#btn-add-goal');
+    if (addBtn) {
+      if (this.goals.length >= 3) {
+        addBtn.disabled = true;
+        addBtn.title = 'Maxim 3 obiective. Șterge unu pentru a adăuga altul.';
+      } else {
+        addBtn.disabled = false;
+        addBtn.title = 'Adaugă obiectiv';
+      }
+    }
+    
     if (!this.goals.length) {
       wrap.innerHTML = `<div class="goals-empty">Niciun obiectiv încă. Pune-ți o țintă (ex. 100 kg la bench) și urmărește-ți progresul.</div>`;
       return;
@@ -178,6 +192,7 @@ export class DashboardRenderer {
     document.querySelector('#card-calendar').addEventListener('click', () => explore.onOpenCalendar?.());
     document.querySelector('#card-progres').addEventListener('click', () => explore.onOpenStats?.('progres'));
     document.querySelector('#card-recorduri').addEventListener('click', () => explore.onOpenStats?.('recorduri'));
+    document.querySelector('#card-realizari').addEventListener('click', () => explore.onOpenAchievements?.());
     document.querySelector('#card-skand').addEventListener('click', () => explore.onOpenSkand?.());
 
     document.querySelector('#btn-add-goal')?.addEventListener('click', () => explore.onAddGoal?.());

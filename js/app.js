@@ -18,6 +18,7 @@ import { DashboardRenderer } from './renderers/DashboardRenderer.js';
 import { WorkoutRenderer } from './renderers/WorkoutRenderer.js';
 import { StatsRenderer } from './renderers/StatsRenderer.js';
 import { CalendarRenderer } from './renderers/CalendarRenderer.js';
+import { AchievementsRenderer } from './renderers/AchievementsRenderer.js';
 
 // Skandenberg mini-onboarding (configurare; modulul rămâne dezactivat)
 import { initSkandConfig } from './skandenberg.js';
@@ -147,6 +148,7 @@ async function renderDashboard(data) {
       onOpenCalendar: () => renderCalendar(loadData()),
       onOpenStats:    (tab) => renderStatistici(loadData(), tab),
       onOpenSkand:    () => renderSkand(),
+      onOpenAchievements: () => renderRealizari(loadData()),
       onAddGoal:      () => showAddGoalModal(),
       onDeleteGoal:   (id) => {
         const d = loadData();
@@ -161,12 +163,24 @@ async function renderDashboard(data) {
 // Modal de adăugare obiectiv: alegi un exercițiu din program + tip (kg/rep) + ținta.
 function showAddGoalModal() {
   const data = loadData();
+  
+  // Verifica limita de 3 obiective
+  if ((data.obiective || []).length >= 3) {
+    showInfoModal('Limita de obiective', 'Poți avea maxim 3 obiective active simultan. Șterge sau atinge un obiectiv ca să adaugi altul nou.');
+    return;
+  }
+
   // exercițiile unice din program (cele pe care le antrenezi)
   const seen = new Set();
   const exOptions = [];
   (data.program?.zile || []).forEach(zi => (zi.exercitii || []).forEach(ex => {
-    if (!seen.has(ex.id)) { seen.add(ex.id); exOptions.push({ id: ex.id, nume: ex.nume }); }
+    if (!seen.has(ex.id)) {
+      seen.add(ex.id);
+      exOptions.push({ id: ex.id, nume: ex.nume, bw: ex.echipament?.every(e => e === 'corp') ?? false });
+    }
   }));
+  // Centura permite kg la exercițiile bodyweight (la fel ca la logare, spec cap. 7)
+  const hasCentura = (data.profile?.echipament || []).includes('centura_greutati');
 
   if (!exOptions.length) {
     showInfoModal('Niciun exercițiu', 'Întâi salvează-ți un program, apoi poți pune obiective pe exercițiile din el.');
@@ -192,6 +206,7 @@ function showAddGoalModal() {
             <button class="goal-tip-opt selected" data-tip="kg">Greutate (kg)</button>
             <button class="goal-tip-opt" data-tip="rep">Repetări</button>
           </div>
+          <div class="goal-tip-note" id="goal-tip-note"></div>
         </div>
         <div class="filter-group">
           <label for="goal-target">Ținta (<span id="goal-unit">kg</span>)</label>
@@ -211,15 +226,32 @@ function showAddGoalModal() {
   ov.querySelector('#goal-x').addEventListener('click', close);
   ov.querySelector('#goal-cancel').addEventListener('click', close);
 
-  ov.querySelectorAll('.goal-tip-opt').forEach(btn => {
-    btn.addEventListener('click', () => {
-      ov.querySelectorAll('.goal-tip-opt').forEach(b => b.classList.remove('selected'));
-      btn.classList.add('selected');
-      tip = btn.dataset.tip;
-      ov.querySelector('#goal-unit').textContent = tip === 'rep' ? 'rep' : 'kg';
-      ov.querySelector('#goal-target').step = tip === 'rep' ? '1' : '0.5';
-    });
-  });
+  const kgBtn  = ov.querySelector('.goal-tip-opt[data-tip="kg"]');
+  const repBtn = ov.querySelector('.goal-tip-opt[data-tip="rep"]');
+  const note   = ov.querySelector('#goal-tip-note');
+
+  const setTip = (t) => {
+    tip = t;
+    kgBtn.classList.toggle('selected', t === 'kg');
+    repBtn.classList.toggle('selected', t === 'rep');
+    ov.querySelector('#goal-unit').textContent = t === 'rep' ? 'rep' : 'kg';
+    ov.querySelector('#goal-target').step = t === 'rep' ? '1' : '0.5';
+  };
+
+  // La exerciții pur cu greutatea corpului (fără centură) ținta e doar pe repetări.
+  const applyExerciseConstraints = () => {
+    const ex = exOptions.find(o => o.id === ov.querySelector('#goal-ex').value);
+    const kgBlocked = ex?.bw && !hasCentura;
+    kgBtn.disabled = kgBlocked;
+    kgBtn.classList.toggle('disabled', kgBlocked);
+    note.textContent = kgBlocked ? 'Exercițiu cu greutatea corpului — ținta e pe repetări.' : '';
+    if (kgBlocked) setTip('rep');
+  };
+
+  kgBtn.addEventListener('click', () => { if (!kgBtn.disabled) setTip('kg'); });
+  repBtn.addEventListener('click', () => setTip('rep'));
+  ov.querySelector('#goal-ex').addEventListener('change', applyExerciseConstraints);
+  applyExerciseConstraints();
 
   ov.querySelector('#goal-save').addEventListener('click', () => {
     const exId = ov.querySelector('#goal-ex').value;
@@ -280,6 +312,16 @@ function renderSkand() {
   const container = document.getElementById('view-skand');
   viewManager.showView('view-skand');
   initSkandConfig(container, () => {
+    renderDashboard(loadData());
+    viewManager.showView('view-dashboard');
+  });
+}
+
+async function renderRealizari(data) {
+  const container = document.getElementById('view-realizari');
+  const renderer = new AchievementsRenderer(container, data);
+  viewManager.showView('view-realizari');
+  await renderer.render(() => {
     renderDashboard(loadData());
     viewManager.showView('view-dashboard');
   });

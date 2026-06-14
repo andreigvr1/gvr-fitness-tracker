@@ -1,5 +1,14 @@
 # Changelog — GVR Fitness Tracker
 
+## v0.9.8 — Realizări: nivel de forță + insigne (și fix obiective bodyweight)
+
+- **Ecran nou „Realizări"** (din dashboard, cardul Realizări):
+  - **Nivelul tău de forță** la ridicările principale (împins la piept, genuflexiuni, îndreptări, împins deasupra capului): pe ce treaptă ești (Începător → Elită, raportat la greutatea ta) și *„mai puternic decât ~X% dintre cei care se antrenează"*. Pragurile vin din surse credibile (Strength Level, Barbell Medicine, Legion) și sunt orientative. Comparația e **față de practicanți**, nu față de toată populația.
+  - **Insigne** pe două categorii: *Consecvență* (primul antrenament, 10/25/50, săptămâni la rând) și *Forță* (Clubul 100 kg, împingi cât cântărești, squat 1,5×, deadlift dublu, atingi nivel Intermediar/Avansat). Multe cu bară de progres.
+  - „Clubul 100 kg" arată și un fapt despre populația generală — clar etichetat ca estimare.
+  - Nivelul de forță are nevoie de greutate + sex în profil; dacă lipsesc, îți spune să le completezi.
+- **Fix obiective**: la exercițiile pur cu greutatea corpului (ex. flotări), ținta e doar pe **repetări** — opțiunea „kg" dispare (reapare dacă ai bifat centură de greutăți).
+
 ## v0.9.7 — Obiective cu progres și pronostic
 
 - **Secțiune nouă „Obiectivele tale" pe Dashboard**: îți pui o țintă (ex. *Bench press → 100 kg* sau *Tracțiuni → 15 repetări*) și vezi o bară de progres + procentul față de țintă.
