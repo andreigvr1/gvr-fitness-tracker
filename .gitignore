@@ -4,3 +4,6 @@ Thumbs.db
 node_modules/
 tmpclaude-e433-cwd
 .claude/settings.local.json
+
+# Planning & docs interne — strict local, niciodată publice
+docs/
