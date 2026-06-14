@@ -294,7 +294,7 @@ function showInfoModal(title, msg) {
 // ── Statistici / Calendar / Skandenberg ───────────────────────────────────────
 async function renderStatistici(data, tab = 'sumar') {
   const container = document.getElementById('view-statistici');
-  const renderer = new StatsRenderer(container, data.program, data.antrenamente || []);
+  const renderer = new StatsRenderer(container, data.program, data.antrenamente || [], data.profile || {}, data.masuratori || []);
   viewManager.showView('view-statistici');
   await renderer.render(tab);
 }

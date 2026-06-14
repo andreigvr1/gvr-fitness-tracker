@@ -2,17 +2,24 @@
 
 import { ICONS } from '../utils/Constants.js';
 import { StatsEngine } from '../engines/StatsEngine.js';
+import { EfficacyEngine } from '../engines/EfficacyEngine.js';
 import { formatVolume, formatDate } from '../utils/UIHelpers.js';
 import { loadTemplate } from '../utils/TemplateLoader.js';
 import { ExerciseManager } from '../utils/ExerciseManager.js';
 
+const OBIECTIV_LABEL = { sanatate: 'Sănătate / tonifiere', masa: 'Masă musculară', forta: 'Forță / putere', anduranta: 'Anduranță' };
+
 export class StatsRenderer {
-  constructor(container, program, antrenamente = []) {
+  constructor(container, program, antrenamente = [], profile = {}, masuratori = []) {
     this.container = container;
     this.program = program;
     this.antrenamente = antrenamente;
+    this.profile = profile;
+    this.masuratori = masuratori;
     this.stats = new StatsEngine();
+    this.efficacy = new EfficacyEngine();
     this.exNames = {};        // ex_id → nume
+    this.grupeMap = {};       // ex_id → [grupe]
     this.selectedEx = null;   // exercițiul ales în tab-ul Progres
   }
 
@@ -24,6 +31,7 @@ export class StatsRenderer {
     // Numele exercițiilor (istoricul stochează doar id-uri)
     const all = await ExerciseManager.loadAll();
     this.exNames = Object.fromEntries(all.map(e => [e.id, e.nume]));
+    this.grupeMap = Object.fromEntries(all.map(e => [e.id, e.grupe_principale || []]));
 
     this.container.querySelectorAll('.stats-tab').forEach(btn => {
       btn.addEventListener('click', () => this.showTab(btn.dataset.tab));
@@ -40,6 +48,7 @@ export class StatsRenderer {
     if (tab === 'sumar')     body.innerHTML = this.renderSumar();
     if (tab === 'progres')   { body.innerHTML = this.renderProgres(); this.attachProgresHandlers(); }
     if (tab === 'recorduri') body.innerHTML = this.renderRecorduri();
+    if (tab === 'eficienta') body.innerHTML = this.renderEficienta();
   }
 
   exName(id) {
@@ -209,5 +218,57 @@ export class StatsRenderer {
           <span class="rec-val">${r.greutate ? `${r.greutate} kg × ${r.repetari}` : `${r.repetari} rep`}</span>
         </div>`).join('')}
     </div>`;
+  }
+
+  // ── Eficiență (DESCRIPTIV — doar tendințe + marjă, fără verdict) ───────────────
+  renderEficienta() {
+    const a = this.antrenamente;
+    if (!this.stats.getTotalSessions(a)) {
+      return `<div class="stats-empty">
+        <p><strong>Încă n-avem ce analiza.</strong></p>
+        <p>După câteva antrenamente (și măsurători), aici vezi tendințele tale — cu marja lor de eroare. Fără verdicte: concluzia o tragi tu.</p>
+      </div>`;
+    }
+
+    const cons = this.efficacy.consistency(a, this.profile, this.program);
+    const str = this.efficacy.strength(a, id => this.exName(id));
+    const body = this.efficacy.body(this.masuratori);
+    const align = this.efficacy.alignment(a, this.grupeMap, this.profile);
+    const sign = n => (n > 0 ? `+${n}` : `${n}`);
+
+    const consCard = cons ? `
+      <div class="eff-card">
+        <div class="eff-head"><span class="eff-title">Consecvență</span><span class="eff-conf">date directe</span></div>
+        <p class="eff-line">≈ <b>${cons.avgPerActive}</b> antrenamente/săptămână în săptămânile active${cons.target ? ` · ținta ta: ${cons.target} zile` : ''}.</p>
+        <p class="eff-line"><b>${cons.streak}</b> ${cons.streak === 1 ? 'săptămână' : 'săptămâni'} la rând cu antrenament · ${cons.skipRate}% exerciții sărite.</p>
+        ${this.weeklyBarsSVG(cons.weekly)}
+      </div>` : '';
+
+    const strCard = `
+      <div class="eff-card">
+        <div class="eff-head"><span class="eff-title">Forță</span><span class="eff-conf">estimare ±</span></div>
+        ${str ? str.map(s => `<p class="eff-line"><b>${s.name}</b>: 1RM estimat ~${s.est1rm} kg (±${s.margin}) · ${sign(s.delta)} kg de la prima sesiune</p>`).join('')
+              : `<p class="eff-empty-line">Loghează un exercițiu cu greutate în cel puțin 2 sesiuni ca să vezi tendința de forță.</p>`}
+        ${str ? `<p class="eff-note">1RM estimat din greutate×repetări (Epley/Brzycki) — orientativ, ±5–10%.</p>` : ''}
+      </div>`;
+
+    const bodyCard = `
+      <div class="eff-card">
+        <div class="eff-head"><span class="eff-title">Corp</span><span class="eff-conf">tendință</span></div>
+        ${body ? body.map(m => `<p class="eff-line"><b>${m.label}</b>: ${m.first} → ${m.last} ${m.unit} (${sign(m.delta)}) <span class="eff-note-inline">${m.margin}</span></p>`).join('')
+               : `<p class="eff-empty-line">Adaugă măsurători (din Profil) în cel puțin 2 momente ca să vezi tendințele corpului.</p>`}
+      </div>`;
+
+    const alignCard = `
+      <div class="eff-card">
+        <div class="eff-head"><span class="eff-title">Aliniere cu obiectivul</span><span class="eff-conf">descriptiv</span></div>
+        ${align ? `<p class="eff-line">Cele mai lucrate grupe: ${align.top.map(g => `${g.grupa} (${g.pct}%)`).join(', ')}.</p>
+          <p class="eff-line">Obiectivul tău: <b>${OBIECTIV_LABEL[align.obiectiv] || '—'}</b>${align.prioritare.length ? ` · prioritare: ${align.prioritare.join(', ')}` : ''}.</p>`
+          : `<p class="eff-empty-line">După câteva serii reușite, aici vezi pe ce grupe musculare cade efortul.</p>`}
+      </div>`;
+
+    return `
+      <p class="eff-intro">Doar tendințe și cifre, cu marja lor — concluzia o tragi tu.</p>
+      ${consCard}${strCard}${bodyCard}${alignCard}`;
   }
 }

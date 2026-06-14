@@ -1251,13 +1251,31 @@ body.has-nav .view.active { padding-bottom: 86px; }
   display: flex; gap: 6px; margin-bottom: 16px;
 }
 .stats-tab {
-  flex: 1; padding: 9px 0; border-radius: 999px;
-  font-size: 13px; font-weight: 700;
+  flex: 1; padding: 9px 2px; border-radius: 999px;
+  font-size: 12px; font-weight: 700;
   background: var(--surf); color: var(--t2);
   border: 1.5px solid transparent;
   transition: all .15s; -webkit-tap-highlight-color: transparent;
 }
 .stats-tab.active { background: var(--acc-dim); color: var(--acc-txt); border-color: var(--accent); }
+
+/* ── Eficiență (analiză descriptivă) ────────────────────────────────────────── */
+.eff-intro { font-size: 12.5px; color: var(--t2); margin: 0 4px 14px; line-height: 1.5; }
+.eff-card {
+  background: var(--surf); border: var(--card-border); border-style: solid;
+  border-radius: var(--rs); padding: 14px; margin-bottom: 12px;
+}
+.eff-head { display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px; }
+.eff-title { font-size: 15px; font-weight: 800; color: var(--t1); }
+.eff-conf {
+  font-size: 10px; font-weight: 700; letter-spacing: .3px; text-transform: uppercase;
+  color: var(--t3); background: var(--surf2); border-radius: 999px; padding: 3px 8px;
+}
+.eff-line { font-size: 13px; color: var(--t2); line-height: 1.55; margin: 0 0 6px; }
+.eff-line b { color: var(--t1); font-weight: 800; }
+.eff-empty-line { font-size: 12.5px; color: var(--t3); line-height: 1.5; margin: 0; }
+.eff-note { font-size: 11px; color: var(--t3); line-height: 1.45; margin: 8px 0 0; }
+.eff-note-inline { display: block; font-size: 10.5px; color: var(--t3); }
 
 .stats-cards { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; }
 
