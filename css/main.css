@@ -1464,6 +1464,34 @@ body.has-nav .view.active { padding-bottom: 86px; }
 .meas-form-lbl small { font-weight: 500; color: var(--t3); }
 .meas-form .meas-input-wrap { width: 120px; }
 
+/* ── Welcome / tur de funcții ────────────────────────────────────────────────── */
+.welcome-wrap {
+  min-height: 100vh; min-height: 100dvh;
+  display: flex; flex-direction: column; align-items: center;
+  padding: 24px 22px calc(24px + env(safe-area-inset-bottom)); position: relative;
+}
+.welcome-skip {
+  position: absolute; top: calc(16px + env(safe-area-inset-top)); right: 18px;
+  font-size: 13px; font-weight: 600; color: var(--t3);
+  background: none; -webkit-tap-highlight-color: transparent;
+}
+.welcome-slide {
+  flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center;
+  text-align: center; gap: 14px; max-width: 360px;
+}
+.welcome-ico {
+  width: 88px; height: 88px; border-radius: 28px;
+  background: var(--acc-dim); color: var(--accent);
+  display: flex; align-items: center; justify-content: center; margin-bottom: 6px;
+}
+.welcome-ico svg { width: 40px; height: 40px; }
+.welcome-title { font-family: var(--font-display, inherit); font-size: 30px; font-weight: 800; color: var(--t1); margin: 0; line-height: 1.1; }
+.welcome-text { font-size: 15px; color: var(--t2); line-height: 1.55; margin: 0; }
+.welcome-dots { display: flex; gap: 8px; margin: 20px 0; }
+.welcome-dot { width: 8px; height: 8px; border-radius: 999px; background: var(--surf2); transition: background .2s, width .2s; }
+.welcome-dot.active { background: var(--accent); width: 22px; }
+.welcome-cta { max-width: 360px; }
+
 /* ════════════════════════════════════════════════════════════════════════════ */
 /*  EXPLORE CARDS (dashboard) + SKANDENBERG CONFIG                              */
 /* ════════════════════════════════════════════════════════════════════════════ */

@@ -4,6 +4,7 @@ import { loadData } from '../storage.js';
 
 // Maparea view → hash (routing). Persistente (deep-link/refresh/back) + tranzitorii.
 export const VIEW_HASH = {
+  'view-welcome': 'welcome',
   'view-dashboard': 'dashboard',
   'view-program': 'program',
   'view-profil': 'profil',

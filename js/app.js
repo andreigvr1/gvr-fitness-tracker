@@ -20,6 +20,7 @@ import { StatsRenderer } from './renderers/StatsRenderer.js';
 import { CalendarRenderer } from './renderers/CalendarRenderer.js';
 import { AchievementsRenderer } from './renderers/AchievementsRenderer.js';
 import { MeasurementsRenderer } from './renderers/MeasurementsRenderer.js';
+import { initWelcome } from './welcome.js';
 
 // Skandenberg mini-onboarding (configurare; modulul rămâne dezactivat)
 import { initSkandConfig } from './skandenberg.js';
@@ -579,11 +580,24 @@ const ROUTE_VIEW = {
   dashboard: 'view-dashboard', program: 'view-program', profil: 'view-profil',
   statistici: 'view-statistici', calendar: 'view-calendar', realizari: 'view-realizari',
 };
-const TRANSIENT_VIEW = { antreneaza: 'view-today', onboarding: 'view-onboarding', skand: 'view-skand' };
+const TRANSIENT_VIEW = { welcome: 'view-welcome', antreneaza: 'view-today', onboarding: 'view-onboarding', skand: 'view-skand' };
+
+function showWelcome() {
+  initWelcome(document.getElementById('view-welcome'), () => startOnboarding());
+  viewManager.showView('view-welcome');
+}
 
 function resolveRoute() {
   const d = loadData();
-  if (!d?.profile || !d?.program) { startOnboarding(); return; }
+  // Utilizator nou (fără profil) → ecrane de welcome, apoi onboarding.
+  // Cât timp e pe welcome SAU onboarding, îl lăsăm acolo (nu-l forțăm înapoi la welcome).
+  if (!d?.profile) {
+    const inIntro = document.getElementById('view-welcome')?.classList.contains('active') ||
+                    document.getElementById('view-onboarding')?.classList.contains('active');
+    if (!inIntro) showWelcome();
+    return;
+  }
+  if (!d?.program) { startOnboarding(); return; }
 
   let route = (location.hash || '').replace(/^#/, '');
 
