@@ -38,3 +38,40 @@ export function initWelcome(container, onStart) {
 
   render();
 }
+
+// Ecran de alegere după welcome: mod simplu (construiești singur) vs personalizat (onboarding).
+export function initChoice(container, { onSimplu, onPersonalizat }) {
+  container.innerHTML = `
+    <div class="setup-wrap">
+      <h1 class="setup-title">Cum vrei să începi?</h1>
+      <p class="setup-sub">Poți trece oricând la varianta personalizată mai târziu.</p>
+      <button class="choice-card" id="ch-simplu">
+        <span class="choice-ico">${ICONS.list}</span>
+        <span class="choice-h">Construiește-ți singur programul</span>
+        <span class="choice-d">Alegi zilele și exercițiile, fără întrebări. Loghezi și urmărești progresul.</span>
+      </button>
+      <button class="choice-card" id="ch-perso">
+        <span class="choice-ico">${ICONS.bolt}</span>
+        <span class="choice-h">Program personalizat</span>
+        <span class="choice-d">Răspunzi la câteva întrebări și primești un program generat pe măsura ta, plus toate funcțiile.</span>
+      </button>
+    </div>`;
+  container.querySelector('#ch-simplu').addEventListener('click', onSimplu);
+  container.querySelector('#ch-perso').addEventListener('click', onPersonalizat);
+}
+
+// Mod simplu, pasul „câte zile?" → creează programul gol cu N zile.
+export function initDaysPicker(container, onDone, onBack) {
+  container.innerHTML = `
+    <div class="setup-wrap">
+      <button class="welcome-skip setup-back" id="dp-back">‹ Înapoi</button>
+      <h1 class="setup-title">Câte zile pe săptămână?</h1>
+      <p class="setup-sub">Creăm zilele goale, apoi adaugi exercițiile tale.</p>
+      <div class="days-opts">
+        ${[2, 3, 4, 5, 6].map(n => `<button class="day-opt" data-n="${n}">${n} zile</button>`).join('')}
+      </div>
+    </div>`;
+  container.querySelector('#dp-back').addEventListener('click', onBack);
+  container.querySelectorAll('.day-opt').forEach(b =>
+    b.addEventListener('click', () => onDone(+b.dataset.n)));
+}

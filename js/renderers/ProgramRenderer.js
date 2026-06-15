@@ -44,6 +44,13 @@ export class ProgramRenderer {
           <span class="so-desc">${s.desc}</span>
         </button>`).join('');
 
+      // Mod simplu (program custom): ascundem „alte variante" — schimbarea split-ului
+      // ar regenera și ar șterge ce a construit utilizatorul.
+      if (this.program.split_id === 'custom') {
+        splitOpts.style.display = 'none';
+        if (splitOpts.previousElementSibling) splitOpts.previousElementSibling.style.display = 'none';
+      }
+
       // Populate days
       const completedDays = new Set(
         this.antrenamente.filter(a => a.zi_complet).map(a => `${a.zi_index}`)

@@ -20,7 +20,7 @@ import { StatsRenderer } from './renderers/StatsRenderer.js';
 import { CalendarRenderer } from './renderers/CalendarRenderer.js';
 import { AchievementsRenderer } from './renderers/AchievementsRenderer.js';
 import { MeasurementsRenderer } from './renderers/MeasurementsRenderer.js';
-import { initWelcome } from './welcome.js';
+import { initWelcome, initChoice, initDaysPicker } from './welcome.js';
 
 // Skandenberg mini-onboarding (configurare; modulul rămâne dezactivat)
 import { initSkandConfig } from './skandenberg.js';
@@ -580,20 +580,60 @@ const ROUTE_VIEW = {
   dashboard: 'view-dashboard', program: 'view-program', profil: 'view-profil',
   statistici: 'view-statistici', calendar: 'view-calendar', realizari: 'view-realizari',
 };
-const TRANSIENT_VIEW = { welcome: 'view-welcome', antreneaza: 'view-today', onboarding: 'view-onboarding', skand: 'view-skand' };
+const TRANSIENT_VIEW = { welcome: 'view-welcome', setup: 'view-setup', antreneaza: 'view-today', onboarding: 'view-onboarding', skand: 'view-skand' };
+const INTRO_VIEWS = ['view-welcome', 'view-setup', 'view-onboarding'];
 
 function showWelcome() {
-  initWelcome(document.getElementById('view-welcome'), () => startOnboarding());
+  initWelcome(document.getElementById('view-welcome'), () => showSetup());
   viewManager.showView('view-welcome');
+}
+
+// Ecran de alegere: mod simplu vs personalizat.
+function showSetup() {
+  initChoice(document.getElementById('view-setup'), {
+    onPersonalizat: () => startOnboarding(),
+    onSimplu: () => showDaysPicker(),
+  });
+  viewManager.showView('view-setup');
+}
+
+function showDaysPicker() {
+  initDaysPicker(document.getElementById('view-setup'),
+    (n) => startSimpleProgram(n),
+    () => showSetup());
+  viewManager.showView('view-setup');
+}
+
+// Mod simplu: profil minim implicit + program gol cu N zile → ecranul Program (adaugi exerciții).
+function startSimpleProgram(nDays) {
+  const profile = {
+    gen: null, varsta: null, inaltime: null, greutate: null,
+    obiectiv: 'sanatate', zile: nDays, timp: 60, experienta: 1,
+    echipament: ['corp'], manere: [], grupe_prioritare: [], articulatii_sensibile: [],
+    skandenberg: false, stil_skandenberg: null, interfata: 'completa', mod: 'simplu',
+  };
+  const program = {
+    split_id: 'custom', split_label: 'Programul meu', split_desc: 'Construit de tine',
+    zile: Array.from({ length: nDays }, (_, i) => ({ label: `Zi ${i + 1}`, tip: 'full', exercitii: [] })),
+  };
+  const existing = loadData() || {};
+  const data = {
+    ...existing, profile, program,
+    antrenamente: existing.antrenamente || [],
+    preferinte: existing.preferinte || { nu_imi_place: [], ma_doare: [] },
+    program_salvat: false,
+  };
+  saveData(data);
+  renderProgram(data);
+  viewManager.showView('view-program');
 }
 
 function resolveRoute() {
   const d = loadData();
-  // Utilizator nou (fără profil) → ecrane de welcome, apoi onboarding.
-  // Cât timp e pe welcome SAU onboarding, îl lăsăm acolo (nu-l forțăm înapoi la welcome).
+  // Utilizator nou (fără profil) → welcome → alegere mod. Cât timp e pe un ecran de
+  // intro (welcome/setup/onboarding), îl lăsăm acolo — nu-l forțăm înapoi la welcome.
   if (!d?.profile) {
-    const inIntro = document.getElementById('view-welcome')?.classList.contains('active') ||
-                    document.getElementById('view-onboarding')?.classList.contains('active');
+    const inIntro = INTRO_VIEWS.some(v => document.getElementById(v)?.classList.contains('active'));
     if (!inIntro) showWelcome();
     return;
   }
