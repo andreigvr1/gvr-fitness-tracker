@@ -105,7 +105,7 @@ const STEPS = [
 let step = 0;
 let answers = {
   gen: null,
-  varsta: null, inaltime: null, greutate: null,
+  inaltime: null, greutate: null,
   obiectiv: null, zile: null, timp: null, experienta: null,
   echipament: ['corp'],
   grupe_prioritare: [], articulatii: [],
@@ -129,7 +129,6 @@ export function initOnboarding(container, onComplete, opts = {}) {
     const p = opts.existingProfile;
     answers = {
       gen:              p.gen            ?? null,
-      varsta:           p.varsta         ?? null,
       inaltime:         p.inaltime       ?? null,
       greutate:         p.greutate       ?? null,
       obiectiv:         p.obiectiv       ?? null,
@@ -145,7 +144,7 @@ export function initOnboarding(container, onComplete, opts = {}) {
   } else {
     answers = {
       gen: null,
-      varsta: null, inaltime: null, greutate: null,
+      inaltime: null, greutate: null,
       obiectiv: null, zile: null, timp: null, experienta: null,
       echipament: ['corp'],
       grupe_prioritare: [], articulatii: [],
@@ -247,14 +246,6 @@ function renderEquipment() {
 function renderMeasurements() {
   return `
     <div class="meas-row">
-      <div class="meas-field">
-        <label class="meas-label" for="inp-varsta">Vârstă</label>
-        <div class="meas-input-wrap">
-          <input class="meas-input" id="inp-varsta" type="number" inputmode="numeric"
-            min="10" max="100" placeholder="30" value="${answers.varsta ?? ''}" />
-          <span class="meas-unit">ani</span>
-        </div>
-      </div>
       <div class="meas-field">
         <label class="meas-label" for="inp-inaltime">Înălțime</label>
         <div class="meas-input-wrap">
@@ -423,20 +414,16 @@ function attachOptionHandlers(s) {
   }
 
   if (s.tip === 'measurements') {
-    const inpA = document.getElementById('inp-varsta');
     const inpH = document.getElementById('inp-inaltime');
     const inpG = document.getElementById('inp-greutate');
     const onInput = () => {
-      const a = parseFloat(inpA.value);
       const h = parseFloat(inpH.value);
       const g = parseFloat(inpG.value);
-      answers.varsta   = (!isNaN(a) && a >= 10  && a <= 100) ? a : null;
       answers.inaltime = (!isNaN(h) && h >= 130 && h <= 230) ? h : null;
       answers.greutate = (!isNaN(g) && g >= 30  && g <= 300) ? g : null;
       updateBMIPanel();
       validateNext();
     };
-    inpA.addEventListener('input', onInput);
     inpH.addEventListener('input', onInput);
     inpG.addEventListener('input', onInput);
     updateBMIPanel(); // valori pre-completate în edit mode
@@ -515,7 +502,6 @@ function buildProfile() {
   const prev = loadData()?.profile;
   return {
     gen:               answers.gen,
-    varsta:            answers.varsta,
     inaltime:          answers.inaltime,
     greutate:          answers.greutate,
     obiectiv:          answers.obiectiv,

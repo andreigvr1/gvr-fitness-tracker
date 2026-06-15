@@ -1,6 +1,11 @@
 # Changelog — GVR Fitness Tracker
 
-## v0.9.10 — Pas de design (aspect rafinat)
+## v0.9.11 — „Profil" devine „Setări" + editare rapidă
+
+- **Tab-ul „Profil" se numește acum „Setări"** (cu pictogramă de rotiță) și adună la un loc: datele tale de profil, măsurătorile, tema și un buton nou.
+- **Editare profil rapidă**: butonul „Editează profilul" deschide acum un formular scurt, pe o singură pagină (gen, înălțime, greutate, obiectiv, zile, experiență) — în loc să te plimbe din nou prin toți pașii de la început. Dacă schimbi ceva ce influențează exercițiile (obiectiv, zile, experiență, gen), te întreabă dacă vrei să regenereze programul sau doar să salveze datele (caz în care îți păstrezi programul actual). Istoricul antrenamentelor rămâne mereu neatins.
+- **Buton „Șterge toate datele"** în secțiunea „Date" din Setări, cu confirmare clară — pornește aplicația de la zero (profil, program, istoric). Util pentru un start curat.
+- **Vârsta nu se mai cere**: câmpul era colectat, dar nu era folosit la nimic în program. L-am scos din onboarding și din profil ca să nu cerem date degeaba.
 
 Set nou de aspect, fără funcționalitate adăugată sau scoasă — doar cum arată:
 - **Schimbarea temei s-a mutat în Profil**: butonul „Temă" din bara de jos a fost înlocuit cu un comutator clar Chalk / Slate în pagina Profil (secțiunea „Afișare"). Bara de navigație rămâne mai curată, cu butonul „Antrenează" pus în centru.

@@ -143,7 +143,7 @@ async function renderDashboard(data) {
     },
     // onEditPrefs
     () => {
-      startOnboarding(true);
+      showEditProfileModal(loadData());
     },
     // explore cards
     {
@@ -389,7 +389,6 @@ function renderProfil(data) {
 
   const rows = [
     ['Gen',        p.gen === 'feminin' ? 'Femeie' : p.gen === 'masculin' ? 'Bărbat' : '—'],
-    ['Vârstă',     p.varsta ? `${p.varsta} ani` : '—'],
     ['Înălțime',   p.inaltime ? `${p.inaltime} cm` : '—'],
     ['Greutate',   p.greutate ? `${p.greutate} kg` : '—'],
     ['Obiectiv',   { sanatate: 'Sănătate / tonifiere', masa: 'Masă musculară', forta: 'Forță / putere', anduranta: 'Anduranță' }[p.obiectiv] ?? '—'],
@@ -399,7 +398,9 @@ function renderProfil(data) {
 
   container.innerHTML = `
     <div class="profil-wrap">
-      <h1 class="profil-title">Profil</h1>
+      <h1 class="profil-title">Setări</h1>
+
+      <div class="profil-section-title">Profil</div>
       ${bmi ? `<div class="bmi-panel ${bmi.cls}">${bmi.html}</div>`
             : `<div class="profil-empty">Adaugă înălțimea și greutatea din Editează profilul ca să vezi BMI-ul tău.</div>`}
       <div class="profil-card">
@@ -424,9 +425,14 @@ function renderProfil(data) {
         </div>
       </div>
 
+      <div class="profil-section-title">Date</div>
+      <p class="profil-data-hint">Datele tale sunt salvate doar pe acest dispozitiv. „Șterge toate datele" pornește aplicația de la zero — profil, program și istoric. Acțiunea nu se poate anula.</p>
+      <button class="btn btn-danger btn-full" id="btn-clear-data">Șterge toate datele</button>
+
     </div>`;
 
-  document.getElementById('btn-profil-edit').addEventListener('click', () => startOnboarding(true));
+  document.getElementById('btn-profil-edit').addEventListener('click', () => showEditProfileModal(loadData()));
+  document.getElementById('btn-clear-data').addEventListener('click', () => showClearDataModal());
 
   // ── Măsurători (jurnal de corp în timp) ──
   const measSection = document.getElementById('meas-section');
@@ -460,6 +466,170 @@ function renderProfil(data) {
   // Butoanele Export/Import au fost scoase din UI (decizie 15.06.2026). Codul de
   // transfer (DataTransfer.js + showImportModal) rămâne adormit, ușor de reactivat.
   // De decis înainte de lansare: o plasă de backup (reactivare sau sync cloud v2).
+}
+
+// ── Editor scurt de profil (înlocuiește re-rularea onboarding-ului la editare) ──
+// Editezi câmpurile pe o singură pagină. Dacă schimbi ceva ce afectează structura
+// programului (gen / obiectiv / zile / experiență), oferim regenerarea programului.
+function showEditProfileModal(data) {
+  const p = (data && data.profile) || {};
+  const OBIECTIVE = [
+    ['sanatate', 'Sănătate / tonifiere'],
+    ['masa', 'Masă musculară'],
+    ['forta', 'Forță / putere'],
+    ['anduranta', 'Anduranță'],
+  ];
+  const sel = (id, label, options, current) => `
+    <div class="filter-group">
+      <label for="${id}">${label}</label>
+      <select class="filter-select" id="${id}">
+        ${options.map(([v, l]) => `<option value="${v}" ${String(v) === String(current) ? 'selected' : ''}>${l}</option>`).join('')}
+      </select>
+    </div>`;
+
+  const ov = document.createElement('div');
+  ov.className = 'modal';
+  ov.innerHTML = `
+    <div class="modal-overlay"></div>
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2>Editează profilul</h2>
+        <button class="modal-close" id="ep-close" aria-label="Închide">✕</button>
+      </div>
+      <div class="modal-body">
+        ${sel('ep-gen', 'Gen', [['masculin', 'Bărbat'], ['feminin', 'Femeie']], p.gen)}
+        <div class="filter-group">
+          <label for="ep-inaltime">Înălțime (cm)</label>
+          <input class="filter-select" id="ep-inaltime" type="number" inputmode="numeric" min="130" max="230" placeholder="—" value="${p.inaltime ?? ''}">
+        </div>
+        <div class="filter-group">
+          <label for="ep-greutate">Greutate (kg)</label>
+          <input class="filter-select" id="ep-greutate" type="number" inputmode="decimal" min="30" max="300" placeholder="—" value="${p.greutate ?? ''}">
+        </div>
+        ${sel('ep-obiectiv', 'Obiectiv', OBIECTIVE, p.obiectiv)}
+        ${sel('ep-zile', 'Zile / săptămână', [[2, '2 zile'], [3, '3 zile'], [4, '4 zile'], [5, '5 zile']], p.zile)}
+        ${sel('ep-experienta', 'Experiență', EXP_LABELS.map((l, i) => [i, l]), p.experienta)}
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-ghost" id="ep-cancel">Anulează</button>
+        <button class="btn btn-primary" id="ep-save">Salvează</button>
+      </div>
+    </div>`;
+  document.body.appendChild(ov);
+
+  const close = () => ov.remove();
+  ov.querySelector('.modal-overlay').addEventListener('click', close);
+  ov.querySelector('#ep-close').addEventListener('click', close);
+  ov.querySelector('#ep-cancel').addEventListener('click', close);
+
+  ov.querySelector('#ep-save').addEventListener('click', () => {
+    const numOrNull = (v, lo, hi) => {
+      const n = parseFloat(v);
+      return (!isNaN(n) && n >= lo && n <= hi) ? n : null;
+    };
+    const next = {
+      gen:        ov.querySelector('#ep-gen').value,
+      inaltime:   numOrNull(ov.querySelector('#ep-inaltime').value, 130, 230),
+      greutate:   numOrNull(ov.querySelector('#ep-greutate').value, 30, 300),
+      obiectiv:   ov.querySelector('#ep-obiectiv').value,
+      zile:       Number(ov.querySelector('#ep-zile').value),
+      experienta: Number(ov.querySelector('#ep-experienta').value),
+    };
+    const fresh = loadData() || data;
+    const old = fresh.profile || {};
+    const newProfile = { ...old, ...next };
+
+    // Câmpurile care schimbă structura programului → oferim regenerarea.
+    const affectsProgram =
+      old.gen !== newProfile.gen ||
+      old.obiectiv !== newProfile.obiectiv ||
+      old.zile !== newProfile.zile ||
+      old.experienta !== newProfile.experienta;
+
+    close();
+
+    if (affectsProgram) {
+      showRegenConfirmModal(fresh, newProfile);
+    } else {
+      saveData({ ...fresh, profile: newProfile });
+      renderProfil(loadData());
+    }
+  });
+}
+
+// Confirmarea de regenerare după schimbarea unei setări ce afectează programul.
+function showRegenConfirmModal(data, newProfile) {
+  const ov = document.createElement('div');
+  ov.className = 'modal';
+  ov.innerHTML = `
+    <div class="modal-overlay"></div>
+    <div class="modal-content">
+      <div class="modal-header"><h2>Regenerez programul?</h2></div>
+      <div class="modal-body">
+        <p class="import-warn">Ai schimbat setări care influențează ce exerciții primești (obiectiv, zile, experiență sau gen). Vrei un program nou pe baza lor?</p>
+        <p class="profil-data-hint">Dacă regenerezi, programul curent (inclusiv schimbările făcute manual) se înlocuiește. Istoricul antrenamentelor rămâne neatins. Cu „Doar salvează" păstrezi programul actual.</p>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-ghost" id="rg-keep">Doar salvează</button>
+        <button class="btn btn-primary" id="rg-regen">Regenerează programul</button>
+      </div>
+    </div>`;
+  document.body.appendChild(ov);
+  const close = () => ov.remove();
+  ov.querySelector('.modal-overlay').addEventListener('click', close);
+
+  ov.querySelector('#rg-keep').addEventListener('click', () => {
+    const fresh = loadData() || data;
+    saveData({ ...fresh, profile: newProfile });
+    close();
+    renderProfil(loadData());
+  });
+
+  ov.querySelector('#rg-regen').addEventListener('click', async () => {
+    const btn = ov.querySelector('#rg-regen');
+    btn.disabled = true;
+    btn.textContent = 'Se generează...';
+    try {
+      const splitId = getRecommendedSplit(newProfile.zile, newProfile.experienta, newProfile.obiectiv);
+      const program = await generateProgram(newProfile, splitId);
+      const fresh = loadData() || data;
+      saveData({ ...fresh, profile: newProfile, program, program_salvat: false });
+      close();
+      const d = loadData();
+      renderProgram(d);
+      viewManager.showView('view-program');
+    } catch (e) {
+      console.error('Regen error:', e);
+      btn.disabled = false;
+      btn.textContent = 'Încearcă din nou';
+    }
+  });
+}
+
+// Confirmare pentru ștergerea completă a datelor (ireversibil).
+function showClearDataModal() {
+  const ov = document.createElement('div');
+  ov.className = 'modal';
+  ov.innerHTML = `
+    <div class="modal-overlay"></div>
+    <div class="modal-content">
+      <div class="modal-header"><h2>Ștergi toate datele?</h2></div>
+      <div class="modal-body">
+        <p class="import-warn">Asta șterge <strong>tot</strong>: profilul, programul și istoricul antrenamentelor. Aplicația repornește de la zero. Acțiunea nu se poate anula.</p>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-ghost" id="cd-cancel">Anulează</button>
+        <button class="btn btn-danger" id="cd-confirm">Șterge tot</button>
+      </div>
+    </div>`;
+  document.body.appendChild(ov);
+  const close = () => ov.remove();
+  ov.querySelector('.modal-overlay').addEventListener('click', close);
+  ov.querySelector('#cd-cancel').addEventListener('click', close);
+  ov.querySelector('#cd-confirm').addEventListener('click', () => {
+    clearData();
+    location.reload();
+  });
 }
 
 // Ecran de confirmare / eroare pentru import. La confirmare suprascrie și reîncarcă.
@@ -607,7 +777,7 @@ function showDaysPicker() {
 // Mod simplu: profil minim implicit + program gol cu N zile → ecranul Program (adaugi exerciții).
 function startSimpleProgram(nDays) {
   const profile = {
-    gen: null, varsta: null, inaltime: null, greutate: null,
+    gen: null, inaltime: null, greutate: null,
     obiectiv: 'sanatate', zile: nDays, timp: 60, experienta: 1,
     echipament: ['corp'], manere: [], grupe_prioritare: [], articulatii_sensibile: [],
     skandenberg: false, stil_skandenberg: null, interfata: 'completa', mod: 'simplu',
