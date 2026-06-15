@@ -423,13 +423,6 @@ function renderProfil(data) {
         </div>
       </div>
 
-      <div class="profil-section-title">Backup &amp; date</div>
-      <p class="profil-data-hint">Toate datele tale stau doar pe acest dispozitiv. Exportă un backup și ține-l în Drive/email — la nevoie îl reimporți și revii exact unde erai.</p>
-      <div class="profil-data-actions">
-        <button class="btn btn-ghost" id="btn-export">Exportă datele</button>
-        <button class="btn btn-ghost" id="btn-import">Importă date</button>
-      </div>
-      <input type="file" id="import-file" accept="application/json,.json" hidden>
     </div>`;
 
   document.getElementById('btn-profil-edit').addEventListener('click', () => startOnboarding(true));
@@ -463,31 +456,9 @@ function renderProfil(data) {
     });
   }
 
-  // ── Export ──
-  const exportBtn = document.getElementById('btn-export');
-  exportBtn.addEventListener('click', () => {
-    const ok = exportData(window.APP_VERSION || '');
-    if (ok) {
-      const orig = exportBtn.textContent;
-      exportBtn.textContent = 'Descărcat ✓';
-      exportBtn.disabled = true;
-      setTimeout(() => { exportBtn.textContent = orig; exportBtn.disabled = false; }, 1800);
-    }
-  });
-
-  // ── Import ──
-  const fileInput = document.getElementById('import-file');
-  document.getElementById('btn-import').addEventListener('click', () => fileInput.click());
-  fileInput.addEventListener('change', async () => {
-    const file = fileInput.files?.[0];
-    if (!file) return;
-    let text = '';
-    try { text = await file.text(); } catch { text = ''; }
-    fileInput.value = ''; // permite reimportul aceluiași fișier
-    const res = parseBackup(text);
-    if (!res.ok) { showImportModal({ error: res.error }); return; }
-    showImportModal({ data: res.data, summary: res.summary });
-  });
+  // Butoanele Export/Import au fost scoase din UI (decizie 15.06.2026). Codul de
+  // transfer (DataTransfer.js + showImportModal) rămâne adormit, ușor de reactivat.
+  // De decis înainte de lansare: o plasă de backup (reactivare sau sync cloud v2).
 }
 
 // Ecran de confirmare / eroare pentru import. La confirmare suprascrie și reîncarcă.
