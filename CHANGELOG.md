@@ -1,5 +1,17 @@
 # Changelog — GVR Fitness Tracker
 
+## v0.9.15 — Faza 1: bibliotecă completă per grupă (+23 exerciții)
+
+89 → 112 exerciții. Completat golurile majore pe fiecare grupă musculară:
+
+- **Umeri (deltoid median — era complet absent):** Lateral raise cu gantere, Lateral raise cu bandă, Front raise cu gantere, Arnold press
+- **Piept (variante inclinate — lipseau complet):** Incline press cu gantere, Incline press cu halteră, Decline press cu gantere
+- **Spate/trapez:** Shrug cu gantere, Shrug cu halteră, Straight-arm pulldown cu bandă, Pullover cu gantera
+- **Picioare:** Good morning cu bandă, Good morning cu halteră, Hack squat cu gantere
+- **Gambe:** Calf raise șezut cu gantera (izolează soleusul — varianta în picioare nu o face)
+- **Brațe:** Hammer curl, Incline curl, Preacher curl cu bandă, Skullcrusher cu gantere, Triceps kickback
+- **Abdomen:** Hanging leg raise, Side plank, Cable crunch la scripete
+
 ## v0.9.14 — Simplificare bibliotecă: grupe populare + scos compound/izolare
 
 Schimbare de structură a bibliotecii de exerciții pentru a o face mai ușor de extins:
