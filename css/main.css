@@ -966,10 +966,18 @@ body.has-nav .view.active { padding-bottom: 86px; }
 .rec-regresia  { background: var(--org-dim); color: var(--orange); }
 .rec-calibrare { background: var(--acc-dim); color: var(--acc-txt); }
 .rec-info      { background: var(--surf2);   color: var(--t2); }
-.rec-pi-badge {
+.rec-badges {
   margin-left: auto; flex-shrink: 0; align-self: center;
+  display: flex; gap: 4px; align-items: center;
+}
+.rec-pi-badge {
   font-size: 9px; font-weight: 700; letter-spacing: .03em;
   color: var(--green); background: color-mix(in srgb, var(--green) 15%, transparent);
+  padding: 2px 7px; border-radius: 10px; white-space: nowrap;
+}
+.rec-nrr-badge {
+  font-size: 9px; font-weight: 700; letter-spacing: .03em;
+  color: var(--accent); background: color-mix(in srgb, var(--accent) 15%, transparent);
   padding: 2px 7px; border-radius: 10px; white-space: nowrap;
 }
 

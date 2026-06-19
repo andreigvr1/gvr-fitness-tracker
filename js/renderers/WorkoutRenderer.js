@@ -76,6 +76,12 @@ export class WorkoutRenderer {
       ex.id, ex.rep_min, ex.rep_max, this.antrenamente, { isLowerBody, gen: this.profile.gen }
     );
     this.calib[exIdx] = calib;
+    // Helper: badge-urile T2 + T3 grupate la dreapta bannerului
+    const badges = (piFlag, nrr) => {
+      const b = `${piFlag ? '<span class="rec-pi-badge">ritm tău ↗</span>' : ''}${nrr ? '<span class="rec-nrr-badge">tu: ' + nrr.min + '–' + nrr.max + ' rep</span>' : ''}`;
+      return b ? `<span class="rec-badges">${b}</span>` : '';
+    };
+
     // Câmpul de kg apare doar dacă exercițiul nu e pur bodyweight SAU utilizatorul are
     // centură de greutăți (spec cap. 7: centura comută progresia bodyweight de pe variații pe kg).
     const showWeight = !isBodyweight || hasCenturaGreutati;
@@ -121,10 +127,10 @@ export class WorkoutRenderer {
           ${rec.tip === 'calibrare'
         ? `<div class="rec-banner rec-calibrare">${ico('flag')}<span>${rec.mesaj}</span></div>`
         : rec.tip === 'creste'
-          ? `<div class="rec-banner rec-creste">${ico('up')}<span>${rec.mesaj}</span>${rec.personalIncrement ? '<span class="rec-pi-badge">ritm tău ↗</span>' : ''}</div>`
+          ? `<div class="rec-banner rec-creste">${ico('up')}<span>${rec.mesaj}</span>${badges(rec.personalIncrement, rec.naturalRepRange)}</div>`
           : rec.tip === 'scade'
             ? `<div class="rec-banner rec-regresia">${ico('down')}<span>${rec.mesaj}</span></div>`
-            : `<div class="rec-banner rec-info">${ico('arrow')}<span>${rec.mesaj}</span></div>`}
+            : `<div class="rec-banner rec-info">${ico('arrow')}<span>${rec.mesaj}</span>${badges(false, rec.naturalRepRange)}</div>`}
           ${hasTempo ? `<div class="tempo-explain">${ico('timer')}<span>Tempo 3-1-3 = 3 sec coborâre · 1 sec pauză jos · 3 sec ridicare</span></div>` : ''}
           ${showValgusCue ? `<div class="tempo-explain cue-valgus">${ico('flag')}<span>Menține genunchii deasupra degetelor mari — evită prăbușirea spre interior.</span></div>` : ''}
           <div class="log-ex-desc">${ex.descriere}</div>

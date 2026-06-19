@@ -9,6 +9,10 @@
 // T2 — Increment personalizat: dacă userul are ≥3 sesiuni cu creșteri de greutate,
 // motorul calculează incrementul REAL (median din istoricul progresiei) în loc de
 // cel fix. Ritmul personalizat apare cu badge „ritm tău" în ecranul de antrenament.
+//
+// T3 — Interval natural de reps: dacă userul tinde consistent spre capătul greu/ușor
+// al intervalului prescris (≥5 sesiuni, ≥5 serii), motorul detectează intervalul
+// natural și îl afișează ca hint în bannerul de recomandare.
 
 // Increment fix bazat pe gen și sarcina curentă (fallback / decrescent întotdeauna)
 function getIncrement(gen, isLowerBody, kg = 0) {
@@ -159,13 +163,20 @@ export class ProgressionEngine {
       return this._bodyweightProgression(last, repMin, repMax, rir);
     }
 
+    // T3 — interval natural de reps (derivat din seriile salvate, fără câmpuri noi)
+    const nrr = !isBodyweight ? this._naturalRepRange(exId, antrenamente, repMin, repMax) : null;
+
     // ── 3. RIR — dacă e disponibil ───────────────────────────────────────────
     if (rir !== undefined && rir !== null) {
-      return this._rirDecision(kg, inc, rir, repMin, repMax, last, incUp);
+      const rec = this._rirDecision(kg, inc, rir, repMin, repMax, last, incUp);
+      if (nrr) rec.naturalRepRange = nrr;
+      return rec;
     }
 
     // ── 4. Logică clasică reps ────────────────────────────────────────────────
-    return this._repsDecision(kg, inc, last, repMin, repMax, sessions, profileExp, incUp);
+    const rec = this._repsDecision(kg, inc, last, repMin, repMax, sessions, profileExp, incUp);
+    if (nrr) rec.naturalRepRange = nrr;
+    return rec;
   }
 
   // ── Decizie bazată pe RIR ──────────────────────────────────────────────────
@@ -287,6 +298,55 @@ export class ProgressionEngine {
       kg: newKg,
       mesaj: `${motiv} — recomandăm ${newKg} kg (~7,5% mai puțin) și reconstrucție graduală.`,
     };
+  }
+
+  // ── T3: Interval natural de reps ──────────────────────────────────────────
+  // Detectează bias-ul de reps al userului pe un exercițiu. Cere ≥5 sesiuni și
+  // ≥5 serii completate (cu aceeași prescripție) pentru a evita zgomotul.
+  // Returnează { min, max } (intervalul natural ajustat) sau null.
+  _naturalRepRange(exId, antrenamente, repMin, repMax) {
+    const span = repMax - repMin;
+    if (span < 2) return null; // interval prea îngust pentru a detecta bias
+
+    const sessions = (antrenamente || [])
+      .filter(a => a.exercitii?.some(e => e.ex_id === exId && !e.skip))
+      .sort((a, b) => b.data - a.data)
+      .slice(0, 10); // ultimele 10 sesiuni
+
+    if (sessions.length < 5) return null;
+
+    const repsArr = [];
+    for (const s of sessions) {
+      const ex = s.exercitii.find(e => e.ex_id === exId);
+      if (!ex || ex.skip) continue;
+      for (const sr of (ex.serii || [])) {
+        // Acceptăm seria dacă: completată, ≥1 rep, prescripția se potrivește (sau e absentă — date vechi)
+        const matchPrescription =
+          (sr.target_min === undefined || sr.target_min === repMin) &&
+          (sr.target_max === undefined || sr.target_max === repMax);
+        if (sr.reusit && sr.repetari > 0 && matchPrescription) {
+          repsArr.push(sr.repetari);
+        }
+      }
+    }
+
+    if (repsArr.length < 5) return null;
+
+    const sorted = [...repsArr].sort((a, b) => a - b);
+    const median = sorted[Math.floor(sorted.length / 2)];
+
+    // Poziție în interval: 0 = cap greu (reps min), 1 = cap ușor (reps max)
+    const pos = (median - repMin) / span;
+
+    if (pos <= 0.35) {
+      // Lucrează în jumătatea inferioară → prescripție mai strânsă pe low end
+      return { min: repMin, max: Math.round(repMin + span / 2) };
+    }
+    if (pos >= 0.65) {
+      // Lucrează în jumătatea superioară → prescripție mai strânsă pe high end
+      return { min: Math.round(repMin + span / 2), max: repMax };
+    }
+    return null; // interval natural centrat — fără ajustare
   }
 
   // ── T2: Increment personalizat din istoricul real ─────────────────────────

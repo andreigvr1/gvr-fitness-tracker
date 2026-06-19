@@ -1,5 +1,18 @@
 # Changelog — GVR Fitness Tracker
 
+## v0.9.21 — T3: Intervalul de reps în care lucrezi cel mai bine
+
+Aplicația detectează acum **unde în intervalul prescris lucrezi eficient** și îți arată asta direct în bannerul de recomandare.
+
+**Cum funcționează:**
+- Dacă logezi consistent reps aproape de minimul intervalului (ex: mereu 6–7 rep când prescripția e 6–12) → ești la **capătul greu**: badge-ul arată `tu: 6–9 rep`.
+- Dacă logezi constant reps aproape de maxim (ex: mereu 11–12 rep când prescripția e 6–12) → ești la **capătul ușor**: badge-ul arată `tu: 9–12 rep`.
+- Intervalul natural apare ca hint violet pe bannerele „menține" și „crește" — nu e o prescripție nouă, ci o oglindă a comportamentului tău real.
+
+**Condiție de declanșare:** ≥ 5 sesiuni cu ≥ 5 serii completate la aceeași prescripție. Sub prag → fără hint, lipsesc datele.
+
+**Zero câmpuri noi în date** — totul derivat din `repetari`, `target_min`, `target_max` deja salvate.
+
 ## v0.9.20 — T2: Increment personalizat din istoricul tău
 
 Motorul de progresie nu mai folosește un increment fix (2,5 kg / 5 kg) pentru toți.
