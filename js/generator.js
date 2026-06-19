@@ -144,6 +144,7 @@ function prescribe(ex, obiectiv, gen) {
     grupe: ex.grupe_principale, descriere: ex.descriere,
     reguli_speciale: ex.reguli_speciale,
     echipament: ex.echipament,
+    rang: ex.rang || 2,
     seturi, rep_min, rep_max, pauza_sec,
     alternative: [],
   };
@@ -202,6 +203,11 @@ const FEMALE_ABDUCTION_IDS = new Set(['abductie_sold_banda','abductie_sold_corp'
 // ── Scoring ──────────────────────────────────────────────────────────────────
 function scoreEx(ex, obiectiv, prioritati, usedGroups, slotsTotal, equipment, gen, exp = 3, priorUsed = null) {
   let s = 10;
+  // Rang 1 = fundamental universal → prioritat; rang 3 = alternativă situațională → ultim resort
+  const rang = ex.rang || 2;
+  if (rang === 1) s += 15;
+  if (rang === 3) s -= 12;
+
   if (obiectiv === 'anduranta' && ex.pattern === 'conditie') s += 8;
   if (ex.grupe_principale.some(g => prioritati.has(g)))  s += 20;
   if (slotsTotal <= 5 && (ex.pattern === 'carry' || ex.pattern === 'conditie')) s -= 25;
@@ -319,9 +325,21 @@ function selectForDay(dayTip, allValid, profile, priorUsed) {
     }
   }
 
-  // Mișcările de bază primele (squat/hinge/push/pull), static și carry la final
-  const patternOrd = p => SKAND_P.includes(p) ? 4 : (p === 'core' || p === 'carry' || p === 'conditie') ? 3 : (p || '').includes('izolare') ? 2 : 0;
-  selected.sort((a, b) => patternOrd(a.pattern) - patternOrd(b.pattern));
+  // Ordinea în sesiune: grupe mari (picioare/piept/spate) → umeri/unilateral → izolate → core → condiție
+  const patternOrd = p => {
+    if (SKAND_P.includes(p))  return 5;
+    if (p === 'conditie')      return 4;
+    if (p === 'core' || p === 'carry') return 3;
+    if ((p || '').includes('izolare')) return 2;
+    if (p === 'impins vertical' || p === 'unilateral picior') return 1;
+    return 0; // squat, hinge, impins orizontal, tractiune orizontala/verticala
+  };
+  selected.sort((a, b) => {
+    const oa = patternOrd(a.pattern);
+    const ob = patternOrd(b.pattern);
+    if (oa !== ob) return oa - ob;
+    return (a.rang || 2) - (b.rang || 2); // la egalitate de tip: rang 1 înainte de rang 2
+  });
 
   return selected;
 }

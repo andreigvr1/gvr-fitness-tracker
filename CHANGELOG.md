@@ -1,5 +1,15 @@
 # Changelog — GVR Fitness Tracker
 
+## v0.9.17 — Ierarhia exercițiilor (rang) + ordinea corectă în sesiune
+
+Generatorul știe acum că exercițiile nu sunt egale între ele:
+
+- **Rang 1 — fundamentale universale (27 exerciții):** squat, deadlift, bench press, ramat, pull-up, overhead press, RDL, fandare, hip thrust, lateral raise, incline press, plancă, farmer carry, face pull, hanging leg raise, curl cu gantere, triceps overhead. Acestea intră primele în orice sesiune, indiferent de timp.
+- **Rang 2 — variante excelente (70 exerciții):** goblet squat, kettlebell swing, dips, fly, arnold press, nordic curl, pallof press etc. Intră după rang 1, când mai sunt sloturi.
+- **Rang 3 — alternative situaționale (14 exerciții):** squat la perete, ramat cu prosop, pike push-up, burpee, jumping jacks etc. Apar doar când nu există alternativă mai bună (echipament zero sau constrângeri speciale).
+- **Ordinea în sesiune refinată:** grupe mari primele (picioare/piept/spate → umeri/unilateral → izolate → core → condiție). La exerciții de același tip, rang 1 vine înaintea rang 2.
+- **Scos:** Decline press cu gantere (instabil, fără avantaj față de flat/incline).
+
 ## v0.9.16 — Echipament: Home Gym vs Sală
 
 Pasul de echipament din onboarding a fost reproiectat complet:

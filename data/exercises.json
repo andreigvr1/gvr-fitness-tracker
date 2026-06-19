@@ -1,9 +1,10 @@
-{
+﻿{
     "version":  "1.0",
     "nota":  "Biblioteca de exercitii GVR Fitness Tracker. Livrabil Etapa 1 — de revizuit de Andrei inainte de implementare, in special sectiunile skandenberg si risc_articular.",
     "exercitii":  [
                       {
                           "id":  "squat_perete",
+                          "rang":  3,
                           "nume":  "Squat la perete",
                           "pattern":  "squat",
                           "grupe_principale":  [
@@ -23,6 +24,7 @@
                       },
                       {
                           "id":  "genuflexiuni",
+                          "rang":  1,
                           "nume":  "Genuflexiuni",
                           "pattern":  "squat",
                           "grupe_principale":  [
@@ -42,6 +44,7 @@
                       },
                       {
                           "id":  "genuflexiuni_saritura",
+                          "rang":  2,
                           "nume":  "Genuflexiuni cu saritura",
                           "pattern":  "squat",
                           "grupe_principale":  [
@@ -61,6 +64,7 @@
                       },
                       {
                           "id":  "goblet_squat",
+                          "rang":  2,
                           "nume":  "Goblet squat",
                           "pattern":  "squat",
                           "grupe_principale":  [
@@ -79,6 +83,7 @@
                       },
                       {
                           "id":  "squat_banda",
+                          "rang":  2,
                           "nume":  "Squat cu banda",
                           "pattern":  "squat",
                           "grupe_principale":  [
@@ -97,6 +102,7 @@
                       },
                       {
                           "id":  "back_squat",
+                          "rang":  1,
                           "nume":  "Back squat",
                           "pattern":  "squat",
                           "grupe_principale":  [
@@ -117,6 +123,7 @@
                       },
                       {
                           "id":  "bulgarian_split_squat",
+                          "rang":  2,
                           "nume":  "Bulgarian split squat",
                           "pattern":  "squat",
                           "grupe_principale":  [
@@ -136,6 +143,7 @@
                       },
                       {
                           "id":  "romanian_deadlift_gantere",
+                          "rang":  1,
                           "nume":  "Romanian deadlift cu gantere",
                           "pattern":  "hinge",
                           "grupe_principale":  [
@@ -154,6 +162,7 @@
                       },
                       {
                           "id":  "deadlift",
+                          "rang":  1,
                           "nume":  "Deadlift",
                           "pattern":  "hinge",
                           "grupe_principale":  [
@@ -173,6 +182,7 @@
                       },
                       {
                           "id":  "kettlebell_swing_gantera",
+                          "rang":  2,
                           "nume":  "Kettlebell swing cu gantera",
                           "pattern":  "hinge",
                           "grupe_principale":  [
@@ -191,6 +201,7 @@
                       },
                       {
                           "id":  "flotari",
+                          "rang":  1,
                           "nume":  "Flotari",
                           "pattern":  "impins orizontal",
                           "grupe_principale":  [
@@ -211,6 +222,7 @@
                       },
                       {
                           "id":  "flotari_picioare_ridicate",
+                          "rang":  2,
                           "nume":  "Flotari cu picioarele ridicate",
                           "pattern":  "impins orizontal",
                           "grupe_principale":  [
@@ -232,6 +244,7 @@
                       },
                       {
                           "id":  "bench_press_gantere",
+                          "rang":  1,
                           "nume":  "Bench press cu gantere",
                           "pattern":  "impins orizontal",
                           "grupe_principale":  [
@@ -252,6 +265,7 @@
                       },
                       {
                           "id":  "bench_press_haltera",
+                          "rang":  1,
                           "nume":  "Bench press cu haltera",
                           "pattern":  "impins orizontal",
                           "grupe_principale":  [
@@ -273,6 +287,7 @@
                       },
                       {
                           "id":  "pike_pushup",
+                          "rang":  3,
                           "nume":  "Pike push-up",
                           "pattern":  "impins vertical",
                           "grupe_principale":  [
@@ -292,6 +307,7 @@
                       },
                       {
                           "id":  "overhead_press_gantere",
+                          "rang":  1,
                           "nume":  "Overhead press cu gantere",
                           "pattern":  "impins vertical",
                           "grupe_principale":  [
@@ -310,6 +326,7 @@
                       },
                       {
                           "id":  "overhead_press_haltera",
+                          "rang":  1,
                           "nume":  "Overhead press cu haltera",
                           "pattern":  "impins vertical",
                           "grupe_principale":  [
@@ -329,6 +346,7 @@
                       },
                       {
                           "id":  "ramat_gantera",
+                          "rang":  1,
                           "nume":  "Ramat cu gantera",
                           "pattern":  "tractiune orizontala",
                           "grupe_principale":  [
@@ -348,6 +366,7 @@
                       },
                       {
                           "id":  "ramat_banda",
+                          "rang":  2,
                           "nume":  "Ramat cu banda",
                           "pattern":  "tractiune orizontala",
                           "grupe_principale":  [
@@ -366,6 +385,7 @@
                       },
                       {
                           "id":  "ramat_scripete",
+                          "rang":  2,
                           "nume":  "Ramat la scripete orizontal",
                           "pattern":  "tractiune orizontala",
                           "grupe_principale":  [
@@ -384,6 +404,7 @@
                       },
                       {
                           "id":  "barbell_row",
+                          "rang":  1,
                           "nume":  "Barbell row",
                           "pattern":  "tractiune orizontala",
                           "grupe_principale":  [
@@ -402,6 +423,7 @@
                       },
                       {
                           "id":  "pullup_asistat_banda",
+                          "rang":  2,
                           "nume":  "Pull-up asistat cu banda",
                           "pattern":  "tractiune verticala",
                           "grupe_principale":  [
@@ -421,6 +443,7 @@
                       },
                       {
                           "id":  "lat_pulldown",
+                          "rang":  1,
                           "nume":  "Lat pulldown",
                           "pattern":  "tractiune verticala",
                           "grupe_principale":  [
@@ -439,6 +462,7 @@
                       },
                       {
                           "id":  "pullup",
+                          "rang":  1,
                           "nume":  "Pull-up",
                           "pattern":  "tractiune verticala",
                           "grupe_principale":  [
@@ -457,6 +481,7 @@
                       },
                       {
                           "id":  "chinup",
+                          "rang":  1,
                           "nume":  "Chin-up",
                           "pattern":  "tractiune verticala",
                           "grupe_principale":  [
@@ -475,6 +500,7 @@
                       },
                       {
                           "id":  "fandare",
+                          "rang":  1,
                           "nume":  "Fandare",
                           "pattern":  "unilateral picior",
                           "grupe_principale":  [
@@ -494,6 +520,7 @@
                       },
                       {
                           "id":  "step_up",
+                          "rang":  2,
                           "nume":  "Step-up",
                           "pattern":  "unilateral picior",
                           "grupe_principale":  [
@@ -513,6 +540,7 @@
                       },
                       {
                           "id":  "single_leg_rdl",
+                          "rang":  2,
                           "nume":  "Single leg Romanian deadlift",
                           "pattern":  "unilateral picior",
                           "grupe_principale":  [
@@ -531,6 +559,7 @@
                       },
                       {
                           "id":  "leg_curl_banda",
+                          "rang":  2,
                           "nume":  "Leg curl cu banda",
                           "pattern":  "flexie genunchi",
                           "grupe_principale":  [
@@ -548,6 +577,7 @@
                       },
                       {
                           "id":  "nordic_curl",
+                          "rang":  2,
                           "nume":  "Nordic curl",
                           "pattern":  "flexie genunchi",
                           "grupe_principale":  [
@@ -565,6 +595,7 @@
                       },
                       {
                           "id":  "plansa",
+                          "rang":  1,
                           "nume":  "Plansa",
                           "pattern":  "core",
                           "grupe_principale":  [
@@ -583,6 +614,7 @@
                       },
                       {
                           "id":  "dead_bug",
+                          "rang":  2,
                           "nume":  "Dead bug",
                           "pattern":  "core",
                           "grupe_principale":  [
@@ -600,6 +632,7 @@
                       },
                       {
                           "id":  "abdomene",
+                          "rang":  2,
                           "nume":  "Abdomene (crunch)",
                           "pattern":  "core",
                           "grupe_principale":  [
@@ -617,6 +650,7 @@
                       },
                       {
                           "id":  "russian_twist",
+                          "rang":  3,
                           "nume":  "Russian twist",
                           "pattern":  "core",
                           "grupe_principale":  [
@@ -634,6 +668,7 @@
                       },
                       {
                           "id":  "pallof_press_banda",
+                          "rang":  2,
                           "nume":  "Pallof press cu banda",
                           "pattern":  "core",
                           "grupe_principale":  [
@@ -651,6 +686,7 @@
                       },
                       {
                           "id":  "hollow_body",
+                          "rang":  2,
                           "nume":  "Hollow body hold",
                           "pattern":  "core",
                           "grupe_principale":  [
@@ -668,6 +704,7 @@
                       },
                       {
                           "id":  "ab_wheel_rollout",
+                          "rang":  2,
                           "nume":  "Ab wheel rollout",
                           "pattern":  "core",
                           "grupe_principale":  [
@@ -685,6 +722,7 @@
                       },
                       {
                           "id":  "farmer_carry",
+                          "rang":  1,
                           "nume":  "Farmer carry",
                           "pattern":  "carry",
                           "grupe_principale":  [
@@ -704,6 +742,7 @@
                       },
                       {
                           "id":  "suitcase_carry",
+                          "rang":  2,
                           "nume":  "Suitcase carry",
                           "pattern":  "carry",
                           "grupe_principale":  [
@@ -722,6 +761,7 @@
                       },
                       {
                           "id":  "bicep_curl_gantere",
+                          "rang":  1,
                           "nume":  "Bicep curl cu gantere",
                           "pattern":  "izolare-biceps",
                           "grupe_principale":  [
@@ -739,6 +779,7 @@
                       },
                       {
                           "id":  "bicep_curl_haltera",
+                          "rang":  2,
                           "nume":  "Bicep curl cu haltera",
                           "pattern":  "izolare-biceps",
                           "grupe_principale":  [
@@ -756,6 +797,7 @@
                       },
                       {
                           "id":  "bicep_curl_banda",
+                          "rang":  3,
                           "nume":  "Bicep curl cu banda",
                           "pattern":  "izolare-biceps",
                           "grupe_principale":  [
@@ -773,6 +815,7 @@
                       },
                       {
                           "id":  "bicep_curl_scripete",
+                          "rang":  2,
                           "nume":  "Bicep curl la scripete",
                           "pattern":  "izolare-biceps",
                           "grupe_principale":  [
@@ -790,6 +833,7 @@
                       },
                       {
                           "id":  "triceps_overhead_gantera",
+                          "rang":  1,
                           "nume":  "Triceps overhead extension cu gantera",
                           "pattern":  "izolare-triceps",
                           "grupe_principale":  [
@@ -807,6 +851,7 @@
                       },
                       {
                           "id":  "triceps_pushdown_scripete",
+                          "rang":  2,
                           "nume":  "Triceps pushdown la scripete",
                           "pattern":  "izolare-triceps",
                           "grupe_principale":  [
@@ -824,6 +869,7 @@
                       },
                       {
                           "id":  "triceps_dips",
+                          "rang":  2,
                           "nume":  "Triceps dips",
                           "pattern":  "izolare-triceps",
                           "grupe_principale":  [
@@ -844,6 +890,7 @@
                       },
                       {
                           "id":  "glute_bridge",
+                          "rang":  2,
                           "nume":  "Glute bridge",
                           "pattern":  "izolare-fesieri",
                           "grupe_principale":  [
@@ -862,6 +909,7 @@
                       },
                       {
                           "id":  "hip_thrust_gantera",
+                          "rang":  1,
                           "nume":  "Hip thrust cu gantera",
                           "pattern":  "izolare-fesieri",
                           "grupe_principale":  [
@@ -880,6 +928,7 @@
                       },
                       {
                           "id":  "hip_thrust_haltera",
+                          "rang":  1,
                           "nume":  "Hip thrust cu haltera",
                           "pattern":  "izolare-fesieri",
                           "grupe_principale":  [
@@ -898,6 +947,7 @@
                       },
                       {
                           "id":  "glute_kickback_banda",
+                          "rang":  2,
                           "nume":  "Glute kickback cu banda",
                           "pattern":  "izolare-fesieri",
                           "grupe_principale":  [
@@ -915,6 +965,7 @@
                       },
                       {
                           "id":  "abductie_sold_banda",
+                          "rang":  2,
                           "nume":  "Abductie sold cu banda",
                           "pattern":  "izolare-fesieri",
                           "grupe_principale":  [
@@ -932,6 +983,7 @@
                       },
                       {
                           "id":  "abductie_sold_corp",
+                          "rang":  3,
                           "nume":  "Abductie sold culcat lateral",
                           "pattern":  "izolare-fesieri",
                           "grupe_principale":  [
@@ -950,6 +1002,7 @@
                       },
                       {
                           "id":  "calf_raise_corp",
+                          "rang":  2,
                           "nume":  "Calf raise",
                           "pattern":  "izolare-gambe",
                           "grupe_principale":  [
@@ -967,6 +1020,7 @@
                       },
                       {
                           "id":  "calf_raise_gantera",
+                          "rang":  1,
                           "nume":  "Calf raise cu gantera",
                           "pattern":  "izolare-gambe",
                           "grupe_principale":  [
@@ -984,6 +1038,7 @@
                       },
                       {
                           "id":  "reverse_fly_gantere",
+                          "rang":  2,
                           "nume":  "Reverse fly cu gantere",
                           "pattern":  "izolare-umeri",
                           "grupe_principale":  [
@@ -1001,6 +1056,7 @@
                       },
                       {
                           "id":  "face_pull_banda",
+                          "rang":  1,
                           "nume":  "Face pull cu banda",
                           "pattern":  "izolare-umeri",
                           "grupe_principale":  [
@@ -1018,6 +1074,7 @@
                       },
                       {
                           "id":  "band_pull_apart",
+                          "rang":  2,
                           "nume":  "Band pull-apart",
                           "pattern":  "izolare-umeri",
                           "grupe_principale":  [
@@ -1035,6 +1092,7 @@
                       },
                       {
                           "id":  "chest_fly_gantere",
+                          "rang":  2,
                           "nume":  "Chest fly cu gantere",
                           "pattern":  "izolare-piept",
                           "grupe_principale":  [
@@ -1053,6 +1111,7 @@
                       },
                       {
                           "id":  "cable_fly_scripete",
+                          "rang":  2,
                           "nume":  "Cable fly la scripete",
                           "pattern":  "izolare-piept",
                           "grupe_principale":  [
@@ -1070,6 +1129,7 @@
                       },
                       {
                           "id":  "wrist_curl_gantera",
+                          "rang":  3,
                           "nume":  "Wrist curl cu gantera",
                           "pattern":  "izolare-antebrat",
                           "grupe_principale":  [
@@ -1087,6 +1147,7 @@
                       },
                       {
                           "id":  "reverse_curl_gantera",
+                          "rang":  3,
                           "nume":  "Reverse curl cu gantera",
                           "pattern":  "izolare-antebrat",
                           "grupe_principale":  [
@@ -1105,6 +1166,7 @@
                       },
                       {
                           "id":  "skand_cupping_centura_scripete",
+                          "rang":  2,
                           "nume":  "Cupping cu centura la scripete",
                           "pattern":  "skandenberg-cupping",
                           "grupe_principale":  [
@@ -1124,6 +1186,7 @@
                       },
                       {
                           "id":  "skand_cupping_maner_rotativ",
+                          "rang":  2,
                           "nume":  "Cupping cu maner rotativ la scripete",
                           "pattern":  "skandenberg-cupping",
                           "grupe_principale":  [
@@ -1143,6 +1206,7 @@
                       },
                       {
                           "id":  "skand_cupping_banda",
+                          "rang":  2,
                           "nume":  "Cupping cu banda",
                           "pattern":  "skandenberg-cupping",
                           "grupe_principale":  [
@@ -1161,6 +1225,7 @@
                       },
                       {
                           "id":  "skand_pronation_centura_scripete",
+                          "rang":  2,
                           "nume":  "Pronation cu centura la scripete",
                           "pattern":  "skandenberg-pronation",
                           "grupe_principale":  [
@@ -1179,6 +1244,7 @@
                       },
                       {
                           "id":  "skand_pronation_maner_excentric",
+                          "rang":  2,
                           "nume":  "Pronation cu maner excentric la scripete",
                           "pattern":  "skandenberg-pronation",
                           "grupe_principale":  [
@@ -1197,6 +1263,7 @@
                       },
                       {
                           "id":  "skand_pronation_banda",
+                          "rang":  2,
                           "nume":  "Pronation cu banda",
                           "pattern":  "skandenberg-pronation",
                           "grupe_principale":  [
@@ -1214,6 +1281,7 @@
                       },
                       {
                           "id":  "skand_rise_scripete",
+                          "rang":  2,
                           "nume":  "Rise la scripete",
                           "pattern":  "skandenberg-rise",
                           "grupe_principale":  [
@@ -1231,6 +1299,7 @@
                       },
                       {
                           "id":  "skand_rise_wrist_wrench",
+                          "rang":  2,
                           "nume":  "Rise cu wrist wrench",
                           "pattern":  "skandenberg-rise",
                           "grupe_principale":  [
@@ -1248,6 +1317,7 @@
                       },
                       {
                           "id":  "skand_rise_banda",
+                          "rang":  2,
                           "nume":  "Rise cu banda",
                           "pattern":  "skandenberg-rise",
                           "grupe_principale":  [
@@ -1265,6 +1335,7 @@
                       },
                       {
                           "id":  "skand_farmer_hold",
+                          "rang":  2,
                           "nume":  "Farmer hold",
                           "pattern":  "skandenberg-grip",
                           "grupe_principale":  [
@@ -1282,6 +1353,7 @@
                       },
                       {
                           "id":  "skand_hang_bara_fg",
+                          "rang":  2,
                           "nume":  "Atarnat pe bara cu Fat Gripz",
                           "pattern":  "skandenberg-grip",
                           "grupe_principale":  [
@@ -1300,6 +1372,7 @@
                       },
                       {
                           "id":  "skand_hang_maner_gros",
+                          "rang":  2,
                           "nume":  "Atarnat pe maner gros sau rotativ",
                           "pattern":  "skandenberg-grip",
                           "grupe_principale":  [
@@ -1318,6 +1391,7 @@
                       },
                       {
                           "id":  "skand_static_biceps_gantera",
+                          "rang":  2,
                           "nume":  "Static biceps unghi inchis cu gantera",
                           "pattern":  "skandenberg-static-biceps",
                           "grupe_principale":  [
@@ -1336,6 +1410,7 @@
                       },
                       {
                           "id":  "skand_static_biceps_scripete",
+                          "rang":  2,
                           "nume":  "Static biceps la scripete unghi inchis",
                           "pattern":  "skandenberg-static-biceps",
                           "grupe_principale":  [
@@ -1354,6 +1429,7 @@
                       },
                       {
                           "id":  "skand_static_triceps_masa",
+                          "rang":  2,
                           "nume":  "Static triceps pe masa de skandenberg",
                           "pattern":  "skandenberg-static-triceps",
                           "grupe_principale":  [
@@ -1372,6 +1448,7 @@
                       },
                       {
                           "id":  "skand_static_triceps_scripete",
+                          "rang":  2,
                           "nume":  "Static triceps la scripete",
                           "pattern":  "skandenberg-static-triceps",
                           "grupe_principale":  [
@@ -1389,6 +1466,7 @@
                       },
                       {
                           "id":  "skand_side_pressure_banda",
+                          "rang":  2,
                           "nume":  "Side pressure izometric cu banda",
                           "pattern":  "skandenberg-side-pressure",
                           "grupe_principale":  [
@@ -1407,6 +1485,7 @@
                       },
                       {
                           "id":  "mountain_climbers",
+                          "rang":  3,
                           "nume":  "Mountain climbers",
                           "pattern":  "conditie",
                           "grupe_principale":  [
@@ -1424,6 +1503,7 @@
                       },
                       {
                           "id":  "jumping_jacks",
+                          "rang":  3,
                           "nume":  "Jumping jacks",
                           "pattern":  "conditie",
                           "grupe_principale":  [
@@ -1442,6 +1522,7 @@
                       },
                       {
                           "id":  "burpee",
+                          "rang":  3,
                           "nume":  "Burpee",
                           "pattern":  "conditie",
                           "grupe_principale":  [
@@ -1461,6 +1542,7 @@
                       },
                       {
                           "id":  "ramat_inversat",
+                          "rang":  2,
                           "nume":  "Ramat inversat (sub masa / bara joasa)",
                           "pattern":  "tractiune orizontala",
                           "grupe_principale":  [
@@ -1480,6 +1562,7 @@
                       },
                       {
                           "id":  "ramat_prosop_usa",
+                          "rang":  3,
                           "nume":  "Ramat cu prosop la usa",
                           "pattern":  "tractiune orizontala",
                           "grupe_principale":  [
@@ -1499,6 +1582,7 @@
                       },
                       {
                           "id":  "superman",
+                          "rang":  3,
                           "nume":  "Superman",
                           "pattern":  "hinge",
                           "grupe_principale":  [
@@ -1517,6 +1601,7 @@
                       },
                       {
                           "id":  "split_squat_bw",
+                          "rang":  2,
                           "nume":  "Split squat bodyweight",
                           "pattern":  "squat",
                           "grupe_principale":  [
@@ -1536,6 +1621,7 @@
                       },
                       {
                           "id":  "archer_pushup",
+                          "rang":  2,
                           "nume":  "Archer push-up",
                           "pattern":  "impins orizontal",
                           "grupe_principale":  [
@@ -1557,6 +1643,7 @@
                       },
                       {
                           "id":  "pike_pushup_elevat",
+                          "rang":  2,
                           "nume":  "Pike push-up cu picioarele ridicate",
                           "pattern":  "impins vertical",
                           "grupe_principale":  [
@@ -1577,6 +1664,7 @@
                       },
                       {
                           "id":  "ramat_inversat_picioare_ridicate",
+                          "rang":  2,
                           "nume":  "Ramat inversat cu picioarele ridicate",
                           "pattern":  "tractiune orizontala",
                           "grupe_principale":  [
@@ -1598,6 +1686,7 @@
                       },
                       {
                           "id":  "glute_bridge_unilateral",
+                          "rang":  2,
                           "nume":  "Glute bridge unilateral",
                           "pattern":  "izolare-fesieri",
                           "grupe_principale":  [
@@ -1617,6 +1706,7 @@
                       },
                       {
                           "id":  "lateral_raise_gantere",
+                          "rang":  1,
                           "nume":  "Lateral raise cu gantere",
                           "pattern":  "izolare-umeri",
                           "grupe_principale":  [
@@ -1634,6 +1724,7 @@
                       },
                       {
                           "id":  "lateral_raise_banda",
+                          "rang":  2,
                           "nume":  "Lateral raise cu banda",
                           "pattern":  "izolare-umeri",
                           "grupe_principale":  [
@@ -1651,6 +1742,7 @@
                       },
                       {
                           "id":  "front_raise_gantere",
+                          "rang":  3,
                           "nume":  "Front raise cu gantere",
                           "pattern":  "izolare-umeri",
                           "grupe_principale":  [
@@ -1668,6 +1760,7 @@
                       },
                       {
                           "id":  "arnold_press_gantere",
+                          "rang":  2,
                           "nume":  "Arnold press",
                           "pattern":  "impins vertical",
                           "grupe_principale":  [
@@ -1686,6 +1779,7 @@
                       },
                       {
                           "id":  "incline_press_gantere",
+                          "rang":  1,
                           "nume":  "Incline press cu gantere",
                           "pattern":  "impins orizontal",
                           "grupe_principale":  [
@@ -1706,6 +1800,7 @@
                       },
                       {
                           "id":  "incline_press_haltera",
+                          "rang":  1,
                           "nume":  "Incline press cu haltera",
                           "pattern":  "impins orizontal",
                           "grupe_principale":  [
@@ -1727,6 +1822,7 @@
                       },
                       {
                           "id":  "shrug_gantere",
+                          "rang":  2,
                           "nume":  "Shrug cu gantere",
                           "pattern":  "tractiune verticala",
                           "grupe_principale":  [
@@ -1745,6 +1841,7 @@
                       },
                       {
                           "id":  "shrug_haltera",
+                          "rang":  2,
                           "nume":  "Shrug cu haltera",
                           "pattern":  "tractiune verticala",
                           "grupe_principale":  [
@@ -1763,6 +1860,7 @@
                       },
                       {
                           "id":  "straight_arm_pulldown_banda",
+                          "rang":  2,
                           "nume":  "Straight-arm pulldown cu banda",
                           "pattern":  "tractiune verticala",
                           "grupe_principale":  [
@@ -1780,6 +1878,7 @@
                       },
                       {
                           "id":  "pullover_gantera",
+                          "rang":  2,
                           "nume":  "Pullover cu gantera",
                           "pattern":  "tractiune verticala",
                           "grupe_principale":  [
@@ -1799,6 +1898,7 @@
                       },
                       {
                           "id":  "good_morning_banda",
+                          "rang":  2,
                           "nume":  "Good morning cu banda",
                           "pattern":  "hinge",
                           "grupe_principale":  [
@@ -1817,6 +1917,7 @@
                       },
                       {
                           "id":  "good_morning_haltera",
+                          "rang":  2,
                           "nume":  "Good morning cu haltera",
                           "pattern":  "hinge",
                           "grupe_principale":  [
@@ -1835,6 +1936,7 @@
                       },
                       {
                           "id":  "hack_squat_gantere",
+                          "rang":  2,
                           "nume":  "Hack squat cu gantere",
                           "pattern":  "squat",
                           "grupe_principale":  [
@@ -1853,6 +1955,7 @@
                       },
                       {
                           "id":  "seated_calf_raise_gantera",
+                          "rang":  2,
                           "nume":  "Calf raise sezut cu gantera",
                           "pattern":  "izolare-gambe",
                           "grupe_principale":  [
@@ -1871,6 +1974,7 @@
                       },
                       {
                           "id":  "hammer_curl_gantere",
+                          "rang":  2,
                           "nume":  "Hammer curl cu gantere",
                           "pattern":  "izolare-biceps",
                           "grupe_principale":  [
@@ -1889,6 +1993,7 @@
                       },
                       {
                           "id":  "incline_curl_gantere",
+                          "rang":  2,
                           "nume":  "Incline curl cu gantere",
                           "pattern":  "izolare-biceps",
                           "grupe_principale":  [
@@ -1907,6 +2012,7 @@
                       },
                       {
                           "id":  "preacher_curl_banda",
+                          "rang":  2,
                           "nume":  "Preacher curl cu banda",
                           "pattern":  "izolare-biceps",
                           "grupe_principale":  [
@@ -1924,6 +2030,7 @@
                       },
                       {
                           "id":  "skullcrusher_gantere",
+                          "rang":  2,
                           "nume":  "Skullcrusher cu gantere",
                           "pattern":  "izolare-triceps",
                           "grupe_principale":  [
@@ -1942,6 +2049,7 @@
                       },
                       {
                           "id":  "triceps_kickback_gantera",
+                          "rang":  3,
                           "nume":  "Triceps kickback cu gantera",
                           "pattern":  "izolare-triceps",
                           "grupe_principale":  [
@@ -1959,6 +2067,7 @@
                       },
                       {
                           "id":  "hanging_leg_raise",
+                          "rang":  1,
                           "nume":  "Hanging leg raise",
                           "pattern":  "core",
                           "grupe_principale":  [
@@ -1976,6 +2085,7 @@
                       },
                       {
                           "id":  "side_plank",
+                          "rang":  2,
                           "nume":  "Side plank",
                           "pattern":  "core",
                           "grupe_principale":  [
@@ -1993,6 +2103,7 @@
                       },
                       {
                           "id":  "cable_crunch_scripete",
+                          "rang":  2,
                           "nume":  "Cable crunch la scripete",
                           "pattern":  "core",
                           "grupe_principale":  [
