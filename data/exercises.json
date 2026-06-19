@@ -20,7 +20,47 @@
                                              ],
                           "descriere":  "Sprijin cu spatele pe perete, coboara pana la 90° si mentine pozitia. Genunchii raman deasupra vârfurilor, nu depasesc degetele.",
                           "reguli_speciale":  "timp in loc de repetari",
-                          "progressie_bw":  "fandare"
+                          "progressie_bw":  "genuflexiuni"
+                      },
+                      {
+                          "id":  "genuflexiuni",
+                          "nume":  "Genuflexiuni",
+                          "pattern":  "squat",
+                          "grupe_principale":  [
+                                                   "cvadriceps",
+                                                   "fesieri"
+                                               ],
+                          "tip":  "compound",
+                          "echipament":  [
+                                             "corp"
+                                         ],
+                          "nivel":  1,
+                          "risc_articular":  [
+                                                 "genunchi"
+                                             ],
+                          "descriere":  "Picioarele la latimea umerilor, coboara soldurile cel putin pana la paralela impingand genunchii usor in afara, calcaiele pe sol. Spatele drept, pieptul sus; ridica-te impingand in calcaie.",
+                          "reguli_speciale":  null,
+                          "progressie_bw":  "genuflexiuni_saritura"
+                      },
+                      {
+                          "id":  "genuflexiuni_saritura",
+                          "nume":  "Genuflexiuni cu saritura",
+                          "pattern":  "squat",
+                          "grupe_principale":  [
+                                                   "cvadriceps",
+                                                   "fesieri"
+                                               ],
+                          "tip":  "compound",
+                          "echipament":  [
+                                             "corp"
+                                         ],
+                          "nivel":  2,
+                          "risc_articular":  [
+                                                 "genunchi"
+                                             ],
+                          "descriere":  "Genuflexiune urmata de o saritura exploziva; aterizeaza moale pe toata talpa, cu genunchii usor indoiti pentru a absorbi socul. Exercitiu de putere — sari peste el daca genunchii te supara.",
+                          "reguli_speciale":  null,
+                          "progressie_bw":  null
                       },
                       {
                           "id":  "goblet_squat",
@@ -101,26 +141,6 @@
                                              ],
                           "descriere":  "Piciorul din spate pe banca, coboara vertical cu trunchiul usor aplecat inainte. Genunchiul din fata nu depaseste vârful degetelor mai mult de 2-3 cm.",
                           "reguli_speciale":  "unilateral"
-                      },
-                      {
-                          "id":  "hip_hinge_corp",
-                          "nume":  "Hip hinge",
-                          "pattern":  "hinge",
-                          "grupe_principale":  [
-                                                   "ischio",
-                                                   "fesieri"
-                                               ],
-                          "tip":  "compound",
-                          "echipament":  [
-                                             "corp"
-                                         ],
-                          "nivel":  1,
-                          "risc_articular":  [
-
-                                             ],
-                          "descriere":  "Picioarele la latimea soldurilor, impinge soldurile inapoi cu spatele drept pana simti tensiune in ischiori. Intoarce-te impingand cu calcaiele in podea.",
-                          "reguli_speciale":  null,
-                          "progressie_bw":  null
                       },
                       {
                           "id":  "romanian_deadlift_gantere",
@@ -609,6 +629,42 @@
 
                                              ],
                           "descriere":  "Culcat pe spate, brate spre tavan, genunchi la 90°. Coboara simultan bratul drept si piciorul stang spre podea fara sa atinga, mentinand lombarul lipit de sol.",
+                          "reguli_speciale":  null
+                      },
+                      {
+                          "id":  "abdomene",
+                          "nume":  "Abdomene (crunch)",
+                          "pattern":  "core",
+                          "grupe_principale":  [
+                                                   "abdomen"
+                                               ],
+                          "tip":  "izolare",
+                          "echipament":  [
+                                             "corp"
+                                         ],
+                          "nivel":  1,
+                          "risc_articular":  [
+                                                 "lombar"
+                                             ],
+                          "descriere":  "Culcat pe spate, genunchii indoiti, ridica umerii de pe sol contractand abdomenul pe o distanta scurta; nu trage de gat. Coboara controlat, fara a smuci.",
+                          "reguli_speciale":  null
+                      },
+                      {
+                          "id":  "russian_twist",
+                          "nume":  "Russian twist",
+                          "pattern":  "core",
+                          "grupe_principale":  [
+                                                   "abdomen"
+                                               ],
+                          "tip":  "izolare",
+                          "echipament":  [
+                                             "corp"
+                                         ],
+                          "nivel":  1,
+                          "risc_articular":  [
+                                                 "lombar"
+                                             ],
+                          "descriere":  "Asezat, trunchiul usor inclinat pe spate, picioarele pe sol sau ridicate; roteste trunchiul stanga-dreapta atingand solul langa sold. Miscare controlata din abdomen, nu din brate.",
                           "reguli_speciale":  null
                       },
                       {
@@ -1445,6 +1501,24 @@
                           "reguli_speciale":  "timp in loc de repetari"
                       },
                       {
+                          "id":  "jumping_jacks",
+                          "nume":  "Jumping jacks",
+                          "pattern":  "conditie",
+                          "grupe_principale":  [
+                                                   "umeri",
+                                                   "cvadriceps"
+                                               ],
+                          "tip":  "conditie",
+                          "echipament":  [
+                                             "corp"
+                                         ],
+                          "nivel":  1,
+                          "risc_articular":  [
+                                             ],
+                          "descriere":  "Din picioare, sari departand picioarele si ridicand bratele deasupra capului simultan, apoi revino in pozitia initiala. Ritm constant — exercitiu de incalzire si cardio.",
+                          "reguli_speciale":  "timp in loc de repetari"
+                      },
+                      {
                           "id":  "burpee",
                           "nume":  "Burpee",
                           "pattern":  "conditie",
@@ -1518,7 +1592,7 @@
                                          ],
                           "nivel":  1,
                           "risc_articular":  [
-
+                                                 "lombar"
                                              ],
                           "descriere":  "Intins pe burta, ridica simultan bratele si picioarele de pe sol, tine 1-2 secunde sus si coboara controlat. Intareste lantul posterior fara echipament.",
                           "reguli_speciale":  null

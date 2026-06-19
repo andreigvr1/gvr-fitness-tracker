@@ -1,5 +1,15 @@
 # Changelog — GVR Fitness Tracker
 
+## v0.9.12 — Exerciții de bază + selecție mai bună la începători
+
+Revizuire a antrenamentelor generate, pornind de la feedbackul lui Andrei pe un program de începător:
+- **Exerciții de bază adăugate** (cu greutatea corpului): **Genuflexiuni** (lipsea complet — exista doar „squat la perete"), **Genuflexiuni cu săritură**, **Abdomene (crunch)**, **Russian twist**, **Jumping jacks**. Acum un începător acasă primește mișcările fundamentale, nu variații ciudate.
+- **„Hip hinge" scos** — era o etichetă de mișcare pusă ca exercițiu, un drill, nu un exercițiu de program.
+- **Selecție mai inteligentă la începători:** mișcările fundamentale vin primele — genuflexiuni înainte de fandări, flotări înainte de pike push-up (care e o mișcare de umăr, mai grea).
+- **Fundamentele se repetă în zilele de full-body:** genuflexiunile și flotările apar acum în fiecare zi (așa se învață mișcarea), iar accesoriile se rotesc. Înainte un exercițiu nu putea apărea de două ori în săptămână.
+- **Reparat: zile de antrenament goale.** La programele „acasă" (bibliotecă mică), a treia zi de full-body ieșea uneori complet goală. Acum fiecare zi se umple corect.
+- **Siguranță:** „Superman" e acum marcat ca solicitant pentru zona lombară (exclus la spate sensibil).
+
 ## v0.9.11 — „Profil" devine „Setări" + editare rapidă
 
 - **Tab-ul „Profil" se numește acum „Setări"** (cu pictogramă de rotiță) și adună la un loc: datele tale de profil, măsurătorile, tema și un buton nou.

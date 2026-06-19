@@ -201,7 +201,7 @@ const FEMALE_PRIORITY_IDS  = new Set(['hip_thrust_haltera','hip_thrust_gantera',
 const FEMALE_ABDUCTION_IDS = new Set(['abductie_sold_banda','abductie_sold_corp']);
 
 // ── Scoring ──────────────────────────────────────────────────────────────────
-function scoreEx(ex, obiectiv, prioritati, usedGroups, slotsTotal, equipment, gen) {
+function scoreEx(ex, obiectiv, prioritati, usedGroups, slotsTotal, equipment, gen, exp = 3, priorUsed = null) {
   let s = 10;
   if (ex.tip === 'compound') s += 10;
   if (obiectiv === 'forta'    && ex.tip === 'compound')  s += 8;
@@ -227,25 +227,42 @@ function scoreEx(ex, obiectiv, prioritati, usedGroups, slotsTotal, equipment, ge
     if (FEMALE_ABDUCTION_IDS.has(ex.id)) s += 10; // bonus dublu pentru abductie (preventie ACL)
   }
 
+  // Începători: mișcările fundamentale înaintea variațiilor mai grele/tehnice.
+  // Squat bilateral înainte de fandare/unilateral; flotări (orizontal) înainte de pike
+  // (vertical, dominant umăr); core familiar (plank/abdomene) înainte de dead bug.
+  if (exp <= 1) {
+    if (ex.pattern === 'impins orizontal') s += 6;
+    if (ex.pattern === 'squat')            s += 6;
+    if (ex.id === 'genuflexiuni' || ex.id === 'flotari') s += 8;
+    if (ex.id === 'plansa' || ex.id === 'abdomene')      s += 8;  // core familiar înaintea dead bug
+    if (ex.id === 'dead_bug' || ex.id === 'hollow_body') s -= 4;  // bun, dar mai puțin intuitiv la început
+  }
+
+  // Penalizare soft pentru exercițiile deja folosite în zilele anterioare: la full-body
+  // fundamentele bune tot revin în fiecare zi (învățare motorie), dar accesoriile se rotesc.
+  if (priorUsed && priorUsed.has(ex.id)) s -= 5;
+
   s += (Math.random() * 4 - 2);
   return s;
 }
 
 // ── Day selection ─────────────────────────────────────────────────────────────
-function selectForDay(dayTip, allValid, profile, usedIds) {
+function selectForDay(dayTip, allValid, profile, priorUsed) {
   const patterns = DAY_PATTERNS[dayTip];
   const slots    = numSlots(profile.timp);
   const prior    = new Set(profile.grupe_prioritare);
   const obj      = profile.obiectiv;
   const gen      = profile.gen;
+  const exp      = profile.experienta;
   const template = SLOT_TEMPLATES[dayTip];
 
-  let candidates = allValid.filter(ex =>
-    patterns.includes(ex.pattern) && !usedIds.has(ex.id)
-  );
+  // Nu mai excludem global între zile (cauza zilelor goale); dublurile din aceeași zi sunt
+  // evitate scoțând câștigătorul din `candidates`, iar repetarea între zile e penalizată soft.
+  let candidates = allValid.filter(ex => patterns.includes(ex.pattern));
 
   const selected   = [];
   const usedGroups = new Set();
+  const dayUsed    = new Set();
   const equipSet   = new Set(profile.echipament || []);
 
   for (let si = 0; si < template.length && selected.length < slots && candidates.length > 0; si++) {
@@ -269,7 +286,7 @@ function selectForDay(dayTip, allValid, profile, usedIds) {
     if (!pool.length) pool = candidates; // fallback generic: nu pierdem slotul
 
     const scored = pool
-      .map(ex => ({ ex, sc: scoreEx(ex, obj, prior, usedGroups, slots, equipSet, gen) }))
+      .map(ex => ({ ex, sc: scoreEx(ex, obj, prior, usedGroups, slots, equipSet, gen, exp, priorUsed) }))
       .sort((a, b) => b.sc - a.sc);
 
     const winner = scored[0].ex;
@@ -280,7 +297,7 @@ function selectForDay(dayTip, allValid, profile, usedIds) {
     item.alternative = [...samePattern, ...others].slice(0, 4).map(s => s.ex.id);
 
     selected.push(item);
-    usedIds.add(winner.id);
+    dayUsed.add(winner.id);
     winner.grupe_principale.forEach(g => usedGroups.add(g));
     candidates = candidates.filter(c => c.id !== winner.id);
   }
@@ -297,12 +314,12 @@ function selectForDay(dayTip, allValid, profile, usedIds) {
   if ((hasUmar || pushSets >= 6) && ['upper','push','full'].includes(dayTip)) {
     const scap = allValid.find(ex =>
       ['face_pull_banda','band_pull_apart','reverse_fly_gantere'].includes(ex.id) &&
-      !usedIds.has(ex.id)
+      !dayUsed.has(ex.id)
     );
     if (scap) {
       const item = prescribe(scap, obj, gen);
       selected.push(item);
-      usedIds.add(scap.id);
+      dayUsed.add(scap.id);
     }
   }
 
@@ -380,13 +397,13 @@ export async function generateProgram(profile, splitId) {
   );
 
   const split  = SPLITS[splitId];
-  const usedIds = new Set();
+  const priorUsed = new Set();
 
-  const zile = split.days.map(day => ({
-    label: day.label,
-    tip:   day.tip,
-    exercitii: selectForDay(day.tip, validMain, profile, usedIds),
-  }));
+  const zile = split.days.map(day => {
+    const exercitii = selectForDay(day.tip, validMain, profile, priorUsed);
+    exercitii.forEach(e => priorUsed.add(e.id));
+    return { label: day.label, tip: day.tip, exercitii };
+  });
 
   if (profile.skandenberg) addSkandenbergBlock(zile, profile, all);
 
