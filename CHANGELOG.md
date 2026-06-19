@@ -1,5 +1,12 @@
 # Changelog — GVR Fitness Tracker
 
+## v0.9.13 — Siguranță: etichete de risc articular completate
+
+Trecere în revistă a etichetelor de risc pentru articulații sensibile, ca filtrele de siguranță să excludă corect exercițiile potrivite:
+- **Genunchi:** Goblet squat și Squat cu bandă sunt acum marcate ca solicitante pentru genunchi (ca toate celelalte genuflexiuni) — nu mai apar la cei care au bifat genunchi sensibil.
+- **Lombar (zona joasă a spatelui):** Single leg Romanian deadlift și Farmer carry sunt acum marcate ca solicitante lombar (ca celelalte deadlift-uri și carry-uri asimetrice).
+- **Corectat în sens invers:** Leg curl cu bandă NU mai e marcat ca risc de genunchi — flexia controlată a genunchiului este de fapt prietenoasă cu articulația (se folosește chiar în recuperare). Nordic curl rămâne marcat, fiindcă acela chiar solicită genunchiul.
+
 ## v0.9.12 — Exerciții de bază + selecție mai bună la începători
 
 Revizuire a antrenamentelor generate, pornind de la feedbackul lui Andrei pe un program de începător:

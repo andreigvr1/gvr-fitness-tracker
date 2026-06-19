@@ -76,7 +76,7 @@
                                          ],
                           "nivel":  1,
                           "risc_articular":  [
-
+                                                 "genunchi"
                                              ],
                           "descriere":  "Tine gantera vertical la piept cu ambele maini sub disc. Coboara cu spatele drept pana la paralel cu solul; coatele imping genunchii spre exterior la fund.",
                           "reguli_speciale":  null
@@ -95,7 +95,7 @@
                                          ],
                           "nivel":  1,
                           "risc_articular":  [
-
+                                                 "genunchi"
                                              ],
                           "descriere":  "Banda trece sub talpi si peste umeri. Coboara controlat pana la paralel; genunchii urmeaza directia degetelor.",
                           "reguli_speciale":  null
@@ -553,7 +553,7 @@
                                          ],
                           "nivel":  2,
                           "risc_articular":  [
-
+                                                 "lombar"
                                              ],
                           "descriere":  "Sprijin pe un picior, gantera in mana opusa; coboara cu spatele drept pana la paralel cu solul. Genunchiul de sprijin usor flexat, nu blocat.",
                           "reguli_speciale":  "unilateral"
@@ -571,7 +571,7 @@
                                          ],
                           "nivel":  1,
                           "risc_articular":  [
-                                                 "genunchi"
+
                                              ],
                           "descriere":  "Banda ancorată jos, culcat pe burta; indoaie genunchiul tragand calcaiul spre fese. Mentine soldul pe podea; nu arcui lombar.",
                           "reguli_speciale":  "unilateral"
@@ -736,7 +736,7 @@
                                          ],
                           "nivel":  1,
                           "risc_articular":  [
-
+                                                 "lombar"
                                              ],
                           "descriere":  "Gantere grele in ambele maini, mers drept fara sa te inclini lateral. Umerii trasi inapoi si jos; respiratie normala pe tot parcursul.",
                           "reguli_speciale":  "timp in loc de repetari"
