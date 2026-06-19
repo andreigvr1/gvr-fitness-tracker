@@ -10,6 +10,7 @@ import { Program } from './models/Program.js';
 // Engines
 import { ProgressionEngine } from './engines/ProgressionEngine.js';
 import { AdaptiveEngine } from './engines/AdaptiveEngine.js';
+import { DeloadEngine } from './engines/DeloadEngine.js';
 import { StatsEngine } from './engines/StatsEngine.js';
 
 // Renderers
@@ -35,7 +36,40 @@ import { exportData, parseBackup } from './utils/DataTransfer.js';
 // ── Module State ──────────────────────────────────────────────────────────────
 let viewManager = null;
 let adaptiveEngine = null;
+let deloadEngine = null;
 let currentSession = null;
+
+// ── Deload (săptămână de descărcare) ────────────────────────────────────────
+function isDeloadActive(data) {
+  return !!data?.deload?.activ;
+}
+// Oferim deload doar dacă: detectăm oboseală, nu e deja activ, și nu a fost refuzat în ultimul ciclu.
+function deloadOffer(data) {
+  if (isDeloadActive(data)) return null;
+  const { program, profile, antrenamente = [] } = data;
+  if (!program) return null;
+  const refuzatLa = data.deload?.refuzat_la;
+  if (refuzatLa != null && (antrenamente.length - refuzatLa) < program.zile.length) return null;
+  return deloadEngine.detectFatigue(antrenamente, program, profile);
+}
+function activateDeload() {
+  const d = loadData();
+  d.deload = { activ: true, sesiuni_ramase: d.program.zile.length };
+  saveData(d);
+  return d;
+}
+function declineDeload() {
+  const d = loadData();
+  d.deload = { activ: false, refuzat_la: (d.antrenamente || []).length };
+  saveData(d);
+  return d;
+}
+// La salvarea unei sesiuni de descărcare: scade contorul; la 0 → gata.
+function consumeDeloadSession(d) {
+  if (!d.deload?.activ) return;
+  d.deload.sesiuni_ramase = (d.deload.sesiuni_ramase || 1) - 1;
+  if (d.deload.sesiuni_ramase <= 0) d.deload = { activ: false };
+}
 
 // ── View Rendering (delegated to Renderers) ──────────────────────────────────
 async function renderProgram(data) {
@@ -74,18 +108,45 @@ async function renderProgram(data) {
     }
   );
 
+  // Deload: notă dacă e deja activ, altfel ofertă dacă detectăm oboseală sistemică.
+  let deloadHTML = '';
+  if (isDeloadActive(data)) {
+    const ram = data.deload?.sesiuni_ramase ?? 0;
+    deloadHTML = `
+      <div class="adapt-item">
+        <div class="adapt-msg">Ești în săptămâna de descărcare — ${ram} ${ram === 1 ? 'sesiune rămasă' : 'sesiuni rămase'}. Greutăți reduse și mai puține serii; revii la progresie normală după.</div>
+      </div>`;
+  } else {
+    const fatigue = deloadOffer(data);
+    if (fatigue) deloadHTML = `
+      <div class="adapt-item">
+        <div class="adapt-msg">Am observat că ai scăzut pe ${fatigue.count} exerciții de bază — semn de oboseală acumulată. Vrei o săptămână mai ușoară (mai puține serii, greutate redusă) ca să te recuperezi?</div>
+        <div class="adapt-actions">
+          <button class="adapt-btn" data-deload="accept">Da, ușurează</button>
+          <button class="adapt-btn adapt-btn-ghost" data-deload="decline">Nu, continui</button>
+        </div>
+      </div>`;
+  }
+
   // Show adaptive suggestions banner if any
-  if (suggestions.length) {
+  if (suggestions.length || deloadHTML) {
     const banner = document.createElement('div');
     banner.className = 'adapt-banner';
-    banner.innerHTML = suggestions.map(s => `
+    banner.innerHTML = deloadHTML + suggestions.map(s => `
       <div class="adapt-item">
         <div class="adapt-msg">${s.mesaj}</div>
         ${s.actiune === 'swap' ? `<button class="adapt-btn" data-ex="${s.exId}">Înlocuiește</button>` : ''}
       </div>`).join('');
     container.querySelector('#prog-footer').before(banner);
 
-    banner.querySelectorAll('.adapt-btn').forEach(btn => {
+    banner.querySelector('[data-deload="accept"]')?.addEventListener('click', async () => {
+      await renderProgram(activateDeload());
+    });
+    banner.querySelector('[data-deload="decline"]')?.addEventListener('click', async () => {
+      await renderProgram(declineDeload());
+    });
+
+    banner.querySelectorAll('.adapt-btn[data-ex]').forEach(btn => {
       btn.addEventListener('click', async () => {
         const exId = btn.dataset.ex;
         const dayIdx = programObj.zile.findIndex(z => z.exercitii.some(e => e.id === exId));
@@ -333,7 +394,7 @@ async function renderToday(data, dayIdx) {
   const { program, profile, antrenamente = [] } = data;
   const container = document.getElementById('view-today');
 
-  currentSession = new WorkoutSession(program, dayIdx);
+  currentSession = new WorkoutSession(program, dayIdx, { deload: isDeloadActive(data) });
 
   const renderer = new WorkoutRenderer(
     container,
@@ -348,6 +409,7 @@ async function renderToday(data, dayIdx) {
     (sessionData) => {
       const d = loadData();
       d.antrenamente = [...(d.antrenamente || []), sessionData];
+      consumeDeloadSession(d); // dacă era săptămână de descărcare, scade contorul
       saveData(d);
       currentSession = null;
 
@@ -860,6 +922,7 @@ document.addEventListener('DOMContentLoaded', async () => {
   // Initialize managers and engines
   viewManager = new ViewManager(loadData());
   adaptiveEngine = new AdaptiveEngine();
+  deloadEngine = new DeloadEngine();
 
   // Register service worker
   registerSW();

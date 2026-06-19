@@ -3,6 +3,7 @@
 import { ICONS, SKIP_REASONS } from '../utils/Constants.js';
 import { ico, getSkipReasonLabel } from '../utils/UIHelpers.js';
 import { ProgressionEngine } from '../engines/ProgressionEngine.js';
+import { DeloadEngine } from '../engines/DeloadEngine.js';
 import { loadTemplate } from '../utils/TemplateLoader.js';
 
 export class WorkoutRenderer {
@@ -54,13 +55,16 @@ export class WorkoutRenderer {
     const isBodyweight       = ex.echipament?.every(e => e === 'corp') ?? false;
     const hasCenturaGreutati = this.profile.echipament?.includes('centura_greutati') ?? false;
 
+    const deload    = !!this.session?.deload;
+    const effSeturi = deload ? DeloadEngine.deloadSets(ex.seturi) : ex.seturi;
+
     const rec = this.progressionEngine.getRecommendation(
       ex.id,
       ex.rep_min,
       ex.rep_max,
       this.antrenamente,
       this.profile.experienta,
-      { isLowerBody, isBodyweight, hasCenturaGreutati, gen: this.profile.gen }
+      { isLowerBody, isBodyweight, hasCenturaGreutati, gen: this.profile.gen, deload }
     );
     const suggestKg = rec.kg || '';
 
@@ -80,7 +84,7 @@ export class WorkoutRenderer {
     const VALGUS_PATTERNS = new Set(['squat','unilateral picior','flexie genunchi']);
     const showValgusCue  = this.profile.gen === 'feminin' && VALGUS_PATTERNS.has(ex.pattern);
 
-    const setsHTML = Array.from({ length: ex.seturi }, (_, si) => `
+    const setsHTML = Array.from({ length: effSeturi }, (_, si) => `
       <div class="log-set" id="set-${exIdx}-${si}" data-done="0">
         <span class="set-num">S${si + 1}</span>
         ${showWeight ? `
@@ -107,7 +111,7 @@ export class WorkoutRenderer {
           <div class="log-ex-status" id="ex-status-${exIdx}">○</div>
           <div class="log-ex-info">
             <div class="log-ex-name">${ex.nume}</div>
-            <div class="log-ex-meta">${ex.seturi} serii · ${ex.rep_min}${ex.rep_max !== ex.rep_min ? '–' + ex.rep_max : ''} ${isStatic ? 'sec' : 'rep'} · pauză ${ex.pauza_sec}s</div>
+            <div class="log-ex-meta">${effSeturi} serii · ${ex.rep_min}${ex.rep_max !== ex.rep_min ? '–' + ex.rep_max : ''} ${isStatic ? 'sec' : 'rep'} · pauză ${ex.pauza_sec}s${deload ? ' · descărcare' : ''}</div>
             ${calib.calibrating ? `<div class="calib-badge">${ico('flag')}<span>Calibrare · sesiunea ${calib.sessionNumber}</span></div>` : ''}
           </div>
           <button class="ex-skip-btn" data-ex="${exIdx}">${ICONS.skip}<span>Sari</span></button>

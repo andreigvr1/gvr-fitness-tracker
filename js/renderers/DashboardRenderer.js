@@ -109,8 +109,7 @@ export class DashboardRenderer {
   renderGoals() {
     const wrap = document.getElementById('tpl-goals');
     if (!wrap) return;
-    
-    // Actualizează starea butonului de adăugare: dezactivat dacă sunt 3 obiective
+
     const addBtn = document.querySelector('#btn-add-goal');
     if (addBtn) {
       if (this.goals.length >= 3) {
@@ -121,19 +120,21 @@ export class DashboardRenderer {
         addBtn.title = 'Adaugă obiectiv';
       }
     }
-    
+
     if (!this.goals.length) {
       wrap.innerHTML = `<div class="goals-empty">Niciun obiectiv încă. Pune-ți o țintă (ex. 100 kg la bench) și urmărește-ți progresul.</div>`;
       return;
     }
     wrap.innerHTML = this.goals
-      .map(g => this.buildGoalCard(g, this.goalEngine.evaluate(g, this.antrenamente)))
+      .map(g => this.buildGoalCard(g, this.goalEngine.evaluate(g, this.antrenamente, Date.now(), this.profile)))
       .join('');
   }
 
   buildGoalCard(goal, ev) {
     const unit = goal.tip_tinta === 'rep' ? 'rep' : 'kg';
     const done = ev.status === 'done';
+    const scaleHtml = ev.strengthCtx ? this.buildStrengthScale(ev) : '';
+    const realismHtml = ev.realism && ev.realism !== 'achievable' ? this.buildRealismBadge(ev) : '';
     return `
       <div class="goal-card${done ? ' goal-done' : ''}" data-goal-id="${goal.id}">
         <button class="goal-del" data-goal-id="${goal.id}" title="Șterge obiectivul">${ICONS.x}</button>
@@ -147,13 +148,69 @@ export class DashboardRenderer {
           <span>Acum <b>${formatNum(ev.current)} ${unit}</b></span>
           <span>Țintă <b>${formatNum(ev.target)} ${unit}</b></span>
         </div>
-        <div class="goal-forecast goal-fc-${this.forecastTone(ev.status)}">
+        ${scaleHtml}
+        ${realismHtml}
+        <div class="goal-forecast goal-fc-${this.forecastTone(ev.status, ev.realism)}">
           <span class="goal-fc-dot"></span>${this.forecastText(ev, unit)}
         </div>
       </div>`;
   }
 
-  forecastTone(status) {
+  buildStrengthScale(ev) {
+    const { curEval, tgtEval, wr, wrClass, absWr } = ev.strengthCtx;
+    if (!curEval && !tgtEval) return '';
+    const LABELS = ['Înc.', 'Amator', 'Inter.', 'Avansat', 'Elită', 'Rec.'];
+    const anchorPcts = [5, 20, 50, 80, 95, 100];
+    const markers = anchorPcts.map((p, i) =>
+      `<div class="gsc-marker" style="left:${p}%" title="${LABELS[i]}"></div>`).join('');
+    const curPos = Math.min(98, curEval?.percentile ?? 0);
+    const tgtPos = tgtEval ? Math.min(100, tgtEval.percentile + (ev.realism === 'impossible' ? 10 : 0)) : null;
+    const curDot = `<div class="gsc-dot gsc-cur" style="left:${curPos}%" title="Tu acum: ${curEval?.level ?? ''}"></div>`;
+    const tgtDot = tgtPos !== null
+      ? `<div class="gsc-dot gsc-tgt" style="left:${Math.min(105, tgtPos)}%" title="Ținta: ${tgtEval?.level ?? ''}"></div>`
+      : '';
+    // Rând cu referințe duale: clasa ta + recordul absolut
+    const clsHtml = wr && wrClass
+      ? `<span class="gsc-rec-cls" title="Record mondial drug-tested raw, categoria ${wrClass} kg">Cls. ${wrClass} kg: ${wr} kg</span>`
+      : '';
+    const absHtml = absWr
+      ? `<span class="gsc-rec-abs" title="Recordul absolut al omenirii (echipat, netestat)">Rec. absolut: ${absWr} kg ★</span>`
+      : '';
+    const recordsRow = (clsHtml || absHtml)
+      ? `<div class="gsc-records">${clsHtml}${absHtml}</div>`
+      : '';
+    return `
+      <div class="goal-scale">
+        <div class="gsc-track">
+          <div class="gsc-fill" style="width:${curPos}%"></div>
+          ${markers}${curDot}${tgtDot}
+        </div>
+        <div class="gsc-ticks">
+          ${LABELS.slice(0, -1).map((l, i) => `<span class="${i === (curEval?.levelIdx ?? -1) ? 'gsc-tick-active' : ''}">${l}</span>`).join('')}
+          <span class="gsc-tick-wr">Rec.</span>
+        </div>
+        ${recordsRow}
+      </div>`;
+  }
+
+  buildRealismBadge(ev) {
+    const { realism, strengthCtx } = ev;
+    const { tgtEval, wr, wrClass, absWr } = strengthCtx || {};
+    const clsLabel = wrClass ? ` cls. ${wrClass} kg` : '';
+    const msgs = {
+      challenging:  `Nivel <b>${tgtEval?.level}</b> — dificil, dar atins de sportivi dedicați.`,
+      exceptional:  `Nivel <b>Elită</b> — top 5% dintre cei care se antrenează. Extraordinar.`,
+      world_class:  `Aproape de <b>recordul${clsLabel}</b> (drug-tested raw: ${wr} kg). Teritoriu de campion.`,
+      impossible:   `Depășești <b>recordul absolut al omenirii</b>${absWr ? ` (${absWr} kg, echipat)` : ''}. Revizuiește ținta.`,
+    };
+    const tone = realism === 'impossible' ? 'danger' : realism === 'world_class' ? 'warn' : 'info';
+    const msg = msgs[realism];
+    if (!msg) return '';
+    return `<div class="goal-realism goal-realism-${tone}"><span class="goal-realism-dot"></span>${msg}</div>`;
+  }
+
+  forecastTone(status, realism) {
+    if (realism === 'impossible') return 'wait';
     return (status === 'on_track' || status === 'done') ? 'ok' : 'wait';
   }
 

@@ -1,5 +1,28 @@
 # Changelog — GVR Fitness Tracker
 
+## v0.9.19 — Motor de deload, obiective inteligente + realizări
+
+**Motor de deload automat (DeloadEngine):**
+- Detectează semnale de oboseală: 3+ săptămâni fără progres, volum crescut brusc, sau sesiuni prea dese.
+- Generează săptămâna de deload cu volum redus la 60% și greutăți la 80% din maxim.
+- Integrat în fluxul de progresie — apare automat când e nevoie.
+
+**Obiective conștiente de recorduri mondiale (GoalEngine v2):**
+- Fiecare obiectiv de forță (kg) e comparat cu standardele din forță pe greutatea corporală.
+- Scala vizuală pe card: Începător → Amator → Intermediar → Avansat → Elită → Rec.
+- **Două referințe de record afișate clar sub scală:**
+  - *Cls. 85 kg: 322 kg* — recordul mondial drug-tested raw al **categoriei tale de greutate** (relevant)
+  - *Rec. absolut: 501 kg ★* — recordul absolut al omenirii, echipat (context general)
+- Badge de realism cu 5 niveluri: realizabil / dificil / excepțional / de campion mondial / imposibil.
+- ETA decelerat aproape de plafonul biologic (progresia se înjumătățește anual la nivel de elită).
+
+**Sistem de realizări (AchievementsEngine + ecran Realizări):**
+- **39 de insigne** în 3 categorii: Consecvență, Forță, Skandenberg.
+- *Consecvență:* primul antrenament, 10/25/50 sesiuni, streak săptămânal 4 săpt.
+- *Forță:* 16 insigne (4 ridicări × 4 niveluri Amator→Elită) + milestone-uri absolute (Bench 100 kg, 2× greutatea ta la deadlift etc.). Pragurile se ajustează la greutatea ta corporală.
+- *Skandenberg:* hammer curl pe 4 niveluri (BW-relativ), wrist curl milestones, repere campioni (Cyplenkov 113 kg, Levan 180 kg), insigne compuse Luptător Amator / Pro.
+- Rangul de forță per ridicare principală cu percentilă comparativă.
+
 ## v0.9.18 — Aparate de sală, bară Z + rafinări motor
 
 Biblioteca a crescut de la 112 la 126 de exerciții și generatorul echilibrează mai bine programele.

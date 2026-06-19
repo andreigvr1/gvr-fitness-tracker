@@ -19,6 +19,9 @@ function getIncrement(gen, isLowerBody, kg = 0) {
 // Prag reps la care bodyweight fără centură urcă la variație mai grea (evităm anduranță pură)
 const BW_REPS_UPGRADE = 20;
 
+// Plafon de intensitate în săptămâna de descărcare (~70% — regula 50/70 din research).
+const DELOAD_WEIGHT_FACTOR = 0.70;
+
 export class ProgressionEngine {
   /**
    * Starea de calibrare a unui exercițiu (derivată din istoric, fără câmp nou în schemă).
@@ -71,9 +74,10 @@ export class ProgressionEngine {
    *   @param {boolean} [opts.hasCenturaGreutati] - utilizatorul are centură de greutăți
    *   @param {boolean} [opts.isLowerBody]    - true = increment lower body
    *   @param {string}  [opts.gen]            - 'masculin' | 'feminin'
+   *   @param {boolean} [opts.deload]         - săptămână de descărcare → plafonează la ~70%
    */
   getRecommendation(exId, repMin, repMax, antrenamente = [], profileExp = 0, opts = {}) {
-    const { rir, feedbackUser, isBodyweight = false, hasCenturaGreutati = false, isLowerBody = false, gen } = opts;
+    const { rir, feedbackUser, isBodyweight = false, hasCenturaGreutati = false, isLowerBody = false, gen, deload = false } = opts;
     const kg0 = 0; // va fi actualizat după ce găsim istoricul
 
     // ── Fără istoric ─────────────────────────────────────────────────────────
@@ -94,6 +98,15 @@ export class ProgressionEngine {
     const weights = last.serii.map(s => s.greutate).filter(Boolean);
     const kg      = weights.length ? Math.max(...weights) : 0;
     const inc     = getIncrement(gen, isLowerBody, kg);
+
+    // ── Săptămână de descărcare (deload) — plafonează la ~70%, prioritate maximă ──
+    if (deload) {
+      if (kg > 0) {
+        const dkg = Math.max(inc, Math.round((kg * DELOAD_WEIGHT_FACTOR) / inc) * inc);
+        return { tip: 'deload', kg: dkg, mesaj: `Săptămână de descărcare — ~70% (${dkg} kg) și mai puține serii. Recuperare, nu progres.` };
+      }
+      return { tip: 'deload', mesaj: 'Săptămână de descărcare — mai puține serii, intensitate ușoară. Recuperare, nu progres.' };
+    }
 
     if (last.skip) {
       return { tip: 'info', mesaj: `Ultima sesiune ai sărit acest exercițiu. Reia de unde ai lăsat.` };

@@ -1,4 +1,4 @@
-// AchievementsRenderer — ecranul „Realizări": rangul de forță + insignele.
+// AchievementsRenderer — ecranul „Realizări": rangul de forță + insigne (forță + skandenberg).
 
 import { ICONS } from '../utils/Constants.js';
 import { ico, formatNum } from '../utils/UIHelpers.js';
@@ -6,7 +6,13 @@ import { LEVELS } from '../utils/StrengthStandards.js';
 import { AchievementsEngine } from '../engines/AchievementsEngine.js';
 import { loadTemplate } from '../utils/TemplateLoader.js';
 
-const CAT_LABELS = { consecventa: 'Consecvență', forta: 'Forță' };
+const CAT_LABELS = {
+  consecventa: 'Consecvență',
+  forta:       'Forță',
+  skandenberg: 'Skandenberg',
+};
+
+const CAT_ORDER = ['consecventa', 'forta', 'skandenberg'];
 
 export class AchievementsRenderer {
   constructor(container, data) {
@@ -60,9 +66,8 @@ export class AchievementsRenderer {
     const all = this.engine.getAchievements(this.data);
     const unlockedCount = all.filter(a => a.unlocked).length;
 
-    const cats = ['consecventa', 'forta'];
     wrap.innerHTML = `<div class="ach-count">${unlockedCount} din ${all.length} deblocate</div>` +
-      cats.map(cat => {
+      CAT_ORDER.map(cat => {
         const items = all.filter(a => a.categorie === cat);
         if (!items.length) return '';
         return `

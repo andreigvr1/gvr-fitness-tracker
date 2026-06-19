@@ -1,18 +1,22 @@
 // Workout session state management
 
+import { DeloadEngine } from '../engines/DeloadEngine.js';
+
 export class WorkoutSession {
-  constructor(program, dayIndex) {
+  // opts.deload = săptămână de descărcare → −50% serii (DeloadEngine.deloadSets).
+  constructor(program, dayIndex, opts = {}) {
     const day = program.zile[dayIndex];
     this.data = Date.now();
     this.zi_index = dayIndex;
     this.zi_label = day.label;
     this.zi_complet = false;
+    this.deload = !!opts.deload;
     this.exercitii = day.exercitii.map(ex => ({
       ex_id: ex.id,
       skip: null,
       efort: null, // 'usor' | 'ok' | 'greu' — colectat în calibrare (§1.A.2)
       banner: null, // {tip, kg_propus, raspuns} — instrumentare progresie (§1.A.4)
-      serii: Array.from({ length: ex.seturi }, () => ({
+      serii: Array.from({ length: this.deload ? DeloadEngine.deloadSets(ex.seturi) : ex.seturi }, () => ({
         greutate: null,
         repetari: null,
         reusit: null,
@@ -104,6 +108,7 @@ export class WorkoutSession {
       zi_index: this.zi_index,
       zi_label: this.zi_label,
       zi_complet: this.zi_complet,
+      deload: this.deload,
       exercitii: this.exercitii,
     };
   }
