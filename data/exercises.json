@@ -123,7 +123,7 @@
                       },
                       {
                           "id":  "bulgarian_split_squat",
-                          "rang":  2,
+                          "rang":  1,
                           "nume":  "Bulgarian split squat",
                           "pattern":  "squat",
                           "grupe_principale":  [
@@ -833,7 +833,7 @@
                       },
                       {
                           "id":  "triceps_overhead_gantera",
-                          "rang":  1,
+                          "rang":  2,
                           "nume":  "Triceps overhead extension cu gantera",
                           "pattern":  "izolare-triceps",
                           "grupe_principale":  [
@@ -1822,7 +1822,7 @@
                       },
                       {
                           "id":  "shrug_gantere",
-                          "rang":  2,
+                          "rang":  3,
                           "nume":  "Shrug cu gantere",
                           "pattern":  "tractiune verticala",
                           "grupe_principale":  [
@@ -1841,7 +1841,7 @@
                       },
                       {
                           "id":  "shrug_haltera",
-                          "rang":  2,
+                          "rang":  3,
                           "nume":  "Shrug cu haltera",
                           "pattern":  "tractiune verticala",
                           "grupe_principale":  [
@@ -2030,7 +2030,7 @@
                       },
                       {
                           "id":  "skullcrusher_gantere",
-                          "rang":  2,
+                          "rang":  1,
                           "nume":  "Skullcrusher cu gantere",
                           "pattern":  "izolare-triceps",
                           "grupe_principale":  [
@@ -2117,6 +2117,285 @@
                                                  "lombar"
                                              ],
                           "descriere":  "In genunchi cu cablul ancorat sus; tine frânghia la urechi si flexeaza coloana contractand abdomenul — nu trage cu bratele. Cel mai bun exercitiu de abdomen cu rezistenta progresiva.",
+                          "reguli_speciale":  null
+                      },
+                      {
+                          "id":  "leg_press",
+                          "rang":  2,
+                          "nume":  "Leg press",
+                          "pattern":  "squat",
+                          "grupe_principale":  [
+                                                   "picioare",
+                                                   "fesieri"
+                                               ],
+                          "echipament":  [
+                                             "masina"
+                                         ],
+                          "nivel":  1,
+                          "risc_articular":  [
+                                                 "genunchi",
+                                                 "lombar"
+                                             ],
+                          "descriere":  "Picioarele la latimea umerilor pe platforma; coboara controlat pana la 90° fara sa ridici fesierii de pe scaun. Nu bloca genunchii la extensie completa.",
+                          "reguli_speciale":  null
+                      },
+                      {
+                          "id":  "leg_extension",
+                          "rang":  2,
+                          "nume":  "Leg extension",
+                          "pattern":  "izolare-cvadriceps",
+                          "grupe_principale":  [
+                                                   "picioare"
+                                               ],
+                          "echipament":  [
+                                             "masina"
+                                         ],
+                          "nivel":  1,
+                          "risc_articular":  [
+                                                 "genunchi"
+                                             ],
+                          "descriere":  "Sezut pe masina, extinde genunchii complet contractand cvadricepsul si coboara controlat. Mentine coapsele lipite de scaun; nu balansa cu trunchiul.",
+                          "reguli_speciale":  null
+                      },
+                      {
+                          "id":  "leg_curl_masina",
+                          "rang":  2,
+                          "nume":  "Leg curl la masina",
+                          "pattern":  "flexie genunchi",
+                          "grupe_principale":  [
+                                                   "picioare"
+                                               ],
+                          "echipament":  [
+                                             "masina"
+                                         ],
+                          "nivel":  1,
+                          "risc_articular":  [
+
+                                             ],
+                          "descriere":  "Culcat sau sezut; trage calcaiele spre fesieri controlat si revino incet. Nu ridica soldurile la varianta culcat; mentine coapsele pe perna.",
+                          "reguli_speciale":  null
+                      },
+                      {
+                          "id":  "hip_abductor_masina",
+                          "rang":  2,
+                          "nume":  "Hip abductor la masina",
+                          "pattern":  "izolare-fesieri",
+                          "grupe_principale":  [
+                                                   "fesieri"
+                                               ],
+                          "echipament":  [
+                                             "masina"
+                                         ],
+                          "nivel":  1,
+                          "risc_articular":  [
+
+                                             ],
+                          "descriere":  "Sezut cu genunchii pe platformele laterale; deschide picioarele controlat si revino incet mentinand spatele drept. Eficient pentru fesieri mediu si preventie ACL.",
+                          "reguli_speciale":  null
+                      },
+                      {
+                          "id":  "chest_press_masina",
+                          "rang":  2,
+                          "nume":  "Chest press la masina",
+                          "pattern":  "impins orizontal",
+                          "grupe_principale":  [
+                                                   "piept",
+                                                   "brate",
+                                                   "umeri"
+                                               ],
+                          "echipament":  [
+                                             "masina"
+                                         ],
+                          "nivel":  1,
+                          "risc_articular":  [
+                                                 "umar"
+                                             ],
+                          "descriere":  "Spatele drept pe scaun; impinge manierele inainte fara sa rotesti umerii inainte. Bun ca alternativa la bench press cand forma nu e consolidata sau umarul e sensibil.",
+                          "reguli_speciale":  null
+                      },
+                      {
+                          "id":  "pec_deck",
+                          "rang":  2,
+                          "nume":  "Pec deck",
+                          "pattern":  "izolare-piept",
+                          "grupe_principale":  [
+                                                   "piept"
+                                               ],
+                          "echipament":  [
+                                             "masina"
+                                         ],
+                          "nivel":  1,
+                          "risc_articular":  [
+                                                 "umar"
+                                             ],
+                          "descriere":  "Coatele sau antebratul pe pad-urile laterale; aduna pieptul contractand pectoralul pana cand pad-urile se ating si revino controlat. Nu lasa masina sa traga coatele in spate.",
+                          "reguli_speciale":  null
+                      },
+                      {
+                          "id":  "shoulder_press_masina",
+                          "rang":  2,
+                          "nume":  "Shoulder press la masina",
+                          "pattern":  "impins vertical",
+                          "grupe_principale":  [
+                                                   "umeri",
+                                                   "brate"
+                                               ],
+                          "echipament":  [
+                                             "masina"
+                                         ],
+                          "nivel":  1,
+                          "risc_articular":  [
+                                                 "umar"
+                                             ],
+                          "descriere":  "Spatele lipit de scaun; impinge manierele vertical fara sa arcuiesti lombar. Traiectoria fixa a masinii reduce solicitarea stabilizatorilor — bun pentru volum de acumulare sau umeri sensibili.",
+                          "reguli_speciale":  null
+                      },
+                      {
+                          "id":  "cable_lateral_raise",
+                          "rang":  2,
+                          "nume":  "Lateral raise la cablu",
+                          "pattern":  "izolare-umeri",
+                          "grupe_principale":  [
+                                                   "umeri"
+                                               ],
+                          "echipament":  [
+                                             "scripete"
+                                         ],
+                          "nivel":  1,
+                          "risc_articular":  [
+                                                 "umar"
+                                             ],
+                          "descriere":  "Cablu ancorat la sold, ridica bratul lateral pana la nivelul umarului cu cotul usor flexat. Tensiunea constanta a cablului incarca deltoidul median pe tot ROM-ul, inclusiv in pozitia alungita.",
+                          "reguli_speciale":  "unilateral"
+                      },
+                      {
+                          "id":  "hip_adductor_masina",
+                          "rang":  2,
+                          "nume":  "Hip adductor la masina",
+                          "pattern":  "izolare-fesieri",
+                          "grupe_principale":  [
+                                                   "picioare"
+                                               ],
+                          "echipament":  [
+                                             "masina"
+                                         ],
+                          "nivel":  1,
+                          "risc_articular":  [
+                                                 "sold"
+                                             ],
+                          "descriere":  "Sezut cu genunchii pe platformele interioare; strange picioarele contractand adductorii si revino incet. Mentine spatele drept si nu balansa.",
+                          "reguli_speciale":  null
+                      },
+                      {
+                          "id":  "hack_squat_masina",
+                          "rang":  2,
+                          "nume":  "Hack squat la masina",
+                          "pattern":  "squat",
+                          "grupe_principale":  [
+                                                   "picioare",
+                                                   "fesieri"
+                                               ],
+                          "echipament":  [
+                                             "masina"
+                                         ],
+                          "nivel":  1,
+                          "risc_articular":  [
+                                                 "genunchi",
+                                                 "lombar"
+                                             ],
+                          "descriere":  "Spatele si umerii pe padurile masinii; coboara pana la 90 grade sau mai jos cu genunchii in directia degetelor. Picioare sus pe platforma = mai mult fesier; picioare jos = mai mult cvadriceps.",
+                          "reguli_speciale":  null
+                      },
+                      {
+                          "id":  "seated_calf_raise_masina",
+                          "rang":  2,
+                          "nume":  "Calf raise sezut la masina",
+                          "pattern":  "izolare-gambe",
+                          "grupe_principale":  [
+                                                   "picioare"
+                                               ],
+                          "echipament":  [
+                                             "masina"
+                                         ],
+                          "nivel":  1,
+                          "risc_articular":  [
+                                             ],
+                          "descriere":  "Genunchii sub paduri la 90 grade; ridica calcaiele cat mai sus contractand solear-ul, coboara controlat sub nivelul platformei. Cu genunchii indoiti solear-ul lucreaza mai mult decat in varianta in picioare.",
+                          "reguli_speciale":  null
+                      },
+                      {
+                          "id":  "glute_kickback_masina",
+                          "rang":  2,
+                          "nume":  "Glute kickback la masina",
+                          "pattern":  "izolare-fesieri",
+                          "grupe_principale":  [
+                                                   "fesieri"
+                                               ],
+                          "echipament":  [
+                                             "masina"
+                                         ],
+                          "nivel":  1,
+                          "risc_articular":  [
+                                                 "lombar"
+                                             ],
+                          "descriere":  "In picioare sau aplecat pe masina; impinge piciorul inapoi si sus contractand fesierii la capat si revino controlat. Pastreaza bazinul stabil si nu arcui lombar excesiv.",
+                          "reguli_speciale":  "unilateral"
+                      },
+                      {
+                          "id":  "bicep_curl_bara_z",
+                          "rang":  1,
+                          "nume":  "Curl cu bara Z",
+                          "pattern":  "izolare-biceps",
+                          "grupe_principale":  [
+                                                   "brate"
+                                               ],
+                          "echipament":  [
+                                             "bara_z"
+                                         ],
+                          "nivel":  1,
+                          "risc_articular":  [
+                                                 "cot"
+                                             ],
+                          "descriere":  "In picioare, prinde bara Z de manerele inclinate cu palmele in sus; ridica controlat contractand bicepsul fara sa balansezi din trunchi sau sa misti coatele. Manerul inclinat reduce stresul pe incheietura fata de bara dreapta.",
+                          "reguli_speciale":  null
+                      },
+                      {
+                          "id":  "reverse_curl_bara_z",
+                          "rang":  2,
+                          "nume":  "Reverse curl cu bara Z",
+                          "pattern":  "izolare-antebrat",
+                          "grupe_principale":  [
+                                                   "antebrat",
+                                                   "brate"
+                                               ],
+                          "echipament":  [
+                                             "bara_z"
+                                         ],
+                          "nivel":  1,
+                          "risc_articular":  [
+                                                 "cot"
+                                             ],
+                          "descriere":  "In picioare cu priza pronata (palmele in jos) pe manerele inclinate ale barei Z; ridica controlat din coate fara balans. Lucreaza brahioradialul si antebratul; foloseste greutate mai mica decat la curl normal.",
+                          "reguli_speciale":  null
+                      },
+                      {
+                          "id":  "dips_paralele",
+                          "rang":  1,
+                          "nume":  "Flotari la paralele",
+                          "pattern":  "izolare-triceps",
+                          "grupe_principale":  [
+                                                   "brate",
+                                                   "piept"
+                                               ],
+                          "echipament":  [
+                                             "corp"
+                                         ],
+                          "nivel":  2,
+                          "risc_articular":  [
+                                                 "umar",
+                                                 "cot"
+                                             ],
+                          "descriere":  "Sprijinit pe doua suprafete paralele (bare, spatare de scaune, marginea a doua mese), coboara controlat pana cotul ajunge la 90 grade si impinge inapoi sus. Trunchi vertical = accent pe triceps; aplecat inainte = mai mult piept. Nu cobori sub 90 grade daca simti presiune in umar.",
                           "reguli_speciale":  null
                       }
                   ]

@@ -1,8 +1,9 @@
 // ── Pattern groups ──────────────────────────────────────────────────────────
 const PUSH_P  = ['impins orizontal', 'impins vertical', 'izolare-triceps', 'izolare-piept'];
 const PULL_P  = ['tractiune orizontala', 'tractiune verticala', 'izolare-biceps', 'izolare-umeri', 'izolare-antebrat'];
-const LEGS_P  = ['squat', 'hinge', 'unilateral picior', 'flexie genunchi', 'izolare-fesieri', 'izolare-gambe'];
-const CORE_P  = ['core', 'carry'];
+const LEGS_P  = ['squat', 'hinge', 'unilateral picior', 'flexie genunchi', 'izolare-cvadriceps', 'izolare-fesieri', 'izolare-gambe'];
+const CORE_P  = ['core'];
+const CARRY_P = ['carry']; // intră în sesiune DOAR când antebrat e grupă prioritară
 const COND_P  = ['conditie'];
 export const SKAND_P = ['skandenberg-cupping','skandenberg-pronation','skandenberg-rise','skandenberg-grip','skandenberg-static-biceps','skandenberg-static-triceps','skandenberg-side-pressure'];
 
@@ -128,7 +129,7 @@ const PRESC = {
 // Femeile au mai mulți mușchi tip I → pot face mai multe repetări la același %1RM.
 const FEMALE_REP_BONUS = { n: 2, s: 0, d: 0 };
 
-function prescribe(ex, obiectiv, gen) {
+function prescribe(ex, obiectiv, gen, prioritati = null) {
   const isTimed = (ex.reguli_speciale || '').includes('timp');
   const key = isTimed ? 's' : ex.pattern === 'conditie' ? 'd' : 'n';
   let [seturi, rep_min, rep_max, pauza_sec] = PRESC[obiectiv][key];
@@ -136,8 +137,11 @@ function prescribe(ex, obiectiv, gen) {
     const bonus = FEMALE_REP_BONUS[key];
     rep_min += bonus;
     rep_max += bonus;
-    // Femeile se recuperează mai repede între serii → pauze ~20% mai scurte
     if (key === 'n') pauza_sec = Math.round(pauza_sec * 0.8);
+  }
+  // Grupe prioritare → +1 serie (max 5), ca să reflecte accent real nu doar scor
+  if (prioritati && ex.grupe_principale.some(g => prioritati.has(g))) {
+    seturi = Math.min(seturi + 1, 5);
   }
   return {
     id: ex.id, nume: ex.nume, pattern: ex.pattern,
@@ -165,19 +169,19 @@ const SLOT_TEMPLATES = {
     ['hinge', 'squat', 'flexie genunchi', 'unilateral picior'],
     [...PUSH_C, ...PULL_C],
     ['*'],
-    ['core'], ['core', 'carry'],
+    ['core'], ['core'],
   ],
   upper: [
     ['impins orizontal'], ['tractiune orizontala'],
     ['impins vertical'],  ['tractiune verticala'],
     ['prio'], ['*'], ['*'],
-    ['core'], ['core', 'carry'],
+    ['core'], ['core'],
   ],
   lower: [
     ['squat'], ['hinge'],
     ['unilateral picior'], ['flexie genunchi'],
     ['prio'], ['*'], ['*'],
-    ['core'], ['core', 'carry'],
+    ['core'], ['core'],
   ],
   push: [
     ['impins orizontal'], ['impins vertical'], ['impins orizontal', 'impins vertical'],
@@ -187,7 +191,7 @@ const SLOT_TEMPLATES = {
   pull: [
     ['tractiune orizontala'], ['tractiune verticala'], ['tractiune orizontala', 'tractiune verticala'],
     ['prio'], ['*'], ['*'], ['*'],
-    ['core'], ['core', 'carry'],
+    ['core'], ['core'],
   ],
   legs: [
     ['squat'], ['hinge'], ['unilateral picior'], ['flexie genunchi'],
@@ -272,7 +276,18 @@ function selectForDay(dayTip, allValid, profile, priorUsed) {
 
     let pool;
     if (slotDef.includes('*')) {
-      pool = candidates;
+      // Echilibru împins/tras: dacă un tip domină cu >3 serii, slotul liber compensează
+      const pushSets = selected.filter(s => PUSH_P.includes(s.pattern)).reduce((n, s) => n + s.seturi, 0);
+      const pullSets = selected.filter(s => PULL_P.includes(s.pattern)).reduce((n, s) => n + s.seturi, 0);
+      if (pushSets > pullSets + 3) {
+        const p = candidates.filter(ex => PULL_P.includes(ex.pattern));
+        pool = p.length ? p : candidates;
+      } else if (pullSets > pushSets + 3) {
+        const p = candidates.filter(ex => PUSH_P.includes(ex.pattern));
+        pool = p.length ? p : candidates;
+      } else {
+        pool = candidates;
+      }
     } else if (slotDef.includes('prio')) {
       pool = prior.size
         ? candidates.filter(ex => ex.grupe_principale.some(g => prior.has(g)))
@@ -292,7 +307,7 @@ function selectForDay(dayTip, allValid, profile, priorUsed) {
       .sort((a, b) => b.sc - a.sc);
 
     const winner = scored[0].ex;
-    const item   = prescribe(winner, obj, gen);
+    const item   = prescribe(winner, obj, gen, prior);
     // alternativele: întâi același pattern, apoi restul candidaților din slot
     const samePattern = scored.slice(1).filter(s => s.ex.pattern === winner.pattern);
     const others      = scored.slice(1).filter(s => s.ex.pattern !== winner.pattern);
@@ -322,6 +337,15 @@ function selectForDay(dayTip, allValid, profile, priorUsed) {
       const item = prescribe(scap, obj, gen);
       selected.push(item);
       dayUsed.add(scap.id);
+    }
+  }
+
+  // Carry: apare DOAR dacă antebrat e grupă prioritară
+  if (prior.has('antebrat')) {
+    const carryEx = allValid.find(ex => CARRY_P.includes(ex.pattern) && !dayUsed.has(ex.id));
+    if (carryEx && selected.length < slots + 1) {
+      selected.push(prescribe(carryEx, obj, gen, prior));
+      dayUsed.add(carryEx.id);
     }
   }
 
@@ -421,7 +445,15 @@ export async function generateProgram(profile, splitId) {
 
   if (profile.skandenberg) addSkandenbergBlock(zile, profile, all);
 
-  return { split_id: splitId, split_label: split.label, split_desc: split.desc, zile, generat_la: Date.now() };
+  // Cap de volum: calculează serii/grupă/săptămână (informativ + baza pentru Faza 3)
+  const MEV = profile.experienta <= 1 ? 10 : 12;
+  const MRV = profile.experienta <= 1 ? 15 : 20;
+  const volum = {};
+  zile.forEach(zi => zi.exercitii.forEach(ex => {
+    ex.grupe.forEach(g => { volum[g] = (volum[g] || 0) + ex.seturi; });
+  }));
+
+  return { split_id: splitId, split_label: split.label, split_desc: split.desc, zile, volum, MEV, MRV, generat_la: Date.now() };
 }
 
 export function getRecommendedSplit(zile, experienta = 0, obiectiv = 'sanatate') {

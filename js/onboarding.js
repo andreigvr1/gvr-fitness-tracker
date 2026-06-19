@@ -102,11 +102,12 @@ const STEPS = [
 ];
 
 // ── Constants ────────────────────────────────────────────────────────────────
-const SALA_ALL = ['corp','centura_greutati','banda','gantera','haltera','banca','rack','bara tractiuni','scripete'];
+const SALA_ALL = ['corp','centura_greutati','banda','gantera','haltera','bara_z','banca','rack','bara tractiuni','scripete','masina'];
 const HOME_ITEMS = [
   { val: 'banda',            label: 'Benzi elastice' },
   { val: 'gantera',          label: 'Gantere' },
   { val: 'haltera',          label: 'Halteră + discuri' },
+  { val: 'bara_z',           label: 'Bară Z / EZ' },
   { val: 'banca',            label: 'Bancă' },
   { val: 'rack',             label: 'Power rack / suport' },
   { val: 'bara tractiuni',   label: 'Bară de tracțiuni' },

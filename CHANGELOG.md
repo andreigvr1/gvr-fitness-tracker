@@ -1,5 +1,33 @@
 # Changelog — GVR Fitness Tracker
 
+## v0.9.18 — Aparate de sală, bară Z + rafinări motor
+
+Biblioteca a crescut de la 112 la 126 de exerciții și generatorul echilibrează mai bine programele.
+
+**Exerciții noi pentru sală (aparate):**
+- **Picioare:** leg press, hack squat, leg extension, leg curl la mașină, calf raise șezut la mașină
+- **Fesieri/șolduri:** hip abductor, hip adductor, glute kickback la mașină
+- **Piept/umeri:** chest press, pec deck, shoulder press la mașină
+- Aparatele apar DOAR la „Sală", niciodată în Home Gym.
+
+**Bară Z (EZ) — echipament nou:**
+- Curl cu bara Z (mai blând cu încheietura) și reverse curl cu bara Z.
+- Apare automat la Sală + ca bifă în Home Gym, pentru cine are bară Z acasă.
+
+**Flotări la paralele:** exercițiu nou de triceps, ca bodyweight — se fac la bare, scaune, oriunde.
+
+**Ranguri ajustate (calitate exercițiu):**
+- Skullcrusher și flotări la paralele → rang 1 (extensia overhead a coborât la 2).
+- Bulgarian split squat → rang 1 (squat mai complet; apare ca al doilea exercițiu în sesiunile lungi).
+- Shrug-urile → rang 3 (nu mai concurează cu tracțiunile adevărate).
+- Scos: Decline press cu gantere.
+
+**Motor — programe mai echilibrate:**
+- **Grupele prioritare primesc +1 serie reală** (nu doar scor mai mare), max 5.
+- **Echilibru împins/tras:** dacă un tip domină cu peste 3 serii, slotul liber compensează cu celălalt.
+- **Exercițiile tip carry** (farmer/suitcase) intră în program DOAR dacă pui antebrațul ca grupă prioritară — altfel nu mai „fură" loc.
+- Volumul pe grupă/săptămână e calculat și inclus în program (deocamdată informativ, baza pentru periodizare).
+
 ## v0.9.17 — Ierarhia exercițiilor (rang) + ordinea corectă în sesiune
 
 Generatorul știe acum că exercițiile nu sunt egale între ele:
