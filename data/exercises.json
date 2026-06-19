@@ -1,4 +1,4 @@
-﻿{
+{
     "version":  "1.0",
     "nota":  "Biblioteca de exercitii GVR Fitness Tracker. Livrabil Etapa 1 — de revizuit de Andrei inainte de implementare, in special sectiunile skandenberg si risc_articular.",
     "exercitii":  [
@@ -7,10 +7,9 @@
                           "nume":  "Squat la perete",
                           "pattern":  "squat",
                           "grupe_principale":  [
-                                                   "cvadriceps",
+                                                   "picioare",
                                                    "fesieri"
                                                ],
-                          "tip":  "compound",
                           "echipament":  [
                                              "corp"
                                          ],
@@ -27,10 +26,9 @@
                           "nume":  "Genuflexiuni",
                           "pattern":  "squat",
                           "grupe_principale":  [
-                                                   "cvadriceps",
+                                                   "picioare",
                                                    "fesieri"
                                                ],
-                          "tip":  "compound",
                           "echipament":  [
                                              "corp"
                                          ],
@@ -47,10 +45,9 @@
                           "nume":  "Genuflexiuni cu saritura",
                           "pattern":  "squat",
                           "grupe_principale":  [
-                                                   "cvadriceps",
+                                                   "picioare",
                                                    "fesieri"
                                                ],
-                          "tip":  "compound",
                           "echipament":  [
                                              "corp"
                                          ],
@@ -67,10 +64,9 @@
                           "nume":  "Goblet squat",
                           "pattern":  "squat",
                           "grupe_principale":  [
-                                                   "cvadriceps",
+                                                   "picioare",
                                                    "fesieri"
                                                ],
-                          "tip":  "compound",
                           "echipament":  [
                                              "gantera"
                                          ],
@@ -86,10 +82,9 @@
                           "nume":  "Squat cu banda",
                           "pattern":  "squat",
                           "grupe_principale":  [
-                                                   "cvadriceps",
+                                                   "picioare",
                                                    "fesieri"
                                                ],
-                          "tip":  "compound",
                           "echipament":  [
                                              "banda"
                                          ],
@@ -105,11 +100,9 @@
                           "nume":  "Back squat",
                           "pattern":  "squat",
                           "grupe_principale":  [
-                                                   "cvadriceps",
-                                                   "fesieri",
-                                                   "ischio"
+                                                   "picioare",
+                                                   "fesieri"
                                                ],
-                          "tip":  "compound",
                           "echipament":  [
                                              "haltera",
                                              "rack"
@@ -127,10 +120,9 @@
                           "nume":  "Bulgarian split squat",
                           "pattern":  "squat",
                           "grupe_principale":  [
-                                                   "cvadriceps",
+                                                   "picioare",
                                                    "fesieri"
                                                ],
-                          "tip":  "compound",
                           "echipament":  [
                                              "gantera",
                                              "banca"
@@ -147,10 +139,9 @@
                           "nume":  "Romanian deadlift cu gantere",
                           "pattern":  "hinge",
                           "grupe_principale":  [
-                                                   "ischio",
+                                                   "picioare",
                                                    "fesieri"
                                                ],
-                          "tip":  "compound",
                           "echipament":  [
                                              "gantera"
                                          ],
@@ -166,11 +157,10 @@
                           "nume":  "Deadlift",
                           "pattern":  "hinge",
                           "grupe_principale":  [
-                                                   "ischio",
+                                                   "picioare",
                                                    "fesieri",
                                                    "spate"
                                                ],
-                          "tip":  "compound",
                           "echipament":  [
                                              "haltera"
                                          ],
@@ -187,9 +177,8 @@
                           "pattern":  "hinge",
                           "grupe_principale":  [
                                                    "fesieri",
-                                                   "ischio"
+                                                   "picioare"
                                                ],
-                          "tip":  "compound",
                           "echipament":  [
                                              "gantera"
                                          ],
@@ -206,10 +195,9 @@
                           "pattern":  "impins orizontal",
                           "grupe_principale":  [
                                                    "piept",
-                                                   "triceps",
+                                                   "brate",
                                                    "umeri"
                                                ],
-                          "tip":  "compound",
                           "echipament":  [
                                              "corp"
                                          ],
@@ -227,10 +215,9 @@
                           "pattern":  "impins orizontal",
                           "grupe_principale":  [
                                                    "piept",
-                                                   "triceps",
+                                                   "brate",
                                                    "umeri"
                                                ],
-                          "tip":  "compound",
                           "echipament":  [
                                              "corp",
                                              "banca"
@@ -249,10 +236,9 @@
                           "pattern":  "impins orizontal",
                           "grupe_principale":  [
                                                    "piept",
-                                                   "triceps",
+                                                   "brate",
                                                    "umeri"
                                                ],
-                          "tip":  "compound",
                           "echipament":  [
                                              "gantera",
                                              "banca"
@@ -270,10 +256,9 @@
                           "pattern":  "impins orizontal",
                           "grupe_principale":  [
                                                    "piept",
-                                                   "triceps",
+                                                   "brate",
                                                    "umeri"
                                                ],
-                          "tip":  "compound",
                           "echipament":  [
                                              "haltera",
                                              "banca",
@@ -292,9 +277,8 @@
                           "pattern":  "impins vertical",
                           "grupe_principale":  [
                                                    "umeri",
-                                                   "triceps"
+                                                   "brate"
                                                ],
-                          "tip":  "compound",
                           "echipament":  [
                                              "corp"
                                          ],
@@ -312,9 +296,8 @@
                           "pattern":  "impins vertical",
                           "grupe_principale":  [
                                                    "umeri",
-                                                   "triceps"
+                                                   "brate"
                                                ],
-                          "tip":  "compound",
                           "echipament":  [
                                              "gantera"
                                          ],
@@ -331,9 +314,8 @@
                           "pattern":  "impins vertical",
                           "grupe_principale":  [
                                                    "umeri",
-                                                   "triceps"
+                                                   "brate"
                                                ],
-                          "tip":  "compound",
                           "echipament":  [
                                              "haltera",
                                              "rack"
@@ -351,9 +333,8 @@
                           "pattern":  "tractiune orizontala",
                           "grupe_principale":  [
                                                    "spate",
-                                                   "biceps"
+                                                   "brate"
                                                ],
-                          "tip":  "compound",
                           "echipament":  [
                                              "gantera",
                                              "banca"
@@ -371,9 +352,8 @@
                           "pattern":  "tractiune orizontala",
                           "grupe_principale":  [
                                                    "spate",
-                                                   "biceps"
+                                                   "brate"
                                                ],
-                          "tip":  "compound",
                           "echipament":  [
                                              "banda"
                                          ],
@@ -390,9 +370,8 @@
                           "pattern":  "tractiune orizontala",
                           "grupe_principale":  [
                                                    "spate",
-                                                   "biceps"
+                                                   "brate"
                                                ],
-                          "tip":  "compound",
                           "echipament":  [
                                              "scripete"
                                          ],
@@ -409,9 +388,8 @@
                           "pattern":  "tractiune orizontala",
                           "grupe_principale":  [
                                                    "spate",
-                                                   "biceps"
+                                                   "brate"
                                                ],
-                          "tip":  "compound",
                           "echipament":  [
                                              "haltera"
                                          ],
@@ -428,9 +406,8 @@
                           "pattern":  "tractiune verticala",
                           "grupe_principale":  [
                                                    "spate",
-                                                   "biceps"
+                                                   "brate"
                                                ],
-                          "tip":  "compound",
                           "echipament":  [
                                              "bara tractiuni",
                                              "banda"
@@ -448,9 +425,8 @@
                           "pattern":  "tractiune verticala",
                           "grupe_principale":  [
                                                    "spate",
-                                                   "biceps"
+                                                   "brate"
                                                ],
-                          "tip":  "compound",
                           "echipament":  [
                                              "scripete"
                                          ],
@@ -467,9 +443,8 @@
                           "pattern":  "tractiune verticala",
                           "grupe_principale":  [
                                                    "spate",
-                                                   "biceps"
+                                                   "brate"
                                                ],
-                          "tip":  "compound",
                           "echipament":  [
                                              "bara tractiuni"
                                          ],
@@ -486,9 +461,8 @@
                           "pattern":  "tractiune verticala",
                           "grupe_principale":  [
                                                    "spate",
-                                                   "biceps"
+                                                   "brate"
                                                ],
-                          "tip":  "compound",
                           "echipament":  [
                                              "bara tractiuni"
                                          ],
@@ -504,10 +478,9 @@
                           "nume":  "Fandare",
                           "pattern":  "unilateral picior",
                           "grupe_principale":  [
-                                                   "cvadriceps",
+                                                   "picioare",
                                                    "fesieri"
                                                ],
-                          "tip":  "compound",
                           "echipament":  [
                                              "corp"
                                          ],
@@ -524,10 +497,9 @@
                           "nume":  "Step-up",
                           "pattern":  "unilateral picior",
                           "grupe_principale":  [
-                                                   "cvadriceps",
+                                                   "picioare",
                                                    "fesieri"
                                                ],
-                          "tip":  "compound",
                           "echipament":  [
                                              "gantera",
                                              "banca"
@@ -544,10 +516,9 @@
                           "nume":  "Single leg Romanian deadlift",
                           "pattern":  "unilateral picior",
                           "grupe_principale":  [
-                                                   "ischio",
+                                                   "picioare",
                                                    "fesieri"
                                                ],
-                          "tip":  "compound",
                           "echipament":  [
                                              "gantera"
                                          ],
@@ -563,9 +534,8 @@
                           "nume":  "Leg curl cu banda",
                           "pattern":  "flexie genunchi",
                           "grupe_principale":  [
-                                                   "ischio"
+                                                   "picioare"
                                                ],
-                          "tip":  "izolare",
                           "echipament":  [
                                              "banda"
                                          ],
@@ -581,9 +551,8 @@
                           "nume":  "Nordic curl",
                           "pattern":  "flexie genunchi",
                           "grupe_principale":  [
-                                                   "ischio"
+                                                   "picioare"
                                                ],
-                          "tip":  "compound",
                           "echipament":  [
                                              "corp"
                                          ],
@@ -601,7 +570,6 @@
                           "grupe_principale":  [
                                                    "abdomen"
                                                ],
-                          "tip":  "static",
                           "echipament":  [
                                              "corp"
                                          ],
@@ -620,7 +588,6 @@
                           "grupe_principale":  [
                                                    "abdomen"
                                                ],
-                          "tip":  "compound",
                           "echipament":  [
                                              "corp"
                                          ],
@@ -638,7 +605,6 @@
                           "grupe_principale":  [
                                                    "abdomen"
                                                ],
-                          "tip":  "izolare",
                           "echipament":  [
                                              "corp"
                                          ],
@@ -656,7 +622,6 @@
                           "grupe_principale":  [
                                                    "abdomen"
                                                ],
-                          "tip":  "izolare",
                           "echipament":  [
                                              "corp"
                                          ],
@@ -674,7 +639,6 @@
                           "grupe_principale":  [
                                                    "abdomen"
                                                ],
-                          "tip":  "izolare",
                           "echipament":  [
                                              "banda"
                                          ],
@@ -692,7 +656,6 @@
                           "grupe_principale":  [
                                                    "abdomen"
                                                ],
-                          "tip":  "static",
                           "echipament":  [
                                              "corp"
                                          ],
@@ -710,7 +673,6 @@
                           "grupe_principale":  [
                                                    "abdomen"
                                                ],
-                          "tip":  "compound",
                           "echipament":  [
                                              "gantera"
                                          ],
@@ -730,7 +692,6 @@
                                                    "umeri",
                                                    "abdomen"
                                                ],
-                          "tip":  "compound",
                           "echipament":  [
                                              "gantera"
                                          ],
@@ -749,7 +710,6 @@
                                                    "abdomen",
                                                    "antebrat"
                                                ],
-                          "tip":  "compound",
                           "echipament":  [
                                              "gantera"
                                          ],
@@ -765,9 +725,8 @@
                           "nume":  "Bicep curl cu gantere",
                           "pattern":  "izolare-biceps",
                           "grupe_principale":  [
-                                                   "biceps"
+                                                   "brate"
                                                ],
-                          "tip":  "izolare",
                           "echipament":  [
                                              "gantera"
                                          ],
@@ -783,9 +742,8 @@
                           "nume":  "Bicep curl cu haltera",
                           "pattern":  "izolare-biceps",
                           "grupe_principale":  [
-                                                   "biceps"
+                                                   "brate"
                                                ],
-                          "tip":  "izolare",
                           "echipament":  [
                                              "haltera"
                                          ],
@@ -801,9 +759,8 @@
                           "nume":  "Bicep curl cu banda",
                           "pattern":  "izolare-biceps",
                           "grupe_principale":  [
-                                                   "biceps"
+                                                   "brate"
                                                ],
-                          "tip":  "izolare",
                           "echipament":  [
                                              "banda"
                                          ],
@@ -819,9 +776,8 @@
                           "nume":  "Bicep curl la scripete",
                           "pattern":  "izolare-biceps",
                           "grupe_principale":  [
-                                                   "biceps"
+                                                   "brate"
                                                ],
-                          "tip":  "izolare",
                           "echipament":  [
                                              "scripete"
                                          ],
@@ -837,9 +793,8 @@
                           "nume":  "Triceps overhead extension cu gantera",
                           "pattern":  "izolare-triceps",
                           "grupe_principale":  [
-                                                   "triceps"
+                                                   "brate"
                                                ],
-                          "tip":  "izolare",
                           "echipament":  [
                                              "gantera"
                                          ],
@@ -855,9 +810,8 @@
                           "nume":  "Triceps pushdown la scripete",
                           "pattern":  "izolare-triceps",
                           "grupe_principale":  [
-                                                   "triceps"
+                                                   "brate"
                                                ],
-                          "tip":  "izolare",
                           "echipament":  [
                                              "scripete"
                                          ],
@@ -873,10 +827,9 @@
                           "nume":  "Triceps dips",
                           "pattern":  "izolare-triceps",
                           "grupe_principale":  [
-                                                   "triceps",
+                                                   "brate",
                                                    "piept"
                                                ],
-                          "tip":  "compound",
                           "echipament":  [
                                              "corp",
                                              "banca"
@@ -896,7 +849,6 @@
                           "grupe_principale":  [
                                                    "fesieri"
                                                ],
-                          "tip":  "izolare",
                           "echipament":  [
                                              "corp"
                                          ],
@@ -915,7 +867,6 @@
                           "grupe_principale":  [
                                                    "fesieri"
                                                ],
-                          "tip":  "izolare",
                           "echipament":  [
                                              "gantera",
                                              "banca"
@@ -934,7 +885,6 @@
                           "grupe_principale":  [
                                                    "fesieri"
                                                ],
-                          "tip":  "izolare",
                           "echipament":  [
                                              "haltera",
                                              "banca"
@@ -953,7 +903,6 @@
                           "grupe_principale":  [
                                                    "fesieri"
                                                ],
-                          "tip":  "izolare",
                           "echipament":  [
                                              "banda"
                                          ],
@@ -971,7 +920,6 @@
                           "grupe_principale":  [
                                                    "fesieri"
                                                ],
-                          "tip":  "izolare",
                           "echipament":  [
                                              "banda"
                                          ],
@@ -989,12 +937,13 @@
                           "grupe_principale":  [
                                                    "fesieri"
                                                ],
-                          "tip":  "izolare",
                           "echipament":  [
                                              "corp"
                                          ],
                           "nivel":  1,
-                          "risc_articular":  [],
+                          "risc_articular":  [
+
+                                             ],
                           "descriere":  "Culcat lateral, ridica piciorul de sus spre tavan tinand genunchiul drept. Contracta fesierii la varf, coboara controlat. Activa muschiul fesier mijlociu.",
                           "reguli_speciale":  "unilateral",
                           "progressie_bw":  "abductie_sold_banda"
@@ -1006,7 +955,6 @@
                           "grupe_principale":  [
                                                    "gambe"
                                                ],
-                          "tip":  "izolare",
                           "echipament":  [
                                              "corp"
                                          ],
@@ -1024,7 +972,6 @@
                           "grupe_principale":  [
                                                    "gambe"
                                                ],
-                          "tip":  "izolare",
                           "echipament":  [
                                              "gantera"
                                          ],
@@ -1042,7 +989,6 @@
                           "grupe_principale":  [
                                                    "umeri"
                                                ],
-                          "tip":  "izolare",
                           "echipament":  [
                                              "gantera"
                                          ],
@@ -1060,7 +1006,6 @@
                           "grupe_principale":  [
                                                    "umeri"
                                                ],
-                          "tip":  "izolare",
                           "echipament":  [
                                              "banda"
                                          ],
@@ -1078,7 +1023,6 @@
                           "grupe_principale":  [
                                                    "umeri"
                                                ],
-                          "tip":  "izolare",
                           "echipament":  [
                                              "banda"
                                          ],
@@ -1096,7 +1040,6 @@
                           "grupe_principale":  [
                                                    "piept"
                                                ],
-                          "tip":  "izolare",
                           "echipament":  [
                                              "gantera",
                                              "banca"
@@ -1115,7 +1058,6 @@
                           "grupe_principale":  [
                                                    "piept"
                                                ],
-                          "tip":  "izolare",
                           "echipament":  [
                                              "scripete"
                                          ],
@@ -1133,7 +1075,6 @@
                           "grupe_principale":  [
                                                    "antebrat"
                                                ],
-                          "tip":  "izolare",
                           "echipament":  [
                                              "gantera"
                                          ],
@@ -1150,9 +1091,8 @@
                           "pattern":  "izolare-antebrat",
                           "grupe_principale":  [
                                                    "antebrat",
-                                                   "biceps"
+                                                   "brate"
                                                ],
-                          "tip":  "izolare",
                           "echipament":  [
                                              "gantera"
                                          ],
@@ -1169,9 +1109,8 @@
                           "pattern":  "skandenberg-cupping",
                           "grupe_principale":  [
                                                    "antebrat",
-                                                   "biceps"
+                                                   "brate"
                                                ],
-                          "tip":  "izolare",
                           "echipament":  [
                                              "scripete",
                                              "centura judo"
@@ -1189,9 +1128,8 @@
                           "pattern":  "skandenberg-cupping",
                           "grupe_principale":  [
                                                    "antebrat",
-                                                   "biceps"
+                                                   "brate"
                                                ],
-                          "tip":  "izolare",
                           "echipament":  [
                                              "scripete",
                                              "maner-rotativ"
@@ -1209,9 +1147,8 @@
                           "pattern":  "skandenberg-cupping",
                           "grupe_principale":  [
                                                    "antebrat",
-                                                   "biceps"
+                                                   "brate"
                                                ],
-                          "tip":  "izolare",
                           "echipament":  [
                                              "banda"
                                          ],
@@ -1229,7 +1166,6 @@
                           "grupe_principale":  [
                                                    "antebrat"
                                                ],
-                          "tip":  "izolare",
                           "echipament":  [
                                              "scripete",
                                              "centura judo"
@@ -1248,7 +1184,6 @@
                           "grupe_principale":  [
                                                    "antebrat"
                                                ],
-                          "tip":  "izolare",
                           "echipament":  [
                                              "scripete",
                                              "maner-excentric"
@@ -1267,7 +1202,6 @@
                           "grupe_principale":  [
                                                    "antebrat"
                                                ],
-                          "tip":  "izolare",
                           "echipament":  [
                                              "banda"
                                          ],
@@ -1285,7 +1219,6 @@
                           "grupe_principale":  [
                                                    "antebrat"
                                                ],
-                          "tip":  "izolare",
                           "echipament":  [
                                              "scripete"
                                          ],
@@ -1303,7 +1236,6 @@
                           "grupe_principale":  [
                                                    "antebrat"
                                                ],
-                          "tip":  "izolare",
                           "echipament":  [
                                              "maner-wrist-wrench"
                                          ],
@@ -1321,7 +1253,6 @@
                           "grupe_principale":  [
                                                    "antebrat"
                                                ],
-                          "tip":  "izolare",
                           "echipament":  [
                                              "banda"
                                          ],
@@ -1339,7 +1270,6 @@
                           "grupe_principale":  [
                                                    "antebrat"
                                                ],
-                          "tip":  "static",
                           "echipament":  [
                                              "gantera"
                                          ],
@@ -1357,7 +1287,6 @@
                           "grupe_principale":  [
                                                    "antebrat"
                                                ],
-                          "tip":  "static",
                           "echipament":  [
                                              "bara tractiuni",
                                              "FG"
@@ -1376,7 +1305,6 @@
                           "grupe_principale":  [
                                                    "antebrat"
                                                ],
-                          "tip":  "static",
                           "echipament":  [
                                              "bara tractiuni",
                                              "maner-multi-grip"
@@ -1393,10 +1321,9 @@
                           "nume":  "Static biceps unghi inchis cu gantera",
                           "pattern":  "skandenberg-static-biceps",
                           "grupe_principale":  [
-                                                   "biceps",
+                                                   "brate",
                                                    "antebrat"
                                                ],
-                          "tip":  "static",
                           "echipament":  [
                                              "gantera"
                                          ],
@@ -1412,10 +1339,9 @@
                           "nume":  "Static biceps la scripete unghi inchis",
                           "pattern":  "skandenberg-static-biceps",
                           "grupe_principale":  [
-                                                   "biceps",
+                                                   "brate",
                                                    "antebrat"
                                                ],
-                          "tip":  "static",
                           "echipament":  [
                                              "scripete"
                                          ],
@@ -1431,9 +1357,8 @@
                           "nume":  "Static triceps pe masa de skandenberg",
                           "pattern":  "skandenberg-static-triceps",
                           "grupe_principale":  [
-                                                   "triceps"
+                                                   "brate"
                                                ],
-                          "tip":  "static",
                           "echipament":  [
                                              "masa",
                                              "gantera"
@@ -1450,9 +1375,8 @@
                           "nume":  "Static triceps la scripete",
                           "pattern":  "skandenberg-static-triceps",
                           "grupe_principale":  [
-                                                   "triceps"
+                                                   "brate"
                                                ],
-                          "tip":  "static",
                           "echipament":  [
                                              "scripete"
                                          ],
@@ -1471,7 +1395,6 @@
                                                    "piept",
                                                    "umeri"
                                                ],
-                          "tip":  "static",
                           "echipament":  [
                                              "banda"
                                          ],
@@ -1489,7 +1412,6 @@
                           "grupe_principale":  [
                                                    "abdomen"
                                                ],
-                          "tip":  "conditie",
                           "echipament":  [
                                              "corp"
                                          ],
@@ -1506,14 +1428,14 @@
                           "pattern":  "conditie",
                           "grupe_principale":  [
                                                    "umeri",
-                                                   "cvadriceps"
+                                                   "picioare"
                                                ],
-                          "tip":  "conditie",
                           "echipament":  [
                                              "corp"
                                          ],
                           "nivel":  1,
                           "risc_articular":  [
+
                                              ],
                           "descriere":  "Din picioare, sari departand picioarele si ridicand bratele deasupra capului simultan, apoi revino in pozitia initiala. Ritm constant — exercitiu de incalzire si cardio.",
                           "reguli_speciale":  "timp in loc de repetari"
@@ -1526,7 +1448,6 @@
                                                    "abdomen",
                                                    "piept"
                                                ],
-                          "tip":  "conditie",
                           "echipament":  [
                                              "corp"
                                          ],
@@ -1544,9 +1465,8 @@
                           "pattern":  "tractiune orizontala",
                           "grupe_principale":  [
                                                    "spate",
-                                                   "biceps"
+                                                   "brate"
                                                ],
-                          "tip":  "compound",
                           "echipament":  [
                                              "corp"
                                          ],
@@ -1564,9 +1484,8 @@
                           "pattern":  "tractiune orizontala",
                           "grupe_principale":  [
                                                    "spate",
-                                                   "biceps"
+                                                   "brate"
                                                ],
-                          "tip":  "compound",
                           "echipament":  [
                                              "corp"
                                          ],
@@ -1586,7 +1505,6 @@
                                                    "spate",
                                                    "fesieri"
                                                ],
-                          "tip":  "izolare",
                           "echipament":  [
                                              "corp"
                                          ],
@@ -1602,10 +1520,9 @@
                           "nume":  "Split squat bodyweight",
                           "pattern":  "squat",
                           "grupe_principale":  [
-                                                   "cvadriceps",
+                                                   "picioare",
                                                    "fesieri"
                                                ],
-                          "tip":  "compound",
                           "echipament":  [
                                              "corp"
                                          ],
@@ -1623,10 +1540,9 @@
                           "pattern":  "impins orizontal",
                           "grupe_principale":  [
                                                    "piept",
-                                                   "triceps",
+                                                   "brate",
                                                    "umeri"
                                                ],
-                          "tip":  "compound",
                           "echipament":  [
                                              "corp"
                                          ],
@@ -1645,9 +1561,8 @@
                           "pattern":  "impins vertical",
                           "grupe_principale":  [
                                                    "umeri",
-                                                   "triceps"
+                                                   "brate"
                                                ],
-                          "tip":  "compound",
                           "echipament":  [
                                              "corp",
                                              "banca"
@@ -1666,10 +1581,9 @@
                           "pattern":  "tractiune orizontala",
                           "grupe_principale":  [
                                                    "spate",
-                                                   "biceps",
+                                                   "brate",
                                                    "umeri"
                                                ],
-                          "tip":  "compound",
                           "echipament":  [
                                              "corp",
                                              "banca"
@@ -1688,9 +1602,8 @@
                           "pattern":  "izolare-fesieri",
                           "grupe_principale":  [
                                                    "fesieri",
-                                                   "ischio"
+                                                   "picioare"
                                                ],
-                          "tip":  "compound",
                           "echipament":  [
                                              "corp"
                                          ],

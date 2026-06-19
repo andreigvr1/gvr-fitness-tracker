@@ -34,8 +34,7 @@ export class ExerciseManager {
   }
 
   static filterByType(exercises, type) {
-    if (!type) return exercises;
-    return exercises.filter(ex => ex.tip === type);
+    return exercises;
   }
 
   static filterByMuscleAndType(exercises, muscleGroup, type) {

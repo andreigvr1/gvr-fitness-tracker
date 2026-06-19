@@ -23,7 +23,6 @@ export class Program {
       id: newEx.id,
       nume: newEx.nume,
       pattern: newEx.pattern,
-      tip: newEx.tip,
       grupe: newEx.grupe_principale,
       descriere: newEx.descriere,
       reguli_speciale: newEx.reguli_speciale,

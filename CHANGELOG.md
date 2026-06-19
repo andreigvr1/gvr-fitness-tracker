@@ -1,5 +1,13 @@
 # Changelog — GVR Fitness Tracker
 
+## v0.9.14 — Simplificare bibliotecă: grupe populare + scos compound/izolare
+
+Schimbare de structură a bibliotecii de exerciții pentru a o face mai ușor de extins:
+- **Grupe musculare simplificate:** termenii tehnici (`cvadriceps`, `ischio`, `biceps`, `triceps`) înlocuiți cu termeni populari (`picioare`, `brate`). `antebrat` rămâne separat — va găzdui exercițiile de skandenberg. Schema finală: Picioare · Fesieri · Spate · Piept · Umeri · Brațe · Antebrat · Gambe · Abdomen.
+- **Scos câmpul „compound/izolare":** distincția tehnică dintre exerciții compuse și de izolare a dispărut din bibliotecă și din generator. Prescripțiile (serii, repetări, pauze) se bazează acum pe un singur set de valori per obiectiv, simplu și clar.
+- **Prescripții noi:** forță 3×4-6 (pauze 150s), masă 3×8-12 (90s), sănătate 3×10-15 (60s), anduranță 3×15-20 (30s). Exercițiile pe timp (plancă, carries) rămân prescrise în secunde.
+- **Onboarding actualizat:** pasul de grupe prioritare reflectă noua nomenclatură (Brațe în loc de Biceps/Triceps separate, Picioare, Gambe).
+
 ## v0.9.13 — Siguranță: etichete de risc articular completate
 
 Trecere în revistă a etichetelor de risc pentru articulații sensibile, ca filtrele de siguranță să excludă corect exercițiile potrivite:

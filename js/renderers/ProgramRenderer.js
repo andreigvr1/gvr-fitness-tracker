@@ -140,7 +140,7 @@ export class ProgramRenderer {
         box.innerHTML = alts.map(a => `
           <button class="alt-opt" data-id="${a.id}" data-day="${di}" data-ex="${ei}">
             <span class="alt-name">${a.nume}</span>
-            <span class="alt-meta">${a.tip} · niv.${a.nivel}</span>
+            <span class="alt-meta">niv.${a.nivel}</span>
           </button>`).join('');
 
         box.querySelectorAll('.alt-opt').forEach(altBtn => {
@@ -331,7 +331,6 @@ export class ProgramRenderer {
       seturi: 3,
       rep_min: 8,
       rep_max: 12,
-      tip: ex.tip,
       nivel: ex.nivel
     };
 

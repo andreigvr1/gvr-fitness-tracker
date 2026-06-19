@@ -118,30 +118,29 @@ function isSafe(ex, badJoints) {
 
 // ── Prescription ─────────────────────────────────────────────────────────────
 const PRESC = {
-  //              compound          izolare          static        conditie
-  forta:     { c: [4,3,5,180],  i: [3,6,10,90],  s: [3,30,60,90],  d: [3,10,15,45] },
-  masa:      { c: [3,6,10,105], i: [3,8,15,60],  s: [3,30,60,75],  d: [3,12,15,45] },
-  sanatate:  { c: [3,8,12,75],  i: [3,10,15,60], s: [3,20,45,60],  d: [3,10,15,30] },
-  anduranta: { c: [3,12,15,45], i: [3,15,20,30], s: [3,20,45,45],  d: [3,15,20,30] },
+  //              normal           static        conditie
+  forta:     { n: [3,4,6,150],  s: [3,30,60,90],  d: [3,10,15,45] },
+  masa:      { n: [3,8,12,90],  s: [3,30,60,75],  d: [3,12,15,45] },
+  sanatate:  { n: [3,10,15,60], s: [3,20,45,60],  d: [3,10,15,30] },
+  anduranta: { n: [3,15,20,30], s: [3,20,45,45],  d: [3,15,20,30] },
 };
 
 // Femeile au mai mulți mușchi tip I → pot face mai multe repetări la același %1RM.
-// Ajustăm intervalul de rep cu +2 la capătul inferior și superior pentru exerciții
-// compuse și de izolare (nu static/conditie — acolo deja e timp sau volum mare).
-const FEMALE_REP_BONUS = { c: 2, i: 2, s: 0, d: 0 };
+const FEMALE_REP_BONUS = { n: 2, s: 0, d: 0 };
 
 function prescribe(ex, obiectiv, gen) {
-  const key = ex.tip === 'izolare' ? 'i' : ex.tip === 'static' ? 's' : ex.tip === 'conditie' ? 'd' : 'c';
+  const isTimed = (ex.reguli_speciale || '').includes('timp');
+  const key = isTimed ? 's' : ex.pattern === 'conditie' ? 'd' : 'n';
   let [seturi, rep_min, rep_max, pauza_sec] = PRESC[obiectiv][key];
   if (gen === 'feminin') {
     const bonus = FEMALE_REP_BONUS[key];
     rep_min += bonus;
     rep_max += bonus;
     // Femeile se recuperează mai repede între serii → pauze ~20% mai scurte
-    if (key === 'c' || key === 'i') pauza_sec = Math.round(pauza_sec * 0.8);
+    if (key === 'n') pauza_sec = Math.round(pauza_sec * 0.8);
   }
   return {
-    id: ex.id, nume: ex.nume, pattern: ex.pattern, tip: ex.tip,
+    id: ex.id, nume: ex.nume, pattern: ex.pattern,
     grupe: ex.grupe_principale, descriere: ex.descriere,
     reguli_speciale: ex.reguli_speciale,
     echipament: ex.echipament,
@@ -203,13 +202,10 @@ const FEMALE_ABDUCTION_IDS = new Set(['abductie_sold_banda','abductie_sold_corp'
 // ── Scoring ──────────────────────────────────────────────────────────────────
 function scoreEx(ex, obiectiv, prioritati, usedGroups, slotsTotal, equipment, gen, exp = 3, priorUsed = null) {
   let s = 10;
-  if (ex.tip === 'compound') s += 10;
-  if (obiectiv === 'forta'    && ex.tip === 'compound')  s += 8;
-  if (obiectiv === 'masa'     && ex.tip === 'izolare')   s += 4;
-  if (obiectiv === 'anduranta'&& ex.tip === 'conditie')  s += 8;
+  if (obiectiv === 'anduranta' && ex.pattern === 'conditie') s += 8;
   if (ex.grupe_principale.some(g => prioritati.has(g)))  s += 20;
-  if (slotsTotal <= 5 && (ex.pattern === 'carry' || ex.tip === 'conditie')) s -= 25;
-  if (slotsTotal <= 5 && ex.tip === 'static') s -= 10;
+  if (slotsTotal <= 5 && (ex.pattern === 'carry' || ex.pattern === 'conditie')) s -= 25;
+  if (slotsTotal <= 5 && (ex.reguli_speciale || '').includes('timp') && ex.pattern !== 'carry' && ex.pattern !== 'conditie') s -= 10;
   const overlap = ex.grupe_principale.filter(g => usedGroups.has(g)).length;
   s -= overlap * 8;
 
@@ -323,9 +319,9 @@ function selectForDay(dayTip, allValid, profile, priorUsed) {
     }
   }
 
-  // Compound first
-  const tipOrd = { compound: 0, izolare: 1, static: 2, conditie: 3 };
-  selected.sort((a, b) => (tipOrd[a.tip] ?? 1) - (tipOrd[b.tip] ?? 1));
+  // Mișcările de bază primele (squat/hinge/push/pull), static și carry la final
+  const patternOrd = p => SKAND_P.includes(p) ? 4 : (p === 'core' || p === 'carry' || p === 'conditie') ? 3 : (p || '').includes('izolare') ? 2 : 0;
+  selected.sort((a, b) => patternOrd(a.pattern) - patternOrd(b.pattern));
 
   return selected;
 }
