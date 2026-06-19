@@ -5,8 +5,12 @@
 //   2. RIR raportat față de RIR țintă
 //   3. Reps completate față de intervalul prescris
 //   4. Regresie pe sesiuni consecutive
+//
+// T2 — Increment personalizat: dacă userul are ≥3 sesiuni cu creșteri de greutate,
+// motorul calculează incrementul REAL (median din istoricul progresiei) în loc de
+// cel fix. Ritmul personalizat apare cu badge „ritm tău" în ecranul de antrenament.
 
-// Increment dinamic bazat pe gen și sarcina curentă
+// Increment fix bazat pe gen și sarcina curentă (fallback / decrescent întotdeauna)
 function getIncrement(gen, isLowerBody, kg = 0) {
   if (gen === 'feminin') {
     if (isLowerBody) return kg < 60 ? 2.5 : 5;
@@ -78,7 +82,6 @@ export class ProgressionEngine {
    */
   getRecommendation(exId, repMin, repMax, antrenamente = [], profileExp = 0, opts = {}) {
     const { rir, feedbackUser, isBodyweight = false, hasCenturaGreutati = false, isLowerBody = false, gen, deload = false } = opts;
-    const kg0 = 0; // va fi actualizat după ce găsim istoricul
 
     // ── Fără istoric ─────────────────────────────────────────────────────────
     const sessions = (antrenamente || [])
@@ -98,6 +101,10 @@ export class ProgressionEngine {
     const weights = last.serii.map(s => s.greutate).filter(Boolean);
     const kg      = weights.length ? Math.max(...weights) : 0;
     const inc     = getIncrement(gen, isLowerBody, kg);
+
+    // T2 — increment personalizat din istoricul real (doar pentru exerciții cu greutate)
+    const pi    = !isBodyweight ? this._personalIncrement(exId, antrenamente, gen, isLowerBody) : null;
+    const incUp = pi ? pi.value : inc; // increment „spre sus"; fixul rămâne pentru scăderi
 
     // ── Săptămână de descărcare (deload) — plafonează la ~70%, prioritate maximă ──
     if (deload) {
@@ -154,45 +161,44 @@ export class ProgressionEngine {
 
     // ── 3. RIR — dacă e disponibil ───────────────────────────────────────────
     if (rir !== undefined && rir !== null) {
-      return this._rirDecision(kg, inc, rir, repMin, repMax, last);
+      return this._rirDecision(kg, inc, rir, repMin, repMax, last, incUp);
     }
 
     // ── 4. Logică clasică reps ────────────────────────────────────────────────
-    return this._repsDecision(kg, inc, last, repMin, repMax, sessions, profileExp);
+    return this._repsDecision(kg, inc, last, repMin, repMax, sessions, profileExp, incUp);
   }
 
   // ── Decizie bazată pe RIR ──────────────────────────────────────────────────
   // RIR țintă implicit: 2 (poți face încă 2 rep). Ajustează în jurul valorii de 2.
-  _rirDecision(kg, inc, rir, repMin, repMax, last) {
-    const allOk = last.serii.every(s => s.reusit);
+  // incUp = incrementul personalizat T2 (sau fixul, dacă lipsesc datele).
+  _rirDecision(kg, inc, rir, repMin, repMax, last, incUp = null) {
+    const upInc  = incUp ?? inc;
+    const piFlag = incUp !== null && incUp !== inc;
+    const allOk  = last.serii.every(s => s.reusit);
 
     if (!allOk) {
-      // N-a completat seriile — scade indiferent de RIR raportat
       return this._decrease(kg, inc, 'Serii incomplete');
     }
 
     if (rir === 0) {
-      // Eșec absolut — n-a mai putut face niciun rep în plus
       return this._decrease(kg, inc, 'La limita absolută (RIR 0)');
     }
 
     if (rir === 1) {
-      const newKg = kg + inc;
-      return { tip: 'creste', kg: newKg, mesaj: `Aproape de limită — treci la ${newKg} kg.` };
+      const newKg = kg + upInc;
+      return { tip: 'creste', kg: newKg, personalIncrement: piFlag, mesaj: `Aproape de limită — treci la ${newKg} kg.` };
     }
 
     if (rir >= 4) {
-      // Mult prea ușor → crește mai agresiv
-      const newKg = kg + inc * 2;
-      return { tip: 'creste', kg: newKg, mesaj: `Prea ușor (RIR ${rir}) — treci la ${newKg} kg.` };
+      const newKg = kg + upInc * 2;
+      return { tip: 'creste', kg: newKg, personalIncrement: piFlag, mesaj: `Prea ușor (RIR ${rir}) — treci la ${newKg} kg.` };
     }
 
     if (rir === 2 || rir === 3) {
-      // Zona țintă — dacă și reps sunt la plafon, crește; altfel menține
       const atTop = last.serii.every(s => s.reusit && s.repetari >= repMax);
       if (atTop) {
-        const newKg = kg + inc;
-        return { tip: 'creste', kg: newKg, mesaj: `Bine! Treci la ${newKg} kg.` };
+        const newKg = kg + upInc;
+        return { tip: 'creste', kg: newKg, personalIncrement: piFlag, mesaj: `Bine! Treci la ${newKg} kg.` };
       }
       return { tip: 'mentine', kg, mesaj: `Continuă cu ${kg} kg — atinge ${repMax} rep pe toate seriile.` };
     }
@@ -201,9 +207,12 @@ export class ProgressionEngine {
   }
 
   // ── Decizie clasică bazată pe reps ────────────────────────────────────────
-  _repsDecision(kg, inc, last, repMin, repMax, sessions, profileExp) {
-    const allOk = last.serii.every(s => s.reusit);
-    const atTop = last.serii.every(s => s.reusit && s.repetari >= repMax);
+  // incUp = incrementul personalizat T2 (sau fixul, dacă lipsesc datele).
+  _repsDecision(kg, inc, last, repMin, repMax, sessions, profileExp, incUp = null) {
+    const upInc  = incUp ?? inc;
+    const piFlag = incUp !== null && incUp !== inc;
+    const allOk  = last.serii.every(s => s.reusit);
+    const atTop  = last.serii.every(s => s.reusit && s.repetari >= repMax);
 
     // Regresie: 2 sesiuni consecutive cu serii incomplete
     if (sessions.length >= 2) {
@@ -217,7 +226,6 @@ export class ProgressionEngine {
       return { tip: 'mentine', kg, mesaj: `Rămâi la ${kg} kg până închizi toate seriile la ${repMin}–${repMax} rep.` };
     }
 
-    // Câte sesiuni consecutive la plafon (toate rep >= repMax)?
     const N = profileExp === 0 ? 1 : 2;
     const cleanCount = sessions.filter(s => {
       const e = s.exercitii.find(x => x.ex_id === last.ex_id);
@@ -225,8 +233,8 @@ export class ProgressionEngine {
     }).length;
 
     if (atTop && cleanCount >= N) {
-      const newKg = kg + inc;
-      return { tip: 'creste', kg: newKg, mesaj: `+${inc} kg azi! Treci la ${newKg} kg.` };
+      const newKg = kg + upInc;
+      return { tip: 'creste', kg: newKg, personalIncrement: piFlag, mesaj: `+${upInc} kg azi! Treci la ${newKg} kg.` };
     }
 
     if (atTop && cleanCount < N) {
@@ -279,5 +287,46 @@ export class ProgressionEngine {
       kg: newKg,
       mesaj: `${motiv} — recomandăm ${newKg} kg (~7,5% mai puțin) și reconstrucție graduală.`,
     };
+  }
+
+  // ── T2: Increment personalizat din istoricul real ─────────────────────────
+  // Calculează mediana incrementelor REALE ale userului pe un exercițiu (≥3 creșteri
+  // de greutate necesare). Returnează { value, events } sau null (date insuficiente).
+  _personalIncrement(exId, antrenamente, gen, isLowerBody) {
+    const sessions = (antrenamente || [])
+      .filter(a => a.exercitii?.some(e => e.ex_id === exId && !e.skip))
+      .sort((a, b) => a.data - b.data); // vechi → nou
+
+    if (sessions.length < 3) return null;
+
+    // Greutatea maximă per sesiune (ignorăm sesiunile fără greutate)
+    const weights = sessions.map(s => {
+      const ex = s.exercitii.find(e => e.ex_id === exId);
+      const maxW = Math.max(0, ...(ex?.serii || []).filter(sr => sr.greutate > 0).map(sr => sr.greutate));
+      return maxW > 0 ? maxW : null;
+    }).filter(w => w !== null);
+
+    if (weights.length < 3) return null;
+
+    // Evenimentele de progresie (delta pozitiv între sesiuni consecutive)
+    const deltas = [];
+    for (let i = 1; i < weights.length; i++) {
+      const d = weights[i] - weights[i - 1];
+      if (d > 0) deltas.push(d);
+    }
+
+    if (deltas.length < 3) return null; // prea puține creșteri pentru estimare
+
+    // Mediana (robustă la sărituri ocazionale mari / mici)
+    const sorted = [...deltas].sort((a, b) => a - b);
+    const median = sorted[Math.floor(sorted.length / 2)];
+
+    // Rotunjire la cel mai apropiat multiplu de jumătate din incrementul standard
+    const lastKg  = weights[weights.length - 1];
+    const baseInc = getIncrement(gen, isLowerBody, lastKg);
+    const step    = baseInc * 0.5;
+    const rounded = Math.max(step, Math.round(median / step) * step);
+
+    return { value: rounded, events: deltas.length };
   }
 }

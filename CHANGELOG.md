@@ -1,5 +1,25 @@
 # Changelog — GVR Fitness Tracker
 
+## v0.9.20 — T2: Increment personalizat din istoricul tău
+
+Motorul de progresie nu mai folosește un increment fix (2,5 kg / 5 kg) pentru toți.
+Acum calculează **ritmul TĂU real** pe fiecare exercițiu din istoricul sesiunilor.
+
+**Cum funcționează:**
+- Dacă ai ≥ 3 sesiuni cu creșteri de greutate la un exercițiu, aplicația calculează
+  mediana incrementelor tale reale (ex: mereu +5 kg, nu +2,5 kg).
+- De la a 3-a creștere în sus, sugestia de greutate reflectă *ritmul tău*, nu un standard generic.
+- Badge-ul **„ritm tău ↗"** apare pe bannerul verde când incrementul e personalizat.
+- La scăderi și calibrare rămâne incrementul standard (mai conservator — mai sigur).
+- Fără date suficiente: increment standard, fără schimbare.
+
+**Exemple:**
+- Adaugi mereu 5 kg la bench → motorul sugerează +5, nu +2,5
+- Adaugi 2,5 kg la feminin upper body → rămâne 2,5 (confirmat de date)
+- Variații → mediana ignoră săriturile ocazionale (sesiune proastă sau supracompensare)
+
+**Zero câmpuri noi în date** — totul e derivat din greutățile deja logate.
+
 ## v0.9.19 — Motor de deload, obiective inteligente + realizări
 
 **Motor de deload automat (DeloadEngine):**

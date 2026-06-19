@@ -121,7 +121,7 @@ export class WorkoutRenderer {
           ${rec.tip === 'calibrare'
         ? `<div class="rec-banner rec-calibrare">${ico('flag')}<span>${rec.mesaj}</span></div>`
         : rec.tip === 'creste'
-          ? `<div class="rec-banner rec-creste">${ico('up')}<span>${rec.mesaj}</span></div>`
+          ? `<div class="rec-banner rec-creste">${ico('up')}<span>${rec.mesaj}</span>${rec.personalIncrement ? '<span class="rec-pi-badge">ritm tău ↗</span>' : ''}</div>`
           : rec.tip === 'scade'
             ? `<div class="rec-banner rec-regresia">${ico('down')}<span>${rec.mesaj}</span></div>`
             : `<div class="rec-banner rec-info">${ico('arrow')}<span>${rec.mesaj}</span></div>`}
