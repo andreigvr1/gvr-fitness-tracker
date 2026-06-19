@@ -1726,25 +1726,6 @@
                           "reguli_speciale":  null
                       },
                       {
-                          "id":  "decline_press_gantere",
-                          "nume":  "Decline press cu gantere",
-                          "pattern":  "impins orizontal",
-                          "grupe_principale":  [
-                                                   "piept",
-                                                   "brate"
-                                               ],
-                          "echipament":  [
-                                             "gantera",
-                                             "banca"
-                                         ],
-                          "nivel":  2,
-                          "risc_articular":  [
-
-                                             ],
-                          "descriere":  "Banca inclinata in jos la 15–30°; impinge ganterele vertical de la pieptul inferior. Accentueaza fasciculul sternal; reduce solicitarea umerilor fata de presa plata.",
-                          "reguli_speciale":  null
-                      },
-                      {
                           "id":  "shrug_gantere",
                           "nume":  "Shrug cu gantere",
                           "pattern":  "tractiune verticala",
