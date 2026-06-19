@@ -101,6 +101,19 @@ const STEPS = [
 
 ];
 
+// ── Constants ────────────────────────────────────────────────────────────────
+const SALA_ALL = ['corp','centura_greutati','banda','gantera','haltera','banca','rack','bara tractiuni','scripete'];
+const HOME_ITEMS = [
+  { val: 'banda',            label: 'Benzi elastice' },
+  { val: 'gantera',          label: 'Gantere' },
+  { val: 'haltera',          label: 'Halteră + discuri' },
+  { val: 'banca',            label: 'Bancă' },
+  { val: 'rack',             label: 'Power rack / suport' },
+  { val: 'bara tractiuni',   label: 'Bară de tracțiuni' },
+  { val: 'scripete',         label: 'Scripete / cablu' },
+  { val: 'centura_greutati', label: 'Centură de greutăți' },
+];
+
 // ── State ────────────────────────────────────────────────────────────────────
 let step = 0;
 let answers = {
@@ -108,6 +121,7 @@ let answers = {
   inaltime: null, greutate: null,
   obiectiv: null, zile: null, timp: null, experienta: null,
   echipament: ['corp'],
+  echipament_mode: null,
   grupe_prioritare: [], articulatii: [],
 };
 let _container = null;
@@ -136,6 +150,9 @@ export function initOnboarding(container, onComplete, opts = {}) {
       timp:             p.timp           ?? null,
       experienta:       p.experienta     ?? null,
       echipament:       p.echipament?.length ? [...p.echipament] : ['corp'],
+      echipament_mode:  p.echipament?.length
+                          ? (SALA_ALL.every(v => p.echipament.includes(v)) ? 'gym' : 'home')
+                          : null,
       grupe_prioritare: p.grupe_prioritare ? [...p.grupe_prioritare] : [],
       articulatii:      p.articulatii_sensibile?.length
                           ? [...p.articulatii_sensibile]
@@ -147,6 +164,7 @@ export function initOnboarding(container, onComplete, opts = {}) {
       inaltime: null, greutate: null,
       obiectiv: null, zile: null, timp: null, experienta: null,
       echipament: ['corp'],
+      echipament_mode: null,
       grupe_prioritare: [], articulatii: [],
     };
   }
@@ -216,19 +234,6 @@ function renderOptions(s) {
 }
 
 function renderEquipment() {
-  const generalItems = [
-    { val: 'corp',              label: 'Nimic / doar corpul' },
-    { val: 'centura_greutati',  label: 'Centură de greutăți (dips/pull-up cu kg)' },
-    { val: 'banda',             label: 'Benzi elastice' },
-    { val: 'gantera',           label: 'Gantere' },
-    { val: 'haltera',           label: 'Halteră + discuri' },
-    { val: 'banca',             label: 'Bancă' },
-    { val: 'rack',              label: 'Power rack / suport' },
-    { val: 'bara tractiuni',    label: 'Bară de tracțiuni' },
-    { val: 'scripete',          label: 'Scripete / cablu' },
-    { val: '_sala',             label: 'Sală completă (bifează tot)' },
-  ];
-
   const eq = (items) => items.map(o => `
     <label class="opt-card compact" data-val="${o.val}" data-group="equip">
       <div class="opt-check"></div>
@@ -236,11 +241,27 @@ function renderEquipment() {
     </label>`).join('');
 
   return `
-    <div class="equip-section">
-      <div class="equip-title">General</div>
-      ${eq(generalItems)}
+    <div class="equip-mode-row">
+      <label class="opt-card equip-mode-card" data-val="home" data-group="equip-mode">
+        <div class="opt-check"></div>
+        <div class="opt-text">
+          <span class="opt-label">Home Gym</span>
+          <span class="opt-sub">Alegi ce aparate ai acasă</span>
+        </div>
+      </label>
+      <label class="opt-card equip-mode-card" data-val="gym" data-group="equip-mode">
+        <div class="opt-check"></div>
+        <div class="opt-text">
+          <span class="opt-label">Sală</span>
+          <span class="opt-sub">Acces la toate aparatele</span>
+        </div>
+      </label>
     </div>
-    `;
+    <div class="equip-home-list" id="equip-home-list" style="display:none">
+      <p class="equip-note">Corpul tău e mereu disponibil — bifează ce mai ai:</p>
+      ${eq(HOME_ITEMS)}
+    </div>
+  `;
 }
 
 function renderMeasurements() {
@@ -304,10 +325,22 @@ function restoreSelection(s) {
     });
   } else if (s.tip === 'equipment') {
     const curEq  = answers.echipament || [];
-    opts.forEach(el => {
-      const v = el.dataset.val;
-      if (curEq.includes(v)) el.classList.add('selected');
-    });
+    const mode   = answers.echipament_mode;
+    const homeList = document.getElementById('equip-home-list');
+    if (mode) {
+      const modeEl = _container.querySelector(`[data-val="${mode}"][data-group="equip-mode"]`);
+      modeEl?.classList.add('selected');
+      modeEl?.querySelector('.opt-check')?.classList.add('checked');
+    }
+    if (mode === 'home') {
+      if (homeList) homeList.style.display = '';
+      opts.forEach(el => {
+        if (el.dataset.group === 'equip' && curEq.includes(el.dataset.val)) {
+          el.classList.add('selected');
+          el.querySelector('.opt-check')?.classList.add('checked');
+        }
+      });
+    }
   }
 }
 
@@ -372,43 +405,44 @@ function attachOptionHandlers(s) {
   }
 
   if (s.tip === 'equipment') {
-    const SALA_ALL = ['corp','centura_greutati','banda','gantera','haltera','banca','rack','bara tractiuni','scripete'];
+    const homeList = document.getElementById('equip-home-list');
+
+    const selectMode = (mode) => {
+      _container.querySelectorAll('[data-group="equip-mode"]').forEach(e => {
+        const active = e.dataset.val === mode;
+        e.classList.toggle('selected', active);
+        e.querySelector('.opt-check')?.classList.toggle('checked', active);
+      });
+      answers.echipament_mode = mode;
+      if (mode === 'gym') {
+        answers.echipament = [...SALA_ALL];
+        if (homeList) homeList.style.display = 'none';
+      } else {
+        answers.echipament = ['corp'];
+        if (homeList) homeList.style.display = '';
+        _container.querySelectorAll('[data-group="equip"]').forEach(e => {
+          e.classList.remove('selected');
+          e.querySelector('.opt-check')?.classList.remove('checked');
+        });
+      }
+      validateNext();
+    };
+
+    _container.querySelectorAll('[data-group="equip-mode"]').forEach(el => {
+      el.addEventListener('click', () => selectMode(el.dataset.val));
+    });
 
     _container.querySelectorAll('.opt-card[data-group="equip"]').forEach(el => {
       el.addEventListener('click', () => {
         const val = el.dataset.val;
-
-        if (val === '_sala') {
-          const allSelected = SALA_ALL.every(v => answers.echipament.includes(v));
-          if (allSelected) {
-            answers.echipament = ['corp'];
-            _container.querySelectorAll('[data-group="equip"]').forEach(e => {
-              if (SALA_ALL.includes(e.dataset.val) || e.dataset.val === '_sala') {
-                e.classList.remove('selected');
-                e.querySelector('.opt-check')?.classList.remove('checked');
-              }
-            });
-            const corpEl = _container.querySelector('[data-val="corp"]');
-            if (corpEl) { corpEl.classList.add('selected'); corpEl.querySelector('.opt-check')?.classList.add('checked'); }
-          } else {
-            answers.echipament = [...SALA_ALL];
-            el.classList.add('selected'); el.querySelector('.opt-check')?.classList.add('checked');
-            SALA_ALL.forEach(v => {
-              const e = _container.querySelector(`[data-val="${v}"]`);
-              if (e) { e.classList.add('selected'); e.querySelector('.opt-check')?.classList.add('checked'); }
-            });
-          }
-          return;
-        }
-
         if (answers.echipament.includes(val)) {
-          if (val === 'corp') return; // corp always required
           answers.echipament = answers.echipament.filter(v => v !== val);
           el.classList.remove('selected'); el.querySelector('.opt-check')?.classList.remove('checked');
         } else {
           answers.echipament = [...answers.echipament, val];
           el.classList.add('selected'); el.querySelector('.opt-check')?.classList.add('checked');
         }
+        validateNext();
       });
     });
   }
@@ -448,7 +482,7 @@ function validateNext() {
   let ok = true;
   if (s.tip === 'single')       ok = answers[s.id] !== null && answers[s.id] !== undefined;
   if (s.tip === 'multi')        ok = true;
-  if (s.tip === 'equipment')    ok = answers.echipament.length > 0;
+  if (s.tip === 'equipment')    ok = answers.echipament_mode !== null;
   if (s.tip === 'measurements') ok = true; // optional fields
 
   btn.disabled = !ok;

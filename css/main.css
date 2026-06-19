@@ -665,6 +665,14 @@ body.has-nav .view.active { padding-bottom: 86px; }
   font-size: 11px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase;
   color: var(--t2); margin-bottom: 8px;
 }
+.equip-mode-row {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 20px;
+}
+.equip-mode-card { padding: 16px 14px !important; }
+.equip-mode-card .opt-label { font-size: 16px; font-weight: 700; }
+.equip-mode-card .opt-sub { font-size: 12px; color: var(--t2); margin-top: 2px; display: block; }
+.equip-note { font-size: 13px; color: var(--t2); margin: 0 0 12px; }
+.equip-home-list { animation: fadeIn .18s ease; }
 
 /* ── Onboarding nav ──────────────────────────────────────────────────────────── */
 .ob-nav {

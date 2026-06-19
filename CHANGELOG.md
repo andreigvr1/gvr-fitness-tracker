@@ -1,5 +1,13 @@
 # Changelog — GVR Fitness Tracker
 
+## v0.9.16 — Echipament: Home Gym vs Sală
+
+Pasul de echipament din onboarding a fost reproiectat complet:
+- **Două moduri clare:** „Home Gym" (alegi ce aparate ai acasă) și „Sală" (acces complet). Înainte era o listă plată fără context.
+- **Home Gym:** apare o listă extinsă cu aparatele disponibile acasă — corpul e mereu inclus, bifezi ce mai ai (gantere, halteră, bandă, bancă etc.).
+- **Sală:** selectarea automată a tuturor aparatelor, fără să mai bifezi nimic manual.
+- Programul generat reflectă corect modul ales.
+
 ## v0.9.15 — Faza 1: bibliotecă completă per grupă (+23 exerciții)
 
 89 → 112 exerciții. Completat golurile majore pe fiecare grupă musculară:
