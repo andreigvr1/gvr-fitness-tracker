@@ -108,14 +108,14 @@ function numSlots(timp, dayTip) {
   let n;
   if (timp <= 30) n = 4;
   else if (timp <= 45) n = 5;
-  else if (timp <= 60) n = 7;
-  else n = 9;
+  else if (timp <= 60) n = 6;
+  else n = 7; // 75+ min; niciun antrenament nu depășește 7 sloturi principale
   // Push/pull: 4-5 tipare unice → cap 5
   if (dayTip === 'push' || dayTip === 'pull') n = Math.min(n, 5);
   // Upper/lower: cap 5 sloturi principale + regula scapulară adaugă max 1 = 6 total
   if (dayTip === 'upper' || dayTip === 'lower') n = Math.min(n, 5);
-  // Legs: compound + izolate = maxim 6; mai mult e suprasolicitare fără beneficiu
-  if (dayTip === 'legs') n = Math.min(n, 6);
+  // Legs și full body: compound + izolate = maxim 6
+  if (dayTip === 'legs' || dayTip === 'full') n = Math.min(n, 6);
   return n;
 }
 

@@ -1,5 +1,15 @@
 # Changelog — GVR Fitness Tracker
 
+## v0.9.27 — Generator: limite realiste de antrenament (max 5 zile, max 6-7 exerciții)
+
+**Ce s-a schimbat:**
+
+- **Niciun antrenament nu depășește 7 exerciții** din sloturile principale, indiferent de durata aleasă. Anterior, o sesiune de 75+ minute cu full body ajungea la 9 exerciții.
+- **Sesiunile de 60 minute** generează acum 6 exerciții (era 7).
+- **Full body** are acum același plafon ca Legs — maxim 6 exerciții (compuse + izolate).
+- **Sub-textele din onboarding** actualizate să reflecte numărul real de exerciții per durată.
+- Zilele sunt deja limitate la maximum 5/săptămână — ai întotdeauna cel puțin 2 zile de recuperare.
+
 ## v0.9.26 — Generator: revizuire pe 10 profiluri reale (shrug, Pull template, prio slot, legs cap)
 
 **Ce s-a schimbat:**

@@ -49,8 +49,8 @@ const STEPS = [
     opt: [
       { val: 30, label: '~30 minute', sub: '4 exerciții' },
       { val: 45, label: '~45 minute', sub: '5 exerciții' },
-      { val: 60, label: '~60 minute', sub: '7 exerciții' },
-      { val: 75, label: '75+ minute', sub: '9 exerciții' },
+      { val: 60, label: '~60 minute', sub: '6 exerciții' },
+      { val: 75, label: '75+ minute', sub: '6-7 exerciții, pauze mai lungi' },
     ],
   },
   {
