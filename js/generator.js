@@ -16,6 +16,15 @@ const DAY_PATTERNS = {
   full:  [...PUSH_P, ...PULL_P, ...LEGS_P, ...CORE_P, ...COND_P],
 };
 
+// Perechi incompatibile în aceeași zi: cheie = exercițiu prezent → valori = exerciții eliminate
+// Regulă unidirecțională: primul selectat câștigă, îl elimină pe al doilea.
+// deadlift↔hip_thrust: bidirecțional (oricare vine primul elimină celălalt).
+const SAME_DAY_INCOMPATIBLE = {
+  'deadlift':           ['back_squat', 'hip_thrust_haltera', 'hip_thrust_gantera'],
+  'hip_thrust_haltera': ['deadlift'],
+  'hip_thrust_gantera': ['deadlift'],
+};
+
 // ── Splits ──────────────────────────────────────────────────────────────────
 const SPLITS = {
   full_body_ab: {
@@ -212,7 +221,7 @@ const FEMALE_PRIORITY_IDS  = new Set(['hip_thrust_haltera','hip_thrust_gantera',
 const FEMALE_ABDUCTION_IDS = new Set(['abductie_sold_banda','abductie_sold_corp']);
 
 // ── Scoring ──────────────────────────────────────────────────────────────────
-function scoreEx(ex, obiectiv, prioritati, usedGroups, slotsTotal, equipment, gen, exp = 3, priorUsed = null, usedPatterns = null) {
+function scoreEx(ex, obiectiv, prioritati, usedGroups, slotsTotal, equipment, gen, exp = 3, priorUsed = null, usedPatterns = null, weeklyVol = null, mrv = 20) {
   let s = 10;
   // Rang 1 = fundamental universal → prioritat; rang 3 = alternativă situațională → ultim resort
   const rang = ex.rang || 2;
@@ -259,12 +268,27 @@ function scoreEx(ex, obiectiv, prioritati, usedGroups, slotsTotal, equipment, ge
   // evită duplicate gen "OHP cu haltera + OHP cu gantere" sau "ramat + barbell row".
   if (usedPatterns && usedPatterns.has(ex.pattern)) s -= 30;
 
+  // Penalizare când o grupă musculară principală a atins MRV-ul săptămânal:
+  // generatorul evită să mai adauge volum acolo unde mușchiul nu mai poate adapta.
+  if (weeklyVol && ex.grupe_principale.some(g => (weeklyVol[g] || 0) >= mrv)) s -= 20;
+
   s += (Math.random() * 4 - 2);
   return s;
 }
 
+// ── Ordonarea exercițiilor în sesiune ────────────────────────────────────────
+// Grupe mari (hinge/împins/tracțiune) → umeri/squat/unilateral → izolate → core → condiție
+function patternOrd(p) {
+  if (SKAND_P.includes(p))  return 5;
+  if (p === 'conditie')      return 4;
+  if (p === 'core' || p === 'carry') return 3;
+  if ((p || '').includes('izolare') || p === 'flexie genunchi') return 2;
+  if (p === 'squat' || p === 'impins vertical' || p === 'unilateral picior') return 1;
+  return 0; // hinge, impins orizontal, tractiune orizontala/verticala
+}
+
 // ── Day selection ─────────────────────────────────────────────────────────────
-function selectForDay(dayTip, allValid, profile, priorUsed) {
+function selectForDay(dayTip, allValid, profile, priorUsed, weeklyVol = {}, mrv = 20) {
   const patterns = DAY_PATTERNS[dayTip];
   const slots    = numSlots(profile.timp, dayTip);
   const prior    = new Set(profile.grupe_prioritare);
@@ -315,7 +339,7 @@ function selectForDay(dayTip, allValid, profile, priorUsed) {
     if (!pool.length) pool = candidates; // fallback generic: nu pierdem slotul
 
     const scored = pool
-      .map(ex => ({ ex, sc: scoreEx(ex, obj, prior, usedGroups, slots, equipSet, gen, exp, priorUsed, usedPatterns) }))
+      .map(ex => ({ ex, sc: scoreEx(ex, obj, prior, usedGroups, slots, equipSet, gen, exp, priorUsed, usedPatterns, weeklyVol, mrv) }))
       .sort((a, b) => b.sc - a.sc);
 
     const winner = scored[0].ex;
@@ -332,17 +356,15 @@ function selectForDay(dayTip, allValid, profile, priorUsed) {
     candidates = candidates.filter(c => c.id !== winner.id);
   }
 
-  // Rule: deadlift + back squat can't coexist same day
-  if (selected.some(s => s.id === 'deadlift')) {
-    const idx = selected.findIndex(s => s.id === 'back_squat');
-    if (idx !== -1) selected.splice(idx, 1);
-  }
-
-  // Rule: deadlift + hip thrust can't coexist same day (ambele lovesc lanțul posterior greu)
-  if (selected.some(s => s.id === 'deadlift')) {
-    const idx = selected.findIndex(s => s.id === 'hip_thrust_haltera' || s.id === 'hip_thrust_gantera');
-    if (idx !== -1) selected.splice(idx, 1);
-  }
+  // Reguli de compatibilitate: aplică harta SAME_DAY_INCOMPATIBLE
+  Object.entries(SAME_DAY_INCOMPATIBLE).forEach(([trigger, blocked]) => {
+    if (selected.some(s => s.id === trigger)) {
+      blocked.forEach(blockedId => {
+        const idx = selected.findIndex(s => s.id === blockedId);
+        if (idx !== -1) selected.splice(idx, 1);
+      });
+    }
+  });
 
   // Scapular exercise rule: if shoulder sensitive OR ≥6 push sets, add face_pull/band_pull_apart
   const pushSets = selected.filter(s => PUSH_P.includes(s.pattern)).reduce((n, s) => n + s.seturi, 0);
@@ -368,15 +390,6 @@ function selectForDay(dayTip, allValid, profile, priorUsed) {
     }
   }
 
-  // Ordinea în sesiune: grupe mari (picioare/piept/spate) → umeri/unilateral → izolate → core → condiție
-  const patternOrd = p => {
-    if (SKAND_P.includes(p))  return 5;
-    if (p === 'conditie')      return 4;
-    if (p === 'core' || p === 'carry') return 3;
-    if ((p || '').includes('izolare') || p === 'flexie genunchi') return 2;
-    if (p === 'squat' || p === 'impins vertical' || p === 'unilateral picior') return 1;
-    return 0; // hinge, impins orizontal, tractiune orizontala/verticala
-  };
   selected.sort((a, b) => {
     const oa = patternOrd(a.pattern);
     const ob = patternOrd(b.pattern);
@@ -453,26 +466,49 @@ export async function generateProgram(profile, splitId) {
     canDo(ex, equip) && isSafe(ex, bad) && ex.nivel <= lvl && !SKAND_P.includes(ex.pattern)
   );
 
-  const split  = SPLITS[splitId];
-  const priorUsed = new Set();
+  const split   = SPLITS[splitId];
+  const MEV     = profile.experienta <= 1 ? 10 : 12;
+  const MRV     = profile.experienta <= 1 ? 15 : 20;
+  const priorUsed  = new Set();
+  const weeklyVol  = {}; // serii acumulate per grupă musculară pe parcursul generării
 
   const zile = split.days.map(day => {
-    const exercitii = selectForDay(day.tip, validMain, profile, priorUsed);
-    exercitii.forEach(e => priorUsed.add(e.id));
+    const exercitii = selectForDay(day.tip, validMain, profile, priorUsed, weeklyVol, MRV);
+    exercitii.forEach(e => {
+      priorUsed.add(e.id);
+      e.grupe.forEach(g => { weeklyVol[g] = (weeklyVol[g] || 0) + e.seturi; });
+    });
     return { label: day.label, tip: day.tip, exercitii };
   });
 
   if (profile.skandenberg) addSkandenbergBlock(zile, profile, all);
 
-  // Cap de volum: calculează serii/grupă/săptămână (informativ + baza pentru Faza 3)
-  const MEV = profile.experienta <= 1 ? 10 : 12;
-  const MRV = profile.experienta <= 1 ? 15 : 20;
-  const volum = {};
-  zile.forEach(zi => zi.exercitii.forEach(ex => {
-    ex.grupe.forEach(g => { volum[g] = (volum[g] || 0) + ex.seturi; });
-  }));
+  // Garanție grupă prioritară: dacă o grupă prioritară nu apare deloc în program, injectăm
+  // cel mai bun exercițiu pentru ea în prima zi compatibilă (fără să depășim MRV).
+  const prioritySet = new Set(profile.grupe_prioritare);
+  if (prioritySet.size > 0) {
+    const usedIds = new Set(zile.flatMap(zi => zi.exercitii.map(ex => ex.id)));
+    for (const grupa of prioritySet) {
+      const acoperit = zile.some(zi => zi.exercitii.some(ex => ex.grupe.includes(grupa)));
+      if (acoperit) continue;
+      const best = validMain
+        .filter(ex => ex.grupe_principale.includes(grupa) && !usedIds.has(ex.id))
+        .sort((a, b) => a.rang - b.rang)[0];
+      if (!best) continue;
+      const targetZi = zile.find(zi => (DAY_PATTERNS[zi.tip] || []).includes(best.pattern));
+      if (!targetZi) continue;
+      const item = prescribe(best, profile.obiectiv, profile.gen, prioritySet);
+      targetZi.exercitii.push(item);
+      usedIds.add(best.id);
+      targetZi.exercitii.sort((a, b) => {
+        const pa = patternOrd(a.pattern), pb = patternOrd(b.pattern);
+        if (pa !== pb) return pa - pb;
+        return (a.rang || 2) - (b.rang || 2);
+      });
+    }
+  }
 
-  return { split_id: splitId, split_label: split.label, split_desc: split.desc, zile, volum, MEV, MRV, generat_la: Date.now() };
+  return { split_id: splitId, split_label: split.label, split_desc: split.desc, zile, volum: weeklyVol, MEV, MRV, generat_la: Date.now() };
 }
 
 export function getRecommendedSplit(zile, experienta = 0, obiectiv = 'sanatate') {

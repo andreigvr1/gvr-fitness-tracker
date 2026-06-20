@@ -1,5 +1,24 @@
 # Changelog — GVR Fitness Tracker
 
+## v0.9.24 — Generator: volum săptămânal inteligent + garanție grupă prioritară + incompatibilități extensibile
+
+**Ce s-a schimbat:**
+
+**1. Plafon volum săptămânal (MRV):**
+- Generatorul urmărește acum serii per grupă musculară pe măsură ce construiește programul zi cu zi.
+- Dacă o grupă musculară a acumulat prea mult volum în zilele anterioare (≥ MRV: 15 serii/săpt pentru începători, 20 pentru avansați), exercițiile care o mai lucrează primesc o penalizare și sunt evitate automat.
+- Rezultat: un program de 5 zile nu mai poate „supraîncărca" accidental tricepsul cu 30 de serii.
+
+**2. Garanție grupă prioritară:**
+- Dacă selectezi o grupă ca prioritară (ex: antebrat, gambe) și generatorul nu o acoperă natural prin sloturi, aplicația injectează automat cel mai bun exercițiu disponibil în prima zi compatibilă.
+- Grupele mari (piept, spate, picioare) sunt întotdeauna acoperite de sloturi obligatorii; această garanție protejează grupele mai mici și specializate.
+
+**3. Reguli de incompatibilitate extensibile:**
+- Regulile „deadlift + squat" și „deadlift + hip thrust" au fost rewrite ca o hartă declarativă (ușor de extins în viitor fără a modifica codul procedural).
+- Adăugat: hip thrust ↔ deadlift este acum bidirecțional — oricare apare primul elimină celălalt.
+
+**Tehnic:** `patternOrd` mutat la nivel de modul (refolosit în post-procesare); `scoreEx` primește `weeklyVol` și `mrv` ca parametri noi.
+
 ## v0.9.23 — Generator: ordinea corectă în Push/Pull + Lateral raise + reguli incompatibilitate
 
 **Ce s-a schimbat:**
