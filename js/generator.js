@@ -184,12 +184,14 @@ const SLOT_TEMPLATES = {
     ['core'], ['core'],
   ],
   push: [
-    ['impins orizontal'], ['impins vertical'], ['impins orizontal', 'impins vertical'],
+    ['impins orizontal'], ['impins vertical'],
+    ['izolare-triceps', 'izolare-piept', 'impins orizontal', 'impins vertical'],
     ['prio'], ['*'], ['*'], ['*'],
     ['core'], ['core'],
   ],
   pull: [
-    ['tractiune orizontala'], ['tractiune verticala'], ['tractiune orizontala', 'tractiune verticala'],
+    ['tractiune orizontala'], ['tractiune verticala'],
+    ['izolare-biceps', 'izolare-umeri', 'izolare-antebrat', 'tractiune orizontala', 'tractiune verticala'],
     ['prio'], ['*'], ['*'], ['*'],
     ['core'], ['core'],
   ],
@@ -205,7 +207,7 @@ const FEMALE_PRIORITY_IDS  = new Set(['hip_thrust_haltera','hip_thrust_gantera',
 const FEMALE_ABDUCTION_IDS = new Set(['abductie_sold_banda','abductie_sold_corp']);
 
 // ── Scoring ──────────────────────────────────────────────────────────────────
-function scoreEx(ex, obiectiv, prioritati, usedGroups, slotsTotal, equipment, gen, exp = 3, priorUsed = null) {
+function scoreEx(ex, obiectiv, prioritati, usedGroups, slotsTotal, equipment, gen, exp = 3, priorUsed = null, usedPatterns = null) {
   let s = 10;
   // Rang 1 = fundamental universal → prioritat; rang 3 = alternativă situațională → ultim resort
   const rang = ex.rang || 2;
@@ -248,6 +250,10 @@ function scoreEx(ex, obiectiv, prioritati, usedGroups, slotsTotal, equipment, ge
   // fundamentele bune tot revin în fiecare zi (învățare motorie), dar accesoriile se rotesc.
   if (priorUsed && priorUsed.has(ex.id)) s -= 5;
 
+  // Penalizare puternică pentru același tipar de mișcare deja folosit în ziua curentă:
+  // evită duplicate gen "OHP cu haltera + OHP cu gantere" sau "ramat + barbell row".
+  if (usedPatterns && usedPatterns.has(ex.pattern)) s -= 30;
+
   s += (Math.random() * 4 - 2);
   return s;
 }
@@ -266,10 +272,11 @@ function selectForDay(dayTip, allValid, profile, priorUsed) {
   // evitate scoțând câștigătorul din `candidates`, iar repetarea între zile e penalizată soft.
   let candidates = allValid.filter(ex => patterns.includes(ex.pattern));
 
-  const selected   = [];
-  const usedGroups = new Set();
-  const dayUsed    = new Set();
-  const equipSet   = new Set(profile.echipament || []);
+  const selected    = [];
+  const usedGroups  = new Set();
+  const usedPatterns = new Set();
+  const dayUsed     = new Set();
+  const equipSet    = new Set(profile.echipament || []);
 
   for (let si = 0; si < template.length && selected.length < slots && candidates.length > 0; si++) {
     const slotDef = template[si];
@@ -303,7 +310,7 @@ function selectForDay(dayTip, allValid, profile, priorUsed) {
     if (!pool.length) pool = candidates; // fallback generic: nu pierdem slotul
 
     const scored = pool
-      .map(ex => ({ ex, sc: scoreEx(ex, obj, prior, usedGroups, slots, equipSet, gen, exp, priorUsed) }))
+      .map(ex => ({ ex, sc: scoreEx(ex, obj, prior, usedGroups, slots, equipSet, gen, exp, priorUsed, usedPatterns) }))
       .sort((a, b) => b.sc - a.sc);
 
     const winner = scored[0].ex;
@@ -315,6 +322,7 @@ function selectForDay(dayTip, allValid, profile, priorUsed) {
 
     selected.push(item);
     dayUsed.add(winner.id);
+    usedPatterns.add(winner.pattern);
     winner.grupe_principale.forEach(g => usedGroups.add(g));
     candidates = candidates.filter(c => c.id !== winner.id);
   }
@@ -354,9 +362,9 @@ function selectForDay(dayTip, allValid, profile, priorUsed) {
     if (SKAND_P.includes(p))  return 5;
     if (p === 'conditie')      return 4;
     if (p === 'core' || p === 'carry') return 3;
-    if ((p || '').includes('izolare')) return 2;
-    if (p === 'impins vertical' || p === 'unilateral picior') return 1;
-    return 0; // squat, hinge, impins orizontal, tractiune orizontala/verticala
+    if ((p || '').includes('izolare') || p === 'flexie genunchi') return 2;
+    if (p === 'squat' || p === 'impins vertical' || p === 'unilateral picior') return 1;
+    return 0; // hinge, impins orizontal, tractiune orizontala/verticala
   };
   selected.sort((a, b) => {
     const oa = patternOrd(a.pattern);

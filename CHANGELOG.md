@@ -1,5 +1,17 @@
 # Changelog — GVR Fitness Tracker
 
+## v0.9.22 — Generator: fără exerciții duplicate în aceeași zi
+
+**Problema rezolvată:** generatorul putea selecta două exerciții cu același tipar de mișcare în aceeași zi (ex: Incline press cu gantere + Incline press cu haltera, sau OHP cu haltera + OHP cu gantere).
+
+**Ce s-a schimbat:**
+- Fiecare tipar de mișcare apare **o singură dată pe zi** — penalizare puternică dacă același pattern ar fi ales din nou.
+- Zilele **Push** primesc acum la al 3-lea slot izolate de triceps/piept în loc de un al doilea compound de împins.
+- Zilele **Pull** primesc la al 3-lea slot izolate de biceps/umeri în loc de un al doilea ramat.
+- **Ordinea exercițiilor în Legs** este corectată: Deadlift (hinge) vine înaintea Bulgarian split squat și fandărilor; Leg curl vine ultimul (e izolat, nu compound).
+
+**Rezultat practic:** un program Push/Pull/Legs cu 1–3 ani experiență va arăta corect — bench + OHP + triceps, nu bench + incline halteră + OHP + OHP gantere.
+
 ## v0.9.21 — T3: Intervalul de reps în care lucrezi cel mai bine
 
 Aplicația detectează acum **unde în intervalul prescris lucrezi eficient** și îți arată asta direct în bannerul de recomandare.
