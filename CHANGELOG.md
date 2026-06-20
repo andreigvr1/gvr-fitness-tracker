@@ -10,7 +10,7 @@
 - Zilele **Pull** primesc la al 3-lea slot izolate de biceps/umeri în loc de un al doilea ramat.
 - **Ordinea exercițiilor în Legs** este corectată: Deadlift (hinge) vine înaintea Bulgarian split squat și fandărilor; Leg curl vine ultimul (e izolat, nu compound).
 
-**Rezultat practic:** un program Push/Pull/Legs cu 1–3 ani experiență va arăta corect — bench + OHP + triceps, nu bench + incline halteră + OHP + OHP gantere.
+**Rezultat practic:** un program Push/Pull/Legs cu 1–3 ani experiență va arăta corect — bench + OHP + triceps + chest fly, nu bench + incline halteră + OHP + OHP gantere. Verificat pe 3 generări consecutive: zero duplicate de tipar.
 
 ## v0.9.21 — T3: Intervalul de reps în care lucrezi cel mai bine
 

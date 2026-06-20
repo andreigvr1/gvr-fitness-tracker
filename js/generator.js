@@ -95,11 +95,15 @@ function _recSplit(zile, experienta, obiectiv) {
 }
 
 // ── Helpers ─────────────────────────────────────────────────────────────────
-function numSlots(timp) {
-  if (timp <= 30) return 4;
-  if (timp <= 45) return 5;
-  if (timp <= 60) return 7;
-  return 9;
+function numSlots(timp, dayTip) {
+  let n;
+  if (timp <= 30) n = 4;
+  else if (timp <= 45) n = 5;
+  else if (timp <= 60) n = 7;
+  else n = 9;
+  // Push/pull au 4-5 tipare unice; peste 5 sloturi se repetă același tipar de mișcare.
+  if (dayTip === 'push' || dayTip === 'pull') n = Math.min(n, 5);
+  return n;
 }
 
 function maxLevel(exp) {
@@ -261,7 +265,7 @@ function scoreEx(ex, obiectiv, prioritati, usedGroups, slotsTotal, equipment, ge
 // ── Day selection ─────────────────────────────────────────────────────────────
 function selectForDay(dayTip, allValid, profile, priorUsed) {
   const patterns = DAY_PATTERNS[dayTip];
-  const slots    = numSlots(profile.timp);
+  const slots    = numSlots(profile.timp, dayTip);
   const prior    = new Set(profile.grupe_prioritare);
   const obj      = profile.obiectiv;
   const gen      = profile.gen;
