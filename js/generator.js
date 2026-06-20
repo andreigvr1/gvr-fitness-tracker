@@ -1,6 +1,6 @@
 // ── Pattern groups ──────────────────────────────────────────────────────────
 const PUSH_P  = ['impins orizontal', 'impins vertical', 'izolare-triceps', 'izolare-piept'];
-const PULL_P  = ['tractiune orizontala', 'tractiune verticala', 'izolare-biceps', 'izolare-umeri', 'izolare-antebrat'];
+const PULL_P  = ['tractiune orizontala', 'tractiune verticala', 'izolare-biceps', 'izolare-umeri', 'izolare-deltoid-lat', 'izolare-antebrat'];
 const LEGS_P  = ['squat', 'hinge', 'unilateral picior', 'flexie genunchi', 'izolare-cvadriceps', 'izolare-fesieri', 'izolare-gambe'];
 const CORE_P  = ['core'];
 const CARRY_P = ['carry']; // intră în sesiune DOAR când antebrat e grupă prioritară
@@ -10,7 +10,7 @@ export const SKAND_P = ['skandenberg-cupping','skandenberg-pronation','skandenbe
 const DAY_PATTERNS = {
   upper: [...PUSH_P, ...PULL_P, ...CORE_P],
   lower: [...LEGS_P, ...CORE_P],
-  push:  [...PUSH_P, ...CORE_P],
+  push:  [...PUSH_P, 'izolare-deltoid-lat', ...CORE_P], // lateral raise candidat în push, dar separat de PUSH_P (evită conflict balance check)
   pull:  [...PULL_P, ...CORE_P],
   legs:  [...LEGS_P, ...CORE_P],
   full:  [...PUSH_P, ...PULL_P, ...LEGS_P, ...CORE_P, ...COND_P],
@@ -190,12 +190,13 @@ const SLOT_TEMPLATES = {
   push: [
     ['impins orizontal'], ['impins vertical'],
     ['izolare-triceps', 'izolare-piept', 'impins orizontal', 'impins vertical'],
-    ['prio'], ['*'], ['*'], ['*'],
+    ['izolare-deltoid-lat'],  // lateral raise — deltoid lateral, specific pentru lățime umeri
+    ['prio'], ['*'], ['*'],
     ['core'], ['core'],
   ],
   pull: [
-    ['tractiune orizontala'], ['tractiune verticala'],
-    ['izolare-biceps', 'izolare-umeri', 'izolare-antebrat', 'tractiune orizontala', 'tractiune verticala'],
+    ['tractiune verticala'], ['tractiune orizontala'],
+    ['izolare-biceps', 'izolare-umeri', 'izolare-deltoid-lat', 'izolare-antebrat', 'tractiune verticala', 'tractiune orizontala'],
     ['prio'], ['*'], ['*'], ['*'],
     ['core'], ['core'],
   ],
@@ -334,6 +335,12 @@ function selectForDay(dayTip, allValid, profile, priorUsed) {
   // Rule: deadlift + back squat can't coexist same day
   if (selected.some(s => s.id === 'deadlift')) {
     const idx = selected.findIndex(s => s.id === 'back_squat');
+    if (idx !== -1) selected.splice(idx, 1);
+  }
+
+  // Rule: deadlift + hip thrust can't coexist same day (ambele lovesc lanțul posterior greu)
+  if (selected.some(s => s.id === 'deadlift')) {
+    const idx = selected.findIndex(s => s.id === 'hip_thrust_haltera' || s.id === 'hip_thrust_gantera');
     if (idx !== -1) selected.splice(idx, 1);
   }
 

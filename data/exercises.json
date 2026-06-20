@@ -1020,7 +1020,7 @@
                       },
                       {
                           "id":  "calf_raise_gantera",
-                          "rang":  1,
+                          "rang":  2,
                           "nume":  "Calf raise cu gantera",
                           "pattern":  "izolare-gambe",
                           "grupe_principale":  [
@@ -1708,7 +1708,7 @@
                           "id":  "lateral_raise_gantere",
                           "rang":  1,
                           "nume":  "Lateral raise cu gantere",
-                          "pattern":  "izolare-umeri",
+                          "pattern":  "izolare-deltoid-lat",
                           "grupe_principale":  [
                                                    "umeri"
                                                ],
@@ -1726,7 +1726,7 @@
                           "id":  "lateral_raise_banda",
                           "rang":  2,
                           "nume":  "Lateral raise cu banda",
-                          "pattern":  "izolare-umeri",
+                          "pattern":  "izolare-deltoid-lat",
                           "grupe_principale":  [
                                                    "umeri"
                                                ],
@@ -2254,7 +2254,7 @@
                           "id":  "cable_lateral_raise",
                           "rang":  2,
                           "nume":  "Lateral raise la cablu",
-                          "pattern":  "izolare-umeri",
+                          "pattern":  "izolare-deltoid-lat",
                           "grupe_principale":  [
                                                    "umeri"
                                                ],

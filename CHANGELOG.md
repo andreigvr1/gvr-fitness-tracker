@@ -1,5 +1,16 @@
 # Changelog — GVR Fitness Tracker
 
+## v0.9.23 — Generator: ordinea corectă în Push/Pull + Lateral raise + reguli incompatibilitate
+
+**Ce s-a schimbat:**
+- **Pull** pornește acum cu tracțiunea **verticală** (lat pulldown) înainte de cea orizontală (ramat) — conform ordinii corecte din metodologie.
+- **Push** include acum în mod garantat un exercițiu de **lateral raise** (`izolare-deltoid-lat`) — deltoidul lateral, responsabil pentru lățimea umerilor. Separat semantic de exercițiile pentru deltoidul posterior (face pull, reverse fly).
+- **Deadlift convențional + hip thrust** = incompatibili în aceeași zi (ambele lovesc greu lanțul posterior) — aplicația alege automat unul dacă ambele ar apărea.
+- **Calf raise** a primit rang corectat (izolat, nu fundamental) → apare după hip thrust în sesiune, nu înainte.
+- Exercițiile de lateral raise (`lateral_raise_gantere`, `lateral_raise_banda`, `cable_lateral_raise`) au primit pattern separat `izolare-deltoid-lat` față de exercițiile pentru deltoidul posterior (care rămân `izolare-umeri`).
+
+**Rezultat practic:** un program Push/Pull/Legs generat acum are structura corectă — Legs: deadlift → squat/unilateral → hip thrust → calf raise → core; Pull: lat pulldown → ramat → izolate; Push: bench → OHP → triceps → lateral raise.
+
 ## v0.9.22 — Generator: fără exerciții duplicate în aceeași zi
 
 **Problema rezolvată:** generatorul putea selecta două exerciții cu același tipar de mișcare în aceeași zi (ex: Incline press cu gantere + Incline press cu haltera, sau OHP cu haltera + OHP cu gantere).
