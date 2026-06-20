@@ -110,8 +110,10 @@ function numSlots(timp, dayTip) {
   else if (timp <= 45) n = 5;
   else if (timp <= 60) n = 7;
   else n = 9;
-  // Push/pull au 4-5 tipare unice; peste 5 sloturi se repetă același tipar de mișcare.
+  // Push/pull: 4-5 tipare unice → cap 5
   if (dayTip === 'push' || dayTip === 'pull') n = Math.min(n, 5);
+  // Upper/lower: cap 5 sloturi principale + regula scapulară adaugă max 1 = 6 total
+  if (dayTip === 'upper' || dayTip === 'lower') n = Math.min(n, 5);
   return n;
 }
 
@@ -239,9 +241,12 @@ function scoreEx(ex, obiectiv, prioritati, usedGroups, slotsTotal, equipment, ge
   const isBWOnly = ex.echipament.length === 1 && ex.echipament[0] === 'corp';
   const isPullUp  = ex.id === 'pullup' || ex.id === 'chinup';
   const isCore    = CORE_P.includes(ex.pattern);
-  if (!isBWOnly && !isCore && !isPullUp && equipment && ex.echipament.some(e => e !== 'corp' && equipment.has(e))) {
+  if (!isBWOnly && !isCore && equipment && ex.echipament.some(e => e !== 'corp' && equipment.has(e))) {
     s += 7;
   }
+  // Tracțiunile sunt compuse versatile și progresive (se pot încărca cu centură) —
+  // prioritizate față de lat pulldown când bara de tracțiuni e disponibilă.
+  if (isPullUp) s += 8;
 
   // Bonus pentru femei: hip thrust și abductie sold au prioritate crescută
   if (gen === 'feminin') {
@@ -357,11 +362,22 @@ function selectForDay(dayTip, allValid, profile, priorUsed, weeklyVol = {}, mrv 
   }
 
   // Reguli de compatibilitate: aplică harta SAME_DAY_INCOMPATIBLE
+  // Când eliminăm un exercițiu, căutăm imediat un înlocuitor cu același pattern
   Object.entries(SAME_DAY_INCOMPATIBLE).forEach(([trigger, blocked]) => {
     if (selected.some(s => s.id === trigger)) {
       blocked.forEach(blockedId => {
         const idx = selected.findIndex(s => s.id === blockedId);
-        if (idx !== -1) selected.splice(idx, 1);
+        if (idx !== -1) {
+          const removed = selected.splice(idx, 1)[0];
+          const replacement = allValid
+            .filter(c => c.pattern === removed.pattern && !dayUsed.has(c.id))
+            .sort((a, b) => (a.rang || 2) - (b.rang || 2))[0];
+          if (replacement) {
+            const item = prescribe(replacement, obj, gen, prior);
+            selected.splice(idx, 0, item);
+            dayUsed.add(replacement.id);
+          }
+        }
       });
     }
   });

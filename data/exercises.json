@@ -200,6 +200,27 @@
                           "reguli_speciale":  null
                       },
                       {
+                          "id":  "flotari_in_genunchi",
+                          "rang":  2,
+                          "nume":  "Flotari in genunchi",
+                          "pattern":  "impins orizontal",
+                          "grupe_principale":  [
+                                                   "piept",
+                                                   "brate",
+                                                   "umeri"
+                                               ],
+                          "echipament":  [
+                                             "corp"
+                                         ],
+                          "nivel":  1,
+                          "risc_articular":  [
+
+                                             ],
+                          "descriere":  "Genunchii pe podea, corp drept de la genunchi la cap; coboara pieptul pana la 2-3 cm de podea cu coatele la 45° fata de trunchi. Varianta accesibila pentru inceput — progresia naturala este flotarile standard.",
+                          "reguli_speciale":  null,
+                          "progressie_bw":  "flotari"
+                      },
+                      {
                           "id":  "flotari",
                           "rang":  1,
                           "nume":  "Flotari",
@@ -212,7 +233,7 @@
                           "echipament":  [
                                              "corp"
                                          ],
-                          "nivel":  1,
+                          "nivel":  2,
                           "risc_articular":  [
 
                                              ],
@@ -256,7 +277,7 @@
                                              "gantera",
                                              "banca"
                                          ],
-                          "nivel":  2,
+                          "nivel":  1,
                           "risc_articular":  [
                                                  "umar"
                                              ],
@@ -1878,7 +1899,7 @@
                       },
                       {
                           "id":  "pullover_gantera",
-                          "rang":  2,
+                          "rang":  3,
                           "nume":  "Pullover cu gantera",
                           "pattern":  "tractiune verticala",
                           "grupe_principale":  [

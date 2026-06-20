@@ -1,5 +1,27 @@
 # Changelog — GVR Fitness Tracker
 
+## v0.9.25 — Generator: programe mai curate per profil (cap exerciții, tracțiuni, înlocuitor incompatibilitate)
+
+**Ce s-a schimbat:**
+
+**1. Număr corect de exerciții pe zi:**
+- Zilele Upper și Lower aveau până la 8 exerciții (prea mult). Acum sunt limitate la maxim 5 exerciții principale + 1 scapular opțional = 6 total.
+- Ajustare validată pe profiluri de 45–75 minute.
+
+**2. Tracțiunile (pullup/chinup) prioritizate:**
+- Tracțiunile la bară nu mai pierdeau în fața lat pulldown-ului chiar dacă bara de tracțiuni era disponibilă — o penalizare internă le excludea din bonusul de echipament.
+- Acum tracțiunile primesc bonus explicit (+8 puncte) și sunt primele alese când bara de tracțiuni e disponibilă. Lat pulldown rămâne alternativa când bara lipsește.
+
+**3. Înlocuitor automat după regulă de incompatibilitate:**
+- Când deadlift este selectat și elimină back squat (regulă: nu poți face ambele în aceeași zi), generatorul căuta un înlocuitor pentru slotul rămas gol. Acum găsește automat cel mai bun exercițiu cu același tipar (squat) neutilizat în ziua respectivă.
+- Exemplu: deadlift → elimină back squat → înlocuit cu Bulgarian split squat sau genuflexiuni. Lower B rămâne cu 5 exerciții, nu 4.
+
+**4. Ajustări bibliotecă exerciții:**
+- `bench_press_gantere`: nivel 1 (era nivel 2) — cu gantere ușoare, bench press e la fel de accesibil ca flotările și mai bun pentru progresie.
+- `flotari` standard: nivel 2 (era nivel 1) — corect, flotările standard necesită forță de bază deja construită.
+- `flotari_in_genunchi`: adăugat ca exercițiu nivel 1 pentru începători fără bară sau bancă.
+- `pullover_gantura`: rang 3 (era rang 2) — apare doar când opțiunile mai bune sunt epuizate, nu concurează cu lat pulldown în slotul principal de tracțiune.
+
 ## v0.9.24 — Generator: volum săptămânal inteligent + garanție grupă prioritară + incompatibilități extensibile
 
 **Ce s-a schimbat:**
