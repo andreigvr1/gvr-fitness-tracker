@@ -1845,7 +1845,7 @@
                           "id":  "shrug_gantere",
                           "rang":  3,
                           "nume":  "Shrug cu gantere",
-                          "pattern":  "tractiune verticala",
+                          "pattern":  "izolare-umeri",
                           "grupe_principale":  [
                                                    "spate",
                                                    "umeri"

@@ -114,6 +114,8 @@ function numSlots(timp, dayTip) {
   if (dayTip === 'push' || dayTip === 'pull') n = Math.min(n, 5);
   // Upper/lower: cap 5 sloturi principale + regula scapulară adaugă max 1 = 6 total
   if (dayTip === 'upper' || dayTip === 'lower') n = Math.min(n, 5);
+  // Legs: compound + izolate = maxim 6; mai mult e suprasolicitare fără beneficiu
+  if (dayTip === 'legs') n = Math.min(n, 6);
   return n;
 }
 
@@ -207,7 +209,7 @@ const SLOT_TEMPLATES = {
   ],
   pull: [
     ['tractiune verticala'], ['tractiune orizontala'],
-    ['izolare-biceps', 'izolare-umeri', 'izolare-deltoid-lat', 'izolare-antebrat', 'tractiune verticala', 'tractiune orizontala'],
+    ['izolare-biceps', 'izolare-umeri', 'izolare-antebrat'],
     ['prio'], ['*'], ['*'], ['*'],
     ['core'], ['core'],
   ],
@@ -330,16 +332,26 @@ function selectForDay(dayTip, allValid, profile, priorUsed, weeklyVol = {}, mrv 
         pool = candidates;
       }
     } else if (slotDef.includes('prio')) {
-      pool = prior.size
-        ? candidates.filter(ex => ex.grupe_principale.some(g => prior.has(g)))
-        : candidates;
+      if (prior.size) {
+        const prioPool = candidates.filter(ex => ex.grupe_principale.some(g => prior.has(g)));
+        // Preferăm exerciții cu pattern nou față de cele cu pattern deja folosit
+        // (evităm al 2-lea deadlift sau al 2-lea pullup pentru grupă prioritară)
+        const freshPrio = prioPool.filter(ex => !usedPatterns.has(ex.pattern));
+        pool = freshPrio.length ? freshPrio : candidates;
+      } else {
+        pool = candidates;
+      }
     } else {
       pool = candidates.filter(ex => slotDef.includes(ex.pattern));
     }
-    // Fallback special pentru hinge fără echipament: slotul cere 'hinge' dar nu există
-    // hinge real bodyweight-only — folosim izolare-fesieri (glute bridge) ca substitut funcțional.
+    // Fallback-uri semantice când slotul primar nu are candidați:
+    // hinge fără echipament → izolare-fesieri (glute bridge ca substitut funcțional)
     if (!pool.length && slotDef.includes('hinge')) {
       pool = candidates.filter(ex => ex.pattern === 'izolare-fesieri');
+    }
+    // tractiune verticala fără bară/cablu → tractiune orizontala (un rând e mai util decât orice)
+    if (!pool.length && slotDef.includes('tractiune verticala')) {
+      pool = candidates.filter(ex => ex.pattern === 'tractiune orizontala');
     }
     if (!pool.length) pool = candidates; // fallback generic: nu pierdem slotul
 
@@ -383,9 +395,11 @@ function selectForDay(dayTip, allValid, profile, priorUsed, weeklyVol = {}, mrv 
   });
 
   // Scapular exercise rule: if shoulder sensitive OR ≥6 push sets, add face_pull/band_pull_apart
+  // Nu adăugăm dacă un exercițiu scapular (izolare-umeri) e deja prezent în zi
   const pushSets = selected.filter(s => PUSH_P.includes(s.pattern)).reduce((n, s) => n + s.seturi, 0);
   const hasUmar  = profile.articulatii_sensibile.includes('umar');
-  if ((hasUmar || pushSets >= 6) && ['upper','push','full'].includes(dayTip)) {
+  const hasScap  = selected.some(s => s.pattern === 'izolare-umeri');
+  if (!hasScap && (hasUmar || pushSets >= 6) && ['upper','push','full'].includes(dayTip)) {
     const scap = allValid.find(ex =>
       ['face_pull_banda','band_pull_apart','reverse_fly_gantere'].includes(ex.id) &&
       !dayUsed.has(ex.id)

@@ -1,5 +1,27 @@
 # Changelog — GVR Fitness Tracker
 
+## v0.9.26 — Generator: revizuire pe 10 profiluri reale (shrug, Pull template, prio slot, legs cap)
+
+**Ce s-a schimbat:**
+
+**1. Shrug corectat semantic:**
+- `shrug_gantere` avea greșit pattern `tractiune verticala` — apărea în slotul de lat pulldown. Corectat la `izolare-umeri` (șrug lucrează trapezul superior, nu lats-ul).
+- Când bara de tracțiuni lipsește, slotul de tracțiune verticală cade acum pe tracțiune orizontală (ramat) în loc de orice candidat disponibil.
+
+**2. Template Pull curățat:**
+- Slotul de izolare din Pull ziua nu mai conținea opțiunile de tracțiune orizontală/verticală — motiv pentru care pullup + chinup apăreau ambele în aceeași ședință Pull. Acum slotul de izolare acceptă doar biceps, umeri posteriori și antebraț.
+
+**3. Slot prioritar mai inteligent:**
+- Slotul `prio` prefera exerciții cu pattern deja folosit dacă aveau grupele prioritare (ex: al 2-lea deadlift pentru prioritate spate). Acum preferă întâi exerciții cu pattern nou; dacă nu există, cade pe candidați generali — nu mai forțează un duplicate de compound.
+
+**4. Cap Legs la 6 exerciții:**
+- Zilele Legs nu aveau niciun plafon — la 75 minute generau 9 exerciții. Acum maximum 6 (similar cu Upper/Lower).
+
+**5. Regula scapulară nu mai adaugă duplicate:**
+- Dacă un exercițiu `izolare-umeri` (face pull, reverse fly) era deja selectat în ziua respectivă, regula scapulară nu mai adăuga un al doilea.
+
+**Rezultat:** 10 profiluri testate (femei/bărbați, echipament variat, articulații sensibile, obiective diferite) fără duplicate de pattern, fără exerciții nefuncționale, structură corectă per tip de zi.
+
 ## v0.9.25 — Generator: programe mai curate per profil (cap exerciții, tracțiuni, înlocuitor incompatibilitate)
 
 **Ce s-a schimbat:**
